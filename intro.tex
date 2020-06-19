@@ -1,0 +1,340 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter*{导言}
+模形式是一类具备特定对称性和增长条件的复变函数. 据传, 数学家 M.\ Eichler 曾在一次访谈中说过: 数学有五种基本运算 --- 加, 减, 乘, 除, 模形式. 此说或出于杜撰, 以讹传讹, 但不妨借作这份导言的引子, 简单谈谈模形式的由来和地位.
+
+\section*{简史}
+模形式的研究始于 19 世纪, 严肃的史论留待相关专著如 \cite{Ro17} 处理. 以下仅论其大要, 涉及的数学将在后续章节详细讨论. 也请读者参酌相关的综述或专著.
+
+\subsection*{前传}
+本书所探讨的模形式也称为椭圆模形式, 以区别于更广义的版本. 它起源于求椭圆周长的经典问题, 相应的积分也称为椭圆积分, 可以化作
+\[ \int \frac{1 - e^2 x^2}{\sqrt{(1 - x^2)(1 - e^2 x^2)}} \dd x \quad (e := \text{椭圆的离心率}) \]
+的形式. 当 $e \neq 1$ 时, 这类不定积分无法以初等函数表达. N.\ H.\ Abel 和 C.\ G.\ J.\ Jacobi 等先驱的洞见在于视此为复平面上的道路积分, 则其反函数将呈现丰富的数学内涵: 它们是复平面上对某个格 $\Lambda = \Z u \oplus \Z v$ 具有周期性的亚纯函数, 其中 $u, v$ 是 $\CC$ 作为 $\R$-向量空间的基; $\Lambda$ 依赖于参数 $e$. 这样的函数称为以 $\Lambda$ 为周期格的椭圆函数, 换言之，它们是复环面 $\CC/\Lambda$ (作为紧 Riemann 曲面) 上的亚纯函数. 非常值椭圆函数的构造并非显然. 为此, K.\ Weierstrass 以收敛无穷级数定义了
+\[ \wp(z) = \dfrac{1}{z^2} + \sum_{\substack{\omega \in \Lambda \\ \omega \neq 0}} \left( \dfrac{1}{(z - \omega)^2} - \dfrac{1}{\omega^2} \right). \]
+可以证明这确是椭圆函数, 在 $z=0$ 处有 $2$ 阶极点. 除了参数 $z \in \CC$, 它还隐含一个指向复环面的参数 $\Lambda$. 我们自然要问: 复环面如何参数化?
+
+有充分的理由定义复环面之间的同构 $\CC/\Lambda \rightiso \CC/\Lambda'$ 为形如 $z + \Lambda \mapsto \alpha z + \Lambda'$ 的全纯映射, 其中 $\alpha \in \CC^\times$ 须满足 $\alpha\Lambda = \Lambda'$. 精确到同构, 复环面都能表作 $E_\tau := \CC/(\Z\tau \oplus \Z)$, 其中 $\tau$ 属于上半平面 $\mathcal{H}$. 现在记 $\SL(2, \R)$ 为行列式为 $1$ 的 $2 \times 2$ 实矩阵对乘法构成的群, 它透过过线性分式变换 $\twomatrix{a}{b}{c}{d}: \tau \mapsto \frac{a\tau + b}{c\tau + d}$ 左作用在 $\mathcal{H}$ 上. 命 $\SL(2, \Z)$ 为 $\SL(2, \R)$ 中由整系数矩阵构成的离散子群, 称为模群. 可以证明
+\[ E_\tau \simeq E_\eta \iff \exists \gamma \in \SL(2, \Z), \; \eta = \gamma\tau.  \]
+这表明商空间 $\SL(2, \Z) \backslash \mathcal{H}$ 完全分类了所有复环面. 我们称 $\SL(2, \Z) \backslash \mathcal{H}$ 是复环面的粗模空间. ``模''字在此作``参数''解\footnote{模的原文是拉丁文阳性名词 modulus, 复数 moduli. 本意是微小的度量.}. 除了椭圆函数, 至此还出现了两类饶富兴味的数学对象:
+\begin{compactitem}
+	\item 上半平面 $\mathcal{H}$ 对 Riemann 度量 $\frac{\dd x^2 + \dd y^2}{y^2}$ 构成平面双曲几何的模型, 而 $\SL(2, \R)$ 在其上的作用是保距的.
+
+	\item 复环面可以通过 $\wp$ 和 $\wp'$ 嵌入为复射影空间 $\PP^2$ 中的三次代数曲线, 这一观点通过代数几何推广到一般域上, 称为椭圆曲线.
+\end{compactitem}
+
+现在可以给出模形式最初步的定义: 全纯函数 $f: \mathcal{H} \to \CC$ 称为是级为 $\SL(2, \Z)$, 权为 $k \in \Z$ 的模形式, 如果
+\begin{compactitem}
+	\item 它具备对称性 $(c\tau + d)^{-k} f\left( \dfrac{a\tau+b}{c\tau+d} \right) = f(\tau)$, 其中 $\twomatrix{a}{b}{c}{d} \in \SL(2,\Z)$ 任取;
+	\item 当 $\Im(\tau) \to +\infty$ 时 $|f(\tau)|$ 有界. 极限 $\Im(\tau) \to +\infty$ 视作商空间 $\SL(2, \Z) \backslash \mathcal{H}$ 在无穷远处的``尖点'', 条件相当于说 $f$ 在尖点处也全纯.
+\end{compactitem}
+在这些条件下, $f$ 对尖点 $\infty$ 具有称为 Fourier 展开的表达式 $f(\tau) = \sum_{n \geq 0} a_n(f) q^n$, 其中 $q := e^{2\pi i\tau}$.
+
+椭圆函数的研究自然地引出模形式. 举例明之, $\wp(z)$ 在 $z=0$ 处的 Laurent 展开可以写作
+\[ \wp(z) = \dfrac{1}{z^2} + \sum_{n \in 2\Z_{\geq 1}} (n+1) G_{n+2}(\Lambda) z^n; \]
+取 $\Lambda = \Z\tau \oplus \Z$, 则函数 $G_k(\Lambda)$ 对 $\tau \in \mathcal{H}$ 全纯, 给出了一类称为 Eisenstein 级数的模形式, 其级为 $\SL(2, \Z)$ 而权为 $k$.
+
+C.\ F.\ Gauss 在对算术--几何平均数的研究中很可能已经有了椭圆函数的概念, 见 \cite[Chapter 2]{Ro17}. L.\ Euler 的五边形数定理
+\[ \sum_{n \in \Z} (-1)^n q^{(3n^2 + n)/2} = \prod_{n \geq 1} (1 - q^n) \]
+也暗藏着与模形式密切相关的 Dedekind $\eta$ 函数. Jacobi 处理平方和问题的方法依赖于 $\theta$-级数 $\sum_{n \in \Z} q^{n^2}$ 的解析性质和函数方程, 这是因为无穷级数的乘法给出
+\[ \theta^m = \sum_{n \geq 0} r_m(n) q^n, \quad r_m(n) := \left| \left\{ (x_i)_{i=1}^m \in \Z^m : \sum_{i=1}^m x_i^2 = n \right\} \right|, \]
+这同样导向一类特殊的模形式. 不出所料, 模形式还蕴藏于 L.\ Kronecker, G.\ Eisenstein, K.\ Weierstrass 等大家关于椭圆函数的深刻工作中. 
+
+模形式的正式赋名要等到 F.\ Klein 和 R.\ Fricke 的著作 \cite{KF1}. 他们以模形式为工具研究形如 $\Gamma \backslash \mathcal{H}$ 的 Riemann 曲面及其射影嵌入, 其中 $\Gamma$ 是 $\SL(2, \R)$ 的离散子群, 一并探讨了 $\Gamma$ 的代数性质. 这类商空间在复变函数论中是自然的对象, 关系到 Riemann 曲面的均一化问题. 典型例子如下: 给定 $N \in \Z_{\geq 1}$, 定义子群
+\begin{align*}
+	\Gamma_0(N) & := \left\{ \gamma \in \SL(2, \Z): \gamma \equiv \twomatrix{*}{*}{}{*} \pmod{N} \right\}, \\
+	\Gamma_1(N) & := \left\{ \gamma \in \SL(2, \Z): \gamma \equiv \twomatrix{1}{*}{}{1} \pmod{N} \right\}, \\
+	\Gamma(N) & := \left\{ \gamma \in \SL(2, \Z): \gamma \equiv \twomatrix{1}{}{}{1} \pmod{N} \right\},
+\end{align*}
+矩阵的空白部分代表 $0$. 设 $\Gamma \in \{\Gamma_0(N), \Gamma_1(N), \Gamma(N) \}$, 则商空间 $\Gamma \backslash \mathcal{H}$ 等分类了带相应的级结构的复环面; 这些商空间具有自然的紧化, 给出称为模曲线的一类复代数曲线 (复 $1$ 维, 实 $2$ 维). 如果 $\SL(2, \Z)$ 的子群 $\Gamma$ 包含某个 $\Gamma(N)$, 则我们称 $\Gamma$ 为同余子群.
+
+模形式的对称性条件可以放宽到 $\SL(2, \R)$ 的离散子群 $\Gamma$, 前提是 $\mes(\Gamma \backslash \mathcal{H})$ 有限, 这涵摄所有同余子群; 但模形式在无穷远或谓``尖点''处的条件将变得复杂, 涉及 $\Gamma \backslash \mathcal{H}$ 的几何. 所有级 $\Gamma$, 权 $k$ 的模形式构成有限维 $\CC$-向量空间 $M_k(\Gamma)$; 粗略地说, 在所有尖点附近趋近于 $0$ 的模形式称为尖点形式, 构成子空间 $S_k(\Gamma)$. 最容易写下的尖点形式当属模判别式
+\[ \Delta(\tau) = q \prod_{n=1}^\infty (1-q^n)^{24} \; \in S_{12}(\SL(2, \Z)), \quad q := e^{2\pi i\tau}. \]
+令 $E_k := (2\zeta(k))^{-1} G_k$, 其中 $k > 2$ 为偶数. 模不变量或 $j$-不变量定义为 $\SL(2, \Z) \backslash \mathcal{H}$ 上的亚纯函数
+\[ j(\tau) := \dfrac{E_4(\tau)^3}{\Delta(\tau)} = 1728 \cdot \dfrac{E_4(\tau)^3}{E_4(\tau)^3 - E_6(\tau)^2}, \]
+它给出全纯同构 $\SL(2,\Z) \backslash \mathcal{H} \xrightarrow[\sim]{j} \CC$, 映尖点为 $\infty$, 这就回答了一开始的复环面分类问题 --- 我们说 $\CC$ 是复环面的粗模空间. 之所以粗, 是因为我们只论同构类, 不管复环面的自同构.
+
+大约在同一时期, Poincaré 始于其博士论文的研究对 Klein 学派形成了有力的竞争. 他对 $\SL(2, \R)$ 的离散子群展开了自守形式的研究, 并将这些子群 (或它们在 $\PSL(2, \R) := \SL(2, \R) \big/ \{\pm 1\}$ 中的像) 称为 Fuchs 群. 这些工作为双曲几何与离散群作用的后续研究奠定了基础.
+
+\subsection*{Hecke 的工作和 $L$-函数}
+模形式真正成为一门自为的学科, 有待 E.\ Hecke 在 20 世纪初的工作. 他的成就之一是对于一大类的同余子群 $\Gamma$ 定义了 $M_k(\Gamma)$ 上的一族平均化算子, 现称 Hecke 算子, 它们保持子空间 $S_k(\Gamma)$. 简单起见取 $\Gamma_0(N)$ 为例. Hecke 定义了一族相交换的算子 $(T_n)_{n=1}^\infty$. 任何模形式 $f \in M_k(\Gamma_0(N))$ 皆有所谓的 Fourier 展开
+\[ f(\tau) = \sum_{n = 0}^\infty a_n(f) q^n, \quad q := e^{2\pi i\tau}. \]
+Hecke 说明了一旦 $f$ 是所有 $T_n$ 共同的特征向量, 并且 $a_1(f) = 1$, 那么 $T_n f = a_n(f) \cdot f$. 这般的 $f$ 称为正规化 Hecke 特征形式.
+
+且先岔题来回顾 Dirichlet 级数. 这是形如 $s \mapsto \sum_{n=1}^\infty a_n n^{-s}$ 的复变函数, 其中 $(a_n)_{n=1}^\infty$ 是一列复数, 要求 $|a_n|$ 至多按 $n$ 的多项式增长, 以确保 $\Re(s) \gg 0$ 时级数收敛并且对 $s$ 全纯. 熟知的 Riemann $\zeta$ 函数 (对应到 $a_n = 1$) 是最初步的例子, 它所具备的亚纯延拓, Euler 乘积
+\[ \zeta(s) = \prod_{p: \text{素数}} \left( 1 - p^{-s} \right)^{-1}, \quad \Re(s) > 1 \]
+函数方程
+\[ \zeta(s) = 2^s \pi^{s-1} \sin\left( \frac{s\pi}{2} \right) \Gamma(1-s) \zeta(1-s), \]
+特殊值公式, 以及零点分布 (Riemann 假设!) 等性质对解析数论至关重要.
+
+回到模形式. Hecke 定义 $f \in M_k(\Gamma_0(N))$ 的 $L$-函数为以下 Dirichlet 级数
+\[ L(s, f) := \sum_{n=1}^\infty a_n(f) n^{-s}, \quad \Re(s) \gg 0. \]
+他估计了 $|a_n(f)|$ 的增长速度, 证明 $L(s, f)$ 亚纯延拓到整个复平面, 对 $s \leftrightarrow k - s$ 具有函数方程, 并且在 $f$ 是正规化 Hecke 特征形式时具有 Euler 乘积
+\[ L(s, f) = \prod_{p: \text{素数}} \left( 1 - a_p(f) p^{-s} + p^{k-1-2s} \right)^{-1}. \]
+Euler 乘积折射算术函数 $n \mapsto a_n(f)$ 的某种``乘性'', 根本上反映 Hecke 算子之间的乘法性质. 另一方面, 函数方程和亚纯延拓是模形式对称性的深刻体现, 单就 Dirichlet 级数观点看是毫不显然的; Hecke 的证明是将 $L(s, f)$ 表达成函数 $f(it) - a_0(f)$ 的 Mellin 变换 ($t \in \R_{> 0}$), 几何上来说则是考虑 $f$ 沿着适当 $\twomatrix{*}{}{}{*}$-轨道的周期积分.
+
+正规化 Hecke 特征形式蕴藏深刻的算术信息, 往往呈露于 Fourier 系数 $a_n(f)$ 的性状, 或 $L(s, f)$ 及其高阶导数的特殊值. 以 $\Delta$ 为例, 其 Fourier 展开写作 $\sum_{n \geq 1} \tau(n) q^n$; Ramanujuan 猜想 $\tau(p) \leq 2p^{11/2}$, 其中 $p$ 是任意素数. 这一猜想的完整证明归功于 Deligne 的工作, 几乎用上了算术代数几何迄 1980 年代为止的泰半家当. 此外, 关于 $L$-函数的各种估计占据了解析数论的半壁江山.
+
+自然地, 一个问题是如何在 $S_k(\Gamma_0(N))$ (或者更大的 $S_k(\Gamma_1(N))$) 或其适当的子空间中找出一组由正规化 Hecke 特征形式构成的基. Atkin--Lehner 理论提供了一个答案, 对应之基的元素称为新形式; 这已是 1970 年的事了.
+
+\subsection*{沉寂与复兴}
+在两次世界大战的间隙, 现今熟悉的代数学, 代数拓扑等开始席卷学界. 模形式和椭圆函数的地位一度跌入低谷. 其间仅有 M.\ Eichler, H.\ Maass, R.\ A.\ Rankin, C.\ L.\ Siegel 等人持灯前行. Maass 放宽了模形式的全纯条件. Siegel 以辛群取代 $\SL(2)$, 探讨了现称 Siegel 模形式的多变元推广, 根本动机仍是数论中经典的二次型表整数问题. 华罗庚在相关的矩阵论和多复变函数论问题上也有所创发.
+
+短暂低潮后, 模形式在战后的晨光熹微中复生. 这时期的视角切换到一般的约化 Lie 群 $G$ (例如 $n \times n$ 可逆矩阵群 $\GL(n, \R)$) 及其离散子群 $\Gamma$, 对之可以定义自守形式 $f: \Gamma \backslash G \to \CC$ 的概念; 这包含前述的所有模形式作为特例, 包括非全纯的 Maass 形式. 自守形式生成自守表示, 后者乃是无穷维表示理论的胜场. 现代观点更倾向于用 $\Q$ 的有限扩域 (称为数域) 上的约化代数群 (如 $\GL(n)$) 及其 adèle 点来表述自守形式, 并且以拓扑群上的调和分析来诠释 Hecke 算子; 此一视角宜另待专著介绍.
+
+这一发展阶段的主角有苏联的 I.\ M.\ Gelfand 学派, 法国的 R.\ Godement 和美国的 Harish-Chandra. 新一代学者如谷山丰, 志村五郎等也逐渐展露头角. 后两位的工作标识着相关研究逐渐与模形式, 模曲线和椭圆曲线的算术性质接轨, 这点当然离不开战后算术代数几何学的发展; A.\ Weil 亦功不可没. 志村五郎在这一时期的名作 \cite{Shi71} 至今锋芒不减. 没有这一切铺垫, 下面要讨论的 Langlands 纲领便无从问世.
+
+\subsection*{Langlands 纲领}
+记 $\Q$ 的绝对 Galois 群为 $G_{\Q}$, 这是代数数论关切的终极对象之一. 假如只看它的交换化 $G_{\Q, \mathrm{ab}}$, 则其结构反映 $\Q$ 的所有交换扩张, 这一情形是代数数论中称为类域论的一系列结果, 归功于 D.\ Hilbert, P.\ Furtwängler, 高木贞治, H.\ Hasse 和 E.\ Artin 等人在 20 世纪初的工作. 为了从 $G_{\Q, \mathrm{ab}}$ 往前一步, 群表示理论提示我们考虑 $G_{\Q}$ 的一切有限维连续表示, 简称 Galois 表示, 系数取在合适的域上.
+
+R.\ P.\ Langlands 在一封 1967 年写给 A.\ Weil 的信中猜测 $\GL(n)$ 的自守表示 $\pi$ 和 $G_{\Q}$ 的 $n$ 维 Galois 表示 $\sigma$ 之间应该存在对应. 如何思考这一对应? 对两边都能赋予解析不变量, 一边是自守表示的 Godement--Jacquet $L$-函数 $L(s, \pi)$, 另一边则是 Galois 表示的 Artin $L$-函数 $L(s, \sigma)$, 两者都有 Euler 乘积分解. Langlands 断言当 $\pi$ 对应到 $\sigma$ 时, $L(s, \pi)$ 和 $L(s, \sigma)$ 的 Euler 乘积能够逐项对应, 至多有限个素数 $p$ 除外; 特别地, $L(s, \pi)$ 和 $L(s, \sigma)$ 至多差一些``无害''的项. 一旦得证, 这将蕴涵关于 $L(s, \sigma)$ 的 Artin 猜想. 
+
+暂且不深究这些 $L$-函数的定义. 此外, 实践表明猜想的 Galois 侧需要比 $G_{\Q}$ 大得多的群, 但现阶段只论 $G_{\Q}$.
+
+猜想在 $n=1$ 的情形简化为类域论. 对于 $n=2$ 情形, 第一道证据来自模形式: 从权 $\geq 2$, 级 $\Gamma_1(N)$ 的 Hecke 特征尖点形式 $f$ 出发 (不妨假定为新形式), Deligne 说明了如何构造相应的 $2$ 维 Galois 表示; 事实上 $f$ 自然地给出 $\GL(2)$ 的自守表示\footnote{严格来说, 模形式首先给出 $\SL(2)$ 的自守形式, 或者从实 Lie 群角度看是 $\GL(2, \R)^+$ 的自守形式, 然后再适当地扩展到 $\GL(2)$ 以得到自守表示; 细节留给自守形式的专著说明.}, 而 $L(s, f)$ 正是其 $L$-函数. 构造工序分三步.
+\begin{enumerate}[(i)]
+	\item 第一步是在模曲线 $Y_1(N) := \Gamma_1(N) \backslash \mathcal{H}$ 取适当系数的上同调里实现模形式及其复共轭, 这称作 Eichler--志村同构;
+	\item 其次, Hecke 算子生成的代数 $\HkT$ 不仅作用于模形式, 同样能作用于上同调, 我们从上同调截下和 $f$ 按相同方式变换的部分, 这给出 Galois 表示;
+	\item 为了将两种 $L$-函数的 Euler 乘积逐项等同, 必须对几乎所有素数 $p$ 比较 Hecke 算子 $T_p$ 和 Frobenius 自同构 $\Frob_p$ 对上同调的作用, 最后这步基于 Eichler--志村同余关系.
+\end{enumerate}
+拓扑学中寻常的上同调理论还不足以实现 (iii), 因为它涉及有限域上的代数几何. 这自然将我们引向模曲线的算术理论和 Grothendieck 的 $\ell$-进平展上同调, 其中 $\ell$ 是选定的素数, $p \nmid N\ell$. 相应的 Galois 表示的系数取在 $\ell$-进数域 $\Q_\ell$ 上, 或者在其有限扩张上.
+
+从以上讨论已能瞥见算术 (Galois 表示), 分析 (模形式) 与几何 (模曲线) 的紧密勾连, 正是 Langlands 纲领的本色. Langlands 纲领在考虑一般的约化群时显现最大的威力, 这点是 Langlands 函子性猜想的内涵; 相关陈述需要较多的理论准备, 按下不表.
+
+基于此, 我们可以谈论一个 $2$ 维 $\ell$-进 Galois 表示的模性, 换言之, 探讨它是否来自于模形式. 模性最著名的应用当属 Taylor--Wiles 及后继合作者对谷山--志村猜想的证明: 对于 $\Q$ 上所有的椭圆曲线 $E$, 其 Tate 模 $T_\ell E$ 给出的 Galois 表示都来自权为 $2$, 级为 $\Gamma_1(N_E)$ 的模形式; 此处 $N_E \in \Z_{\geq 1}$ 是 $E$ 的``导子''. 证明关键之一在于 Hecke 代数 $\HkT$ 的环论性质. 由此可以导出 Fermat 大定理: 当 $n \geq 3$ 时, 方程 $X^n + Y^n = Z^n$ 无满足 $XYZ \neq 0$ 的整数解. 这是算术--几何--模形式交融的又一个例子.
+
+\subsection*{展望}
+从 19 世纪发展迄今, 模形式或自守形式的相关理论从几何, 算术等方面汲取了源源不绝的动能, 终在 20 世纪后半叶汇为 Langlands 纲领. 从 20 世纪末以来, 这方面涌现的新势头包括但不限于
+\begin{itemize}
+	\item 几何 Langlands 纲领: 将数域 (如 $\Q$) 代换为代数曲线的函数域, 曲线定义在 $\CC$ 或有限域 $\F_q$ 上, 并将自守形式代换为某类 $\mathscr{D}$-模或 $\ell$-进反常层;
+	\item 和高能物理的联系, 譬如散射振幅与模形式的关联, 参见 \cite{FGHK18}, 以及量子场论所催生的量子 Langlands 纲领;
+	\item 渊源于同伦论的拓扑模形式, 一样关乎理论物理, 同时还是 J.\ Lurie 发展导出代数几何学的动机之一.
+\end{itemize}
+本书无法细谈这些主题, 还请感兴趣的读者自行搜寻相关资源, 或访问 \href{http://mathoverflow.net}{MathOverflow} 等专业网站.
+
+要而言之, Langlands 纲领基于其深刻, 广博和开放, 充分展现了作为数学中一门大一统理论的威力, 左右逢源, 其道大光. 所谓``第五种运算'', 良有以也.
+
+\section*{学习模形式}
+广博是模形式理论的突出特征, 需要学者凭精湛的识力来统合. 从背景知识衡量, 除了大学本科的基础, 特别是复变函数论, 模形式还要求对拓扑与几何工具能运用自如, 尤其是代数几何. 这些事实自然引向了一个问题: 如何学习模形式? 为此, 又不能不先处理另一个问题: 为何要学习模形式?
+
+之前约略介绍过模形式的内禀美感与意义; 从应用角度看, 它对解析数论, 代数数论, 算术代数几何等领域又是绕不过的基本功, 差别仅在横看成岭侧成峰. 但审美毕竟是主观选择, 对于一门理论的鉴赏贵在自得, 否则外人目为前沿者, 于己终是苦役. 另一方面, 应用的需求又因人而异. 本书的对象包括本科中高年级的读者, 对数学的兴趣未必定型, 也没必要过早定型; 面对铺天盖地的背景知识, 指数增长的书单, 是否值得投入精力来学习模形式及相关理论? 基于两个理由, 笔者的建议是肯定的.
+
+\begin{description}
+	\item[承接本科基础] 许多有志学术的学生在完成必修课程后, 往往拔剑四顾心茫然, 不知路在何方. 在这一关口的走向如何, 关系到学校师资和同侪砥砺, 这两点条件并非处处能够达标. 机遇一旦错失, 或者陷入消极, 或者沦入名曰基础数学研究, 实则近似于工厂流水线的重复劳动. 笔者参与研究生面试工作多年, 对此不无感触.
+
+	选题是这一节点的决定性因素. 模形式由于四通八达, 案例具体, 又能从相对低的起点切入, 进可攻退可守, 当然是自修或组织读书会的上选.
+
+	\item[活化既有知识] 通过浸淫于一门彻上彻下, 勾连四方的学问, 能有效组织被本科课程分割承包的知识, 进而将数学还原到浑然一体的面貌. 眼界决定品味, 所关非小; 即便只为强化记忆, 这也是最好最自然的途径.
+\end{description}
+
+那么如何学习模形式? 初步定义只需复变函数论和线性代数, 不超出大二或大三的知识范围, 而且由此已经能进行许多有趣的计算. 于是从经典理论起步, 步步为营的学习是一种合理的选择. 但战术要服从于战略, 一旦画地自限, 前述学习理由便沦为虚文. 在此建议初学的读者, 毋须畏惧模形式背后的巨大理论, 应当以此为契机, 敢于登堂入室, 敢于纵浪江湖. 这是学习过程中的一大乐事.
+
+如果对模形式只求宏观的了解, 并接触最富代表性的一些例子, 宜先参阅相关综述或短小精悍的教科书, 例如 J.-P.\ Serre 颇受推崇的讲义 \cite{Se73}. 本书虽名``初步'', 总归要寻求一定的条贯, 当然不如短文痛快. 大小精粗之间有分寸存焉, 本书拿捏如何, 还要由读者评价. 以下便来介绍本书的大致精神.
+
+
+\section*{本书的旨趣, 风格和限度}
+本书目的是在本科中高年级或研究生低年级的知识范围内铺陈模形式的基础, 进而勾画相关的数论和几何面向. 起点是复变函数论的经典视角. 如此安排, 是希望在表述必要的定义和性质之外, 还能兼顾解析数论和算术几何方向的学习需求. 背景知识虽以本科阶段的数学专业课程为主, 偶尔超纲势不可免; 这是因为我们面对的是一门难以划界的数学. 称之为学科或领域都不准确, 更能达意的比喻兴许是一片浩瀚的星云.
+
+由于背景知识和篇幅的双重约束, 本书基本避开了自守表示论的视角和算术几何, 后者只在末尾的第十章有惊鸿一瞥. 职是之故, 对 Langlands 纲领仅是点到为止. 同理, 本书也不讨论半整权模形式 (例如 $\theta$-级数) 或迹公式. 本科课程较少触及的一些基础知识另置于附录.
+
+虽然遗珠不少, 本书依然谋求完整性, 期望读者一旦通达主要内容, 便能顺利承接模形式/自守形式的进阶教材或论文. 正文将会穿插对这些材料的引用或推荐. 所以本书并不是为国际上其它入门教材准备的辅导书, 更不是学前班. 此一定位导致的特色包括:
+\begin{compactitem}
+	\item 在模形式的定义中容许一般的级, 包括非同余子群, 乃至非算术子群;
+	\item 严肃对待经典理论所涉及的双曲几何学;
+	\item 对双陪集和 Hecke 算子给出较细致的梳理;
+	\item 对尖点形式的 Fourier 系数和 $L$-函数收敛范围给出比一般教材更佳的估计;
+	\item 在探讨 Eichler--志村同构和构造 Galois 表示时, 容许所有 $\geq 2$ 的权.
+\end{compactitem}
+如此一来自然要求广泛的知识面, 而且无法完整证明所有断言, 这大概是进阶教材的共性.
+
+撰写模形式教材向来是笔者心愿, 直接动力则是 2016 年秋季学期在中国科学院大学雁栖湖校区开设的本科选修课《模形式导论》, 60 学时; 全书近半内容脱胎自课堂讲义, 嗣后又经反复改写扩充, 层累痕迹显然. 从开始备课到全书定稿, 费时不超过三年, 讲授仅止一轮, 草草急就三百余页. 锤炼太少而错讹太多, 料不能免于前辈们的责难. 不知我者, 谓我何求, 望读者理解于万一. 
+
+不讳言, 本书的明显缺陷还包括实例偏少, 练习偏少, 数论面向讨论不足, 延伸主题意犹未尽, 以及缺少算法或数学软件的讨论等; 关于最后一点, 谨推荐开源软件 \href{http://www.sagemath.org}{SageMath}, 相关文档和以此为基础的教科书 \cite{St07} (可在作者 W.\ Stein 的主页浏览). 笔者当初在组织相关内容时颇觉棘手, 固然是篇幅和野心之间的张力使然, 另一方面也是学识所限, 但学者从不能以``超纲''来自我开脱, 只好勉力前行. 倘若读者诸君能在文字间隙里读出当时的踟蹰, 则可谓知音矣.
+
+本书在许多方面借鉴于既有的教材如 \cite{Shi71, Mi89, Bu97, DS05} 等等, 不及备载. 编撰过程中吸取了黎景辉和 Arno Kret 的宝贵建议, 并且承蒙熊锐, 周潇翔, 朱子阳等人斧正; 谨向他们和当年《模形式导论》的全体听众致谢. 在此也一并感谢科学出版社胡庆家编辑对原稿的审阅和指点.
+
+\vspace{0.5em}
+\begin{flushright}\begin{minipage}{0.3 \textwidth}
+	\begin{tabular}{c}
+		{\kaishu 李文威} \\
+		2018 年 11 月于镜春园
+	\end{tabular}
+\end{minipage}\end{flushright}
+\vspace{1em}
+
+\section*{阅读指南}
+本书出现的数学名词一律汉译, 名词索引中将附上英文. 人名以拉丁字母转写为主, 但中日韩越人名则使用汉字.
+
+练习穿插于正文间, 目的是希望读者随读随做, 或者查阅相关材料. 少部分练习的结果为后续段落所需, 这类习题或者是平凡的, 或者附有充分的提示.
+
+各章开头有简短介绍, 目的仅仅是帮助读者获取全局的理解, 远非该章的要点总目. 附录部分集中介绍了全书需要的一些技术, 语言或者符号; 各附录或可独立阅读, 但绝不能替代扎实的学习. 以下简介各章纲要.
+
+\begin{asparadesc}
+	\item[第一章: 基本定义] 开宗明义, 此章目的是介绍模形式的初步定义, 只需要复变函数, 群论和简单的微分几何常识; 考虑的级仅限于同余子群, 相应的基本区域和尖点集能够有相对简单的处理. 我们也连带介绍双曲平面几何的初步知识, 这不仅必要, 而且有趣. 最后的 \S\ref{sec:Dirichlet-domain} 介绍构造基本区域的一般手法, 称为 Dirichlet 区域; 所需论证比较曲折, 但终究是基于几何直观; 相关内容将在第三章用上.
+
+	\item[第二章: 案例研究] 此章转趋复变函数的经典风格. 主角是级为 $\SL(2, \Z)$ 的模形式. 我们先回顾 $\Gamma$ 函数和 Riemann $\zeta$ 函数的基本性质, 再显式构造著名的全纯 Eisenstein 级数 $E_k, G_k$ 和 $\Delta, \eta, j$ 等函数. 由此可见即便在 $\SL(2, \Z)$ 情形, 模形式已经具有极丰富的内涵. 进一步, 我们显式计算主同余子群 $\Gamma(N)$ 的 Eisenstein 级数, 由此就能抽象地将同余子群的模形式空间分解成尖点部分和 Eisenstein 部分的直和. 类似分解可推及更广的级, 但本书未予讨论.
+	
+	\item[第三章: 模曲线的解析理论] 解析与算术相对, 后者是第十章的主题. 此章前半部说明如何对一般的离散子群 $\Gamma \subset \SL(2, \R)$ 赋予 $Y(\Gamma) := \Gamma \backslash \mathcal{H}$ 复结构, 接着说明如何向 $Y(\Gamma)$ 加入``尖点''以得到 Riemann 曲面 $X(\Gamma)$, 本书称之为模曲线. 当 $\Gamma \backslash \mathcal{H}$ 的双曲测度有限时 $X(\Gamma)$ 为紧, 这种 $\Gamma$ 称为余有限 Fuchs 群. 相应性质在 $\Gamma$ 是同余子群时有简单的证明, 一般情形则是 Siegel 的定理, 需要基于双曲几何的较长论证. 若级 $\Gamma$ 不够``深'', 群作用下的椭圆点将对一切论证带来额外的麻烦, 这时 $Y(\Gamma)$ 其实是个``叠''而不是 Riemann 曲面.
+	
+	一旦万事俱备, 便可以对余有限 Fuchs 群 $\Gamma$ 定义相应的模形式, 尖点形式及其上的 Petersson 内积. 最常见的 $\Gamma$ 是 $\SL(2, \R)$ 的算术子群, 例如来自四元数代数的子群, 在 \S\ref{sec:quaternion} 将有简略讨论. 本章部分相关内容是第一章的重新搬演, 但深度和广度皆异. 最后的 \S\ref{sec:cplx-tori} 探讨当 $\Gamma \in \left\{ \Gamma_1(N), \Gamma_0(N), \Gamma(N) \right\}$ 时, 开模曲线 $Y(\Gamma)$ 如何分类带级结构的复环面. 这一节是连接模形式和椭圆曲线的枢纽, 篇幅也更长.
+
+	\item[第四章: 维数公式与应用] 透过将偶数权模形式理解为 $X(\Gamma)$ 上某些全纯线丛的截面, 可以在许多情形下计算模形式和尖点形式空间的维数, 其中一个特别有用的结论是权 $k < 0$ 的模形式必为零. 虽和第九章的立足点类似, 但侧重不同, 此章更强调公式与实例的计算, 主要依靠紧 Riemann 曲面的 Riemann--Roch 定理. 奇数权情形的论证比较迂回, 但维数公式能表成相似的形式. 相关应用包括级为 $\SL(2, \Z)$ 的模形式空间的精确描述, $E_4$ 和 $E_6$ 的零点, Ramanujan 同余等等, 部分结论将在后续章节用上.
+
+	\item[第五章: Hecke 算子通论] 论模形式不论 Hecke 算子则不备. 按群论视角, 这些算子可以从双陪集运算来理解. 此章前半部从可公度性出发, 定义了一般的双陪集代数. 后半部说明如何应用于模形式. 在级为 $\SL(2, \Z)$ 的情形, 双陪集代数有基于线性代数的描述, 称为 Hall 代数. 基于反对合的技巧表明 Hecke 算子在许多场景下相交换, 这时可以考虑模形式空间在 Hecke 算子作用下的共同特征向量, 称为 Hecke 特征形式; \S\ref{sec:eigenform-full-level} 的相关讨论仅只是下一章的预热.
+
+	\item[第六章: 同余子群的 Hecke 算子] 此章对于级为 $\Gamma_0(N)$, $\Gamma_1(N)$ 的情形进一步考察 Hecke 算子. 关键是在模形式空间上为每个素数 $p$ 定义 Hecke 算子 $T_p$, 并且对每个与 $N$ 互素的 $d$ 定义所谓菱形算子 $\lrangle{d}$ (非互素时命 $\lrangle{d} := 0$). 同样运用线性代数的语言, 对应的双陪集和代数结构能明确写下. 最关键的结果是模形式 $f$ 的 Fourier 系数 $a_n(f)$ 在 $T_p$ 作用下的变换公式, 由此推出 Hecke 算子的特征值和 $a_n(f)$ 之间的联系.
+	
+	必需说明的是 Hecke 算子有比本章进路更简单的定义方式. 本书之所以取道双陪集, 目的是将 Hecke 算子理解为某种卷积运算. 这有益于承接自守表示的理论.
+	
+	Hecke 算子的同步对角化问题催生了 \S\ref{sec:oldform} 和 \S\ref{sec:AT} 讨论的旧形式/新形式理论. 这部分需要精密的论证, 所涉及的 Fricke 对合还会在第七章用上.
+
+	\item[第七章: $L$-函数] 与 $L$-函数相关的内容是写不尽的. 此章的主角仅限于模形式的 $L$-函数, 主要结果限于 $L$-函数的四个基本性质---收敛范围, Euler 乘积, 函数方程, 和在竖带上的界; 其中 Euler 乘积仅适用 Hecke 特征形式. 相关应用仅举 $\vartheta$ 级数与平方和问题的联系, 譬如, 借助对 $M_4(\Gamma_0(4))$ 的知识 (维数公式!) 可以用解析方法证明 Lagrange 的四平方和定理, 八平方和问题亦可如法炮制. 在 \S\ref{sec:convexity} 谈及的凸性界是解析数论的基本概念, 遗憾的是本书无法进一步发挥.
+
+	\item[第八章: 椭圆函数和复椭圆曲线] 既然本书所谓的模形式又称椭圆模形式, 当然与椭圆曲线有内在的联系, 此章目的便在介绍椭圆曲线的基本概念. 从 Riemann 曲面论的视角, 复椭圆曲线无非是第三章涉及的复环面, 它们本质上是代数几何的对象, 其群结构也同样有代数几何的刻画; 假如承认代数几何的基本知识, 那么椭圆曲线便能定义在一般的域, 乃至于一般的概形上, 这是从算术几何视角研究模形式的第一步. 我们还会介绍椭圆函数与椭圆积分的联系, 以及复乘的初步理论, 后者可用以证明 $j$ 函数在复乘点取值为代数数.
+
+	\item[第九章: 上同调观模形式] 第一步是说明在余有限 Fuchs 群 $\Gamma$ 充分小的假设下, 如何将权 $k$ 的模形式实现为线丛 $\omega^{\otimes k}$ 的截面. 第二步也是相对困难的一步, 则是用尖点形式空间 $S_{k+2}(\Gamma)$ 及其共轭来分解 $Y(\Gamma)$ 上某个局部系统 (本书记为 ${}^k V_\Gamma$) 的抛物上同调 $\widetilde{\Hm}^1$, 称为 Eichler--志村同构. 从几何的角度, 这相当于赋予 $\widetilde{\Hm}^1\left(Y(\Gamma), {}^k V_\Gamma\right)$ 一个权为 $k+1$ 的纯 Hodge 结构; 当 $k=0$ 时这无非是 $\Hm^1(X(\Gamma); \CC)$ 的 Hodge 分解. Hecke 算子自然地反映在 $\widetilde{\Hm}^1$ 上. Eichler--志村同构是沟通模形式和模曲线算术/几何性质的津梁之一. 本章需要一些层论和同调代数知识.
+
+	\item[第十章: 模形式与模空间] 此章主题最深, 涉及的知识也最多. 我们先给出模形式的几何定义, 这需要对定义在一般环上的椭圆曲线有所了解, 而模形式的 Fourier 展开则透过 Tate 曲线来诠释, 后者给出模空间在尖点附近的``形式坐标''. 其次, 级为 $\Gamma_1(N)$ 的 Hecke 算子同样有基于模空间的诠释, 它们作用于抛物上同调, 从而反映于 $S_{k+2}(\Gamma_1(N))$ 及其共轭. 通过代数几何中的 $\ell$-进平展上同调理论, 这些构造给出称为 Eichler--志村关系的分解, 当 $p \nmid N\ell$ 时它将 $T_p$ 分解为两种 $\bmod\; p$ 世界的运算 --- Frobenius 自同态及其转置, 或者差一个菱形算子. 我们用 Eicher--志村关系说明如何从 Hecke 特征形式 $f \in S_{k+2}(\Gamma_1(N))$ 构造 $2$ 维 Galois 表示, 然后简略地介绍模性的概念. 本章不给出 Eichler--志村关系的关键证明, 因为那需要对模曲线的 $\bmod\;p$ 约化有较深的理解.
+
+	\item[附录 A: 分析学背景] 前半部涉及拓扑群及其作用, 特别是介绍了基本区域和商空间的关系. 后半部偏于分析学, 介绍收敛性, 无穷乘积与 Fourier 变换的基本结果, 以及复变函数论中 Phragmén--Lindelöf 原理的一个较广形式.
+
+	\item[附录 B: Riemann 曲面背景] 此附录集中收集了关于 Riemann 曲面的基本语汇, 采取拓扑和复变函数论视角, 并以 Riemann--Roch 定理的陈述作结, 但一些关键定理未予证明.
+
+	\item[附录 C: 算术背景] 这部分较为简短, 内容包括群的上同调, $\Q_p$ 的基本性质, Galois 表示和概形平展上同调. 旨在确立符号, 几乎不含证明.
+
+\end{asparadesc}
+
+章节不尽是按直线编排, 但前后总有逻辑联系, 其中第四章和第八章与其它部分的连接相对弱. 跳跃式阅读是可行的, 但宜有师长或配套材料指路. 考虑到教学和阅读的体验, 少部分内容有所重复. 具体制订讲授, 讨论或自学方案时, 有几种可能的取舍方案如下, 供读者参考.
+
+\begin{enumerate}
+	\item 若只谈级为 $\SL(2, \Z)$ 的模形式, 则第一章略去 \S\ref{sec:Dirichlet-domain}, 双曲几何仅择必要部分. 第二章略去 \S\S\ref{sec:Eisenstein-congruence-subgroup}---\ref{sec:Eisenstein-congruence-subgroup2}. 第三章只讲 $\infty$ 附近的复结构, 以及 \S\ref{sec:cong-compactification} 与 \S\ref{sec:cplx-tori} 的 $N=1$ 情形. 第四章只讲 \S\ref{sec:dimension-full} 和所需背景. 第五章只讲 \S\S\ref{sec:Hecke-full-level}---\ref{sec:eigenform-full-level} 和所需背景. 第六章全部略过. 第七章处处假设 $N=1$. 第八章随意. 第九第十章略过.
+	
+	\item 若只谈同余子群的模形式, 则第一章略去 \S\ref{sec:Dirichlet-domain}, 双曲几何仅择必要部分. 第三章略去 \S\S\ref{sec:Siegel-thm}---\ref{sec:modular-form-general}. 第四至七章自行取舍, 但建议初学略过 \S\S\ref{sec:oldform}---\ref{sec:AT}, 而且关于 Hecke 算子部分可只讲 $T_p$, $\lrangle{d}$ 的定义和交换性. 第八章随意. 对算术几何感兴趣者宜留意第九第十章, 特别是 \S\ref{sec:Hecke-revisited} 收录的一些应用.
+	
+	\item 若要谈任意级的模形式, 但侧重解析面向, 则一到五章全讲, 第六和第七章视情形斟酌, 但 \S\S\ref{sec:oldform}---\ref{sec:AT} 同样可先略过. 第八章至少介绍 \S\ref{sec:elliptic-function} 和 \S\ref{sec:wp-application}. 第九第十章且先略过.
+	
+	\item 对于以模形式, 模曲线和 Galois 表示为主攻方向的受众, 建议全讲.
+\end{enumerate}
+
+至于附录部分, 请读者按需求定制阅读方式.
+
+在从讲稿向书籍转化的过程中, 对一些内容不可避免地进行了精炼与抽象化. 课堂讲授时宜对相关部分进行反向的解码.
+
+\section*{惯例}
+对章节以符号 \S 和阿拉伯数字进行参照, 例如 \S 1.1 代表第一章第一节, 依此类推. 证明结尾以 $\Box$ 标记.
+
+\subsection*{基本符号}
+本书采取标准的逻辑符号, 如等价 $\iff$, 蕴涵 $\implies$ 等等; 符号 $\exists!$ 表示``存在唯一的...'' 符号 $A := B$ 意谓``$A$ 定义为 $B$'', 依此类推. 若一个数学对象由某些表达式或一系列操作无歧义地确定, 无关一切辅助资料的选取, 则称之为良定义的, 简称良定.
+
+集合 $E$ 的基数记为 $|E|$. 一族集合 $\{E_i\}_{i \in I}$ 的无交并记为 $\bigsqcup_{i \in I} E_i$, 以与普通的并 $\cup$ 区隔; 有限无交并也记为 $E_1 \sqcup \cdots \sqcup E_n$ 等等. 差集记为 $A \smallsetminus B := \{a \in A: a \notin B \}$; 留意到这与稍后将定义的陪集空间 $A \backslash B$ 是两回事.
+
+我们经常对映射, 同态乃至于一般范畴中的态射谈论交换图表, 例如
+$\begin{tikzcd}
+	A \arrow[r, "f"] \arrow[d, "h"'] & B \arrow[d, "g"] \\
+	C \arrow[r, "k"'] & D
+\end{tikzcd}$
+交换意谓 $gf = kh$. 范畴以无衬线字体 (\textsf{Sans-serif}) 标记.
+
+集合之间的映射以箭头 $\to$ 代表: $A \hookrightarrow B$ 表单射, $A \twoheadrightarrow B$ 表满射. 双射常记为 $\xleftrightarrow{1:1}$. 集合 $A$ 到自身的恒等映射记为 $\identity = \identity_A$. 符号 $A \rightiso B$ 则表示结构之间的同构 (譬如群, 环, 拓扑空间或 Riemann 曲面等等). 映射 $f: A \to B$ 的像记为 $\Image(f)$, 任意子集 $B' \subset B$ 对 $f$ 的原像则记为 $f^{-1}B' \subset A$. 对于给定的映射 $A \to B$, 符号 $a \mapsto b$ 意谓 $a \in A$ 被映为 $b$; 习称 $f^{-1}(a) \subset B$ 为 $a \in A$ 上的``纤维''.
+
+谈论角度时一律采取弧度制. 对数函数 $\log$ 一律以 $e$ 为底. 选定 $-1$ 的平方根 $i$. 常见的数系记法如下.
+\[\begin{tikzcd}[row sep=tiny, column sep=small]
+	\Z \arrow[phantom, r, "\subset" description] & \Q \arrow[phantom, r, "\subset" description] & \R \arrow[phantom, r, "\subset" description] & \CC \\
+	\text{整数} & \text{有理数} & \text{实数} & \text{复数}
+\end{tikzcd}\]
+
+\subsection*{代数}
+如果群的运算写作乘法, 则本书一般将其单位元记为 $1$, 如有混淆之虞将另外标注. 子群 $H \subset G$ 的指数记为 $(G:H)$. 相应的陪集空间记为 $G/H = \{gH : g \in G\}$ 和 $H \backslash G = \{ Hg : g \in G \}$. 群 $G$ 中由元素 $g, g', \ldots$ 生成的子群记为 $\lrangle{g, g', \ldots}$. 若群运算写作乘法, $g \in G$ 生成的子群也记为 $g^{\Z}$. 若交换群 $G$ 的运算写作加法, $g, g', \ldots$ 生成的子群也记为 $\Z g + \Z g' + \cdots$. 群同态 $\varphi$ 的核, 余核分别记为 $\Ker\varphi$, $\Coker\varphi$.
+
+若群 $\Gamma$ 左作用在集合 $X$ 上, 则记 $x \in X$ 的轨道为 $\Gamma x$, 记稳定化子群 $\left\{ \gamma \in \Gamma: \gamma \tau = \tau \right\}$ 为 $\Stab_\Gamma(\tau)$ 或 $\Gamma_\tau$; 右作用亦同. 保持群作用的映射称为等变映射. \index[sym1]{Gammatau@$\Gamma_\tau$} \index{dengbian@等变 (equivariant)}
+
+Lie 群以大写拉丁字母表示, 对应的 Lie 代数以小写 $\mathfrak{fraktur}$ 字体表示.
+
+如无另外说明, 本书考虑的环皆含乘法幺元. 环 $R$ 的所有可逆元对乘法成群, 记为 $R^\times$; 若 $R$ 是零环则规定 $R^\times$ 为平凡群 $\{1\}$.
+
+对于任意交换环 $R$ 和正整数 $N$, 定义 $R^\times$ 的子群 $\mu_N(R) := \left\{ r \in R^\times: r^N = 1 \right\}$. 习惯记 $\mu_N := \mu_N(\CC)$. 于是 $\mu_N$ 中的 $N$ 阶元无非是 $N$ 次本原单位根. \index[sym1]{muN@$\mu_N$}
+
+若 $V$ 是域 $\Bbbk$ 上的向量空间, 其对偶空间记为 $V^\vee := \Hom_\Bbbk(V, \Bbbk)$. \index[sym1]{Vvee@$V^\vee$}
+
+本书将域扩张 $K \hookrightarrow L$ 写作 $L|K$ 的形式. Galois 扩张 $L|K$ 的 Galois 群记为 $\Gal(L|K)$. 恰有 $q$ 个元素的有限域记为 $\F_q$. \index[sym1]{Fq@$\F_q$}
+
+记以 $q$ 为变元, 系数在交换环 $R$ 上的多项式环为 $R[q]$, 形式幂级数环为 $R\llbracket q \rrbracket$, Laurent 级数环为 $R(\!(q)\!) := R\llbracket q\rrbracket \left[\frac{1}{q}\right]$.
+
+\subsection*{整数} \index[sym1]{gcd@$\gcd$}
+整数 $a,b$ 的最大公因数记为 $\gcd(a,b) \in \Z_{\geq 0}$, 它按环论观点由 $a\Z + b\Z = \gcd(a,b) \Z$ 刻画, 特别地 $\gcd(n,0) = |n|$ 对所有 $n$ 成立. 同余式 $a \equiv b \pmod N$ 意谓 $N \mid (a-b)$. 实数 $x$ 的向下取整记为 $\lfloor x \rfloor$, 向上取整记为 $\lceil x \rceil$.
+
+\subsection*{射影空间}
+设 $F$ 为域, $n$ 维射影空间 $\PP^n(F)$ 按定义由 $F^{n+1}$ 的所有一维子空间构成, 其中由非零向量 $(x_0, \ldots, x_n) \in F^{n+1}$ 张出的直线记为 $(x_0 : \ldots : x_n) \in \PP^n(F)$, 这种表示法称为 $\PP^n(F)$ 的齐次坐标. 不致混淆时简记 $\PP^n := \PP^n(F)$. 我们也称 $\PP^1$ 为射影直线, $\PP^2$ 为射影平面. 关于射影几何的基本概念可以参看 \cite[\S 5.3]{Xi18}. \index{qicizuobiao@齐次坐标 (homogeneous coordinate)} \index[sym1]{$(x_0 : \cdots : x_n)$}
+
+\subsection*{拓扑空间}
+对于拓扑空间 $X$ 的子集 $D$, 记其内点集为 $D^\circ$, 边界为 $\partial D := D \smallsetminus D^\circ$. 度量空间上的距离函数一般记为 $d(\cdot, \cdot)$. 测度空间 $E$ 的体积记为 $\mathrm{vol}(E)$. 设 $f: X \to Y$ 为连续映射, 若对所有紧子集 $C \subset Y$, 逆像 $f^{-1}C$ 仍然紧, 则称 $f$ 为逆紧映射.
+
+\subsection*{矩阵}
+按惯例, $n \times m$ 矩阵皆以横行竖列表示:
+\[ (a_{ij})_{\substack{1 \leq i \leq n \\ 1 \leq j \leq m}} = \begin{tikzpicture}[baseline]
+	\matrix (M) [matrix of math nodes, left delimiter=(, right delimiter=)] {
+		& \vdots & \\
+		\cdots & a_{ij} & \cdots \\
+		& \vdots & \\
+	};
+	\node[right=2.5em] at (M-2-3) {\scriptsize 第 $i$ 行};
+	\node[below=1em] at (M-3-2) {\scriptsize 第 $j$ 列};
+\end{tikzpicture}\]
+本书惯例是将矩阵的零元经常略去, 并且用通配符 $*$ 表示不重要的矩阵元, 譬如固定列向量 $\bigl(\begin{smallmatrix} 1 \\ \hspace{0pt} \end{smallmatrix}\bigr) = \bigl(\begin{smallmatrix} 1 \\ 0 \end{smallmatrix}\bigr)$ 不动的 $2$ 阶方阵形如 $\twomatrix{1}{*}{}{*}$.
+
+\index[sym1]{MatnR@$\Mat_n(R)$}
+对任意交换环 $R$ 及正整数 $n$, 定义 $\Mat_n(R)$ 为全体 $n \times n$ 矩阵构成的 $R$-代数. 行列式记为 $\det$, 单位矩阵记为 $1$. 以下集合对矩阵乘法成群.
+\begin{align*}
+	\GL(n,R) & := \left\{ \gamma \in \Mat_n(R) : \det\gamma \in R^\times \right\}, \\
+	\SL(n,R) & := \left\{ \gamma \in \Mat_n(R) : \det\gamma = 1 \right\}, \\
+\end{align*}
+它们按矩阵乘法在 $R^n$ 上左作用 (视为列向量) 或右作用 (视为行向量). 按 $t \mapsto \left(\begin{smallmatrix} t & & \\ & \ddots & \\ & & t \end{smallmatrix}\right)$ 将 $R^\times$ 嵌入 $\GL(n,R)$, 其像正是群 $\GL(n,R)$ 的中心. 故可定义 \index[sym1]{PGLn@$\PGL(n,R)$} \index[sym1]{PSLn@$\PSL(n,R)$}
+\begin{align*}
+	\PGL(n,R) & := \GL(n,R)/R^\times, \\
+	\PSL(n,R) & := \SL(n,R) \big/ \left( R^\times \cap \SL(n,R) \right) = \SL(n,R) \big/ \mu_n(R) \\
+	& \simeq \Image\left[ \SL(n,R) \to \PGL(n,\R) \right].
+\end{align*}
+本书惯用以下记法: 若 $\Gamma$ 是 $\SL(n,R)$ 的子群, 则它在 $\PSL(n,R)$ 中的像记为 $\overline{\Gamma}$. \index[sym1]{Gammabar@$\overline{\Gamma}$}
+
+任何环同态 $\varphi: R \to R'$ 都自然地诱导环同态 $\Mat_n(R) \to \Mat_n(R')$ 和群同态 $\GL(n, R) \to \GL(n, R')$ 和 $\SL(n,R) \to \SL(n,R')$ 等等, 方式是映矩阵 $(a_{ij})_{i,j}$ 为 $(\varphi(a_{ij}))_{i,j}$.
+
+设 $\gamma = (a_{ij})_{i,j}$ 和 $\gamma' = (a'_{ij})_{i,j}$ 是 $\Mat_n(\Z)$ 的元素, 则符号 $\gamma \equiv \gamma' \pmod{N}$ 意谓 $a_{ij} = a'_{ij} \pmod{N}$ 对所有 $1 \leq i,j \leq N$ 成立. 推而广之, 以一般的环 $R$ 及其理想 $I$ 代替 $\Z$ 和 $N\Z$, 则矩阵同余的定义类似.
+
+以 $\gamma \mapsto {}^t \gamma$ 表矩阵转置. 在实数域上有正交群
+\begin{align*}
+	\Or(n,\R) & := \left\{ \gamma \in \GL(n,\R) : \gamma \cdot {}^t \gamma = 1 \right\}, \\
+	\SO(n,\R) & := \Or(n, \R) \cap \SL(n,\R).
+\end{align*}
+此外, 定义 \index[sym1]{GLnR+@$\GL(n, \R)^+, \GL(n, \Q)^+$}
+\[ \GL(n,\R)^+ := \left\{ \gamma \in \GL(n,\R) : \det\gamma > 0 \right\}, \quad \GL(n,\Q)^+ := \GL(n,\Q) \cap \GL(n,\R)^+. \]
+
+\subsection*{阶的估计}
+以下符号是标准的. 我们探讨定义在某拓扑空间上的复数值函数 $g(x)$ 在 $x \to a$ 时的增长, 其中 $a$ 是给定的极限点.
+\begin{enumerate}
+	\item 设 $f(x)$ 为正值函数, 符号 $g \ll f$ 或 $g = O(f)$ 表示存在常数 $C \geq 0$ 使得当 $x$ 足够接近 $a$ 时 $|g| \leq C f$.
+	\item 符号 $g = o(f)$ 表示 $\lim_{x \to a} \frac{g}{f} = 0$.
+	\item 符号 $g \sim f$ 表示 $\lim_{x \to a} \frac{g}{f} = 1$.
+\end{enumerate}
+
+估计中的常数 $C$ 等往往依赖于其它给定的资料, 必须另外说明. 此诸定义也适用于 $f, g$ 为数列的情形, 此时 $x \in \Z_{\geq 1}$ 而 $a := \infty$.
+
+\subsection*{复分析}
+复数 $z$ 的实部记为 $\Re(z)$, 虚部记为 $\Im(z)$. 复平面上的\emph{竖带}定为形如
+\[ \left\{s \in \CC : a \leq \Re(s) \leq b \right\} \]
+的集合, 通常默认竖带的宽度有限, 亦即 $-\infty < a \leq b < +\infty$; 更多相关定义见 \S\ref{sec:PL}
+
+按惯例, 我们向 $\CC$ 添入无穷远点以得到 $\CC \sqcup \{\infty\}$; 它透过球极投影和单位球面 $\mathbb{S}^2$ 等同, 故亦称为 Riemann 球面, 这也赋予 $\CC \sqcup \{\infty\}$ 自明的拓扑结构.
+
+复平面里的上半平面和单位开圆盘分别记为
+\begin{align*}
+	\mathcal{H} & := \left\{ \tau \in \CC: \Im(\tau) > 0 \right\}, \\
+	\mathcal{D} & := \left\{ z \in \CC: |z| < 1 \right\}.
+\end{align*}
+
+读者理应熟悉单变量全纯函数 (即复解析函数) 和亚纯函数的概念, 例如 \cite{TW06} 的前半部内容. 设 $U$ 为 $\CC$ 的开子集, $f$ 是 $U$ 上的亚纯函数, 在 $x \in U$ 附近不恒为零, 那么 $f$ 在 $x$ 处的消没次数记为 $\ord_x(f)$: 按定义, $(z-x)^{-\ord_x(f)} f(z)$ 在 $x$ 的一个开邻域上全纯而且处处非零. 若 $f$ 在 $x$ 附近恒为零, 则定义 $\ord_x(f)$ 为无穷大.
+
+由于消没次数的定义是局部的, 并且在局部坐标变换下不变, 它可以推广到任意 Riemann 曲面上.

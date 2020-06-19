@@ -1,0 +1,168 @@
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+% 目的: 设置章节标题格式及目录的显式方式.
+% 由 AJbook.cls 引入
+\ProvidesFile{titles-setup.tex}[2018/03/03]
+
+\RequirePackage[calcwidth, nobottomtitles, explicit, newparttoc, indentafter]{titlesec}      % 标题格式: explicit 选项导致须在 titleformat 的 before-code 中加 #1. 选项 newparttoc 用来将各部分加入目录. indentafter: 首行一律缩进
+\RequirePackage{titletoc}                 % 目录格式
+
+% 目录部分: 章名除附录外仍用中文标号, 黑体显示. 以参数是否为大写拉丁字母来判定是否在附录 (烂招)
+\if@AJ@CJKthechapter
+	\providecommand{\AJchapterttl}[1]{\IfSubStr{ABCDEFGHIJKLMNOPQRSTUVWXYZ}{#1}{附录 #1	}{第\CJKnumber{#1}章}}
+\else
+	\providecommand{\AJchapterttl}[1]{\IfSubStr{ABCDEFGHIJKLMNOPQRSTUVWXYZ}{#1}{附录 #1	}{第 #1 章}}
+\fi
+
+\newlength{\BoxTtlwidth}	% 用来计算各种盒子所需宽度
+
+% 各章标题排版
+\titleformat{\chapter}
+	{\filleft\normalfont\Huge\bfseries\mathversion{bold}\CJKfamily{chapterfont}}
+	{\AJchapterttl{\thechapter}}
+	{5mm}
+	{#1}
+	[{\vspace{2em} \titleline[c]{\titlerule[1pt]}}]
+
+\titlespacing*{\chapter}{1pc}{*4}{5em}
+
+\titleformat{name=\chapter, numberless}
+	{\filleft\normalfont\Huge\bfseries\mathversion{bold}\CJKfamily{chapterfont}}	% Format
+	{}	% Label
+	{5mm}	% Sep
+	{#1}	% Before-code
+	[{\vspace{2em} \titleline[c]{\titlerule[1pt]}
+	\if@mainmatter
+		\addcontentsline{toc}{chapter}{#1}
+		\markboth{#1}{}
+	\fi
+	}]	% After-code: 无号章如果出现在正文中, 就加入目录并相应地设置天眉.
+
+\titlespacing*{name=\chapter, numberless}	% 设置间隔
+{1pc}{*4}{1em}	% {left}{before-sep}{after-sep}
+
+\titleformat{\section}
+	{\filright\bfseries\mathversion{bold}\Large\sffamily\CJKfamily{sectionfont}}
+	{	% 烂招: 直接将整个标题插入为 label
+		\settowidth{\BoxTtlwidth}{\Huge \thesection \hspace{0.7em} \Large #1}  % 首先计算宽度
+		\ifdim \BoxTtlwidth < \textwidth % 一般情形下调用 \MakeSectBox
+			\MakeSectBox{\Huge \thesection \hspace{0.7em} \Large #1} %
+		\else % 万一标题过长则改用 minipage 以确保正常断行 (烂招)
+			\begin{minipage}[c]{\textwidth} %
+				\Huge \underline{\thesection} \hspace{0.7em} \Large #1 %
+			\end{minipage} %
+		\fi %
+	}
+	{0.7em}
+	{}
+	[]
+\titlespacing*{\section}{1pc}{*1.3}{*1}    % \titlespacing{command}{left}{before-sep}{after-sep}
+
+\titleformat{name=\section, numberless}
+	{\filleft\bfseries\mathversion{bold}\Large\sffamily\CJKfamily{sectionfont}}
+	{	% 烂招: 直接将整个标题插入为 label
+		\settowidth{\BoxTtlwidth}{\Large #1}  % 首先计算宽度
+		\ifdim \BoxTtlwidth < \textwidth % 一般情形下调用 \MakeSectBox
+			\MakeSectBox{\Large #1} %
+		\else % 万一标题过长则改用 minipage 以确保正常断行 (烂招)
+			\begin{minipage}[c]{\textwidth} %
+				\Large #1 %
+			\end{minipage} %
+		\fi %
+	}
+	{0mm}
+	{}
+	[]
+
+\titleformat{name=\subsection} % 各子节标题, 采取 runin 形式较美观
+	[runin]
+	{\filleft\normalfont\sffamily\bfseries\mathversion{bold}\CJKfamily{sectionfont}}
+	{\Large\thesubsection}	% Label
+	{3mm}	% Sep
+	{#1}	% Before-code
+	[]		% After-code
+
+\titleformat{name=\subsection, numberless}
+	[runin]
+	{\filleft\normalfont\sffamily\bfseries\mathversion{bold}\CJKfamily{sectionfont}}
+	{}	% Label
+	{0mm}	% Sep
+	{#1}	% Before-code
+	[]		% After-code
+
+\titlespacing*{name=\subsection}	% 设置间隔
+	{0pt}{*1}{1em}    % {left}{before-sep}{after-sep}
+
+\titleformat{name=\subsubsection} % 次子节标题, 采取 runin 形式较美观
+	[runin]
+	{\filleft\normalfont\sffamily\bfseries\mathversion{bold}\CJKfamily{sectionfont}}
+	{\thesubsubsection}	% Label
+	{3mm}	% Sep
+	{#1}	% Before-code
+	[]		% After-code
+
+\titleformat{name=\subsubsection, numberless}
+	[runin]
+	{\filleft\normalfont\sffamily\bfseries\mathversion{bold}\CJKfamily{sectionfont}}
+	{}	% Label
+	{0mm}	% Sep
+	{#1}	% Before-code
+	[]		% After-code
+
+\titlespacing*{name=\subsubsection}	% 设置间隔
+	{0pt}{*1}{1em}    % {left}{before-sep}{after-sep}
+
+\renewcommand{\thepart}{\CJKnumber{\arabic{part}}}	% 部分的标题编号汉化
+\titleformat{name=\part}[display]	% 各部分标题
+	{\filcenter\sffamily\bfseries\mathversion{bold}\CJKfamily{song}\Huge}	% Format
+	{第{\thepart}部分}	% Label
+	{1.5em}	% Sep
+	{#1}	% Before-code
+	[]	% After-code
+
+% 各节标题排版: \MakeSectBox{文字}
+\newtcbox{\MakeSectBox}{
+	enhanced,
+	arc = 0pt, outer arc = 0pt,
+	before skip = 0pt, after skip = 0.4em, left skip = 0pt, right skip = 0pt,
+	top = 10pt, left = 0pt, right = 0pt, bottom = 1.5mm,
+	sharp corners = all,
+	colback = white,
+	colframe = white,
+	boxsep = 0pt, leftrule = 0pt, rightrule=0pt, toprule=0pt,
+	bottomrule = 0pt,
+	valign=bottom,
+	overlay = { \draw[line width=1pt] (interior.south west) -- (interior.south east); }
+}
+
+\titlecontents{chapter}
+	[0pt]
+	{\addvspace{1pc}\heiti}
+	{\contentsmargin{0pt}\large\AJchapterttl{\thecontentslabel} \quad}
+	{\contentsmargin{0pt}\large}
+	{\titlerule*[.7pc]{.}\contentspage}
+
+\titlecontents{section}
+	[1.5em]
+	{}
+	{\thecontentslabel\quad}
+	{\thecontentslabel}
+	{\titlerule*[.7pc]{.}\contentspage}
+
+\titlecontents{subsection}
+	[3.9em]
+	{\small}
+	{\thecontentslabel\quad}
+	{\ (\thecontentspage)}
+	{\titlerule*[.7pc]{.}\contentspage}
+
+\titlecontents{part}
+	[0cm]
+	{\addvspace{1pc}\songti}
+	{\contentsmargin{0pt} \large 第{\thecontentslabel}部分\quad}
+	{\large}
+	{\titlerule*[.7pc]{.}\contentspage}

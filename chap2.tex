@@ -1,0 +1,828 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter{案例研究}
+
+我们在第一章大致铺陈了模形式的基本定义和形式操作, 却还没给出任何具体例子. 这当然是一大缺憾. 本章有三重目的:
+\begin{compactitem}
+	\item 具体地构造一些非平凡的模形式, 赋理论以血肉;
+	\item 指出一些有趣的函数其实是模形式, 当然, 要由此萃取进一步信息就必须对模形式有更深的掌握, 从而要求更多的理论铺垫;
+	\item 介绍同余子群的 Eisenstein 级数.
+\end{compactitem}
+三者相互为用, 阐明这点将是后续章节的任务. 本章亦将浏览 $\Gamma$ 与 $\zeta$ 函数的基本性质. 相关计算往往极富巧思, 工具则全然是经典的.
+
+除了 \S\ref{sec:Eisenstein-congruence-subgroup} 和 \S\ref{sec:Eisenstein-congruence-subgroup2}, 本章以级为 $\SL(2,\Z)$ 的模形式为主. 收录于 \S\S\ref{sec:Gamma}---\S\S\ref{sec:Riemann-zeta} 的内容可以视为背景知识, 相关证明主要参考了 \cite{GW}, 读者也可以参照 \cite[第 6 章]{Ste17}.
+
+\section{经典分析: \texorpdfstring{$\Gamma$}{Gamma} 函数}\label{sec:Gamma}
+模形式理论中处处出现 $\Gamma$ 函数, 其解析理论属于经典分析学, 见 \cite{GW}.
+
+\begin{definition}\label{def:Euler-Gamma-fcn} \index[sym1]{Gamma(s)@$\Gamma(s)$}
+	Euler 的 $\Gamma$ 函数定义为
+	\[ \Gamma(s) := \int_0^\infty t^{s-1} e^{-t} \dd t, \quad s \in \CC, \quad \Re(s) > 0. \]
+\end{definition}
+令 $\sigma > 0$. 当参数 $s$ 限制在区域 $\Re(s) \geq \sigma$ 上时,
+\begin{compactitem}
+	\item 被积函数对 $(s,t)$ 连续,
+	\item $\left| t^{s-1} e^{-t} \right| \leq t^{\sigma - 1} e^{-t}$ 而且右式在 $\R_{>0}$ 上可积,
+\end{compactitem}
+故 $\Gamma(s)$ 是右半平面上的全纯函数, 根据分析学常识 (命题 \ref{prop:integral-holomorphy}) 可在积分号下求导. 此外, $\Gamma(1) = \int_0^\infty e^{-t} \dd t = 1$.
+
+\begin{convention}\index[sym1]{dtimes@$\dd^\times t$}
+	我们常将 $t^{s-1} \dd t$ 写作 $t^s \dd^\times t$, 其中 $\dd^\times t := t^{-1} \dd t$; 好处在于 $\R_{>0}$ 上的测度 $\dd^\times t$ 对任意伸缩变换 $t \mapsto at$ 不变.
+\end{convention}
+
+\begin{proposition}\label{prop:Gamma-factorial}
+	当 $\Re(s) > 0$ 时有 $\Gamma(s+1) = s\Gamma(s)$. 特别地, 对所有 $n \in \Z_{\geq 0}$ 皆有 $\Gamma(n+1) = n!$.
+\end{proposition}
+\begin{proof}
+	运用 $t^s e^{-t}\dd t = - t^s \dd e^{-t}$ 作分部积分, 收敛不成问题.
+\end{proof}
+
+命题 \ref{prop:Gamma-factorial} 迭代给出
+\begin{equation}\label{eqn:Gamma-fcn-eq}
+	\Gamma(s) = \frac{\Gamma(s+m)}{(s+m-1) \cdots (s+1) s}, \quad m \in \Z_{\geq 0}.
+\end{equation}
+左式本定义在 $\Re(s) > 0$ 上, 然而右式定出 $\Re(s) > -m$ 上的亚纯函数. 取 $m = 1,2, \ldots$ 便给出 $\Gamma$ 在整个 $\CC$ 上的亚纯延拓. 等式 $\Gamma(s+1) = s\Gamma(s)$ 随之自动延拓.
+
+\begin{corollary}
+	函数 $\Gamma$ 可以延拓为 $\CC$ 上的亚纯函数, 满足 $\Gamma(s + 1) = s\Gamma(s)$.
+\end{corollary}
+
+延拓过程引出的极点只能是 $s=0,-1,-2, \ldots, -n, \ldots$. 因为 $\Gamma(1) = 1$, 在 \eqref{eqn:Gamma-fcn-eq} 中取 $m=n+1$ 可知 $s = -n$ 是留数为 $\dfrac{(-1)^n}{n!}$ 的一阶极点.
+
+\begin{lemma}\label{prop:Gamma-approx}
+	当 $\Re(s) > 0$ 时, $\Gamma(s)$ 是下式在 $n \to +\infty$ 时的极限
+	\begin{align*}
+		P_n(s) & := \int_0^n \left( 1 - \frac{t}{n} \right)^n t^{s-1} \dd t \\
+		& = \frac{n^s n!}{s(s+1) \cdots (s+n)} = \frac{n^s}{s} \cdot \prod_{k=1}^n \frac{1}{1 + \frac{s}{k}}.
+	\end{align*}
+\end{lemma}
+\begin{proof}
+	置 $\sigma := \Re(s) > 0$. 从常识 $1 - \frac{t}{n} \leq e^{-t/n}$ 可得
+	\[ \left| \left( 1 - \frac{t}{n} \right)^n t^{s-1} \right| \leq \left(1 - \frac{t}{n} \right)^n t^{\sigma-1} \leq e^{-t} t^{\sigma-1}, \quad 0 < t \leq n . \]
+	右式在 $t \in \R_{> 0}$ 上可积, 于是 Lebesgue 控制收敛定理给出 $\lim_{n \to \infty} P_n(s) = \Gamma(s)$. 接着改写 $P_n(s)$ 为 $n^s \int_0^1 (1-x)^n x^{s-1} \dd x$, 连续分部积分 $n$ 次以消去 $1-x$ 的幂次, 过程中边界项恒为 $0$, 得到
+	\[ P_n(s) = n^s n^! \cdot (s(s+1) \cdots (s+n))^{-1} = \frac{n^s}{s} \cdot \prod_{k=1}^n \frac{1}{1 + \frac{s}{k}}. \]
+	此即第二式.
+\end{proof}
+
+\begin{theorem}[K.\ Weierstrass]\label{prop:Weierstrass-Gamma}
+	对任意 $s \in \CC$, 我们有
+	\[ \Gamma(s)^{-1} = s e^{\gamma s} \prod_{k \geq 1} \left( 1 + \frac{s}{k} \right) e^{-s/k}, \]
+	其中 $\gamma$ 是 Euler 常数.	右式是从 $\CC$ 映到 $\CC \smallsetminus \{0\}$ 的全纯函数.
+	% Weierstrass 乘积理论见 \cite[\S 1.7]{GW}.
+\end{theorem}
+\begin{proof}
+	先确立无穷乘积的收敛性. 固定 $r > 0$ 并且设 $|s| \leq r$ 而 $k \geq 2r$. 这时
+	\begin{multline*}
+		\left| g_k(s) := \log\left( 1 + \frac{s}{k} \right) - \frac{s}{k} \right| = \left| \sum_{m \geq 1} (-1)^m \frac{(s/k)^{m+1}}{m+1} \right| \leq \sum_{m \geq 2} \left| \frac{s}{k} \right|^m \\
+		= \frac{|s|^2}{k^2} \cdot \sum_{m \geq 0} \left|\frac{s}{k} \right|^m \leq \frac{r^2}{k^2} \cdot \left( 1 + \frac{1}{2} + \frac{1}{2^2} + \cdots \right) = \frac{2r^2}{k^2}.
+	\end{multline*}
+	因为 $\sum_k \frac{1}{k^2}$ 收敛, 这就说明了在紧子集 $\left\{ s \in \CC : |s| \leq r \right\}$ 上 $\sum_{k \geq 2r} g_k(s)$ 正规收敛. 此外 $\exp(g_k) = \left( 1 + \frac{s}{k} \right) e^{-s/k}$. 根据一般理论 (见命题 \ref{prop:infinite-product-holomorphy}), 收敛无穷乘积 $\prod_{k \geq 1} \left(1 + \frac{s}{k} \right) e^{-s/k}$ 遂给出 $\CC$ 上处处非零的全纯函数.
+	
+	以下设 $\Re(s) > 0$. 改写引理 \ref{prop:Gamma-approx} 中的 $P_n(s)$ 为
+	\begin{align*}
+		P_n(s) & = \frac{n^s}{s} \cdot \prod_{k=1}^n \frac{1}{1 + \frac{s}{k}} \\
+		& = \frac{\exp\left( s(\log n - \sum_{k=1}^n k^{-1} ) \right)}{s} \cdot \prod_{k=1}^n \frac{e^{s/k}}{1 + \frac{s}{k}}.
+	\end{align*}
+	回忆到当 $n \to \infty$ 时 $\sum_{k=1}^n \frac{1}{k} = \log n + \gamma + o(1)$. 现对上式两边取倒数. 取极限 $n \to \infty$, 再应用 $\Gamma$ 的亚纯延拓便能完成证明.
+\end{proof}
+
+\begin{corollary}\label{prop:Gamma-poles}
+	亚纯函数 $\Gamma$ 在 $\CC$ 上无零点, 极点则在 $s = 0,-1,-2, \ldots$. 每个 $-n \in \Z_{\leq 0}$ 都是单极点, 留数为 $\dfrac{(-1)^n}{n!}$.
+\end{corollary}
+\begin{proof}
+	由定理 \ref{prop:Weierstrass-Gamma} 立知 $\Gamma$ 无零点. 其余是 \eqref{eqn:Gamma-fcn-eq} 之下的观察.
+\end{proof}
+
+\begin{corollary}\label{prop:Gamma-reflection}
+	我们有以下等式
+	\begin{align*}
+		\Gamma(s)\Gamma(-s) & = \frac{-\pi}{s \sin(\pi s)}, \\
+		\Gamma(s)\Gamma(1-s) & = \frac{\pi}{\sin(\pi s)}.
+	\end{align*}
+\end{corollary}
+\begin{proof}
+	由定理 \ref{prop:Weierstrass-Gamma} 及无穷乘积的操作可得 $\Gamma(s)\Gamma(-s) = -s^{-2} \prod_{n=1}^\infty \left( 1 - \frac{s^2}{n^2} \right)^{-1}$. 一个经典的结果 \cite[\S 1.7 (3)]{GW} 是 $\prod_{n=1}^\infty \left( 1 - \frac{s^2}{n^2} \right) = \frac{\sin(\pi s)}{\pi s}$, 由是得到第一条断言. 命题 \ref{prop:Gamma-factorial} 给出 $\Gamma(1-s) = -s\Gamma(-s)$, 由是得到第二条断言.
+\end{proof}
+
+\begin{exercise}
+	推导 $\Gamma\left(\frac{1}{2}\right) = \sqrt{\pi}$. 由此确定 $\Gamma$ 在半整数上的取值.
+\end{exercise}
+
+\begin{theorem}[乘积公式]\label{prop:Gamma-mult}
+	对任意正整数 $m$, 我们有
+	\[ \prod_{k=0}^{m-1} \Gamma\left(s + \frac{k}{m} \right) = (2\pi)^{\frac{m-1}{2}} m^{\frac{1}{2} - ms} \Gamma(ms). \]
+\end{theorem}
+\begin{proof}
+	兹考察
+	\[ C(s) := m^{ms-1} \Gamma(ms)^{-1} \prod_{k=0}^{m-1} \Gamma\left(s + \frac{k}{m} \right). \]
+	在适当的收敛范围内以引理 \ref{prop:Gamma-approx} 中的 $P_n\left(s + \frac{k}{m}\right)$ 代替 $\Gamma\left(s + \frac{k}{m}\right)$, 并以 $P_{mn+m-1}(ms)$ 代替 $\Gamma(ms)$, 如是则有
+	\begin{align*}
+		\prod_{k=0}^{m-1} P_n\left( s + \frac{k}{m} \right) & = \prod_{k=0}^{m-1} \dfrac{n^{s + \frac{k}{m}} n!}{\left(s + \frac{k}{m}\right) \cdots \left(s + \frac{k}{m} + n \right)} = \dfrac{ n^{ms} n^{\frac{m-1}{2}} (n!)^m }{ \displaystyle\prod_{\substack{0 \leq  t < n+1 \\ mt \in \Z}} (s + t) }, \\
+		P_{mn+m-1}(ms) & = \dfrac{ (mn+m-1)^{ms} (mn+m-1)! }{ms (ms+1) \cdots (ms+mn+m-1)} \\
+		& = \dfrac{ (nm)^{ms} (mn+m-1)! }{m^{mn+m} \displaystyle\prod_{\substack{0 \leq t < n+1 \\ mt \in \Z }} (s+t) } \cdot \left( 1 +\frac{1}{n} - \frac{1}{mn} \right)^{ms}.
+	\end{align*}
+	记 $C_n(s) := m^{ms-1} P_{nm+m-1}(ms)^{-1} \prod_{k=0}^{m-1} P_n\left(s + \frac{k}{m}\right)$. 于是 $\lim_{n \to \infty} C_n(s) = C(s)$, 而且细察以上公式可见 $C(s)$ 与 $s$ 无关. 代入 $s = \frac{1}{m}$ 得
+	\[ C(s) =  C\left(\frac{1}{m} \right) = \prod_{k=1}^{m-1} \Gamma\left( \frac{k}{m} \right) =  \prod_{k=1}^{m-1} \Gamma\left(1 - \frac{k}{m} \right) > 0. \]
+	应用推论 \ref{prop:Gamma-reflection} 可知 $C(s)^2 = \pi^{m-1} \prod_{k=1}^{m-1} \sin(k\pi/m)^{-1}$. 读者应该知悉这类连乘积如何求值: 其正平方根是 $C(s) = \sqrt{(2\pi)^{m-1}/m}$. 这和原断言相等价.
+\end{proof}
+
+\section{Riemann \texorpdfstring{$\zeta$}{zeta} 函数初探}\label{sec:Riemann-zeta}
+\begin{definition}\index{Riemann $\zeta$ 函数} \index[sym1]{zeta(s)@$\zeta(s)$}
+	Riemann $\zeta$ 函数定义为
+	\[ \zeta(s) = \sum_{n=1}^\infty \frac{1}{n^s}, \quad \Re(s) > 1. \]
+\end{definition}
+由于 $\left| n^{-s} \right| = n^{-\Re(s)}$, 只要 $\sigma > 1$ 则级数在子集 $\{s \in \CC: \Re(s) \geq \sigma \}$ 上正规收敛, 因而它给出 $\{s \in \CC : \Re(s) > 1 \}$ 上的全纯函数 (见命题 \ref{prop:sum-holomorphy}). 此外 $\zeta(s)$ 在收敛区域里有称为 \emph{Euler 乘积} 的无穷乘积展开, 参照定理 \ref{prop:Euler-product-general}: \index{Euler chengji@Euler 乘积 (Euler product)}
+\begin{equation}\label{eqn:zeta-Euler-prod}
+	\zeta(s) = \prod_{p: \text{素数}} (1-p^{-s})^{-1}.
+\end{equation}
+收敛无穷乘积非零, 故 $\Re(s) > 1 \implies \zeta(s) \neq 0$.
+
+下面着手导出 $\zeta$ 的亚纯延拓. 此处追随 Riemann 的第一种证明, 其优点之一在于方便求出 $\zeta$ 在负整数的取值. 我们在 \S\ref{sec:Mellin-Dirichlet} 还会从 Meillin 变换的角度理解 $\zeta$ 函数.
+
+设 $\Re(s) > 1$. 沿用 \S\ref{sec:Gamma} 的符号, 在 $\Gamma(s) = \int_0^\infty e^{-t} t^s \dd^\times t$ 中作伸缩 $t \leadsto nt$, 可得
+\[ \Gamma(s) n^{-s} = \int_0^\infty e^{-nt} t^s \dd^\times t. \]
+对 $n=1,2,\ldots$ 求和, 得到
+\[ \Gamma(s) \zeta(s) = \sum_{n=1}^\infty \int_0^\infty e^{-nt} t^s \dd^\times t = \int_0^\infty \frac{e^{-t} t^s}{1 - e^{-t}} \dd^\times t = \int_0^\infty \frac{t^{s-1}}{e^t - 1} \dd t, \]
+请读者检查这里确实能交换 $\sum$ 与 $\int$. 以下在 $\CC \smallsetminus \R_{\leq 0}$ 上取值在 $[-\pi, \pi]$ 的辐角函数, 取定充分小的 $\epsilon > 0$, 并考察
+\[ \frac{(-t)^{s-1}}{e^t - 1} \dd t \]
+在复平面上沿以下围道的积分, 记为 $I(s)$.
+\begin{center}\begin{tikzpicture}
+	\draw (4, 0) -- (1, 0) arc(0:360:1) node[midway, allow upside down] {\tikz \draw[-triangle 90] (0,0) -- +(0, -0.1);} -- (4, 0) node [right] {$+\infty$};
+	\node at (-1.2, 0.5) [left] {$|t|=\epsilon$};
+	\draw[->, ultra thick] (2.4, 0.3) -- (1.8, 0.3);
+	\draw[->, ultra thick] (1.8, -0.3) -- (2.4, -0.3);
+	\fill (0,0) circle[radius=0.05] node [left] {$0$};
+\end{tikzpicture}\end{center}
+两条平行线应理解为``无穷接近于实轴'', 而 $t \mapsto (-t)^{s-1} = \exp\left((s-1) (\log|t| + i\arg(-t))\right)$ 在围道及其外部有一致的定义; 更干净的说法则是在 $\CC^\times$ 的泛复叠空间 $\widetilde{\CC^\times}$ 上作道路积分, 这是一个 Riemann 曲面, 沿实轴的两段积分道路放在 $\widetilde{\CC^\times}$ 上是错开的. 此围道称为 Hankel 围道.
+
+接着探讨 $I(s)$ 和 $\epsilon$ 的关系: 设 $0 < \epsilon' < \epsilon$, 应用 Cauchy 积分公式于以下区域
+\begin{center}\begin{tikzpicture}
+	\fill[color=gray!30] (0,0) circle[radius=2];
+	\fill[color=white] (0,0) circle[radius=1];
+	\fill[color=white] (0.5, -0.15) rectangle (2.2, 0.15);
+	\draw[|-|, thick] (2.3, 0.15) -- (2.3, -0.15) node[right=1.5em] {开口``无穷小'', 或在 $\widetilde{\CC^\times}$ 中错开};
+	\draw[-Latex, thick] (0,2) -- (-0.5, 2);
+	\draw[-Latex, thick] (0,1) -- (0.5, 1);
+	\node at (0, 2.4) {$|z| = \epsilon$};
+	\node at (0, 0.6) {$|z| = \epsilon'$};
+\end{tikzpicture}\end{center}
+或者说应用于泛复叠空间 $\widetilde{\CC^\times}$ 中的适当区域, 可见 $I(s)$ 与 $\epsilon$ 无关.
+
+\begin{lemma}\label{prop:Is-holomorphy}
+	当 $s$ 限制在 $\CC$ 的紧子集上时, 围道积分 $I(s)$正规收敛, 而且被积函数对 $(t,s)$ 连续, 对 $s$ 全纯; $s \mapsto I(s)$ 是 $\CC$ 上的全纯函数.
+\end{lemma}
+\begin{proof}
+	设 $K$ 为 $\CC$ 的紧子集. 对于 $s \in K$, 将围道积分分解为
+	\[ I(s) = \int_{1 \leftarrow \infty} + \int_{\epsilon \leftarrow 1} + \oint_{|z|=\epsilon} + \int_{\epsilon \to 1} + \int_{1 \to \infty}. \]
+	被积函数 $\frac{(-t)^{s-1}}{e^t - 1}$ 在围道上显然对 $(t,s)$ 连续, 并且对 $s$ 全纯. 于是积分 $\oint_{|z| = \epsilon}$, $\int_{\epsilon \to 1}$ 和 $\int_{\epsilon \leftarrow 1}$ 正规收敛: 诚然, 被积函数对 $s \in K$ 一致有界, 而积分区域紧致. 对于 $[1, \infty]$ 上的两个积分, 取 $\sigma \in \R$ 使得 $K \subset \{s: \Re(s) \leq \sigma \}$, 则我们有
+	\[ \left| \frac{(-t)^{s-1}}{e^t - 1} \right| \leq \frac{|t|^{\sigma - 1}}{e^t - 1}; \]
+	右式在 $[1, \infty]$ 上可积, 故 $\int_{1 \to \infty}$ 和 $\int_{1 \leftarrow \infty}$ 也正规收敛.
+
+	根据一般理论 (命题 \ref{prop:integral-holomorphy} 配合引理 \ref{prop:equicontinuity}), 被积函数的连续性和正规收敛性确保 $I(s)$ 是 $s$ 的全纯函数.
+\end{proof}
+
+随着 $t$ 从正实轴上某点出发, 再沿圆弧绕回原处, $-t$ 的幅角从 $-\pi$ 变到 $\pi$, 故 $(-t)^{s-1}$ 从 $e^{-i\pi(s-1)} t^{s-1}$ 变为 $e^{i\pi(s-1)} t^{s-1}$. 于是
+\begin{align*}
+	I(s) & = \int_{|t|=\epsilon} \frac{(-t)^{s-1}}{e^t - 1} \dd t + \left( e^{\pi i(s-1)} - e^{-\pi i(s-1)} \right) \int^\infty_\epsilon \frac{t^{s-1}}{e^t - 1} \dd t. \\
+	& = \int_{|t|=\epsilon} \frac{(-t)^{s-1}}{e^t - 1} \dd t - 2i\sin(\pi s) \int^\infty_\epsilon \frac{t^{s-1}}{e^t - 1} \dd t.
+\end{align*}
+因为 $e^t = 1 + t + o(t)$, 容易验证在 $|t| = \epsilon$ 上有 $\left| \frac{(-t)^{s-1}}{e^t - 1} \right| \ll \epsilon^{\Re(s)-2}$. 当 $\Re(s) > 1$ 时, 由此知 $\displaystyle\lim_{\epsilon \to 0} \int_{|t|=\epsilon} \cdots = 0$. 综之,
+\[ I(s) = - 2i\sin(\pi s) \int_0^\infty \frac{t^{s-1}}{e^t - 1} \dd t = -2i \sin(\pi s) \Gamma(s) \zeta(s), \]
+或者用推论 \ref{prop:Gamma-reflection} 进一步改写
+\begin{equation}\label{eqn:zeta-cont}
+	\zeta(s) = \frac{\Gamma(s)^{-1} I(s)}{-2i\sin(\pi s)} = \frac{-1}{2\pi i} \cdot \Gamma(1-s) I(s) , \quad \Re(s) > 1.
+\end{equation}
+
+\begin{theorem}
+	函数 $\zeta$ 可以延拓为 $\CC$ 上的亚纯函数. 它唯一的极点在 $s=1$, 为留数 $1$ 的单极点.
+\end{theorem}
+\begin{proof}
+	引理 \ref{prop:Is-holomorphy} 蕴涵 $I(s)$ 全纯, 故推论 \ref{prop:Gamma-poles} 蕴涵 \eqref{eqn:zeta-cont} 右式有亚纯延拓, 其极点只能在 $s=1, 2, \ldots$, 然而 $\Re(s) > 1$ 时 $\zeta(s)$ 全纯, 唯一可能极点是 $s=1$. 定义 $I(1)$ 的围道积分简化为
+	\[ I(1) = \int_{|t|=\epsilon} (e^t - 1)^{-1} \dd t = 2\pi i \cdot \Res_{t=0} \frac{1}{e^t - 1} = 2\pi i, \]
+	而 $\Res_{s=1} \Gamma(1-s) = -1$, 故 $\Res_{s=1} \zeta(s) = 1$.
+\end{proof}
+
+\begin{definition}\label{def:Bernoulli} \index[sym1]{Bn@$B_n(X), B_n$} \index{Bernoulli 多项式, Bernoulli 数}
+	\emph{Bernoulli 多项式} $B_n(X) \in \Q[X]$ 由生成函数
+	\[ \frac{t e^{tX}}{e^t - 1} = \sum_{n \geq 0} B_n(X) \cdot \frac{t^n}{n!} \;\; \in \Q[X]\llbracket t \rrbracket \]
+	确定. 称 $B_n := B_n(0)$ 为第 $n$ 个 \emph{Bernoulli 数}.
+\end{definition}
+利用 $t e^{tX} = (e^t - 1) \sum_n B_n(X) \dfrac{t^n}{n!}$ 容易递归地计算 $B_n(X)$, 例如 $B_0(X) = 1$, $B_1(X) = X - \frac{1}{2}$. 下表是头几个 Bernoulli 数.
+\begin{equation}\label{eqn:Bernoulli-table} \begin{array}{c|cccccccc}
+	n & 0 & 1 & 2 & 4 & 6 & 8 & 10 & 12 \\ \hline
+	B_n & 1 & -\frac{1}{2} & \frac{1}{6} & -\frac{1}{30} & \frac{1}{42} & -\frac{1}{30} & \frac{5}{66} & \frac{-691}{2730}
+\end{array}\end{equation}
+
+\begin{exercise}
+	证明 $B_1 = -\frac{1}{2}$, 而 $B_3 = B_5 = \cdots = 0$. 证明当 $n > 1$ 时 $B_n(0)=B_n(1)$.
+	
+	\begin{hint} $\frac{t}{2} + \frac{t}{e^t - 1}$ 是偶函数. \end{hint}
+\end{exercise}
+
+\begin{corollary}\label{prop:zeta-negative}
+	对所有 $n \in \Z_{\geq 0}$ 都有 $\zeta(-n) = (-1)^n \dfrac{B_{n+1}}{n+1}$.
+\end{corollary}
+\begin{proof}
+	取 $\epsilon \ll 1$. 展开 $(e^t-1)^{-1}$ 为 $\sum_m B_m t^{m-1}/m!$, 代入
+	\[ I(-n) = \oint_{|t|=\epsilon} (-t)^{-n-1}(e^t -1)^{-1} \dd t = (-1)^{n+1} \sum_{m \geq 0} \frac{B_m}{m!} \oint_{|t|=\epsilon} t^{m-n-2} \dd t. \]
+	被积函数现在是 $\CC$ 上的亚纯函数, 用 Cauchy 积分公式计算可知仅有第 $m=n+1$ 项非零, 给出 $(-1)^{n+1} 2\pi i \cdot \frac{B_{n+1}}{(n+1)!}$. 再代入 \eqref{eqn:zeta-cont} 并回忆到 $\Gamma(1+n)=n!$ 即可.
+\end{proof}
+
+\begin{theorem}[函数方程]\label{prop:zeta-fcn-eq}
+	我们有
+	\[ \zeta(s) = 2^s \pi^{s-1} \sin\left( \frac{s\pi}{2} \right) \Gamma(1-s) \zeta(1-s); \]
+	定义 $\Lambda(s) := \pi^{-s/2} \Gamma\left( \frac{s}{2} \right) \zeta(s)$, 则 $\Lambda(s) = \Lambda(1-s)$.
+\end{theorem}
+\begin{proof}
+	首先扩大先前的 Hankel 围道, 确切地说将圆弧部分半径从 $0 < \epsilon < 1$ 扩为 $(2k+1)\pi$, $k \in \Z_{\geq 0}$, 相应的围道积分记为 $I_k(s)$, 图示如下 (外圈定义 $I_k(s)$, 内圈定义 $I(s)$).
+	\begin{center}\begin{tikzpicture}[scale=0.5]
+		\fill[gray!30, opacity=10] (1, 0) -- (3, 0) arc(0:360:3) -- (1,0) arc(360:0:1);
+		\draw[ultra thick] (6, 0) -- (0:1) arc(0:360:1) node[midway, allow upside down] {\tikz \draw[-triangle 90] (0,0) -- +(0, -0.1);} (6, 0) node [right] {$+\infty$};
+		\draw (0:3) arc(0:360:3) node[midway, allow upside down] {\tikz \draw[-triangle 90] (0,0) -- +(0, -0.1);};
+		\fill (0,0) circle [radius=0.1];
+		\draw[->, ultra thick] (5, 0.6) -- (4, 0.6);
+		\draw[->, ultra thick] (4, -0.6) -- (5, -0.6);
+		\node at (-3,0) [left=1.5em] {$|t|=(2k+1)\pi$};
+	\end{tikzpicture}\end{center}
+	那么 $(e^t - 1)^{-1}(-t)^{s-1} \dd t$ 在新旧两条围道之间的极点是 $\{2\pi in : n \in \Z, \; 0 < |n| \leq k \}$, 当 $n \geq 1$ 时与 $t = \pm 2\pi in$ 相应的留数记为 $R_{\pm n}$. 不难计算
+	\[ R_{\pm n} := (2n\pi)^{s-1} e^{\mp \frac{\pi i}{2}(s-1)}, \quad R_n + R_{-n} = (2n\pi)^{s-1} 2\sin\left( \frac{s\pi}{2} \right). \]
+	今起固定 $\Re(s) < 0$. 容易看出当 $k \to +\infty$ 时 $I_k(s) \to 0$. 应用留数定理推出
+	\begin{align*}
+		I(s) & = \lim_{k \to \infty} (I(s) - I_k(s)) = 2\pi i \sum_{n \neq 0} R_n  \\
+		& = 2\pi i \cdot 2\sin\left( \frac{s\pi}{2} \right) \sum_{n=1}^\infty (2n\pi)^{s-1} = (2\pi)^s 2i \sin\left( \frac{s\pi}{2} \right) \zeta(1-s).
+	\end{align*}
+	左式也等于 $-2\pi i \Gamma(1-s)^{-1} \zeta(s)$. 这就得出第一部分. 应用定理 \ref{prop:Gamma-mult} 可得第二部分.
+\end{proof}
+
+\begin{corollary}
+	函数 $\zeta(s)$ 当 $\Re(s) > 1$ 时无零点, 当 $\Re(s) < 0$ 时的零点是 $s=-2,-4, -6, \ldots$, 称为 $\zeta$ 的平凡零点.
+\end{corollary}
+\begin{proof}
+	从 \eqref{eqn:zeta-Euler-prod} 立得第一部分, 由推论 \ref{prop:Gamma-poles} 搭配定理 \ref{prop:zeta-fcn-eq} 立得第二部分.
+\end{proof}
+著名的 \emph{Riemann 假设}断言 $\zeta$ 的非平凡零点全位于对称轴 $\Re(s)=\frac{1}{2}$ 上. \index{Riemann 假设 (Riemann hypothesis)}
+
+\begin{corollary}\label{prop:zeta-2n}
+	对一切正整数 $n$ 皆有 $\zeta(2n) = (-1)^{n-1} B_{2n} \cdot \dfrac{(2\pi)^{2n}}{2(2n)!}$.
+\end{corollary}
+\begin{proof}
+	推论 \ref{prop:zeta-negative} 给出 $\zeta(1-2n) = -\dfrac{B_{2n}}{2n}$. 代入函数方程来计算 $\zeta(2n)$: 易见 $\Gamma(1-s)$ 在 $s=2n$ 处有留数为 $1/(2n-1)!$ 的单极点 (推论 \ref{prop:Gamma-poles}), 而 $\sin\left(\frac{\pi s}{2} \right)$ 在 $s=2n$ 处为零, 其导数值为 $\frac{\pi}{2}\cos(n\pi) = (-1)^n \frac{\pi}{2}$. 综之,
+	\[ \zeta(2n) = 2^{2n} \pi^{2n-1} \cdot (-1)^n \cdot \frac{\pi}{2} \cdot \frac{1}{(2n-1)!} \cdot \frac{-B_{2n}}{2n}, \]
+	整理后即欲证公式.
+\end{proof}
+
+因为 $\pi$ 是超越数, 由推论 \ref{prop:zeta-2n} 知 $\zeta(2), \zeta(4), \ldots$ 也是超越数. 迄今对 $\zeta$ 在正奇数的取值所知尚少, 一个经典的结果 (Apéry, 1978) 是 $\zeta(3)$ 是无理数; 现在我们知道 $\zeta(2n+1)$ 中包含无穷多个无理数 (Rivol, 2000), 而 $\zeta(5)$, $\zeta(7)$, $\zeta(9)$, $\zeta(11)$ 中必有一个无理数 (Zudilin, 2001); 超越性仍属未知.
+
+\begin{remark}\label{rem:Hurwitz-zeta} \index{Hurwitz $\zeta$ 函数} \index[sym1]{zeta(s,a)@$\zeta(s, a)$}
+	可以进一步定义 Hurwitz $\zeta$ 函数 (参看 \cite[\S 3.15]{GW}) 为
+	\[ \zeta(s, a) := \sum_{n=0}^\infty \frac{1}{(n+a)^s}, \quad \Re(s) > 0, \; a > 0. \]
+	基于和 $\zeta$ 相同的论证, 上式定义了 $\Re(s) > 1$ 上的全纯函数, 并且 $\zeta(s) = \zeta(s,1)$. 照搬之前证明亚纯延拓的技巧, 可得
+	\[ \Gamma(s) \zeta(s,a) = \sum_{n=0}^\infty \int_0^\infty e^{-(n+a)t} t^s \dd^\times t = \int_0^\infty \frac{t^{s-1} e^{-at}}{1 - e^{-t}} \dd t. \]
+	在同样的 Hankel 围道上考虑 $\frac{(-t)^{s-1} e^{-at}}{1 - e^{-t}} \dd t$, 便能将 $\zeta(s,a)$ 延拓到所有 $s \in \CC$ 上. 定理 \ref{prop:zeta-fcn-eq} 的技巧能用以证明 Hurwitz 函数方程
+	\[ \zeta(s, a) = \Gamma(1-s) \sum_{\substack{n \in \Z \\ n \neq 0 }} \frac{e^{2\pi ina}}{(2\pi i n)^{1-s}}, \quad \Re(s) < 0; \]
+	回忆到这里须取 $(2\pi in)^{1-s} = \exp\left( (1-s) \log (2\pi in)\right)$, 其中 $\log$ 的幅角取值在 $[-\pi, \pi]$. 推论 \ref{prop:zeta-negative} 中的技巧给出
+	\[ \zeta(-n, a) = - \frac{B_{n+1}(a)}{n+1}, \quad n \in \Z_{\geq 0}. \]
+	此处 $B_{n+1}(X)$ 是定义 \ref{def:Bernoulli} 中的 Bernoulli 多项式. 详细论证留给有兴致的读者, 或见前述文献.
+\end{remark}
+
+\begin{exercise}
+	直接验证 $\zeta(-n, a)$ 的公式在 $a = 1$ 时给出推论 \ref{prop:zeta-negative}.
+\end{exercise}
+
+\section{Eisenstein 级数: \texorpdfstring{$\Gamma=\SL(2,\Z)$}{Gamma = SL(2,Z)} 情形}\label{sec:Eisenstein-fulllevel}
+目光转回定义 \ref{def:modular-form} 的模形式. 为了构造满足 $j(\gamma, \tau)^{-k} f(\gamma \tau) = f(\tau)$ 的全纯函数, 我们先换个角度看自守因子 $j(\gamma, \tau) = c\tau + d$. 它只涉及 $\gamma$ 的第二行. 为得到内禀的描述, 以下将 $\R^2$ 的元素视同行向量. 我们有
+\begin{compactitem}
+	\item $\GL(2,\R)$ 在 $\R^2 \smallsetminus \{(0,0)\}$ 上的矩阵右乘作用, 显然可递;
+	\item $\R^\times$ 在 $\R^2 \smallsetminus \{(0,0)\}$ 上的伸缩作用, 今后写作左乘.
+\end{compactitem}
+如固定
+\[ v := (0, 1) \in \Z^2, \]
+则 $v\gamma$ 恰是 $\gamma$ 的第二行 $(c,d)$, 而
+\[ \Stab_{\GL(2)}(v) = \begin{pmatrix} * & * \\ & 1 \end{pmatrix} =: M, \qquad \SL(2) \cap M = \begin{pmatrix} 1 & * \\ & 1 \end{pmatrix}. \]
+因此 $M \backslash \GL(2,\R) \rightiso \R^2 \smallsetminus \{(0,0)\}$. 群 $M$ 称为 $\GL(2)$ 的奇迹子群, 顾名思义它在 $\GL(2)$ 的表示论中妙用无穷. 定义 \index{qijiqun@奇迹子群 (mirabolic subgroup)}
+\begin{align*}
+	J(\cdot; \tau): \R^2 \smallsetminus \{(0,0)\} & \longrightarrow \CC \\
+	J(c,d; \tau) & = c\tau + d,
+\end{align*}
+于是 $j(\gamma, \tau)=J(v\gamma, \tau)$. 此外对所有 $t \in \R^\times$ 皆有 $J(tx, \tau) = t J(x, \tau)$.
+
+模群 $\SL(2,\Z)$ 相应地在 $\Z^2 \smallsetminus \{(0,0)\}$ 上右作用, 其轨道也容易描述.
+\begin{lemma}\label{prop:Eisenstein-orbit-aux}
+	设 $(x,y), (x',y') \in \Z^2 \smallsetminus \{(0,0)\}$, 则它们属于相同 $\SL(2,\Z)$ 轨道的充要条件是 $\gcd(x,y)=\gcd(x',y')$.
+\end{lemma}
+\begin{proof}
+	必要性说明如下. 设存在 $\twomatrix{a}{b}{c}{d} \in \SL(2,\Z)$ 使得 $x' = ax + cy$, $y' = bx + dy$, 显然有 $\Z x' + \Z y' \subset \Z x + \Z y$, 故 $\gcd(x, y) \mid \gcd(x', y')$. 对称性导致反向也整除, 故 $\gcd(x,y) = \gcd(x',y')$.
+	
+	至于充分性, 不失一般性假设 $x,y$ 互素, 证 $(x,y)$ 和 $(0,1)$ 在同一轨道即可. 取 $a, b \in \Z$ 使得 $ay - bx = 1$, 再取 $\gamma =\twomatrix{a}{b}{x}{y} \in \SL(2,\Z)$.
+\end{proof}
+
+选定同余子群 $\Gamma$ 和 $x = v\gamma \in \R^2 \smallsetminus \{(0,0)\}$. 虽然 $\tau \mapsto J(x; \tau)^{-k}$ 并非模形式, 但从 $j(\gamma\gamma', \tau) = j(\gamma, \gamma'\tau) j(\gamma', \tau)$ 可以推出
+\begin{align*}
+	J(x; \gamma'\tau)^{-k} & = j(\gamma, \gamma'\tau)^{-k} = j(\gamma\gamma', \tau)^{-k} j(\gamma', \tau)^k \\
+	& = J(x\gamma'; \tau)^{-k} j(\gamma', \tau)^k.
+\end{align*}
+除了 $x$ 被代为 $x\gamma'$, 其余都满足对 $\gamma' \in \SL(2,\Z)$ 作用的不变性. 这就启发我们对 $J(x;\tau)^{-k}$ 在 $x$ 的右 $\Gamma$-轨道上求和来获取不变性. 如果 $x = v := (0, 1)$, 轨道可等同于 $\Gamma \cap M \backslash \Gamma$ 而 $J(v\gamma; \tau) = j(\gamma,\tau)$. 困难在于这些轨道总是无穷集.
+
+本节先考察 $\Gamma = \SL(2,\Z)$ 的情形. 定义 \index[sym1]{Zprim@$\Z^2_{\mathrm{prim}}$}
+\begin{equation}\label{eqn:Z2prim}
+	\Z^2_{\mathrm{prim}} := \left\{ (x,y) \in \Z^2 \smallsetminus \{ (0, 0) \} : \gcd(x, y)=1 \right\}.
+\end{equation}
+引理 \ref{prop:Eisenstein-orbit-aux} 表明 $\SL(2,\Z)$ 按矩阵右乘在 $\Z^2_{\mathrm{prim}}$ 上可递地右作用, 而且 $\gamma \mapsto v\gamma$ 给出双射
+\[ \SL(2,\Z) \cap M \backslash \SL(2,\Z) \xrightarrow{1:1} \Z^2_{\mathrm{prim}}. \]
+
+取定权 $k \in 2\Z$. 按以上思路定义 \emph{Eisenstein 级数} \index{Eisenstein 级数}
+\index[sym1]{$E_k$}
+\[ E_k(\tau) := \frac{1}{2} \sum_{\gamma \in \SL(2,\Z) \cap M \backslash \SL(2,\Z)} j(\gamma, \tau)^{-k} = \frac{1}{2} \; \sum_{(c,d) \in \Z^2_{\mathrm{prim}}} (c\tau+d)^{-k}. \]
+显然的问题是
+\begin{compactitem}
+	\item 证明级数在紧集上正规收敛, 而 $E_k(\tau)$ 全纯, 相关概念可见 \S\ref{sec:holomorphy};
+	\item 证明对每个 $\gamma \in \SL(2,\Z)$ 都有 $E_k \modact{k} \gamma = E_k$;
+	\item 计算其在 $\infty$ 处的 Fourier 系数并说明 $E_k \in M_k(\SL(2,\Z))$.
+\end{compactitem}
+
+为了便利于今后的论证, 兹引进另一种 Eisenstein 级数 \index[sym1]{sumprime@$\sumprime$}
+\[ G_k(\tau) := \sumprime_{(c,d) \in \Z^2} (c\tau+d)^{-k}, \]
+此处以 $\sumprime$ 表示求和中略去 $(c,d) = (0,0)$. 且从收敛性入手. 先将 $\tau$ 限制在 $\mathcal{H}$ 的一个紧子集 $K$ 中, 当 $(c,d) \to \infty$ 时 $|c\tau + d| \sim \sqrt{c^2 + d^2}$, 相关的估计仅依赖 $K$. 根据积分审敛法, $\sumprime_{(c,d)} (c^2 + d^2)^{-k/2}$ 收敛当且仅当 $\int_{\substack{x \in \R^2 \\ |x| \geq 1 }} |x|^{-k} \dd x$ 收敛, 后者用极坐标化为 $2\pi \int_1^\infty r^{-k+1} \dd r$. 综之, 对 $\tau \in K$ 的正规收敛性等价于 $k > 2$. 这时根据分析学的常识, 定义 $E_k, G_k$ 的级数可以任意重排, 它们是 $\tau \in \mathcal{H}$ 的全纯函数, 而且可在求和号下对 $\tau$ 求导 (见命题 \ref{prop:sum-holomorphy}). 其次, 观察到
+\begin{align*}
+	G_k(\tau) & = \sum_{n=1}^\infty n^{-k} \sum_{(c,d) \in \Z^2_{\mathrm{prim}}} (c\tau+d)^{-k} \\
+	& = 2\zeta(k) E_k(\tau).
+\end{align*}
+所以 $\SL(2,\Z)$-不变性与 Fourier 展开可以在 $G_k$ 和 $E_k$ 中择一验证. 以下说明 $E_k$ 的不变性. 设 $\gamma, \gamma' \in \SL(2,\Z)$, 引理 \ref{prop:automorphy-cocycle} 表明
+\[ j(\gamma, \gamma'\tau)^{-k} = j(\gamma\gamma', \tau)^{-k} j(\gamma', \tau)^k. \]
+因为 $\gamma \mapsto \gamma\gamma'$ 给出 $\SL(2,\Z) \cap M \backslash \SL(2,\Z)$ 到自身的双射, 或者说 $(c,d) \mapsto (c,d)\gamma'$ 是 $\Z^2_{\mathrm{prim}}$ 的重排, 我们于焉确认了
+\[ (E_k \modact{k} \gamma')(\tau) = j(\gamma',\tau)^{-k} E_k(\gamma'\tau) = E_k(\tau), \qquad \gamma' \in \SL(2,\Z), \; \tau \in \mathcal{H}. \]
+
+可以用初等方法检验 $E_k$ 在 $\infty$ 处全纯, 见稍后定理 \ref{prop:Eisenstein-congruence-subgrp} 的证明, 但这里直接切换到 $G_k$ 作 Fourier 展开更为方便. 将 $\sumprime_{(c,d) \in \Z^2}$ 按 $c$ 分组. 满足 $c = 0$ 的项贡献出
+\[ \sum_{d \neq 0} d^{-k} = 2\zeta(k). \]
+当 $c \neq 0$ 时, 因为 $k$ 是偶数, $\pm c$ 的贡献相同 (若 $k$ 为奇数则相消); 无妨设 $c \geq 1$, 其贡献为
+\[ \sum_{d \in \Z} (c\tau+d)^{-k}, \]
+我们需要以下引理来处理这个和.
+
+\begin{lemma}\label{prop:Eisenstein-sum-lemma}
+	设 $\tau \in \mathcal{H}$ 而 $k \in \Z_{\geq 2}$, 置 $q := e^{2\pi i\tau}$, 则
+	\[ \sum_{n \in \Z} \frac{1}{(n-\tau)^k} = \frac{(2\pi i)^k}{(k-1)!} \sum_{n=1}^\infty n^{k-1} q^n. \]
+\end{lemma}
+\begin{proof}
+	考虑定义在 $\R$ 上的复值函数 $f(x) = (x - \tau)^{-k}$. 其 Fourier (逆)变换为
+	\[ \check{f}(\xi) = \int_{\R} f(x) e^{2\pi i x\xi} \dd x, \quad \xi \in \R. \]
+	被积函数显然地延拓为 $x \in \CC$ 的亚纯函数, 它唯一的极点是 $x = \tau$, 并且满足于
+	\[ \left| f(x) e^{2\pi ix\xi} \right| = e^{-2\pi \Im(x)\xi} \left| x - \tau \right|^{-k}. \]
+	分两种情形讨论.
+	\begin{compactenum}
+		\item 若 $\xi > 0$, 将积分路径在复平面上往上平移. 易见当 $y \to +\infty$ 时, 在 $iy + \R$ 上的积分收敛且趋近于 $0$. 平移途中碰到的唯一极点在 $x=\tau$ 处, 而 $e^{2\pi ix\xi}$ 在该处的 Taylor 展式第 $k - 1$ 次项系数是 $(2\pi i\xi)^{k-1} e^{2\pi i\xi\tau}/(k-1)!$.
+		\item 若 $\xi < 0$, 改将积分路径下移, 同理, 当 $y \to -\infty$ 时积分趋近于 $0$, 途中无极点.
+	\end{compactenum}
+	 留数定理遂给出
+	\[ \check{f}(\xi) = \begin{cases}
+		\frac{(2\pi i)^k}{(k-1)!} \xi^{k-1} e^{2\pi i\xi\tau}, & \xi > 0 \\
+		0, & \xi < 0.
+	\end{cases} \]
+	然而 $f \in L^1(\R)$ 蕴涵 $\check{f}$ 连续 (引理 \ref{prop:Fourier-continuity}), 故 $\check{f}(0)=0$. 观察到 $\check{f}$ 按指数衰减, Poisson 求和公式 $\sum_{\xi \in \Z} f(\xi) = \sum_{\xi \in \Z} \check{f}(\xi)$ (定理 \ref{prop:Poisson-sum}) 对之成立, 由之即刻导出欲证的断言.
+\end{proof}
+
+继续关于 $G_k$ 的讨论. 根据引理 \ref{prop:Eisenstein-sum-lemma}, 给定的 $c \geq 1$ 连同 $-c$ 贡献了
+\[ 2 \cdot \frac{(2\pi i)^k}{(k-1)!} \sum_{m=1}^\infty m^{k-1} q^{mc}. \]
+为了整理上式对所有 $c \geq 1$ 的和, 引入除数和如下.
+\begin{definition}\label{def:sigma-function} \index[sym1]{sigma@$\sigma_r(n)$}
+	对任意 $n \in \Z_{\geq 1}$ 和 $r \geq 0$, 置
+	\[ \sigma_r(n) := \sum_{d \mid n} d^r. \]
+\end{definition}
+极粗糙的估计是 $\sigma_r(n) \leq n^{r+1}$. 另一方面, $k \in 2\Z_{\geq 1}$ 故推论 \ref{prop:zeta-2n} 给出
+\[ \zeta(k) = i^{k-2} B_k \cdot \frac{(2\pi)^k}{2 \cdot k!} = \frac{-B_k}{2k} \cdot \frac{(2\pi i)^k}{(k-1)!}. \]
+我们总结出当 $k \in 2\Z_{\geq 1}$ 时, $G_k$ 的 Fourier 展开为
+\begin{equation}\label{eqn:G-formula}\begin{aligned}
+	G_k(\tau) & = 2\zeta(k) + 2 \cdot \frac{(2\pi i)^k}{(k-1)!} \sum_{n=1}^\infty \sigma_{k-1}(n) q^n \\
+	& = \dfrac{2(2\pi i)^k}{(k-1)!} \left( -\dfrac{B_k}{2k} + \sum_{n=1}^\infty \sigma_{k-1}(n) q^n \right);
+\end{aligned}\end{equation}
+由于 $|q| < 1$ 而 $\sigma_{k-1}(n)$ 对 $n$ 至多呈多项式增长, $\sum_{n=1}^\infty \sigma_{k-1}(n) q^n$ 收敛无虞. 又因为 $G_k = 2\zeta(k) E_k $, 从 \eqref{eqn:G-formula} 亦见
+\begin{equation}\label{eqn:E-formula}
+	E_k(\tau) = 1 + \dfrac{2k}{-B_k} \sum_{n=1}^\infty \sigma_{k-1}(n) q^n.
+\end{equation}
+
+若在以上推导中取 $k$ 为奇数, 那么 $G_k$ 和 $E_k$ 的级数皆消为零. 一切总结如下.
+\begin{theorem}
+	设 $k > 2$ 为偶数. 函数 $E_k$ 和 $G_k = 2\zeta(k) E_k$ 都是 $M_k(\SL(2, \Z))$ 的非零元, 它们在 $\infty$ 处的 Fourier 展开分别由 \eqref{eqn:E-formula} 和 \eqref{eqn:G-formula} 给出. 特别地, $E_k$ 的常数项 $\text{Const}_\infty(E_k) = 1$ (回忆定义--命题 \ref{def:Const}).
+\end{theorem}
+
+\begin{remark}\label{rem:G2-computation}
+	在计算 $\sum_{c \in \Z} \sum_{d \neq 0} (c\tau + d)^{-k}$ 的 Fourier 展开时, 实际只需要 $k \geq 2$, 并且视作迭代级数 $\sum_{c \in \Z} \left( \sum_{d \neq 0} (c\tau + d)^{-k} \right)$ 来处理. 我们探讨 $G_2$ 时将回到这点观察.
+\end{remark}
+
+\begin{convention}\label{conv:new-G} \index[sym1]{Gcalk@$\mathcal{G}_k$}
+	对于某些应用, 更方便的版本将是
+	\[ \mathcal{G}_k(\tau) := \frac{(k-1)!}{2 (2\pi i)^k} G_k(\tau); \]
+	它的第 $n \geq 1$ 项系数恰是 $\sigma_{k-1}(n)$.
+\end{convention}
+
+\section{\texorpdfstring{$E_2$}{E2}, \texorpdfstring{$\eta$}{eta}, \texorpdfstring{$\Delta$}{Delta} 与 \texorpdfstring{$j$}{j} 函数}\label{sec:j-invariant}
+仍考虑模群 $\SL(2,\Z)$ 的情形. 先前均要求偶数 $k > 2$ 以确保级数收敛性; 之后的定理 \ref{prop:dimension-full} 将说明 $k < 0$ 或 $k = 2$ 时 $M_k(\SL(2,\Z))) = \{0\}$. 对于 $k=2$ 的情形, 类似的构造将给出一些不完全符合模形式定义, 但依然有趣而且有用的函数.
+
+我们从一条著名的公式起步.
+\begin{lemma}\label{prop:cot-formula}
+	对所有 $s \in \CC \smallsetminus \Z$ 都有
+	\[ \frac{1}{s} + \sum_{n=1}^\infty \left(\frac{1}{s - n} + \frac{1}{s + n}\right) = \pi \cot(\pi s). \]
+	当 $s$ 限制在紧子集上, 该级数正规收敛.
+\end{lemma}
+\begin{proof}
+	回忆先前引用过的公式 \cite[\S 1.7 (3)]{GW}: $\frac{\sin(\pi s)}{\pi s} = \prod_{n=1}^\infty \left( 1 - \frac{s^2}{n^2} \right)$. 两边同取对数导数 $\frac{\dd}{\dd s} \log$ 即可. 收敛性留给读者琢磨.
+\end{proof}
+
+\begin{exercise}
+	用上一结果重新导出引理 \ref{prop:Eisenstein-sum-lemma}.
+\end{exercise}
+
+\begin{definition}\label{def:E2} \index[sym1]{$E_2$} \index[sym1]{$G_2$}
+	用迭代级数定义 \index[sym1]{sumprime}
+	\begin{align*}
+		G_2(\tau) & := \sum_{c \in \Z} \left( \sumprime_{d \in \Z} (c\tau + d)^{-2}\right), \quad \tau \in \mathcal{H}, \\
+		E_2 & := (2\zeta(2))^{-1} G_2,
+	\end{align*}
+	其中 $\sumprime$ 代表求和时略过 $c=d=0$ 的项.
+\end{definition}
+迭代级数的收敛性涵于以下命题. 首先观察到 $G_2$ 中 $c=0$ 的项贡献 $\sum_{d \neq 0} d^{-2} = 2\zeta(2)$. 
+
+\begin{proposition}\label{prop:E2}
+	对所有 $\tau \in \mathcal{H}$, 迭代级数 $G_2(\tau)$ 收敛并定义 $\tau$ 的全纯函数. 命 $q := e^{2\pi i\tau}$, 则
+	\begin{align*}
+		G_2(\tau) &= 2\zeta(2) \left( 1 - 24 \sum_{n=1}^\infty \sigma_1(n) q^n \right), \\
+		\tau^{-2} G_2\left( \frac{-1}{\tau} \right) & = \sum_{d \in \Z} \left( \sumprime_{c \in \Z} (c\tau + d)^{-2} \right) \quad \text{(作为迭代级数收敛)}, \\
+		\tau^{-2} G_2\left( \frac{-1}{\tau} \right) & = G_2(\tau) - \frac{2\pi i}{\tau}.
+	\end{align*}
+\end{proposition}
+\begin{proof}
+	根据注记 \ref{rem:G2-computation}, 照搬 \S\ref{sec:Eisenstein-fulllevel} 的计算以获得第一式, 一并导出迭代级数的收敛性; 一旦有如是展开, 它对 $\tau \in \mathcal{H}$ (或 $|q| < 1$) 当然是全纯的. 命 $\tau' := -1/\tau$, 则由 $(c\tau + d)^{-2} = \tau^{-2}(d\tau' - c)^{-2}$ 证得第二式.
+
+	重点在第三式. 我们在 $G_2$ 中插入一项
+	\[ a_{c,d}(\tau) := \frac{1}{c\tau + d - 1} - \frac{1}{c\tau + d} = \frac{1}{(c\tau + d - 1)(c\tau + d)}, \quad c \neq 0, \; d \in \Z \]
+	显然有估计 $a_{c,d}(\tau) \ll \|(c,d) \|^{-2}$, 其中 $\|\cdot\|$ 是 $\R^2$ 的标准范数, 由此知 $\sum_{d \in \Z} a_{c,d}(\tau)$ 收敛到 $0$, 故
+	\begin{align*}
+		G_2(\tau) &= 2\zeta(2) + \sum_{c \neq 0} \sum_d \left( (c\tau+d)^{-2} - a_{c,d}(\tau) \right) \\
+		& = 2\zeta(2) + \sum_{c \neq 0} \sum_d \left( \frac{-1}{ (c\tau + d)^2 (c\tau + d - 1) } \right).
+	\end{align*}
+	最后一式的二重级数绝对收敛, 因为其通项 $\ll \|(c,d)\|^{-3}$. 对之交换求和顺序后重新摊开, 得到迭代级数
+	\[ 2\zeta(2) + \sum_d \sum_{c \neq 0} \left( \frac{1}{(c\tau + d)^2} - a_{c,d}(\tau) \right). \]
+	估计 $a_{c,d}(\tau) \ll \|(c,d)\|^{-2}$ 蕴涵 $\sum_{c \neq 0} a_{c,d}(\tau)$ 对每个 $d$ 都收敛. 又由已证的第二式知迭代级数 $\sum_d \sum_{c \neq 0} (c\tau + d)^{-2}$ 收敛于 $\tau^{-2} G_2(-1/\tau)$, 故迭代级数 $A(\tau) := \sum_d \sum_{c \neq 0} a_{c,d}(\tau)$ 亦收敛, 而且
+	\[ G_2(\tau) = \tau^{-2} G_2(-1/\tau) - A(\tau). \]
+	问题归结为证 $A(\tau) = -2\pi i/\tau$. 我们取 $N \gg 0$, 用以下级数逼近 $A(\tau)$:
+	\[ A_N(\tau) := \sum_{d=-N+1}^N \sum_{c \neq 0} a_{c,d}(\tau) = \sum_{c \neq 0} \sum_{d=-N+1}^N \left( \frac{1}{c\tau + d - 1} - \frac{1}{c\tau + d} \right). \]
+	此级数前后相消化为 $\sum_{c \neq 0} \left( \frac{1}{c\tau - N} - \frac{1}{c\tau + N} \right)$, 继而变作
+	\begin{equation*}
+		A_N(\tau) = 2\tau^{-1} \cdot \sum_{c \geq 1} \left(\frac{1}{\frac{-N}{\tau} + c } + \frac{1}{\frac{-N}{\tau} - c} \right).
+	\end{equation*}
+	代入引理 \ref{prop:cot-formula} 将上式写为 $2\tau^{-1} \left( \pi\cot \left(\frac{-\pi N}{\tau}\right) + \frac{\tau}{N} \right)$. 由于 $\Im(\tau) > 0$,
+	\[ \cot\left( \frac{-\pi N}{\tau} \right) = i \cdot \frac{e^{-i\pi N/\tau} + e^{i\pi N/\tau}}{e^{-i\pi N/\tau} - e^{i\pi N/\tau} } \to -i, \quad N \to +\infty. \]
+	由此得到 $A(\tau) = \lim_{N \to +\infty} A_N(\tau) = -2\pi i/\tau$. 明所欲证.
+\end{proof}
+
+众所周知 $\zeta(2) = \pi^2/6$ (推论 \ref{prop:zeta-2n}), 命题 \ref{prop:E2} 遂蕴涵
+\begin{equation}\label{eqn:E2-fcneq}
+	\tau^{-2} E_2\left( \frac{-1}{\tau} \right) = E_2(\tau) - \frac{2\pi i}{2\zeta(2)\tau} = E_2(\tau) + \frac{12}{2\pi i\tau}.
+\end{equation}
+此外, 由命题 \ref{prop:E2} 第一式可见 \eqref{eqn:E-formula} 也适用于 $E_2$.
+
+\begin{exercise}\label{exo:G2} \index{moxingshi!殆全纯 (almost holomorphic)}
+	由上列函数方程看出 $G_2, E_2$ 不是权 $2$ 模形式. 另一方面, 请证明 $G_2^* := G_2 - \dfrac{\pi}{\Im(\tau)}$ 对所有 $\gamma \in \SL(2,\Z)$ 满足 $G^*_2 \modact{2} \gamma = G_2^*$. 此函数满足不变性, 在 $\Im(\tau) \to +\infty$ 处的极限和 $G_2$ 相同, 然而它只是 $\mathcal{H}$ 上的实解析函数. 这种函数也叫\emph{殆全纯模形式}.
+\end{exercise}
+
+回忆定义 \ref{def:sigma-function} 中的 $\sigma_r$. 一如 $G_k$ ($k > 2$) 的情形, 以后应用中也需要 \index[sym1]{Gcal2@$\mathcal{G}_2$}
+\[ \mathcal{G}_2(\tau) := \dfrac{E_2(\tau)}{-24} = -\dfrac{1}{24} + \sum_{n=1}^\infty  \sigma_1(n) q^n. \]
+
+\begin{definition}\index{Dedekind $\eta$ 函数} \index[sym1]{eta(tau)@$\eta(\tau)$}
+	按例记 $q := e^{2\pi i \tau}$.	\emph{Dedekind $\eta$ 函数}定义为无穷乘积
+	\[ \eta(\tau) := e^{2\pi i \tau/24} \prod_{n=1}^\infty (1 - q^n), \quad \tau \in \mathcal{H}. \]
+\end{definition}
+由分析学常识易见此无穷乘积绝对收敛 (命题 \ref{prop:infinite-product-conv}). 进一步， $\eta$ 在 $\mathcal{H}$ 上全纯无零点; 此外 $\eta$ 的对数导数为
+\[ \frac{\dd}{\dd\tau} \log \eta (\tau) := \frac{\eta'(\tau)}{\eta(\tau)} = \frac{\pi i}{12} - 2\pi i \sum_{n=1}^\infty \frac{n q^n}{1 - q^n} ; \]
+见命题 \ref{prop:infinite-product-holomorphy}.
+
+\begin{proposition}
+	在右半复平面上定义 $\sqrt{z} := \exp\left(\dfrac{\log|z| + i\arg(z)}{2}\right)$, 其中幅角取 $\arg(z) \in \left[-\frac{\pi}{2}, \frac{\pi}{2}\right]$. 则
+	\[ \eta\left( \frac{-1}{\tau} \right) = \sqrt{-i\tau} \cdot \eta(\tau), \quad \tau \in \mathcal{H}. \]
+\end{proposition}
+\begin{proof}
+	应用命题 \ref{prop:E2}, 将对数导数 $\frac{\dd}{\dd \tau} \log\eta(\tau)$ 整理为
+	\begin{multline*}
+		\frac{\pi i}{12} - 2\pi i \sum_{d \geq 1} \frac{dq^d}{1- q^d} = \frac{\pi i}{12} - 2\pi i \sum_{d \geq 1} \sum_{k \geq 1} d q^{dk} \\
+		\xlongequal{n := dk} \frac{\pi i}{12} - 2\pi i \sum_{n \geq 1} \sigma_1(n) q^n = \dfrac{\pi i}{12} \cdot E_2(\tau),
+	\end{multline*}
+	若改为对 $\tau \mapsto \eta\left(\frac{-1}{\tau}\right)$ 求对数导数, 再应用 $E_2$ 的函数方程 \eqref{eqn:E2-fcneq}, 产物则是
+	\[ \tau^{-2} \cdot \frac{\pi i}{12} \cdot E_2\left(\frac{-1}{\tau}\right) = \frac{\pi i}{12} \left(E_2(\tau) + \frac{12}{2\pi i \tau} \right). \]
+	对 $\sqrt{-i\tau}$ 求对数导数给出 $\frac{1}{2} \frac{\dd}{\dd\tau} \log(-i\tau) = \dfrac{1}{2\tau} = \dfrac{\pi i}{12} \cdot \dfrac{12}{2 \pi i \tau}$. 与上式对比即见
+	\begin{align*}
+		\frac{\dd}{\dd \tau} \log \eta\left( \frac{-1}{\tau} \right) & = \frac{\dd}{\dd \tau} \log \sqrt{-i\tau} + \frac{\dd}{\dd \tau} \log \eta(\tau)  \\
+		& = \frac{\dd}{\dd \tau} \log \left( \sqrt{-i\tau} \cdot \eta(\tau) \right).
+	\end{align*}
+	故存在 $c \in \CC^\times$ 使得 $\eta\left(\frac{-1}{\tau}\right) = c \sqrt{-i\tau} \cdot \eta(\tau)$; 因为 $\eta(i) \neq 0$, 代入 $\tau = i$ 可知 $c = 1$.
+\end{proof}
+
+著名的 Euler 五边形数定理写作 \index{wubianxingshudingli@五边形数定理 (pentagonal number theorem)}
+\begin{equation}\label{eqn:pentagonal-number}
+	\sum_{n \in \Z} (-1)^n q^{(3n^2 + n)/2} = \prod_{n \geq 1} (1 - q^n);
+\end{equation}
+留意到 $3n^2 + n \equiv 0 \pmod 2$ 恒成立. 将 $\frac{3n^2 + n}{2} = \frac{(6n+1)^2 - 1}{24}$ 代入 \eqref{eqn:pentagonal-number}, 即可导出 $\eta$ 的 Fourier 展开
+\begin{equation}\label{eqn:eta-Fourier}
+	\eta(\tau) = \sum_{n \in \Z} (-1)^n q^{ \frac{1}{24} \cdot (6n + 1)^2}, \quad q^{1/24} := e^{2\pi i \tau /24}.
+\end{equation}
+练习 \ref{exo:triple-product} 将勾勒如何用椭圆函数的基本理论来推导 \eqref{eqn:pentagonal-number}. 注意到 Dedekind $\eta$ 函数并不是模形式: 它对 $\tau \mapsto -1/\tau$ 的函数方程涉及了开方运算, 整权模形式的框架无法解释. 为此必须引入\emph{半整权模形式}: 取同余子群 $\Gamma$ 足够小, 则 $\eta$ 将是权为 $\frac{1}{2}$ 的模形式, 这里先按下不表. \index{moxingshi!半整权 (of half-integral weight)}
+
+\begin{exercise}
+	设 $n \in \Z_{\geq 1}$, 称形如 $n = n_1 + \cdots + n_r$ 的表法为 $n$ 的分拆, 其中要求 $n_1 \geq \ldots \geq n_r$ 皆属于 $\Z_{\geq 1}$. 若不限制项数 $r$ 和 $n_1, n_2, \ldots$, 则称为无限制整数分拆, 记 $n$ 的无限制分拆个数为 $p(n)$. 函数 $p(n)$ 的研究是数论的一大课题. 试明确 $e^{2\pi i\tau/24} \eta(\tau)^{-1}$ 和无限制整数分拆的联系. 可参看 \cite[附录 A.4]{Ste17}.
+\end{exercise}
+
+\begin{definition}\label{def:Delta} \index{mopanbieshi@模判别式 $\Delta$ (modular discriminant)} \index[sym1]{Delta@$\Delta$}
+	\emph{模判别式} 定义为函数
+	\[ \Delta(\tau) := \eta(\tau)^{24} = q \prod_{n=1}^\infty (1-q^n)^{24}, \quad \tau \in \mathcal{H}. \]
+\end{definition}
+在第八章探讨椭圆曲线时将澄清``判别式''一词的来由. 在推论 \ref{prop:Delta-Eisenstein} 还会进一步证明 $\Delta = \frac{1}{1728}(E_4^3 - E_6^2)$.
+
+\begin{proposition}
+	模判别式 $\Delta$ 是 $S_{12}(\SL(2,\Z))$ 的非零元.
+\end{proposition}
+\begin{proof}
+	因为 $\Delta$ 只依赖于 $q$ 故 $\Delta(\tau+1)=\Delta(\tau)$. 又因为 $(\sqrt{-i\tau})^{24} = \tau^{12}$, 配合 $\eta$ 的函数方程可知 $\Delta(-1/\tau) = \tau^{12} \Delta(\tau)$; 注记 \ref{rem:symmetry-full-level} 遂给出 $\gamma \in \SL(2,\Z) \implies \Delta \modact{12} \gamma =\Delta$. 定义 \ref{def:Delta} 之无穷乘积给出 $\Delta$ 在 $\infty$ 处的 Fourier 展开, 其常数项为 $0$, 一次项为 $1$. 综之 $\Delta \in S_{12}(\SL(2,\Z)) \smallsetminus \{0\}$.
+\end{proof}
+
+一般将 $\Delta$ 的 Fourier 展开记作 \index{Ramanujan $\tau$ 函数} \index[sym1]{tau(n)@$\tau(n)$}
+\[ \Delta(\tau) = \sum_{n \geq 1} \tau(n) q^n .\]
+Fourier 系数 $\tau(n)$ 称作 \emph{Ramanujan $\tau$ 函数}. 我们业已留意到 $\tau(1)=1$; Ramanujan 本人对 $\tau$ 作过一系列猜测, 例如
+\begin{compactenum}[(a)]
+	\item 当 $\gcd(n,n')=1$ 时有 $\tau(nn')=\tau(n)\tau(n')$;
+	\item 对所有素数 $p$ 和 $e \in \Z_{\geq 1}$ 有 $\tau(p^{e+1}) = \tau(p)\tau(p^e) - p^{11}\tau(p^{e-1})$;
+	\item 对所有素数 $p$ 有 $|\tau(p)| \leq 2p^{11/2}$.
+\end{compactenum}
+猜想 (a), (b) 首先被 Mordell 于 1917 年解决, Hecke 随后建立了一套现称为 Hecke 算子的工具来说明这类结果, 证明见例 \ref{eg:Ramanujan-coeff-mult}. 猜想 (c) 的解决则有待于 Deligne 关于 Weil 猜想的深刻工作 \cite{Del71}. Lehmer 猜测 $\tau(n) \neq 0$ 对所有 $n$ 成立, 此问题至今悬而未决.
+
+\begin{definition}\label{def:modular-invariant} \index{mobubianliang@模不变量 $j$ (modular invariant)} \index[sym1]{$j$}
+	所谓\emph{模不变量}是 $\mathcal{H}$ 上的亚纯函数
+	\[ j(\tau) := \dfrac{E_4(\tau)^3}{\Delta(\tau)}, \quad \tau \in \mathcal{H}. \]
+\end{definition}
+因为 $\Delta, E_4^3 \in M_{12}(\SL(2,\Z))$, 对所有 $\gamma \in \SL(2,\Z)$ 皆有 $j(\gamma\tau) = j(\tau)$. 从 $E_4$ 的 Fourier 展开和 $\Delta = q\prod_{n \geq 1}(1-q^n)^{24}$, 可以看出 $j$ 也有 $q$-展开:
+\[ j(\tau) = q^{-1} + 744 + 196884 q + 21493760 q^2 + 864299970 q^3 + \cdots. \]
+
+John McKay 在 1978 年觉察 $J(\tau) := j(\tau) - 744$ 的 Fourier 系数与称为魔群的最大散在单群 $\mathbb{M}$ 的复表示论存在联系, 例如 $1$ 是平凡表示的维数, 而 $196883 = 196884 - 1$ 是 $\mathbb{M}$ 的最低维非平凡不可约表示的维数; 次几个系数也都能写成 $\mathbb{M}$ 的不可约表示维数的简单线性组合. 感谢 I.\ Frenkel, J.\ Lepowsky, A.\ Meurman 和 R.\ Borcherds 等人的工作, 现在我们知道 $J$ 的 Fourier 系数透过某些无穷维 Lie 代数和称为顶点算子代数的数学结构与 $\mathbb{M}$ 衔接: 更精确地说, 他们构造了称为魔顶点算子代数的结构 $V^\natural = \bigoplus_{n=0}^\infty V_n^\natural$, 使得
+\[ J(\tau) = \sum_{n=0}^\infty \dim V_n^\natural q^{n-1}, \quad \Aut(V^\natural) \simeq \mathbb{M}. \]
+
+回到 $j$ 的 Fourier 展开. 我们可以说 $j$ 在 $\SL(2,\Z) \backslash \mathcal{H}$ 的唯一尖点 $\infty$ 处有单极点; 按注记 \ref{rem:modular-function}, $j$ 是级为 $\SL(2,\Z)$ 的模函数. 另一方面, $\Delta$ 在 $\mathcal{H}$ 上无零点, 因而 $j$ 在 $\mathcal{H}$ 上无极点. 一旦充分理解 $\SL(2,\Z) \backslash \mathcal{H}$ 及其紧化, 将可见 $j$ 是从 $\SL(2,\Z) \backslash \mathcal{H}$ 到 $\CC$ 的同构. 另一方面, $\SL(2,\Z) \backslash \mathcal{H}$ 又分类了复椭圆曲线: 它是这些对象的``粗模空间'', 按上述讨论同构于仿射复直线 $\CC$. 这些概念将在 \S\ref{sec:cplx-tori} 理清.
+
+此外, $j$ 的特殊值也是有趣的问题, 我们将在 \S\ref{sec:CM} 证明当 $\tau$ 为二次代数数时, $j(\tau)$ 也是代数数.
+
+\section{主同余子群 \texorpdfstring{$\Gamma(N)$}{Gamma(N)} 的 Eisenstein 级数}\label{sec:Eisenstein-congruence-subgroup}
+\begin{convention}\label{conv:Eisenstein-Gamma}
+	本节全程假设 $N,k$ 为正整数, $k \geq 3$.
+\end{convention}
+
+对于 $v, v' \in \Z^2$, 记号 $v \equiv v' \pmod N$ 意谓 $v - v' \in N\Z^2$. 群 $\SL(2,\Z)$ 在 $\Z^2$ 上的右作用诱导 $\SL(2, \Z/N\Z)$ 在 $(\Z/N\Z)^2$ 上的右作用. 回忆 \eqref{eqn:Z2prim}, 定义 \index[sym1]{ZN2prim@$(\Z/N\Z)^2_{\mathrm{prim}}$}
+\[ (\Z/N\Z)^2_{\mathrm{prim}} := \Image\left[ \Z^2_{\mathrm{prim}} \hookrightarrow \Z^2 \xrightarrow{\bmod N} (\Z/N\Z)^2 \right], \]
+引理 \ref{prop:Eisenstein-orbit-aux} 表明 $\SL(2,\Z)$ 作用保持 $\Z^2_{\mathrm{prim}}$, 因而 $\SL(2, \Z/N\Z)$ 也保持 $(\Z/N\Z)^2_{\mathrm{prim}}$. 本节首务是给出 $(\Z/N\Z)^2_{\mathrm{prim}}$ 的内禀刻画.
+\begin{lemma}\label{prop:Eisenstein-orbit-aux3}
+	对于 $\bar{v} = (\bar{x}, \bar{y}) \in (\Z/N\Z)^2$, 以下等价:
+	\begin{compactenum}[(i)]
+		\item $\bar{v}$ 是群 $(\Z/N\Z)^2$ 的 $N$ 阶元;
+		\item 任意 $\bar{x}, \bar{y}$ 的原像 $x,y \in \Z$ 都满足 $\gcd(x,y,N)=1$.
+		\item $\bar{v} \in (\Z/N\Z)^2_{\mathrm{prim}}$;
+	\end{compactenum}
+\end{lemma}
+\begin{proof}
+	(i) $\implies$ (ii): 取原像 $x, y$, 则 $\bar{v}$ 是 $N$ 阶元等价于: 对任何 $d \mid N$, $1 \leq d < N$ 都有 $(N \nmid dx) \vee (N \nmid dy)$; 置 $h = N/d$, 则这又等价于对任何 $h \mid N$, $1 < h \leq N$ 都有 $(h \nmid x) \vee (h \nmid y)$, 易见后者等价于 $\gcd(x,y,N)=1$.
+	
+	(ii) $\implies$ (iii): 条件 (ii) 确保 $x\Z + y\Z + N\Z = \Z$, 故存在 $a,b \in \Z$ 使得 $ay-bx \equiv 1 \pmod N$. 考虑 $\SL(2,\Z/N\Z)$ 的元素 $\bar{\gamma} = \twomatrix{\bar{a}}{\bar{b}}{\bar{x}}{\bar{y}}$. 命题 \ref{prop:reduction-surjective} 说明存在 $\gamma = \twomatrix{a'}{b'}{x'}{y'} \in \SL(2,\Z)$ 映至 $\bar{\gamma}$. 于是元素 $(x',y') \in \Z^2_{\text{prim}}$ 映至 $\bar{v}$.
+	
+	(iii) $\implies$ (i): 设 $(x,y) \in \Z^2_{\text{prim}}$ 映为 $\bar{v}$. 若 $d\bar{v}=0$, 则 $N \mid \gcd(dx,dy) = d$.
+\end{proof}
+
+\begin{lemma}\label{prop:Eisenstein-orbit-aux2}
+	令 $v=(x,y) \in \Z^2_{\mathrm{prim}}$, $v'=(x',y') \in \Z^2_{\mathrm{prim}}$, 则
+	\[ \left[ \exists \gamma \in \Gamma(N), \; v = v'\gamma \right] \iff \left[ v \equiv v' \pmod N \right]. \]
+\end{lemma}
+\begin{proof}
+	难点在于证 $\impliedby$. 根据引理 \ref{prop:Eisenstein-orbit-aux}, 存在 $\eta \in \SL(2,\Z)$ 使得 $v'\eta = (0, 1)$. 既然 $v=v'\gamma$ 等价于 $v\eta = (v'\eta)\eta^{-1}\gamma\eta$, 而 $\Gamma(N) \lhd \SL(2,\Z)$, 以 $v'\eta \in \Z^2_{\mathrm{prim}}$ 代 $v'$, 问题遂化约到 $v'=(0,1)$ 的情形. 这时前提变为 $(x,y) \equiv (0,1) \pmod N$, 欲证之 $v = v'\gamma$ 则等价于存在 $\gamma \in \Gamma(N)$ 使其第二行为 $(x,y)$.
+	
+	令 $k := (y-1)/N \in \Z$. 考虑 $a := 1 + tN$, $b := sN$, 等式 $ay-bx=1$ 等价于 $ty-sx = -k$; 因为 $\gcd(x,y)=1$, 整数解必存在. 取矩阵 $\gamma := \twomatrix{a}{b}{x}{y} \in \Gamma(N)$ 即足.
+\end{proof}
+
+接下来澄清 $(\Z/N\Z)^2_{\mathrm{prim}}$ 与尖点的联系. 我们将使用从 $\R^2 \smallsetminus \{(0,0)\}$ 到 $\R \sqcup \{\infty\}$ 的映射 $(x,y) \mapsto -y/x$, 它在下述意义上尊重任意 $\twomatrix{a}{b}{c}{d} \in \SL(2,\R)$ 的作用:
+\begin{equation}\label{eqn:cusp-equivariance}
+	\begin{pmatrix} x & y \end{pmatrix} \twobigmatrix{a}{b}{c}{d} \mapsto \dfrac{-bx - dy}{ax + cy} = \twobigmatrix{d}{-b}{-c}{a} \cdot \dfrac{-y}{x} = \twobigmatrix{a}{b}{c}{d}^{-1} \cdot \dfrac{-y}{x}.
+\end{equation}
+
+\begin{lemma}\label{prop:cusp-bijection-aux}
+	设 $s = \frac{-y}{x}$, $s' = \frac{-y'}{x'}$ 为 $\Q^* = \Q \sqcup \{\infty\}$ 的元素, $(x,y), (x',y') \in \Z^2_{\mathrm{prim}}$. 那么
+	\[ \left[ \Gamma(N)s = \Gamma(N)s' \right] \iff \left[ (x,y) \equiv \pm (x',y') \pmod N \right]. \]
+\end{lemma}
+\begin{proof}
+	设 $\gamma = \twomatrix{a}{b}{c}{d} \in \SL(2,\Z)$. 前述观察表明 $\gamma s$ 是 $(x, y)\gamma^{-1}$ 的像, 根据引理 \ref{prop:Eisenstein-orbit-aux} 知 $(x,y)\gamma^{-1}$ 和 $(x',y')$ 一样属于 $\Z^2_{\mathrm{prim}}$. 基于既约分数表法的唯一性, 我们推得
+	\[ \gamma s = s' \iff \pm(x' ,y') = (x, y) \gamma^{-1}. \]
+	因为 $\Gamma(N)$ 是 $\SL(2,\Z)$ 的子群. 剩下无非是引理 \ref{prop:Eisenstein-orbit-aux2} 的应用.
+\end{proof}
+
+回忆到 $\Gamma(N) \lhd \SL(2,\Z)$. 现在让 $\SL(2,\Z)$ 按
+\[ \Gamma(N)\alpha \xmapsto{\gamma \in \SL(2,\Z)} \gamma^{-1} \Gamma(N)\alpha = \Gamma(N)\gamma^{-1} \alpha \]
+右作用在 $\Gamma(N)$ 的尖点集上. 显然此作用透过 $\SL(2, \Z/N\Z)$ 分解.
+
+\begin{proposition}\label{prop:cusp-bijection}
+	\index{jiandian!$\Gamma(N)$ 情形}
+	存在双射如下
+	\[\begin{tikzcd}[row sep=tiny]
+		\{ \Gamma(N)\; \text{的尖点} \} \arrow[leftrightarrow, r, "1:1"] & \pm \big\backslash (\Z/N\Z)^2_{\mathrm{prim}} \\
+		\Gamma(N) \cdot (-y/x) \arrow[u, phantom, sloped, "\in"] & \pm (x,y) \in \Z^2_{\text{prim}} \; \bmod N \arrow[mapsto, l] \arrow[u, phantom, sloped, "\in"].
+	\end{tikzcd}\]
+	它还保持 $\SL(2,\Z/N\Z)$ 对两边的右作用: 若 $s \mapsfrom (x,y)$ 而 $\gamma \in \SL(2,\Z)$, 那么 $\gamma^{-1}s \mapsfrom (x,y)\gamma$.
+\end{proposition}
+\begin{proof}
+	引理 \ref{prop:cusp-bijection-aux} 说明 $\leftarrow$ 是良定的单射. 至于满性, 将任何 $s \in \Q \sqcup \{\infty\}$ 写成既约分式 $\frac{u}{v}$ (容许 $v = 0$), 则 $(-u, v) \in \Z^2_{\mathrm{prim}}$ 映至 $s$. 关于 $\SL(2, \Z/N\Z)$ 作用的断言直接源自 \eqref{eqn:cusp-equivariance}.
+\end{proof}
+
+\begin{exercise}\label{exo:count-GammaN-cusps}
+	证明 $(\Z/N\Z)^2_{\mathrm{prim}}$ 的元素个数为 $N^2 \prod_{p \mid N: \text{素数}} \left( 1 - p^{-2} \right)$. 以此证明
+	\[ \Gamma(N) \;\text{的尖点个数} = \begin{cases}
+		2^{-1} N^2 \prod_{p \mid N} \left( 1 - p^{-2} \right), & N \neq 2 \\
+		3, & N = 2.
+	\end{cases}\]
+	\begin{hint}
+		所求之数记为 $\Phi(N)$. 按元素阶数 $\frac{N}{d}$ 将 $(\Z/N\Z)^2 \smallsetminus \{(0,0)\}$ 分组, 得到 $N^2 - 1 = \sum_{d \mid N} \Phi(N/d)$. 接着用 Möbius 反演公式来确定 $\Phi(N)$, 见 \cite[\S 5.4]{Li1}.
+	\end{hint}
+\end{exercise}
+
+以下对一般的 $N \geq 1$ 和权 $k \geq 3$ 构造主同余子群 $\Gamma = \Gamma(N)$ 的 Eisenstein 级数, 参考材料是 \cite[\S 4.2]{DS05}. 定义
+\[ \epsilon_N := \begin{cases} \frac{1}{2}, & N=1,2 \\ 1, & N \geq 3. \end{cases} \]
+沿用 \S\ref{sec:Eisenstein-fulllevel} 的符号 $J(x;\tau)$ 等, 思路也一脉相承.
+
+\index{Eisenstein 级数} \index[sym1]{Evk@$E^{\bar{v}}_k$} \index[sym1]{Gvk@$G^{\bar{v}}_k$}
+\begin{definition}\label{def:Eisenstein-GammaN}
+	设 $\bar{v} \in (\Z/N\Z)^2_{\mathrm{prim}}$. 任取其原像 $v \in \Z^2_{\mathrm{prim}}$, 定义相应的 Eisenstein 级数为 $\mathcal{H}$ 上的函数
+	\begin{equation*}
+		E^{\bar{v}}_k(\tau) := \epsilon_N \sum_{ \gamma \in \Stab_{\Gamma(N)}(v) \backslash \Gamma(N) } J(v\gamma; \tau)^{-k} \\
+		= \epsilon_N \sum_{\substack{ (c,d) \in \Z^2_{\mathrm{prim}} \\ (c,d) \equiv v \pmod{N} }} (c\tau + d)^{-k}.
+	\end{equation*}
+\end{definition}
+第二个等号缘于引理 \ref{prop:Eisenstein-orbit-aux2}. 由此可见 $E^{\bar{v}}_k$ 仅依赖于 $\bar{v}$, 无关 $v$ 的选取.
+
+一如 $N = 1$ 的情形, Fourier 系数的计算提示我们引入
+\begin{equation}\label{eqn:G-Gamma0N}
+	G^{\bar{v}}_k(\tau) := \sum_{\substack{ (c,d) \in \Z^2 \\ (c,d) \equiv v \pmod{N} }} (c\tau + d)^{-k}.
+\end{equation}
+由于这里的级数都是 \S\ref{sec:Eisenstein-fulllevel} 中 $E_k, G_k$ 的子级数, 以 $\tau$ 为变量, 它们在紧子集上也正规收敛. 这就说明了 $E^{\bar{v}}_k, G^{\bar{v}}_k$ 对 $\tau$ 全纯. 级数的重排当然也毫无问题.
+
+回忆初等数论中习见的 Möbius 函数 $\mu: \Z_{\geq 1} \to \{-1,0,1\}$; 亦见 \cite[\S 5.4]{Li1}. 对于 $a \in (\Z/N\Z)^\times$, 兹定义
+\begin{equation}\label{eqn:aux-zeta}\begin{aligned}
+	\zeta(k,a) & := \sum_{\substack{n \geq 1 \\ n \equiv a \bmod N}} \frac{1}{n^k}, \\
+	\underline{\zeta}(k,a) & := \sum_{\substack{n \geq 1 \\ n \equiv a \bmod N}} \frac{\mu(n)}{n^k}.
+\end{aligned}\end{equation}
+若取 $a$ 在 $\{1, \ldots, N \}$ 中的唯一代表元, 则 $\zeta(k,a)$ 无非是注记 \ref{rem:Hurwitz-zeta} 的 Hurwitz $\zeta$ 函数.
+
+现将 $G^{\bar{v}}_k$ 中的 $(c,d)$ 按 $n := \gcd(c,d)$ 分组, 连带注意到 $(c,d) \mapsto \bar{v} \implies \gcd(n,N)=1$; 记 $a$ 为剩余类 $n \bmod N$. 那么 $\gcd(c,d) = n$ 的项贡献出
+\[ n^{-k} \sum_{\substack{(c,d) \in \Z^2_\text{prim} \\ (c,d) \equiv a^{-1}\bar{v} \bmod N }} (c\tau+d)^{-k}. \]
+将 $G^{\bar{v}}_k$ 的合式先按 $n$ 再按 $a$ 分组, 导出
+\begin{align*}
+	G^{\bar{v}}_k(\tau) & = \sum_{a \in (\Z/N\Z)^\times} \left(\sum_{\substack{n \geq 1 \\ n \equiv a \bmod N }} n^{-k} \right) \sum_{\substack{(c,d) \in \Z^2_\text{prim} \\ (c,d) \equiv a^{-1}\bar{v} \bmod N }} (c\tau+d)^{-k} \\
+	& = \epsilon_N^{-1} \sum_{a \in (\Z/N\Z)^\times} \zeta(k,a) E^{a^{-1}\bar{v}}_k(\tau).
+\end{align*}
+下面反其道而行, 改从 \eqref{eqn:G-Gamma0N} 分离出 $(c,d) \in \Z^2_{\text{prim}}$ 的部分, 即 $\epsilon_N^{-1} E^{\bar{v}}_k(\tau)$. 为此, 我们先对每个素数 $n=p$ 扣除 $n \mid \gcd(c,d)$ 的贡献, 再补回相异素数积 $n=pq \mid \gcd(c,d)$ 的贡献, 依此类推. 仍按 $a := n \bmod N$ 来分组, 结论是
+\[ E^{\bar{v}}_k(\tau) = \epsilon_N \sum_{a \in (\Z/N\Z)^\times} \underline{\zeta}(k,a) G^{a^{-1}\bar{v}}_k(\tau). \]
+
+此外, 换 $\bar{v}$ 为 $-\bar{v}$ 等价于将 $E^{\bar{v}}_k(\tau)$ 定义中的 $v$ 换为 $-v$; 从定义 \ref{def:Eisenstein-GammaN} 和 $J(-x, \tau) = J(x, \tau)$ 立见
+\begin{equation}\label{eqn:Eisenstein-Gamma-flip}
+	E^{-\bar{v}}_k(\tau) = (-1)^k E^{\bar{v}}_k(\tau).
+\end{equation}
+
+\begin{theorem}\label{prop:Eisenstein-congruence-subgrp}
+	令 $\bar{v} \in (\Z/N\Z)^2_{\mathrm{prim}}$. 函数 $E^{\bar{v}}_k$ 和 $G^{\bar{v}}_k$ 都是 $M_k(\Gamma(N))$ 的元素, 并且有以下性质.
+	\begin{enumerate}[(i)]
+		\item 对任意 $\gamma \in \SL(2,\Z)$ 皆有 $E^{\bar{v}}_k \modact{k} \gamma = E^{\bar{v}\gamma}_k$.
+		\item 按 \eqref{eqn:aux-zeta} 的符号, 它们满足
+		\begin{align*}
+			G^{\bar{v}}_k(\tau) & = \epsilon_N^{-1} \sum_{a \in (\Z/N\Z)^\times} \zeta(k,a) E^{a^{-1}\bar{v}}_k(\tau), \\
+			E^{\bar{v}}_k(\tau) & = \epsilon_N \sum_{a \in (\Z/N\Z)^\times} \underline{\zeta}(k,a) G^{a^{-1}\bar{v}}_k(\tau).
+		\end{align*}
+		\item 排除 $N = 1, 2$ 而 $k \notin 2\Z$ 的情形 (这时 $M_k(\Gamma(N))$ 平凡, 见命题 \ref{prop:k-parity}). 若 $\Gamma(N)$ 的尖点 $t$ 依命题 \ref{prop:cusp-bijection} 对应到 $\pm\bar{v}$, 那么 $E^{\bar{v}}_k$ 在尖点 $t$ 处的常数项为 $\pm 1$ (定义--命题 \ref{def:Const}), 在其余尖点皆取零值.
+		\item 设 $\bar{v}=(\bar{x},\bar{y})$, 则 $G^{\bar{v}}_k$ 有 Fourier 展式
+		\[ G^{\bar{v}}_k(\tau) = \delta_{\bar{x},0} \zeta^{\bar{y}}(k) + \frac{(-2\pi i)^k}{(k-1)! N^k} \sum_{n=1}^\infty \sigma^{\bar{v}}_{k-1}(n) q_N^n, \]
+		其中 $\delta_{p,q} := \begin{cases} 1, & p=q \\ 0, & p \neq q \end{cases}$ 是 Kronecker 的 $\delta$ 符号, $q_N := e^{2\pi i\tau/N}$, 而
+		\begin{align*}
+			\zeta^a(k) & := \sumprime_{\substack{n \in \Z \\ n \equiv a \bmod N}} n^{-k} \qquad (a \in \Z/N\Z), \\
+			\sigma^{\bar{v}}_r(n) & := \sum_{\substack{d \in \Z, \; d \mid n \\ n/d \equiv \bar{x} \bmod N }} \sgn(d) d^{k-1} e^{2\pi i \bar{y} d /N}.
+		\end{align*}
+	\end{enumerate}
+\end{theorem}
+
+注意到定理中的 $\zeta^a$ 仍然可以用注记 \ref{rem:Hurwitz-zeta} 的 Hurwitz $\zeta$ 函数来表示. 
+
+\begin{proof}
+	设 $\gamma \in \SL(2,\Z)$. 按照 \S\ref{sec:Eisenstein-fulllevel} 的讨论,
+	\[ (E^{\bar{v}}_k \modact{k} \gamma) (\tau) = \sum_{\gamma'} J(v\gamma'\gamma; \tau)^{-k} \]
+	其中 $\gamma'$ 取遍 $\Stab_{\Gamma(N)}(v) \big\backslash \Gamma(N)$. 由于 $\gamma^{-1}\Gamma(N)\gamma = \Gamma(N)$, 换元 $\gamma' \leadsto \gamma \gamma' \gamma^{-1}$给出 $E^{\bar{v}}_k \modact{k} \gamma = E^{\bar{v}\gamma}_k$. 此外, 既然 $E^{\bar{v}}_k$ 由 $\bar{v}$ 确定, 故连带得到 $E^{\bar{v}}_k$ 对 $\Gamma(N)$ 不变.
+	
+	定理中联系 $G^{\bar{v}}_k$ 和 $E^{\bar{v}}_k$ 的两则公式不过是先前讨论的复述.
+	
+	接着研究 $E^{\bar{v}}_k$ 在无穷远处的行为. 对 $\tau = s + it \in \mathcal{H}$ 取 $\tau_1 := s + i\min\{t,1\}$, 于是
+	\[ |c\tau + d|^{-k} = \left((cs + d)^2 + c^2 t^2\right)^{-k/2} \leq |c\tau_1 + d|^{-k}. \]
+	已知 $\sumprime_{(c,d)} |c\tau_1 + d|^{-k}$ 收敛. 又当 $\Im(\tau) \to \infty$ 且 $c \neq 0$ 时 $|c\tau + d|^{-k} \to 0$. Lebesgue 控制收敛定理于是给出
+	\[ \lim_{\Im(\tau) \to +\infty} E^{\bar{v}}_k(\tau) = \epsilon_N \sumprime_{\substack{ (0,d) \in \Z^2_{\text{prim}} \\ (0,d) \equiv v \bmod N }} d^{-k}
+	= \begin{cases}
+		0, & \bar{v} \neq \pm (0,1), \\
+		0, & \bar{v} = \pm(0,1) \wedge N \leq 2 \wedge k \notin 2\Z, \\
+		(\pm 1)^k, & \bar{v} = \pm(0,1) \wedge \left( N > 2 \vee k \in 2\Z \right);
+	\end{cases} \]
+	第二种情形按假设予以排除. 对于其它由 $\alpha\infty$ 代表的尖点, 其中 $\alpha = \twomatrix{a}{b}{c}{d} \in \SL(2,\Z)$ 者, 我们推知: $E^{\bar{v}}_k \modact{k} \alpha = E^{\bar{v}\alpha}_k$ 也在 $\infty$ 处全纯, 它在 $\infty$ 处非消没当且仅当 $\bar{v}\alpha = \pm(0,1)$, 或者说 $\pm\bar{v} = (0,1) \alpha^{-1} = (-c, a) \bmod N$, 又或者根据命题 \ref{prop:cusp-bijection}, 当且仅当 $\pm\bar{v}$ 对应于 $\Gamma(N)$ 的尖点 $\frac{a}{c} = \alpha\infty$. 以上也一并说明了 $E^{\bar{v}}_k, G^{\bar{v}}_k \in M_k(\Gamma(N))$.
+
+	最后求 $G^{\bar{v}}_k$ 的 Fourier 展开. 取 $\bar{v} = (\bar{x},\bar{y})$ 的原像 $v=(x,y) \in \Z^2_\text{prim}$. 级数 \eqref{eqn:G-Gamma0N} 中 $c=0$ 的部分贡献出
+	\[ \delta_{\bar{x},0} \sum_{\substack{d \neq 0 \\ d \equiv y \bmod N}} d^{-k} = \delta_{\bar{x},0} \zeta^{\bar{y}}(k). \]
+	 若 $c > 0$, $c \equiv x \pmod N$, 相应贡献为
+	\[ \sum_{d \in \Z} (c\tau + y + Nd)^{-k} = N^{-k} \sum_{d \in \Z} \left( \underbracket{\frac{c\tau + y}{N}}_{\in \mathcal{H}} + d \right)^{-k}. \]
+	用引理 \ref{prop:Eisenstein-sum-lemma} 处理此和, 化之为
+	\[ N^{-k} (-1)^k \sum_{d \in \Z} \left( d - \frac{c\tau + y}{N} \right)^{-k} = \frac{(-2\pi i)^k}{(k-1)! N^k} \sum_{m \geq 0} m^{k-1} e^{\frac{2\pi iym}{N}} q_N^{cm}; \]
+	右式对所有 $c > 0$, $c \equiv x \pmod N$ 求和并换元 $n = cm$, $d=m$, 得到
+	\[ \frac{(-2\pi i)^k}{(k-1)! N^k} \sum_{n \geq 1} \sum_{\substack{d > 0 \\ d \mid n \\ n/d \equiv x \bmod N }} d^{k-1} e^{\frac{2\pi iyd}{N}} q_N^n. \]
+	当 $c < 0$ 时, 上述论证中考虑 $-(c\tau + y)/N \in \mathcal{H}$, 原级数化为
+	\[ N^{-k} \sum_{d \in \Z} \left( d - \frac{-c\tau - y}{N} \right)^{-k} = \frac{(2\pi i)^k}{(k-1)! N^k} \sum_{m \geq 0} m^{k-1} e^{-\frac{2\pi iym}{N}} q_N^{-cm}; \]
+	右式对这些 $c$ 求和并换元 $n=-cm$, $d=-m$, 结果是
+	\[ \frac{(-2\pi i)^k}{(k-1)! N^k} \sum_{n \geq 1} \sum_{\substack{d < 0 \\ d \mid n \\ n/d \equiv x \bmod N }} -d^{k-1} e^{\frac{2\pi iyd}{N}} q_N^n. \]
+	综上, 非零之 $c$ 全体贡献 $\dfrac{(-2\pi i)^k}{(k-1)! N^k} \cdot \sum_{n=1}^\infty \sigma^{\bar{v}}_{k-1}(n) q_N^n$. 证毕.
+\end{proof}
+
+\section{同余子群的 Eisenstein 级数概述}\label{sec:Eisenstein-congruence-subgroup2}
+沿用约定 \ref{conv:Eisenstein-Gamma}, 并且排除 $N = 1, 2$ 且 $k \notin 2\Z$ 的平凡情形 (命题 \ref{prop:k-parity}).
+
+本节的目的是将一般同余子群的模形式空间分解为 Eisenstein 级数和尖点形式两部分. 篇幅所限, 以下勾勒的分解是极粗糙的.
+
+对每个类 $\pm \big\backslash (\Z/N\Z)^2_\text{prim}$ 选择 $(\Z/N\Z)^2_\text{prim}$ 中的代表元, 全体记为 $\bar{v}_1, \ldots, \bar{v}_r$; 根据命题 \ref{prop:cusp-bijection}, 它们一一对应到 $\Gamma(N)$ 的尖点, 选定 $\alpha_1, \ldots, \alpha_r \in \SL(2,\Z)$ 以将这些尖点用 $\alpha_1 \infty, \ldots, \alpha_r \infty \in \Q^*$ 代表. 定义--命题 \ref{def:Const} 定义了常数项 $\mathrm{Const}_{\alpha_i}$ 映射 ($i = 1, \ldots, r$).
+
+\begin{lemma}\label{prop:Eisenstein-touch-cusps}
+	线性映射
+	\begin{align*}
+		\text{Const}_{\Gamma(N)}: M_k(\Gamma(N)) & \longrightarrow \CC^r \\
+		f & \longmapsto \left( \text{Const}_{\alpha_i}(f) \right)_{i=1}^r,
+	\end{align*}
+	限制为同构 $\text{Const}_{\Gamma(N)}: \mathcal{E}_k(\Gamma(N)) := \sum_{i=1}^r \CC E^{\bar{v}_i}_k \rightiso \CC^r$; 特别地, $E^{\bar{v}_1}_k, \ldots, E^{\bar{v}_r}_k$ 线性无关.
+\end{lemma}
+\begin{proof}
+	定理 \ref{prop:Eisenstein-congruence-subgrp} 的直接结论.
+\end{proof}
+
+可以设想, $\left\{ E^{\bar{v}_i}_k \right\}_{i=1}^r$ 不多不少地``触及''了 $\Gamma(N)$ 的所有尖点.
+
+现在考虑一般的同余子群 $\Gamma \supset \Gamma(N)$. 商群 $\Gamma_N := \Gamma/\Gamma(N)$ 是 $\SL(2, \Z/N\Z)$ 的子群, 右作用在 $\pm \big\backslash (\Z/N\Z)^2_{\mathrm{prim}}$ 上. 命题 \ref{prop:cusp-bijection} 遂给出双射
+\[\begin{tikzcd}[row sep=tiny]
+	\left\{ \Gamma \;\text{的尖点} \right\} & \pm\big\backslash (\Z/N\Z)^2_{\mathrm{prim}} \big/ \Gamma_N \arrow[leftrightarrow, l, "1:1"'] \\
+	\Gamma \cdot (-y/x) \arrow[phantom, u, "\in" description, sloped] & \text{任意原像}\; \pm(x,y) \in \Z^2_{\mathrm{prim}}. \arrow[mapsto, l] \arrow[phantom, u, "\in" description, sloped]
+\end{tikzcd}\]
+
+\begin{proposition}\index{Eisenstein 级数}
+	对 $(\Z/N\Z)^2_\text{prim}$ 中的任何 $\Gamma_N$-轨道 $\mathcal{O}$, 定义
+	\[ E^{\mathcal{O}}_k := \sum_{\bar{w} \in \mathcal{O}} E^{\bar{w}}_k, \]
+	那么 $E^{\mathcal{O}}_k \in M_k(\Gamma)$.
+\end{proposition}
+\begin{proof}
+	显然 $E^{\mathcal{O}}_k \in M_k(\Gamma(N))$, 它在 $\Gamma$ 的尖点处的全纯性质遗传自各个 $E_k^{\bar{w}}$, 所以仅须验证 $\gamma \in \Gamma \implies E^{\mathcal{O}}_k \modact{k} \gamma = E^{\mathcal{O}}_k$. 一切归结为定理 \ref{prop:Eisenstein-congruence-subgrp} 记录的性质 $E_k^{\bar{w}} \modact{k} \gamma = E_k^{\bar{w}\gamma}$.
+\end{proof}	
+
+对选定的 $\Gamma \supset \Gamma(N)$, 定义
+\begin{equation}\label{eqn:Eisenstein-general} \begin{aligned}
+	\mathcal{E}_k(\Gamma) & := \mathcal{E}_k(\Gamma(N)) \cap M_k(\Gamma) \\
+	& = \left\{ f \in \mathcal{E}_k(\Gamma(N)): \forall \gamma \in \Gamma, \; f \modact{k} \gamma = f \right\}.
+\end{aligned}\end{equation}
+
+\begin{proposition}\label{prop:Eisenstein-complement}
+	我们有 $M_k(\Gamma) = \mathcal{E}_k(\Gamma) \oplus S_k(\Gamma)$.
+\end{proposition}
+\begin{proof}
+	首先处理 $\Gamma = \Gamma(N)$ 情形. 引理 \ref{prop:Eisenstein-touch-cusps} 中的线性映射 $\text{Const}_{\Gamma(N)}$ 以 $S_k(\Gamma(N))$ 为核. 因此 $M_k(\Gamma(N)) = \mathcal{E}_k(\Gamma(N)) \oplus S_k(\Gamma(N))$ 是引理 \ref{prop:Eisenstein-touch-cusps} 和线性代数的简单结论.
+
+	现在转向一般的 $\Gamma \supset \Gamma(N)$. 按定义 \eqref{eqn:Eisenstein-general} 和上一段, $\mathcal{E}_k(\Gamma) \cap S_k(\Gamma(N)) \subset \mathcal{E}_k(\Gamma(N)) \cap S_k(\Gamma(N)) = \{0\}$. 再者, 任何 $f \in M_k(\Gamma)$ 皆可在 $M_k(\Gamma(N))$ 中表为
+	\[ f = \sum_{i=1}^r t_i E^{\bar{v}_i}_k + f_0, \quad t_1, \ldots, t_r \in \CC, \quad f_0 \in S_k(\Gamma(N)). \]
+	于是乎
+	\begin{align*}
+		f & = |\Gamma_N|^{-1} \sum_{\gamma \in \Gamma_N} f \modact{k} \gamma \\
+		& = \sum_{i=1}^r t_i |\Gamma_N|^{-1} \sum_{\gamma \in \Gamma_N} E^{\bar{v}_i \gamma}_k + |\Gamma_N|^{-1} \sum_{\gamma \in \Gamma_N} f_0 \modact{k} \gamma.
+	\end{align*}
+	对每个 $1 \leq i \leq r$ 记 $\mathcal{O}_i$ 为 $\bar{v}_i$ 的 $\Gamma_N$-轨道, 那么 $\sum_{\gamma \in \Gamma_N} E^{\bar{v}_i \gamma}_k = E^{\mathcal{O}_i}_k$. 另一方面 $\sum_{\gamma \in \Gamma_N} f_0 \modact{k} \gamma$ 给出 $S_k(\Gamma)$ 的元素. 这就说明 $M_k(\Gamma) = \mathcal{E}_k(\Gamma) + S_k(\Gamma)$.
+\end{proof}
+
+为了理论完善, 我们还期望 \eqref{eqn:Eisenstein-general} 和 $N$ 的选取无关. 这点由以下结果确保.
+\begin{proposition}
+	设 $\Gamma \supset \Gamma(N)$ 而 $N' \in \Z_{\geq 1}$, 那么 $\mathcal{E}_k(\Gamma(N)) \cap M_k(\Gamma) = \mathcal{E}_k(\Gamma(NN')) \cap M_k(\Gamma)$.
+\end{proposition}
+\begin{proof}
+	仅须说明 $\mathcal{E}_k(\Gamma(N)) = \mathcal{E}_k(\Gamma(NN')) \cap M_k(\Gamma(N))$. 考虑 $\bar{v} \in (\Z/N\Z)^2_{\mathrm{prim}}$. 按定义 \ref{def:Eisenstein-GammaN},
+	\begin{align*}
+		E^{\bar{v}}_k(\tau) & = \epsilon_N \sum_{\substack{(c, d) \in \Z^2_{\mathrm{prim}} \\ (c,d) \mapsto \bar{v} }} (c\tau + d)^{-k} \\
+		& = \dfrac{\epsilon_N}{\epsilon_{NN'}} \sum_{\substack{ \bar{w} \in (\Z/NN'\Z)^2_{\mathrm{prim}} \\ \bar{w} \mapsto \bar{v}}} \epsilon_{NN'} \sum_{\substack{(c, d) \in \Z^2_{\mathrm{prim}} \\ (c,d) \mapsto \bar{w} }} (c\tau + d)^{-k} \\
+		& = \dfrac{\epsilon_N}{\epsilon_{NN'}} \sum_{\substack{ \bar{w} \in (\Z/NN'\Z)^2_{\mathrm{prim}} \\ \bar{w} \mapsto \bar{v}}} E^{\bar{w}}_k(\tau)
+	\end{align*}
+	由此知 $\mathcal{E}_k(\Gamma(N)) \subset \mathcal{E}_k(\Gamma(NN')) \cap M_k(\Gamma(N))$. 至于 $\supset$ 方向, 定义商群 $\Delta := \Gamma(N)/\Gamma(NN')$; 按命题 \ref{prop:Eisenstein-complement} 证明手法可知 $\mathcal{E}_k(\Gamma(NN')) \cap M_k(\Gamma(N))$ 有形如
+	\[ \sum_{\gamma \in \Delta} E^{\bar{w}}_k \modact{k} \gamma = \sum_{\gamma \in \Delta} E^{\bar{w}\gamma}_k \]
+	的生成元, 其中 $\bar{w} \in (\Z/NN'\Z)^2_{\mathrm{prim}}$. 令 $\bar{v}$ 为 $\bar{w}$ 在 $(\Z/N\Z)^2_{\mathrm{prim}}$ 中的像, 引理 \ref{prop:Eisenstein-orbit-aux2} 说明轨道 $\bar{w} \Delta$ 不外是 $\bar{v}$ 的原像, 故上式等于 $\left| \Stab_\Delta(\bar{w}) \right| \cdot E^{\bar{v}}_k$. 明所欲证.
+\end{proof}
+
+\begin{remark}
+	之后的 \S\ref{sec:Petersson} 将定义 Petersson 内积, 并给出 $\mathcal{E}_k(\Gamma)$ 的另一刻画: 它是 $S_k(\Gamma)$ 在 $M_k(\Gamma)$ 中的正交补空间 (定理 \ref{prop:Eisenstein-orthogonal}).
+\end{remark}
+
+对于 $\Gamma = \Gamma_0(N)$ 或 $\Gamma_1(N)$ 的情形, 可以显式写下 $\mathcal{E}_k(\Gamma)$ 的一组基并计算其 Fourier 展开. 其常数项将涉及一些 $\bmod\; N$ 的 Dirichlet 特征标的 $L$-函数. 详细结果可参看 \cite[\S 4.5]{DS05}, 这里不再备述.
+
+在自守形式理论的广阔视野下, Eisenstein 级数的常数项或 Fourier 系数和 $L$-函数的联系是一种普遍现象, 这也是 $L$-函数的研究中所谓 \emph{Langlands--Shahidi 方法}的基石. 相关计算对数论应用是重要的.

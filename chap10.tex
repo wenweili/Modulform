@@ -1,0 +1,1001 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter{模形式与模空间}
+从词源学观点, 模形式自始便与复环面的模空间密不可分. 复椭圆曲线是复环面在代数几何中的面貌. 由于椭圆曲线及其级结构可以定义在比 $\CC$ 更广的环上, 模形式空间携带相应的有理结构或整结构. 这在一定程度上可以解释模形式的算术奥秘, 而模形式同数论和代数几何的联系在 Langlands 纲领中有着惊心动魄的体现.
+
+本章在 \S\S\ref{sec:Tate-curve}---\ref{sec:geometric-modular-form} 探讨一般交换环上的模形式空间以及相应的模问题, 这对于模形式的同余关系和 $p$-进理论是必要的. 此部分参考了经典文献 \cite{DR73, Ka73} 等.
+
+在 \S\S\ref{sec:Eichler-Shimura-cong}---\ref{sec:Eichler-Shimura-cong-2}, 我们对 $S_{k+2}(\Gamma_1(N))$ 陈述 Eichler--志村关系: 它是从 Hecke 算子到有限域上椭圆曲线理论的一道桥梁, 建基于模形式的上同调诠释, 即 Eichler--志村同构
+\[ \text{ES}: S_{k+2}(\Gamma_1(N)) \oplus \overline{S_{k+2}(\Gamma_1(N))} \rightiso \Hm^1\left( X_1(N), j_* {}^k V_{\Gamma_1(N)} \right) =: \mathsf{W}_{\CC}. \]
+
+设 $p, \ell$ 为素数, $p \nmid N\ell$. 定理 \ref{prop:Eichler-Shimura-cong} 的 Eichler--志村关系将 Hecke 算子 $T_p$ 在 $\mathsf{W}_{\CC}$ 上的作用 $T_p \oplus \overline{T_p}$ 分解为 $F$ (Frobenius 对应) 和 $I_p^* V$ (移位, 再合成 $p$ 的菱形算子); 基本工具是代数簇的 $\ell$-进平展上同调. 为了陈述这些结果, 有必要从模空间观点诠释种种 Hecke 算子和 Fricke 对合, 用上同调对应实现它们在 $\mathsf{W}_{\CC}$ 上的作用. 若换上同调系数 $\CC$ 为一般的交换环 $A$, 则一切操作可以推广到 $\mathsf{W}_A$. 这部分的文献有 \cite{Del71, Shi71, DI95} 等.
+
+Hecke 代数 $\HkT_{\Z}$ 的环论性质是 Taylor--Wiles \cite{TW95} 证明 Fermat 大定理的关键, 联系于 Galois 表示的形变环; 本章的 \S\ref{sec:Hecke-revisited} 仅触及其皮毛.
+
+自然地, 取定素数 $\ell$, 从 $\mathsf{W}_{\Q_\ell}$ 还能进一步过渡到 $\ell$-进平展上同调以带出 Galois 表示. 在 \S\ref{sec:Deligne-Shimura} 将介绍如何从正规化 Hecke 特征形式 $f = \sum_{n \geq 1} a_n(f) q^n \in S_{k+2}(\Gamma_1(N), \chi_f)$ 构造 $2$ 维 Galois 表示 $\rho_{f, \lambda}: G_{\Q} \to \GL(2, K_{f, \lambda})$ (定理 \ref{prop:Galois-rep}), 其中
+\begin{compactitem}
+	\item $K_f$ 是 $\{ a_n(f) \}_{n=1}^\infty$ 生成的域, 它是 $\Q$ 的有限扩张 (推论 \ref{prop:algebraic-eigenvalue});
+	\item $\lambda$ 是 $K_f$ 的非 Archimedes 赋值, 要求它延拓 $\Q$ 上的 $\ell$-进赋值;
+\end{compactitem}
+精确到同构, $\rho_{f, \lambda}$ 由下述性质刻画: 当素数 $p \nmid N\ell$ 时 $\rho_{f, \lambda}(\Frob_p)$ 的特征多项式为
+\[ X^2 - a_p(f) X + p^{k+1}\chi_f(p). \]
+这归功于 Deligne 和志村五郎, 见 \cite{DI95} 或 \cite{Sai16} 的综述. 粗略地说, 表示是从 $\mathsf{W}_{\Q_\ell}$ 对 Hecke 作用截下的. Eichler--志村关系对 $\rho_{f, \lambda}(\Frob_p)$ 的以上描述起到关键作用.
+
+从模形式 (复分析) 向 Galois 表示 (算术) 的过渡是 Langlands 纲领的一个基本面向, 而上述构造的钥匙显然是代数几何. 对于 $k=0$ 亦即权为 $2$ 的情形, 也可以直接对 $X_1(N)$ 的 Jacobi 簇取有理 Tate 模 $V_\ell$, 然后用 Hecke 对应截出 $\rho_{f, \lambda}$, 在 \cite{DS05} 有详尽的讨论. 对于 Galois 表示的模性以及 Langlands 纲领, \S\ref{sec:modularity} 将有粗浅的介绍, 篇幅所限, 只能捕风捉影.
+
+由于本章需要较多代数几何或数论的背景, 许多概念和定理不得不草草带过, 望读者谅解. 如果希望对这些结果有更坚实的掌握, 除了上引诸文献, 算术代数几何的基本知识也不可少.
+
+\section{Tate 曲线}\label{sec:Tate-curve}
+Tate 曲线是从模空间的视角理解 Fourier 展开的钥匙. 本节就 Weierstrass 理论的视角切入, 借鉴了 \cite[Appendix 1]{Ka73}; 内蕴构造则可见注记 \ref{rem:Tate-curve-N} 引用的文献. 首先回忆关于复环面的以下事实:
+\begin{itemize}
+	\item 设 $\Lambda \subset \CC$ 是任意格. 按约定 \ref{conv:omega-dz} 定义 $\bomega_{\CC/\Lambda} := \Gamma\left(\CC/\Lambda, \Omega_{\CC/\Lambda}\right) = \CC \dd z$.
+	\item 任何复环面 $\CC/\Lambda$ 都带有射影嵌入
+	\[ \left( \wp_\Lambda : \wp'_\Lambda : 1 \right): \CC/\Lambda \rightiso \; E_\Lambda: Y^2 = 4X^3 - 60 G_4(\Lambda) X - 140 G_6(\Lambda), \]
+	此处 $E_\Lambda$ 是 $\PP^2$ 中的三次曲线, 方程写为非齐次形式, 以节约符号; 见定理 \ref{prop:wp-equations}. 此外, $\CC/\Lambda$ 的不变微分形式 $\dd z$ 对应到 $E_\Lambda$ 上的 $\frac{\dd X}{Y}$.
+	\item 精确到同构, 复环面都可以表作 $\CC/\Lambda_\tau$ 的形式, 其中 $\tau \in \mathcal{H}$ 而 $\Lambda_\tau = \Z\tau \oplus \Z$; 见定理 \ref{prop:Y(1)-moduli}. 系数 $G_k(\Lambda_\tau)$ 化为 Eisenstein 级数 $G_k(\tau)$, 这里 $k = 4, 6$.
+\end{itemize}
+
+格 $\Lambda_\tau$ 仅依赖于陪集 $\tau + \Z$, 这就启发我们命 $q := \exp(2\pi i\tau)$, $0 < |q| < 1$, 并打量交换图表:
+\begin{equation}\begin{tikzcd}
+	z \arrow[mapsto, r] \arrow[phantom, d, "\in" description, sloped] & t := \exp(2\pi iz) \arrow[phantom, d, "\in" description, sloped] \\
+	\CC \arrow[twoheadrightarrow, d, "\text{商}"' inner sep=1em] \arrow[twoheadrightarrow, r, "\sim"] & \CC^\times \arrow[twoheadrightarrow, d, "\text{商}" inner sep=1em] \\
+	\CC/\Lambda_\tau \arrow[r, "\sim"] & \CC^\times/q^{\Z} \\
+	2\pi i \dd z & \dfrac{\dd t}{t} \arrow[mapsto, l]
+\end{tikzcd}\end{equation}
+
+我们希望从代数上理解 $\Im(\tau) \to +\infty$ 亦即 $q \to 0$ 时的极限. 由
+\begin{equation*}
+	\zeta(4) = \frac{\pi^4}{90}, \quad \zeta(6) = \frac{\pi^6}{945}, \quad G_k(\tau) = 2\zeta(k) E_k(\tau),
+\end{equation*}
+可见 $E_{\Lambda_\tau}$ 的非齐次形式是
+\[ E_{\Lambda_\tau}: Y^2 = 4X^3 - \frac{(2 \pi i)^4 E_4(\tau)}{12} \cdot X + \frac{(2\pi i)^6 E_6(\tau)}{216}. \]
+进一步作仿射换元
+\[ (2\pi i)^{-2} X = x + \frac{1}{12}, \quad (2\pi i)^{-3} Y = x + 2y, \]
+并代入 $q := \exp(2\pi i\tau)$, 以得到方程
+\begin{equation}\label{eqn:elliptic-Tate}
+	\begin{aligned}
+		E_q: & y^2 + xy = x^3 + a_4(q) x + a_6(q), \\
+		a_4(q) & := -5 \cdot \frac{E_4(\tau) - 1}{240} = -5 \sum_{n=1}^\infty \sigma_3(n) q^n, \\
+		a_6(q) & := \frac{1}{12} \cdot \left( -5 \cdot \frac{E_4(\tau) - 1}{240} - 7 \cdot \frac{E_6(\tau) - 1}{-504} \right) \\ & = \sum_{n=1}^\infty \frac{-5 \sigma_3(n) - 7\sigma_5(n)}{12} \cdot q^n.
+	\end{aligned}
+\end{equation}
+
+换元 $(X,Y) \leadsto (x,y)$ 保持 $O := (0:1:0)$ 不变, 而不变微分 $(2\pi i) \frac{\dd X}{Y}$ (对应 $2\pi i \dd z \in \bomega_{\CC/\Lambda_\tau}$) 变为 $\omega_{\mathrm{can}} := \frac{\dd x}{x + 2y}$. 因为 $(E_q, O)$ 系由 $( E_{\Lambda_\tau}, O)$ 换元得来, 它们有相同的 $j$-不变量, 而定理 \ref{prop:wp-equations} 表明
+\begin{align*}
+	j\left(E_q, O\right) & = j\left( E_{\Lambda_\tau}, O\right) = j(\tau) \\
+	& = q^{-1} + 744 + 196884 q + \cdots \; \in q^{-1} + \Z\llbracket q \rrbracket.
+\end{align*}
+
+定义含变元 $t \in \CC^\times \smallsetminus q^{\Z}$ 的函数
+\begin{align*}
+	x(t, q) & := \sum_{n \in \Z} \frac{q^n t}{(1 - q^n t)^2} - 2\sum_{n \geq 1} \sigma_1(n) q^n, \\
+	y(t, q) & := \sum_{n \in \Z} \frac{(q^n t)^2}{(1 - q^n t)^3} + \sum_{n \geq 1} \sigma_1(n) q^n.
+\end{align*}
+显见其收敛性和 $x(qt, q) = x(t, q)$, $y(qt, q) = y(t, q)$.
+
+\begin{proposition}\label{prop:Tate-Weierstrass} \index[sym1]{omega-can@$\omega_{\mathrm{can}}$}
+	我们有 $a_4(q), a_6(q) \in \Z\llbracket q\rrbracket$. 令 $\tau \in \mathcal{H}$, $q = e^{2\pi i\tau}$ 如上. 将同构 $\CC/\Lambda_\tau \rightiso \CC^\times/q^{\Z}$ 的逆和以 $x, y$ 为坐标的射影嵌入 $\CC/\Lambda_\tau \rightiso E_q \subset \PP^2$ 作合成, 这将给出同构
+	\begin{equation}\label{eqn:Tate-Eq}\begin{aligned}
+		\Phi: \CC^\times/q^{\Z} & \rightiso E_q \\
+		t \cdot q^{\Z} & \mapsto \begin{cases}
+			(x(t, q) : y(t, q) : 1), & t \notin q^{\Z} \\
+			(0:1:0), & t \in q^{\Z},
+		\end{cases}
+	\end{aligned}\end{equation}
+	它让 $\CC^\times/q^{\Z}$ 上的 $\frac{\dd t}{t}$ (或 $\CC/\Lambda_\tau$ 上的 $2\pi i \dd z$) 对应到 $\omega_{\mathrm{can}} := \frac{\dd x}{x + 2y}$.
+\end{proposition}
+\begin{proof}
+	显然 $a_4(q) \in \Z\llbracket q\rrbracket$. 至于 $a_6(q)$, 仅须对所有整数 $d$ 论证 $12 \mid 5 d^3 + 7d^5$ 即可; 这点可以在 $\Z/12\Z$ 中逐一代值检验. 不变微分 $\frac{\dd t}{t}$ 对应 $2\pi i \dd z \in \bomega_{\CC/\Lambda_\tau}$, 因而对应到 $\omega_{\mathrm{can}}$.
+	
+	接着考虑射影嵌入. 记 $\wp(z) = \wp_{\Lambda_\tau}(z)$, $t := e^{2\pi iz}$. 嵌入 $\Phi$ 由
+	\[ t \cdot q^{\Z} \mapsto \begin{cases}
+		\left( \dfrac{\wp(z)}{(2\pi i)^2} - \dfrac{1}{12} : \dfrac{1}{2}\left( \dfrac{\wp'(z)}{(2\pi i)^3} - \dfrac{\wp(z)}{(2\pi i)^2} + \dfrac{1}{12} \right) : 1 \right), & t \notin q^{\Z}, \\
+		O := (0:1:0), &  t \in q^{\Z}
+	\end{cases}\]
+	给出. 最后将命题 \ref{prop:Weierstrass-q-expansion} 的公式代入即足.
+\end{proof}
+
+级结构也能够在坐标 $q$ 下观照. 固定 $N \in \Z_{\geq 1}$, 在 $\CC^\times$ 中择定 $N$ 次本原单位根 $\zeta_N := \exp(2\pi i/N)$.
+\begin{itemize}
+	\item 考虑格 $\Lambda_{N\tau}$ 上的标准 $\Gamma(N)$ 级结构; 相应的参数是 $q^N = \exp(2\pi iN\tau)$. 我们有
+	\[\begin{tikzcd}[row sep=small]
+		(\Z/N\Z)^2 \arrow[r, "\sim"] & \Z/N\Z \times \mu_N \arrow[r, "\sim"] & \left( \CC^\times / q^{N\Z} \right)[N] \xrightarrow[\Phi]{\sim} E_{q^N}[N] \\
+		(a, b) \arrow[mapsto, r] & \left( a, \zeta_N^b \right) \arrow[mapsto, r] & q^a \zeta_N^b \cdot q^{N\Z}
+	\end{tikzcd}\]
+	仅第一段同构依赖 $\zeta_N$ 的选取, 而且定义 \ref{def:Weil-pairing} 的 Weil 配对满足
+	\[ e_N\left( a \in \Z/N\Z \; \text{的像}, \quad \zeta \in \mu_N \;\text{的像} \right) = \zeta^a. \]
+	当 $(a,b) \neq (0,0)$, 所示挠点对 $\left( x(\cdot, q^N), y(\cdot, q^N)\right)$ 的坐标都落在 $\Z\llbracket q\rrbracket \dotimes{\Z} \Z[\zeta_N]$, 而不只是在 $\Z[\zeta_N] (\!(q)\!)$. 论证无非是显式计算: 举 $x(t, q^N)$ 为例, 其中的 $\sum_{n < 0} \frac{q^{Nn} t}{(1 - q^{Nn} t)^2}$ 可改写成
+	\[ \sum_{n < 0} \frac{q^{-Nn}t^{-1}}{(1 - q^{-Nn} t^{-1})^2} = \sum_{n \geq 1} \frac{q^{Nn} t^{-1}}{(1 - q^{Nn} t^{-1})^2} = \sum_{n \geq 1} \sum_{k \geq 1} k q^{Nnk} t^{-k}; \]
+	对 $n > 0$ 的项亦可如是操作, 然后代入 $t = q^a \zeta_N^b$ 来化简.
+	\item 考虑格 $\Lambda_\tau$ 上的标准 $\Gamma_1(N)$ 级结构. 它对应到
+	\[ \Z/N\Z \rightiso \mu_N \rightiso \left\{ \zeta \cdot q^{\Z} : \zeta \in \mu_N \right\} \subset \left( \CC^\times/q^{\Z}\right)[N]. \]
+	类似地, 仅第一段同构依赖 $\zeta_N$ 的选取. 显式计算表明 $\zeta \neq 1$ 对 $\left( x(\cdot, q), y(\cdot, q)\right)$ 的坐标属于 $\Z\llbracket q\rrbracket \dotimes{\Z} \Z[\zeta_N]$, 细节留给感兴趣的读者.
+\end{itemize}
+
+\begin{definition}
+	\index{Tate 曲线 (Tate curve)} \index[sym1]{Tate(q)@$\mathrm{Tate}(q)$}
+	视 $q \neq 0$ 为变元, 则上述观察表明 \eqref{eqn:elliptic-Tate} 定义之 $E_q$ 连同 $\omega_{\mathrm{can}}$ 都定义在 $\Z(\!(q)\!)$ 上. 记此结构为 $\left( \mathrm{Tate}(q), \omega_{\mathrm{can}}\right)$, 称为 \emph{Tate 曲线}: 它可以视为一族以 $q$ 为形式参数, 带不变微分形式的曲线.
+\end{definition}
+
+对任意 $u \in \CC^\times$, $|u| < 1$ 者, 在 $\mathrm{Tate}(q)$ 的方程中以 $u$ 代 $q$ 便得到 \eqref{eqn:Tate-Eq} 的 $E_u$. 因此, 代数方法可以将 \S\ref{sec:Tate-curve} 考虑的复环面族 $(E_q)_{0 < |q| < 1}$ 融为单一的几何对象. \S\ref{sec:geometric-modular-form} 还会回到这个观点.
+
+进一步, 向 $\Z(\!(q)\!)$ 添进 $\zeta_N$ 就足以描绘 $\mathrm{Tate}\left(q^N\right)$ 的所有 $N$-挠点. 这些整性说明 $\mathrm{Tate}(q)$ 是良好的代数对象. 为了清楚领会, 我们暂且岔题来讨论 Weierstrass 方程.
+
+一般域 $\Bbbk$ 上的椭圆曲线总能够嵌入 $\PP^2$, 使得其齐次部分由 Weierstrass 方程 \eqref{eqn:elliptic-Weierstrass} 定义, 带系数 $a_1, a_2, a_3, a_4, a_6 \in \Bbbk$. 对给定的 $a_1, \ldots, a_6$ 定义
+\begin{gather*}
+	b_2 := a_1^2 + 4 a_2, \quad b_4 := a_1 a_3 + 2a_4, \quad b_6 := a_3^2 + 4 a_6, \\
+	b_8 := a_1^2 a_6 - a_1 a_3 a_4 + a_2 a_3^2 + 4a_2 a_6 - a_4^2, \\
+	c_4 := b_2^2 - 24 b_4, \quad c_6 := -b_2^3 + 36 b_2 b_4 - 216 b_6;
+\end{gather*}
+然后定义判别式 $\Delta$ 和 $j$-不变量
+\begin{align*}
+	\Delta & := - b_2^2 b_8 - 8 b_4^3 - 27 b_6^2 + 9 b_2 b_4 b_6, \\
+	j & := c_4^3 / \Delta.
+\end{align*}
+
+以上都是椭圆曲线代数理论的基本词汇, 见 \cite[III.1]{Sil09}. 对于由 Weierstrass 方程 \eqref{eqn:elliptic-Weierstrass} 给出的三次射影曲线, 判别式 $\Delta$ 非零当且仅该曲线有奇点.
+
+\begin{exercise}
+	阐明以上的 $\Delta$ 与约定 \ref{conv:discriminant} 之间的联系.
+\end{exercise}
+
+回到 Tate 曲线: \eqref{eqn:elliptic-Tate} 也是 Weierstrass 方程, 对应到 $a_1 = 1$, $a_2 = a_3 = 0$, 而 $a_4, a_6 \in \Z\llbracket q \rrbracket$, 对之容易导出 $c_4 = E_4$ 和
+\[ \Delta = -a_6 + a_4^2 + 72 a_4 a_6 - 64 a_4^3 - 432 a_6^2. \]
+
+\begin{proposition}
+	对于由方程 \eqref{eqn:elliptic-Tate} 描述的三次射影曲线, 我们有
+	\begin{align*}
+		\Delta & = \frac{1}{1728} (E_4^3 - E_6^2) = q \prod_{n \geq 1}(1 - q^n)^{24} \\
+		& = \Delta(\tau) \in S_{12}(\SL(2, \Z)) \quad (\text{代入} \; q = e^{2\pi i\tau}), \\
+		j & = q^{-1} + 744 + 196884q + \cdots \\
+		& = j(\tau) \quad (\text{代入} \; q = e^{2\pi i\tau}).
+	\end{align*}
+\end{proposition}
+\begin{proof}
+	例行计算给出 $\Delta$. 再运用 $c_4 = E_4$ 和定义 \ref{def:modular-invariant} 即得模不变量 $j(\tau)$.
+\end{proof}
+
+视 $q$ 为变元, 那么 $\mathrm{Tate}(q)$ 的判别式 $\Delta$ 来自 $\Z(\!(q)\!)^\times$, 唯一零点在 $q = 0$. 从代数几何的角度看, $\mathrm{Tate}(q)$ 因而是定义在环 $\Z(\!(q)\!) = \Z\llbracket q\rrbracket \left[\frac{1}{q}\right]$ 上的椭圆曲线. 如果自限于复解析范畴, 这一事实就无从说清.
+
+另一方面, 当 $q = 0$ 时 $\mathrm{Tate}(q)$ 退化为平面曲线
+\[ y^2 + xy = x^3, \]
+它并非光滑曲线: $(x,y) = (0,0)$ 处是结点. 这是\emph{广义椭圆曲线}之一例, 见注记 \ref{rem:gen-elliptic-curve}. \index{jiedian@结点 (node)}
+
+\begin{remark}\label{rem:Tate-curve-N}
+	对于 $N \in \Z_{\geq 1}$, 定义 $\mathrm{Tate}\left( q^N \right)$ 的方程显然能延拓到 $\Z\llbracket q\rrbracket$ 上, 但它在 $N > 1$ 时并非最合适的模型: 我们希望 $\mathrm{Tate}\left( q^N \right)$ 的 $\Z\llbracket q\rrbracket$-模型在 $q = 0$ 时给出称为 Néron $N$-边形的结构, 使得它是 $\Z\llbracket q\rrbracket$ 上的广义椭圆曲线, 而 $\omega_{\mathrm{can}}$ 也一并延拓到 $\Z\llbracket q\rrbracket$, 前提是须以广义椭圆曲线上的对偶化层替代微分形式层. 相关构造颇费周折, 需要形式概形代数化的技术, 见 \cite[VII]{DR73}, \cite[\S 2.5]{Co07} 或 \cite[\S 9.1]{LZ}.
+\end{remark}
+
+
+\section{几何模形式}\label{sec:geometric-modular-form}
+本节部分论述借鉴于 \cite{DR73, Ka73}. 如无另外说明, 本节的环和代数都假定是交换的; 给定 $R$-代数 $A$ 相当于给定环同态 $R \to A$.
+
+定义 \ref{def:elliptic-curves} 和后续讨论业已阐明何谓 $\CC$ 上的椭圆曲线, 它们总能实现为仿射部分形如 $Y^2 = X^3 + aX + b$ 的平面射影曲线, 以 $O := (0:1:0)$ 为基点. 这是代数几何的主场, 其妙处在于能够将系数从域 $\CC$ 换成更一般的域乃至环 $R$; 如此一来, 我们就必须在 $R$-概形的世界中进行操作.
+
+对任意 $R$-概形 $X$, 记 $X(R) := \Hom_{R\text{-概形}}(\Spec R, X)$, 其中的元素也称为 $X$ 的 $R$-值点. 对于 $\CC$ 上的概形, 我们有\emph{解析化}函子 \index{jiexihua@解析化 (analytification)}
+\[ \left\{ \text{有限型}\; \CC\text{-概形} \right\} \to \left\{ \text{复解析空间} \right\}, \quad X \mapsto X^{\mathrm{an}}, \]
+使得 $X^{\mathrm{an}}$ 作为集合是 $X(\CC)$, 而且 $X$ 光滑时 $X^{\mathrm{an}}$ 为复流形, 维数相同. 对 $X$ 上的向量丛及其截面等也可以施行解析化. 对于\emph{固有}的有限型 $\CC$-概形, J.-P.\ Serre 的 \emph{GAGA 原理} (解析几何 $\leftrightarrow$ 代数几何) 确保概形论的种种基本操作透过解析化函子 $(\cdots)^{\mathrm{an}}$ 兼容于复解析理论. \index{GAGA 原理}
+
+\begin{definition}\index{tuoyuanquxian}
+	环 $R$ 上的\emph{椭圆曲线}定义为资料 $(E, O)$, 其中
+	\begin{compactitem}
+		\item $E$ 是固有的光滑 $R$-概形;
+		\item $E$ 的所有几何纤维都是亏格 $1$ 的连通曲线;
+		\item $O \in E(R)$ 是给定的 $R$-点.
+	\end{compactitem}
+	这些对象间的态射 $\varphi: (E, O) \to (E', O')$ 定义为 $R$-概形的态射 $\varphi: E \to E'$, 使得 $\varphi(O) = O'$.
+\end{definition}
+进一步还能考虑任意概形 $S$ 上的椭圆曲线 $E \to S$; 取 $S = \Spec R$ 便回归上述定义.
+
+相关知识是当代几何工作者必备的文化素养, 因为篇幅所限, 毋用赘言; 还请读者参阅标准文献如 \cite{KM85, Sil09} 等. 如果 $R$ 是域, 椭圆曲线仍然可由 \eqref{eqn:elliptic-Weierstrass} 的 Weierstrass 方程和基点 $O := (0:1:0)$ 描述, 基本性质和 $\CC$ 上无异.
+
+略述对 $R$-椭圆曲线的几种基本操作如下.
+\begin{itemize}
+	\item 一如 $\CC$ 上情形, $R$-椭圆曲线 $(E, O)$ 同样带有典范的交换群结构, 写作加法, 以 $O$ 为零元. 确切地说, 此加法结构使 $E$ 成为 $R$-群概形, 亦即 $R$-概形范畴中的群对象 (见 \cite[\S 4.11]{Li1}).
+	
+	\item 对于任意 $R$-代数 $A$, 可以将 $R$-椭圆曲线及其间态射作基变换过渡到 $A$ 上, 给出映 $R$-椭圆曲线 $(E, O)$ 为 $A$-椭圆曲线 $(E_A, O_A)$ 的函子.
+	
+	\item 和引理 \ref{prop:invariant-differential} 的复解析场景类似, 对一般的 $R$ 同样有 $E$ 上的微分形式线丛 $\Omega_{E|R}$, 按概形论的方法定义. 记结构态射为 $p: E \to \Spec R$, 那么 $\bomega_{E|R} := p_* \Omega_{E|R}$ 是 $\Spec R$ 上的凝聚层, 对应到秩 $1$ 局部自由 $R$-模. 因此对任意 $k \in \Z$ 皆可定义张量幂 $\bomega_{E|R}^{\otimes k}$.
+	
+	另一种刻画是 $\bomega_{E|R} \simeq O^* \Omega_{E|R}$. 这相当于说 $\bomega_{E|R}$ 和 $E$ 的 Lie 代数相对偶.
+	\item 任何态射 $\varphi: (E, O) \to (E', O)$ 都诱导微分形式的拉回 $\varphi^*: \bomega_{E'|R} \to \bomega_{E|R}$; 如果 $\varphi$ 是同构, 还能进一步对所有 $k$ 定义 $\varphi^*: \bomega_{E'|R}^{\otimes k} \rightiso \bomega_{E|R}^{\otimes k}$.
+	
+	给定 $R$-代数 $A$, 存在自然的 $A$-模同态 $\bomega_{E|R} \dotimes{R} A \to \bomega_{E_A|A}$. 事实上, 用代数几何中的基变换定理可以证明这是同构. 见 \cite[II, 1.6]{DR73}.
+\end{itemize}
+当 $R = \CC$ 时, GAGA 原理将一切化约到第八章的复解析理论.
+
+\begin{remark}\label{rem:gen-elliptic-curve}\index{tuoyuanquxian!广义 (generalized)}
+	同样重要的概念是 $R$ 或一般概形上的\emph{广义椭圆曲线}. 粗略地说, 这相当于要求固有 $R$-曲线 $E$ 的光滑部分 $E^{\mathrm{sm}}$ 带有 $R$-点 $O$, 而 $E$ 的几何纤维或者是亏格 $1$ 的连通光滑曲线, 或者是一类称为 \emph{Néron $N$-边形}的曲线, 外加一些关于群作用的条件. 由于定义比较复杂, 请感兴趣的读者参考 \cite[II. 1.2]{DR73}, \cite[Definition 2.1.4]{Co07} 或 \cite[定义 7.3]{LZ}. 这里只须指出椭圆曲线上述诸性质都能延伸到广义情形. 例如对广义 $R$-椭圆曲线 $E$, 可以用对偶化层的 $p_*$ 代替微分形式来定义可逆 $R$-模 $\bomega_{E|R}$; 见 \cite[II. Proposition 1.6]{DR73}.
+\end{remark}
+
+以下转向级结构. 令 $N \in \Z_{\geq 1}$. 依 $E$ 的群结构可以谈论 $N$-挠点 $E[N]$, 它是有限平坦 $R$-群概形, 当 $N \in R^\times$ 时它还是平展的.
+
+\begin{definition}\index[sym1]{o(N)@$\mathfrak{o}_N$}
+	对给定之 $N \in \Z_{\geq 1}$, 令 $\zeta_N$ 为 $N$ 次本原单位根, 并且记 $\mathfrak{o}_N := \Z\left[\frac{1}{N}, \zeta_N \right]$; 环 $\mathfrak{o}_N$ 无关 $\zeta_N$ 的选取.
+\end{definition}
+
+本节主要考虑 $\mathfrak{o}_N$-代数及其上的椭圆曲线. 这一限制其实可以放宽, 见注记 \ref{rem:bad-reduction}.
+
+设 $R$ 为 $\mathfrak{o}_N$-代数. 对 $R$-椭圆曲线 $(E, O)$ 同样能定义 $\Gamma(N)$, $\Gamma_1(N)$ 和 $\Gamma_0(N)$ 几种级结构. 级结构的定义思路和 $\CC$ 的情形类似, 可以取为适当的同态 $\alpha: (\Z/N\Z)^2 \to E[N](R)$ (对 $\Gamma(N)$ 情形) 或 $\beta: \Z/N\Z \to E[N](R)$ (对 $\Gamma_1(N)$ 情形), 另外在 $\Gamma(N)$ 情形还需要注记 \ref{rem:Weil-pairing-algebraic} 版本的 Weil 配对, 这是我们选取 $N$ 次本原单位根的原因. 细节见 \cite{DR73, Ka73}, 在此存而不论.
+
+种种级结构还能定义到广义椭圆曲线 (注记 \ref{rem:gen-elliptic-curve}) 上, 例如以下要讨论的 $\mathrm{Tate}\left( q^N \right)$.
+
+\begin{example}\label{eg:Tate-N}
+	在 \S\ref{sec:Tate-curve} 介绍的 Tate 曲线
+	\[ \mathrm{Tate}(q): y^2 + xy = x^3 + a_4(q) + a_6(q) \]
+	是交换环 $\Z(\!(q)\!)$ 上的椭圆曲线, $\omega_{\mathrm{can}} = \frac{\dd x}{x + 2y}$ 是其上的不变微分形式. 若以环同态
+	\begin{align*}
+		\Z(\!(q)\!) & \longrightarrow \Z(\!(q)\!) \\
+		g(q) & \longmapsto g\left(q^N\right)
+	\end{align*}
+	作 $\mathrm{Tate}(q)$ 的基变换, 结果便是
+	\[ \mathrm{Tate}\left(q^N\right): y^2 + xy = x^3 + a_4(q^N)x + a_6(q^N). \]
+	对 $\mathrm{Tate}(q)$ 上的不变微分形式 $\omega_{\mathrm{can}}$ 作相应的基变换, 结果仍写作 $\frac{\dd x}{x + 2y}$, 照旧记为 $\omega_{\mathrm{can}}$. \index[sym1]{omega-can}
+	
+	如 \S\ref{sec:Tate-curve} 所见, 向 $\Z(\!(q)\!)$ 添入 $\frac{1}{N}$ 和 $\zeta_N$, 可以赋予 $\mathrm{Tate}\left(q^N \right)$ 标准的 $\Gamma(N)$ 级结构 $\alpha_{\mathrm{std}}$; 同理, $\mathrm{Tate}(q)$ 具有标准的 $\Gamma_1(N)$ 级结构 $\beta_{\mathrm{std}}$. 如将 $\mathrm{Tate}\left(q^N\right)$ 延拓为 $\Z\llbracket q\rrbracket$ 上的广义椭圆曲线 (注记 \ref{rem:Tate-curve-N}), 则上述级结构连同 $\omega_{\mathrm{can}}$ 也一并延拓.
+\end{example}
+
+为了简化论述, 今后考虑 $\Gamma(N)$ 级结构为主.
+
+\index[sym1]{Ell}
+对于 $\mathfrak{o}_N$-代数 $R$, 全体带 $\Gamma(N)$ 级结构的 $R$-椭圆曲线 $(E, \alpha)$ 和其间的同构组成的范畴记为 $\cate{Ell}_R(N)$. 简记 $\cate{Ell}_R := \cate{Ell}_R(1)$ (即: 无级结构). 若 $A$ 是 $R$-代数, 记 $(E, \alpha)$ 到 $A$ 的基变换为 $(E_A, \alpha_A)$.
+
+\begin{definition}[模形式的代数/几何定义]\label{def:modular-law} \index{moxingshi}
+	设 $R$ 为 $\mathfrak{o}_N$-代数. 权为 $k \in \Z$, 级为 $\Gamma(N)$ 的 $R$-值模形式 (容许在尖点亚纯) 意谓如下的法则 $f: (E, \alpha) \mapsto f(E, \alpha)$.
+	\begin{itemize}
+		\item 对一切 $R$-代数 $A$ 和 $\cate{Ell}_A(N)$ 的对象 $(E, \alpha)$, 它指派 $\bomega_{E|A}^{\otimes k}$ 的元素 $f(E, \alpha)$.
+		\item $f$ 尊重同构: 若 $\varphi: (E, \alpha) \rightiso (E', \alpha')$ 是 $\cate{Ell}_A(N)$ 中的同构, 则
+		\[ \varphi^* f(E', \alpha') = f(E, \alpha). \]
+		\item $f$ 尊重基变换: 设 $A \to B$ 是 $R$-代数的同态, 则 $f(E_B, \alpha_B) \in \bomega_{E_B|B}^{\otimes k}$ 是 $f(E, \alpha) \in \bomega_{E|A}^{\otimes k}$ 透过 $A \to B$ 的基变换, 其中 $(E, \alpha)$ 是 $\cate{Ell}_A(N)$ 的任意对象.
+	\end{itemize}
+
+	将例 \ref{eg:Tate-N} 的资料 $\left( \mathrm{Tate}\left(q^N \right), \omega_{\mathrm{can}}\right)$ 从 $\Z(\!(q)\!)$ 基变换到 $R(\!(q)\!)$, 并考虑其上的任意 $\Gamma(N)$ 级结构 $\alpha$, 则
+	\[ \dfrac{f\left( \mathrm{Tate}\left(q^N\right), \alpha \right)}{\omega_{\mathrm{can}}^{\otimes k}} =: \sum_n a_n(f, \alpha) q^n \; \in R(\!(q)\!). \]
+	若右式对所有 $\alpha$ 恒属于 $R\llbracket q \rrbracket$, 则称 $f$ 是全纯 $R$-值模形式, 简称\emph{模形式}; 若进一步要求右式恒属于 $q R\llbracket q\rrbracket$, 则称 $f$ 为\emph{尖点形式}.
+\end{definition}
+
+\begin{convention}
+	全体权 $k$, 级 $\Gamma(N)$ 的模形式构成 $R$-模, 记为 $M_k(\Gamma(N); R)$, 尖点形式构成子模 $S_k(\Gamma(N); R)$.
+\end{convention}
+
+设 $R \to R'$ 是环同态, 则 $R'$-代数自然地也是 $R$-代数, 故有自明的 $R$-模同态
+\begin{equation}\label{eqn:M-S-basechange}
+	M_k(\Gamma(N); R) \to M_k(\Gamma(N); R'), \quad S_k(\Gamma(N); R) \to S_k(\Gamma(N); R').
+\end{equation}
+
+因为 $R$ 按假设是 $\mathfrak{o}_N$-代数, $\mathrm{Tate}\left(q^N\right)$ 的所有 $\Gamma(N)$ 级结构都能在 $R(\!(q)\!)$ 上实现: 它们是标准级结构 $\alpha_{\mathrm{std}}$ 的 $\SL(2, \Z/N\Z)$-轨道. 定理 \ref{prop:modular-law} 将在 $R = \CC$ 时会通模形式的经典定义, 并将 $\sum_n a_n(f, \alpha) q^n$ 等同于 $f$ 在对应尖点处的 Fourier 展开, 这就说明定义 \ref{def:modular-law} 中的尖点亚纯性质名副其实.
+
+\begin{example}[Hasse 不变量]\label{eg:Hasse-invariant}\index{Hasse 不变量 (Hasse invariant)}
+	取 $N = 1$ 并且令 $R$ 为 $\F_p$-代数, 其中 $p$ 是素数. 任何 $R$-椭圆曲线 $(E, O)$ 都带有绝对 Frobenius 态射 $\Frob: E \to E$, 它在概形的结构层 $\mathcal{O}_E$ 上按 $f \mapsto f^p$ 映射. 由此导出自同态 $\Frob: \Hm^1(E, \mathcal{O}_E) \to \Hm^1(E, \mathcal{O}_E)$, 它满足加性和 $\Frob(a\eta) = a^p \Frob(\eta)$, 其中 $a \in R$ 和 $\eta \in \Hm^1(E, \mathcal{O}_E)$ 任意. Grothendieck--Serre 对偶定理给出秩 $1$ 局部自由 $R$-模的同构 $\Hm^1(E, \mathcal{O}_E) \simeq \bomega_{E|R}^\vee$ (见定理 \ref{prop:Serre-duality} 及其后讨论). 根据特征 $p$ 的线性代数, 将 $\Frob$ 改写为良定义的 $R$-线性映射
+	\[ \begin{tikzcd}[row sep=tiny, column sep=small]
+		\Hm^1(E, \mathcal{O}_E)^{\otimes p} \arrow[r] & \Hm^1(E, \mathcal{O}_E) \\
+		a(\eta^{\otimes p}) \arrow[mapsto, r] & a \Frob(\eta)
+		\end{tikzcd} \quad
+		\text{或等价的} \quad R \to \bomega_{E|R}^{\otimes (p-1)}. \]
+	记 $A(E) \in \bomega_{E|R}^{\otimes (p-1)}$ 为 $1 \in R$ 的像. 此构造和一切基变换交换. 事实上还能证明 $A(\mathrm{Tate}(q)) = \omega_{\mathrm{can}}^{\otimes (p-1)}$, 见 \cite[\S 2.0]{Ka73}. 这就说明 $A \in M_{p-1}(\Gamma(1); R)$, 而且它的 Fourier 展开式为常数 $1$.
+	
+	在特征 $p > 0$ 的代数闭域上, 椭圆曲线 $E$ 的 Hasse 不变量 $A(E)$ 确定 $E[p]$ 的结构. 另一方面, 当 $p \geq 5$ 时, Bernoulli 数的初等性质导致 Eisenstein 级数 $E_{p-1}$ 的 Fourier 展开 $\bmod\; p$ 正与 $A$ 相同; 见练习 \ref{exo:Deligne-congruence}. 这是 P.\ Deligne 的发现.
+\end{example}
+
+目光转向模空间. 令 $\Gamma \in \{ \Gamma(N), \Gamma_1(N), \ldots \}$. 由于我们在 $\mathfrak{o}_N$ 上作业, 级结构的分类问题相对容易, 在文献 \cite{DR73} 已有完整处理: \index{die}
+\begin{itemize}
+	\item $\Gamma$ 级结构有 $R$ 上的代数叠 $\mathfrak{M}(\Gamma)_R$ 作为模空间; 它对 $R$ 是光滑的, 相对维数等于 $1$, 与之相系的粗模空间记作 $\mathcal{M}(\Gamma)$.
+	\index{mokongjian} \index[sym1]{M(Gamma)@$\mathfrak{M}(\Gamma), \mathcal{M}(\Gamma)$}
+	\item 记 $\mathfrak{M}(\Gamma) := \mathfrak{M}(\Gamma)_{\mathfrak{o}_N}$, 则有自然同构 $\mathfrak{M}(\Gamma)_R \simeq \mathfrak{M}(\Gamma) \dtimes{\mathfrak{o}_N} R$.
+	\item 若 $\Gamma$ 无挠, 则 $\mathfrak{M}(\Gamma) \rightiso \mathcal{M}(\Gamma)$.
+\end{itemize}
+
+假如舍弃 $\Gamma(N)$ 级结构中关于 Weil 配对的条件, 则模空间的几何连通成份将与 $N$ 次本原单位根一一对应; 指定 Weil 配对的值 $\zeta_N$ 相当于拣选一支几何连通成份.
+
+\begin{remark}\label{rem:bad-reduction}
+	对于一般的环 $R$, 模叠 $\mathfrak{M}(\Gamma)$ 可以用正规化的技巧定义到 $R$ 上, 但这么一来它就失去了模诠释, 特别地, 对于 $R$ 中的素理想 $\mathfrak{p} \ni N$ 者, 对模空间的 $\bmod\; \mathfrak{p}$ 约化将难以措手. 这对模形式的算术研究非常不利.
+	
+	文献 \cite{KM85, Co07} 引入了 Drinfeld 级结构来处理一般的 $R$. 作为结论, 代数叠 $\mathfrak{M}(\Gamma)$ 可以进一步定义到 $\Z$ 上; 它对 $\Z$ 未必光滑, 但仍是平坦的. 对于 $\Gamma = \Gamma(N)$ 情形, 此进路要求我们舍弃级结构中关于 Weil 配对的条件, 在较大的模空间中操作.
+	
+	相关细节需要较深的几何工具, 详参 \cite[IV]{DR73}, \cite[Chapter 3]{KM85} 或 \cite[\S 2.4]{Co07}. 由于本书并非模曲线的专著, 为了简化论述, 仍选择在 $\mathfrak{o}_N$ 上作业.
+\end{remark}
+
+言归正传. 对模叠 $\mathfrak{M}(\Gamma(N))$ 可以作紧化: 这是一个开嵌入
+\[ \mathfrak{M}(\Gamma(N)) \hookrightarrow \overline{\mathfrak{M}(\Gamma(N))}. \]
+而 $\overline{\mathfrak{M}(\Gamma(N))}$ 是 $\mathfrak{o}_N$ 上的固有, 光滑, 相对维数为 $1$ 的代数叠, 依然有模诠释: 它分类带 $\Gamma(N)$ 级结构的广义椭圆曲线.
+
+回忆注记 \ref{rem:Tate-curve-N}: 对于 $\mathfrak{o}_N\llbracket q\rrbracket$ 上的 Tate 曲线 $\mathrm{Tate}\left(q^N\right)$, 每个 $\Gamma(N)$ 级结构 $\alpha$ 都给出态射 $\Spec \mathfrak{o}_N \llbracket q \rrbracket \to \overline{\mathfrak{M}(\Gamma(N))}$; 态射在 $q = 0$ 的纤维给出 $\overline{\mathfrak{M}(\Gamma(N))}$ 的边界点 (尖点), 并且使 $\overline{\mathfrak{M}(\Gamma(N))}$ 在该处的形式完备化同构于形式圆盘 $\operatorname{Spf}\left( \mathfrak{o}_N \llbracket q \rrbracket \right)$. 这套手法穷尽所有尖点, 从而 Tate 曲线描述了 $\overline{\mathfrak{M}(\Gamma(N))}$ 在边界上的几何. 详见 \cite[VII. Corollaires 2.4, 2.5]{DR73} 或 \cite[\S 4.3]{Co07}.
+
+对于其它级结构 $\Gamma$ 也有类似的紧化. 从叠过渡到粗模空间则给出紧化 $\mathcal{M}(\Gamma) \hookrightarrow \overline{\mathcal{M}(\Gamma)}$. 基变换到 $\CC$ 再作解析化, 则在 Riemann 曲面范畴中
+\[ \mathcal{M}(\Gamma)_{\CC}^{\mathrm{an}} \hookrightarrow \overline{\mathcal{M}(\Gamma)}_{\CC}^{\mathrm{an}} \quad \text{可等同于} \quad Y(\Gamma) \hookrightarrow X(\Gamma). \]
+所以 \S\ref{sec:X-charts} 研究的 $Y(\Gamma) \hookrightarrow X(\Gamma)$ 可谓是``定义在 $\mathfrak{o}_N$ 上''的.
+
+综上, 根据函子化的代数几何语言, 定义 \ref{def:modular-law} 的 $M_k(\Gamma(N); R)$ 理应有如下的几何诠释
+\begin{equation}\label{eqn:modular-law-as-section}
+	M_k(\Gamma(N); R) \simeq \Gamma\left(\overline{\mathfrak{M}_{\Gamma(N)}}, \bomega_{\Gamma(N)}^{\otimes k} \right),
+\end{equation}
+\begin{itemize}
+	\item 其中的线丛 $\bomega_{\Gamma(N)}$ (亦称 Hodge 线丛) 在 $\mathfrak{M}_{\Gamma(N)}$ 上是泛椭圆曲线 $(E_{\mathrm{univ}}, \alpha_{\mathrm{univ}})$ 的对偶 Lie 代数, 即 $\bomega_{E_{\mathrm{univ}}| \mathfrak{M}(\Gamma(N))}$, 它在每一点 $(E, \alpha)$ 上的纤维是 $\bomega_{E|R}$;
+	\item 倘若读者接受广义椭圆曲线的理论, 用对偶化层代替微分形式层, 则上述定义可以直接照搬到整个 $\overline{\mathfrak{M}_{\Gamma(N)}}$ 上. 更具体地说, 在尖点的形式邻域上, $\bomega_{\Gamma(N)}$ 的纤维由广义椭圆曲线 $\mathrm{Tate}\left(q^N\right)$ 自带的 $\omega_{\mathrm{can}}$ 生成; 见注记 \ref{rem:Tate-curve-N}.
+\end{itemize}
+详见 \cite[\S\S 1.4---1.5]{Ka73} 和 \cite[\S\S 8.6---8.11]{KM85}. 其复解析版本已在 \S\ref{sec:cplx-viewpoint} 讨论过, 符号雷同亦非巧合. 特别地, $(E, \alpha) \mapsto f(E, \alpha)$ 是模形式当且仅当它能延拓到所有广义椭圆曲线上.
+
+\begin{proposition}\label{prop:modular-basechange}
+	设 $R$ 是 $\mathfrak{o}_N$-代数, 而交换环同态 $R \to R'$ 使 $R'$ 成为平坦 $R$-模 (参看 \cite[\S 6.9]{Li1}), 则 \eqref{eqn:M-S-basechange} 诱导 $R'$-模的同构
+	\[ M_k(\Gamma(N); R) \dotimes{R} R' \rightiso M_k(\Gamma(N); R'), \quad S_k(\Gamma(N); R) \dotimes{R} R' \rightiso S_k(\Gamma(N); R'). \]
+\end{proposition}
+这是代数几何的基变换定理对 $\overline{\mathfrak{M}(\Gamma(N))_R}$ 的应用, 它还能推及一些非平坦情形, 见 \cite[\S\S 1.7---1.8]{Ka73}, 这里便不提供证明了.
+
+为了陈述下一结果, 观察到群 $\SL(2,\Z/N\Z)$ 在 $\cate{Ell}_R(N)$ 上按 $(E, \alpha) \xmapsto{\gamma} (E, \alpha \circ {}^t \gamma)$ 左作用, 从而右作用在 $M_k(\Gamma(N); R)$ 和 $S_k(\Gamma(N); R)$ 上.
+\begin{theorem}\label{prop:modular-law}
+	选定环的嵌入 $\mathfrak{o}_N \hookrightarrow \CC$, 使得 $\zeta_N \mapsto e^{2\pi i/N}$. 存在 $\CC$-向量空间的自然同构
+	\[\begin{tikzcd}[row sep=small]
+		M_k(\Gamma(N); \CC) \arrow[r, "\sim"] & M_k(\Gamma(N)) \\
+		S_k(\Gamma(N); \CC) \arrow[r, "\sim"] \arrow[phantom, u, "\subset" description, sloped] & S_k(\Gamma(N)); \arrow[phantom, u, "\subset" description, sloped]
+	\end{tikzcd}\]
+	它由以下性质刻画:
+	\begin{enumerate}
+		\item 若 $\gamma \in \SL(2,\Z/N\Z)$, 则 $\gamma$ 在 $M_k(\Gamma(N); \CC)$ 上的右作用在 $M_k(\Gamma(N))$ 上反映为 $f \mapsto f \modact{k} \gamma$;
+		\item 设 $f \in M_k(\Gamma(N); \CC)$, 命
+		\[ \dfrac{f\left( \mathrm{Tate}\left(q^N\right), \alpha_{\mathrm{std}} \right)}{\omega_{\mathrm{can}}^{\otimes k}} = \sum_{n \geq 0} a_n(f) q^n \; \in \CC(\!(q)\!), \]
+		则对应的模形式以 $\sum_{n \geq 0} a_n(f) \exp\left( 2\pi in\tau /N\right)$ 为其在 $\infty$ 处的 Fourier 展开.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	第一步是化约到假设 \ref{hyp:torsion-free} 成立的情形. 取 $N'$ 充分大并且 $N \mid N'$. 兹断言
+	\begin{align*}
+		M_k(\Gamma(N)) & = M_k(\Gamma(N'))^{\Gamma(N)\text{-不变}}, \\
+		M_k(\Gamma(N); \CC) & = M_k(\Gamma(N'); \CC)^{\Gamma(N)\text{-不变}}.
+	\end{align*}
+	第一式不外是注记 \ref{rem:common-cusps}. 第二式亦不难, 但要求一定的代数几何知识, 见 \cite[VII, Lemme 3.3]{DR73}. 上述断言对尖点形式同样成立. 于是根据例 \ref{eg:torsion-free}, 今起可假设 $\Gamma(N)$ 无挠且尖点皆正则, \S\ref{sec:cplx-viewpoint} 的相关结果可资应用.
+	
+	考虑与 $\overline{\mathfrak{M}(\Gamma(N))}$ 相系的粗模空间 $\overline{\mathcal{M}(\Gamma(N))}$, 它是概形, 而且
+	\[ \overline{\mathcal{M}(\Gamma(N))_{\CC}}^{\mathrm{an}} \simeq X(N) \quad \text{(作为紧 Riemann 曲面)}. \]
+	在此可依 GAGA 原理自由切换复解析和代数的视角, 例如以 $\bomega_{\CC/\Lambda_\tau}$ 代 $\bomega_{E_{\Lambda_\tau}|\CC}$, 如是等等. 所求同构取作 $(2\pi i)^{-k}$ 乘上以下合成
+	\begin{multline*}
+		M_k(\Gamma(N); \CC) \xrightarrow[\sim]{\text{\eqref{eqn:modular-law-as-section}}}
+		\Gamma\left( \overline{\mathfrak{M}(\Gamma(N))_{\CC}}, \bomega_{\Gamma(N)}^{\otimes k} \right) \\
+		\simeq \Gamma\left( \overline{\mathcal{M}(\Gamma(N))_{\CC}}, \bomega_{\Gamma(N)}^{\otimes k} \right) \xrightarrow[\sim]{\text{GAGA}}
+		\Gamma\left( X(N), \bomega_{\Gamma(N)}^{\otimes k} \right) \xlongequal{\text{命题 \ref{prop:modular-vs-omega}}}
+		M_k(\Gamma(N));
+	\end{multline*}
+	紧性在此是关键的! 第二个同构稍需解释: $\Gamma(N)$ 无挠导致 $\mathfrak{M}(\Gamma(N)) = \mathcal{M}(\Gamma(N))$, 从而
+	\begin{multline*}
+		\Gamma\left( \overline{\mathfrak{M}(\Gamma(N))_{\CC}}, \bomega^{\otimes k}  \right) = \\
+		\left\{ s \in \Gamma\left( \mathfrak{M}(\Gamma(N))_{\CC}, \bomega^{\otimes k}\right) : \forall \alpha, \; s\left(\mathrm{Tate}(q^N), \alpha \right) \in \CC\llbracket q \rrbracket \omega_{\mathrm{std}}^{\otimes k} \right\} \simeq \\
+		\left\{ s \in \Gamma\left( \mathcal{M}(\Gamma(N))_{\CC}, \bomega^{\otimes k}\right) : \forall \alpha, \; s\left(\mathrm{Tate}(q^N), \alpha \right) \in \CC \llbracket q \rrbracket \omega_{\mathrm{std}}^{\otimes k} \right\} = \\
+		\Gamma\left( \overline{\mathcal{M}(\Gamma(N))_{\CC}}, \bomega^{\otimes k}  \right),
+	\end{multline*}
+	其中 $\alpha$ 遍历 $\CC(\!(q)\!)$-椭圆曲线 $\mathrm{Tate}\left(q^N\right)$ 的所有 $\Gamma(N)$ 级结构, 即 $\SL(2, \Z/N\Z) \cdot \alpha_{\mathrm{std}}$.
+
+	更确切地说, 每个适合于定义 \ref{def:modular-law} 的 $f$ 都按
+	\[ \mathcal{H} \ni \tau \longmapsto (2\pi i)^{-k} f\left( E_{\Lambda_\tau}, \alpha_\tau \right) \; \in \bomega_{E_{\Lambda_\tau}|\CC}^{\otimes k} \]
+	唯一地确定 $\Gamma\left(X(N), \bomega^{\otimes k}_{\Gamma(N)}\right) \simeq M_k(\Gamma(N))$ 的元素; 此处以 $(E_{\Lambda_\tau}, \alpha_\tau)$ 标记 $\CC/\Lambda_\tau$ 连同其标准级结构 $\alpha_\tau: (x,y) \mapsto \frac{x\tau + y}{N}$ 给出的 $\cate{Ell}_{\CC}(N)$ 的对象, 其同构类仅依赖轨道 $\Gamma(N)\tau$.
+
+	为了在 $M_k(\Gamma(N))$ 中诠释 $\SL(2,\Z/N\Z)$ 对 $f \in M_k(\Gamma(N); \CC)$ 的作用, 关键在将之和 \S\ref{sec:cplx-viewpoint} 的讨论, 尤其是和 \eqref{eqn:dz-equivariance} 作比较. 兹不赘言.
+	
+	最后, $\left( \mathrm{Tate}\left( q^N \right), \alpha_{\mathrm{std}} \right)$ 透过 $q \mapsto e^{2\pi i\tau/N}$ 基变换到 $\CC$, 便给出 $\Gamma(N)\tau$ 给出的复环面 + 标准级结构 (定理 \ref{prop:Y(N)-moduli}), 而 $\omega_{\mathrm{can}}$ 对应到 $2\pi i \dd z$ (命题 \ref{prop:Tate-Weierstrass}). 关于 $f$ 在 $\infty$ 处的 Fourier 展开的断言因而是容易的.
+\end{proof}
+
+基于定理 \ref{prop:modular-law} 和命题 \ref{prop:modular-basechange}, 可以赋予 $M_k(\Gamma(N))$ 自然的 $\mathfrak{o}_N$-结构, 即
+\[ M_k(\Gamma)\ \simeq M_k\left( \Gamma(N); \mathfrak{o}_N \right) \dotimes{\mathfrak{o}_N} \CC; \]
+对 $S_k(\Gamma(N))$ 亦同. 这些整结构对 $\SL(2,\Z)$ 的右作用不变. 可以证明: 若 $f$ 来自 $M_k\left( \Gamma(N); \mathfrak{o}_N \right)$, 则 Fourier 系数 $a_n(f)$ 全落在 $\mathfrak{o}_N$. 练习 \ref{exo:M(1)-integral} 已对特例 $N = 1$ 做过明确的构造, 这时 $\mathfrak{o}_N = \Z$.
+
+\begin{remark}\label{rem:rational-structure-Gamma1}
+	以上一切结果的 $\Gamma_1(N)$ 和 $\Gamma_0(N)$ 版本往往有更简单的叙述. 譬如对 $\Gamma_1(N)$ 考虑 Fourier 展开式时仅须研究 $\mathrm{Tate}(q)$ 而非 $\mathrm{Tate}\left(q^N\right)$, 而且不必操心 Weil 配对. 这时的模叠可以定义在 $\Z[1/N]$ 上, 模形式空间从而具有 $\Z[1/N]$-结构. 获取 $\Z$-结构则需要更深的技术, 见注记 \ref{rem:bad-reduction}.
+\end{remark}
+
+
+\section{Eichler--志村关系: Hecke 算子}\label{sec:Eichler-Shimura-cong}
+本节选定 $k \in \Z_{\geq 0}$ 和级结构 $\Gamma_1(N)$, 要求 $N \geq 5$ 以满足假设 \ref{hyp:torsion-free}, 否则须改用 \S\ref{sec:parabolic-cohomology} 的抛物上同调, 或者探讨叠的上同调.
+
+定理 \ref{prop:Y(N)-moduli} 说明 $Y_1(N)$ 分类了所有资料 $(E, P)$, 其中 $E$ 是复椭圆曲线 而 $P \in E[N]$ 是 $N$ 阶点, 后者对应 $E$ 上的 $\Gamma_1(N)$-级结构. 我们希望从模空间观点观照 Eichler--志村同构 (定理 \ref{prop:Eichler-Shimura}) 中的局部系统 ${}^k V_{\Gamma_1(N)} := \Sym^k V_{\Gamma_1(N)}$ 和 Hecke 算子.
+
+首先, 根据定义 \ref{def:locsys-V}, 局部系统 $V_{\Gamma_1(N)}$ 在 $(E, P) \in Y_1(N)$ 处的纤维可以视同 $\Hm_1(E; \CC)^\vee \simeq \Hm^1(E; \CC)$. 随着 $(E, P)$ 扫遍 $Y_1(N)$, 这些向量空间组成 $Y_1(N)$ 上的局部系统 $V_{\Gamma_1(N)}$.
+
+就模空间的视角, 所有资料 $(E, P)$ 粘合为 $Y_1(N)$ 上的\emph{泛椭圆曲线} $E_{\mathrm{univ}} \xrightarrow{\pi} Y_1(N)$, 带有 $\Gamma_1(N)$-级结构 $P_{\mathrm{univ}}$, 而对每个 $(E, P) \in Y_1(N)$ 者, $\pi$ 的纤维 $\pi^{-1}\left((E, P)\right)$ 正是复椭圆曲线 $E$. 纤维的上同调融为局部系统 $V_{\Gamma_1(N)}$ 这一事实以层论语言表述为典范同构
+\[ V_{\Gamma_1(N)} \simeq \mathrm{R}^1 \pi_*  \CC, \quad {}^k V_{\Gamma_1(N)} \simeq \Sym^k \mathrm{R}^1 \pi_* \CC. \]
+
+迄今全在复解析框架内操作, 上同调的系数可从域 $\CC$ 放宽为交换环.
+
+\begin{definition}\label{def:cohomology-WA} \index[sym1]{WR@$\mathsf{W}_A$}
+	设 $A$ 为交换 Noether 环, 而且其整体同调维数 $\mathrm{gl.dim}(A)$ 有限. 将 $A$ 视同 $Y_1(N)$ 上的常值层, 命
+	\begin{align*}
+		\mathsf{W}_A & := \Hm^1\left( X_1(N), \; j_* \Sym^k \mathrm{R}^1 \pi_* A \right) \\
+		& \simeq \Image\left[ \Hm^1_c\left( Y_1(N), \Sym^k \mathrm{R}^1 \pi_* A\right) \to \Hm^1\left( Y_1(N), \Sym^k \mathrm{R}^1 \pi_* A\right) \right] \\
+		& =: \widetilde{\Hm}^1\left( Y_1(N), \Sym^k \mathrm{R}^1 \pi_* A \right),
+	\end{align*}
+	见约定 \ref{conv:H1-tilde}, 或等价地定义 $\mathsf{W}_A$ 为抛物上同调 $\Hm^1_{\mathrm{para}}(\Gamma_1(N), E)$, 其中 $E$ 是对应 $\mathrm{R}^1 \pi_* A$ 的 $A[\Gamma_1(N)]$-模.
+\end{definition}
+
+关于 $A$ 的条件旨在确保层上同调具有一切良好的性质. 事实上本书仅考虑 $A$ 是域 ($\mathrm{gl.dim}(A) = 0$) 或 $A = \Z, \Z_\ell$ 的情形 ($\mathrm{gl.dim}(A) = 1$) , 其中 $\ell$ 是素数, 所以读者可以安心略过.
+
+Eichler--志村同构写作
+\[ \text{ES}: S_{k+2}(\Gamma_1(N)) \oplus \overline{S_{k+2}(\Gamma_1(N))} \rightiso \mathsf{W}_{\CC}. \]
+
+\begin{lemma}
+	前述条件下, $\mathsf{W}_A$ 是有限生成 $A$-模. 环同态 $A \to B$ 诱导 $A$-模同态 $\mathsf{W}_A \to \mathsf{W}_B$. 若 $B$ 是平坦 $A$-模, 则对应的 $\mathsf{W}_A \dotimes{A} B \to \mathsf{W}_B$ 是同构.
+\end{lemma}
+\begin{proof}
+	证明需要一些层论知识. 有限生成性质是一般的定理, 见 \cite[Theorem 4.1.5]{Di04}. 接着设 $A \to B$ 平坦. 首先有自然同构 $j_* \Sym^k \mathrm{R}^1 \pi_* B \simeq (j_* \Sym^k \mathrm{R}^1 \pi_* A) \dotimes{A} B$, 一种看法是两边的 $j_*(\cdots)$ 都是局部系统从 $Y_1(N)$ 到 $X_1(N)$ 的 $j_{!*}$ 延拓, 所需的同构可以从 $j_{!*}$ 延拓的刻画来推导, 见 \cite[Proposition 5.2.8]{Di04}. 所求的 $\mathsf{W}_A \dotimes{A} B \rightiso \mathsf{W}_B$ 遂化为层上同调的熟知性质, 比如对逆紧映射 $X_1(N) \to \{\mathrm{pt}\}$ 应用投影公式, 见 \cite[Theorem 2.3.29]{Di04}. 
+\end{proof}
+
+下一步是从模空间的角度诠释 Hecke 算子. 取定素数 $p$, 定义
+\begin{equation*}
+	\Gamma_1(N, p) := \Gamma_1(N) \cap {}^t \Gamma_0(p);
+\end{equation*}
+它含 $\Gamma(Np)$ 故仍是同余子群, 相应的模曲线及紧化记为
+\[ \Gamma_1(N, p) \backslash \mathcal{H} =: Y_1(N, p) \subset X_1(N, p). \]
+
+Riemann 曲面 $Y_1(N, p)$ 具有模诠释如下. 命
+\[ \mathcal{M}(\Gamma_1(N, p))^{\mathrm{an}} := \left\{ \begin{array}{r|l}
+	(E, P, C) & E: \text{复椭圆曲线} \\
+	& P \in E[N]: \text{阶为}\; N \\
+	& C \subset E: p \; \text{阶循环子群}, \; \lrangle{P} \cap C = \{0\}
+\end{array} \right\} \big/ \simeq , \]
+回忆到 $\lrangle{P}$ 代表 $P$ 生成的子群. 按惯例 $\Lambda_\tau := \Z\tau \oplus \Z$. 兹定义映射
+\begin{align*}
+	\Theta: Y_1(N, p) & \longrightarrow \mathcal{M}(\Gamma_1(N, p))^{\mathrm{an}} \\
+	\Gamma_1(N, p) \cdot \tau & \longmapsto \left(\CC/\Lambda_\tau, \; \frac{1}{N} + \Lambda_\tau, \; \lrangle{\frac{\tau}{p} + \Lambda_\tau} \right) / \simeq .
+\end{align*}
+易见此映射良定. 下述定理表明 $\mathcal{M}(\Gamma_1(N, p))^{\mathrm{an}}$ 的元素可谓是具有 $\Gamma_1(N, p)$-级结构的椭圆曲线.
+
+\begin{proposition}\label{prop:Np-moduli}
+	上述 $\Theta: Y_1(N, p) \to \mathcal{M}(\Gamma_1(N, p))^{\mathrm{an}}$ 是双射, 由此赋予 $\mathcal{M}(\Gamma_1(N, p))^{\mathrm{an}}$ 一个 Riemann 曲面结构.	下图交换:
+	\[\begin{tikzcd}
+		(E, P) \arrow[phantom, d, "\in" description, sloped] & (E, P, C) \arrow[mapsto, l] \arrow[mapsto, r] \arrow[phantom, d, "\in" description, sloped] & (E/C, P \bmod C) \arrow[phantom, d, "\in" description, sloped] \\
+		\mathcal{M}(\Gamma_1(N))^{\mathrm{an}} & \mathcal{M}(\Gamma_1(N, p))^{\mathrm{an}} \arrow[l, "q_1"'] \arrow[r, "q_2"] & \mathcal{M}(\Gamma_1(N))^{\mathrm{an}} \\
+		Y_1(N) \arrow[u, "\simeq"] & Y_1(N, p) \arrow[l] \arrow[r] \arrow[u, "\simeq", "\Theta"'] & Y_1(N) \arrow[u, "\simeq"] \\
+		\Gamma_1(N) \cdot \tau \arrow[phantom, u, "\in" description, sloped] & \Gamma_1(N, p) \cdot \tau \arrow[mapsto, l] \arrow[mapsto, r] \arrow[phantom, u, "\in" description, sloped] & \Gamma_0(p) \cdot \frac{\tau}{p} \arrow[phantom, u, "\in" description, sloped]
+	\end{tikzcd}\]
+\end{proposition}
+
+观察到 $\lrangle{P} \cap C = \{0\}$ 蕴涵 $P \bmod C$ 仍是 $N$ 阶点, 故 $q_2$ 良定. 同构 $Y_1(N) \rightiso \mathcal{M}(\Gamma_1(N))^{\mathrm{an}}$ 已在 \S\ref{sec:geometric-modular-form} 阐明.
+
+\begin{proof}
+	先说明 $\Theta$ 是双射. 满性按 \S\ref{sec:cplx-tori} 的套路翻译为格的性质: 设 $E = \CC/\Lambda$ 而 $P$ 是 $\frac{1}{N}\Lambda / \Lambda$ 的 $N$ 阶元, $C$ 是 $\frac{1}{p}\Lambda/\Lambda$ 的 $p$ 阶子群. 引理 \ref{prop:tori-N-oblivion} 给出 $\Lambda$ 的 $\Z$-基 $u, v$, 与 $\CC$ 的标准定向反向, 使得 $P = \frac{v}{N} + \Lambda$. 取 $x, y \in \Z$ 使得 $C = \lrangle{\frac{xu + yv}{p} + \Lambda}$. 当 $p \mid N$ 时条件 $\lrangle{P} \cap C = \{0\}$ 还保证 $p \nmid x$, 此时适当调整生成元可以确保 $x \equiv 1 \pmod{p}$. 兹断言
+	\[ \exists \delta \in \Gamma_1(N) \; \text{使得} \; (x \; y) \cdot \delta \equiv (1 \; 0) \pmod{p}. \]
+	诚然, 考虑同态 $\text{red}: \Gamma_1(N) \xrightarrow{\bmod \;p} \SL(2, \F_p)$. 引理 \ref{prop:T_p-coset-decomp} 的证明指出 $p \nmid N$ 时 $\text{red}$ 为满, 而 $p \mid N$ 时 $\Image(\text{red}) = \twomatrix{1}{\F_p}{}{1}$. 两种情形下皆可取 $\delta$ 满足上式.
+
+	用如上之 $\delta$ 调整 $u, v$ 即可确保 $C = \lrangle{\frac{u}{p} + \Lambda}$ 而 $P = \frac{v}{N} + \Lambda$. 再取 $\tau := u/v$ 即见 $(E, P, C) \xrightarrow[\div v]{\sim} \left(\CC/\Lambda_\tau, \; \frac{1}{N} + \Lambda_\tau, \; \lrangle{\frac{\tau}{p} + \Lambda_\tau} \right)$. 满性得证.
+
+	单性的论证还是 \S\ref{sec:cplx-tori} 的老套, 请参看引理 \ref{prop:tori-N-oblivion} 的证明后半部.
+	
+	图表关于 $q_1$ 部分的交换性是自明的. 至于 $q_2$ 部分, 仅须留意到 $E \to E/C$ 可以具体用商同态 $\CC/\Lambda_\tau \twoheadrightarrow \CC/\Lambda_{\tau/p}$ 来实现. 明所欲证.
+\end{proof}
+
+和 \S\ref{sec:geometric-modular-form} 的境况类似, 只要在模问题中将 $\CC$ 换成任意交换 $\Z[1/N]$-代数, 考虑其上的椭圆曲线, 并且适当推广级结构, 则资料 $(E, P, C)$ 的分类问题可以由代数叠 $\mathfrak{M}(\Gamma_1(N, p))$ 来代表. 它实则是定义在 $\Z[1/N]$ 上的概形, 其上仍有泛椭圆曲线 $E_{\mathrm{univ}}$. 引进广义椭圆曲线后, 同样有紧化 $\mathfrak{M}(\Gamma_1(N, p)) \subset \overline{\mathfrak{M}(\Gamma_1(N, p))}$; 取粗模空间 $\mathcal{M}(\Gamma_1(N, p)) \subset \overline{\mathcal{M}(\Gamma_1(N, p))}$ 再应用解析化函子的结果无非是 $Y_1(N, p) \subset X_1(N, p)$. 细节请参看 \cite{Co07}.
+
+基于先前关于 $N$ 的假设, 今后总将 $\mathfrak{M}$ 与其粗模空间 $\mathcal{M}$ 等同, 紧化亦复如是. 命题 \ref{prop:Np-moduli} 中的映射 $q_1, q_2$ 可以升级为模空间的态射
+\[ \mathcal{M}(\Gamma_1(N)) \xleftarrow{q_1} \mathcal{M}(\Gamma_1(N, p)) \xrightarrow{q_2} \mathcal{M}_1(N), \]
+它们诱导复代数曲线之间的有限态射.
+
+以下先在复解析层面操作, 将 $\mathcal{M}(\Gamma_1(N))^{\mathrm{an}}$ 视同于 $Y_1(N)$, 如此等等. 泛椭圆曲线 $E_{\mathrm{univ}}$ 可沿 $q_1, q_2$ 拉回, 记作 $q_1^* E_{\mathrm{univ}} \xrightarrow{u} Y_1(N, p)$ 和 $q_2^* E_{\mathrm{univ}} \xrightarrow{v} Y_1(N, p)$. 我们有自然的交换图表:
+\begin{equation}\label{eqn:Hecke-correspondence-big} \begin{tikzcd}[column sep=small]
+	& q_1^* E_{\mathrm{univ}} \arrow[rd, "u"'] \arrow[ld, "\tilde{q}_1"'] \arrow[phantom, dd, "\text{\footnotesize 拉回}" description] \arrow[rr, "\varphi"] & & q_2^* E_{\mathrm{univ}} \arrow[ld, "v"] \arrow[rd, "\tilde{q}_2"] \arrow[phantom, dd, "\text{\footnotesize 拉回}" description] & \\
+	E_{\mathrm{univ}} \arrow[rd, "\pi"'] & & Y_1(N, p) \arrow[ld, "q_1"'] \arrow[rd, "q_2"] & & E_{\mathrm{univ}} \arrow[ld, "\pi"] \\
+	& Y_1(N) & & Y_1(N) &
+\end{tikzcd}\end{equation}
+略述 $\varphi$ 的定义如下: $q_1^* E_{\mathrm{univ}}$ (或 $q_2^* E_{\mathrm{univ}}$) 在 $(E, P, C)$ 上的纤维是 $E$ (或 $E/C$), 在此纤维上定义 $\varphi: E \to E/C$ 为商同态. 对任何满足定义 \ref{def:cohomology-WA} 条件的交换环 $A$, 由 $\varphi$ 诱导出局部系统之间的态射 $\varphi^*: \mathrm{R}^1 v_* A \to \mathrm{R}^1 u_* A$. 记开嵌入 $Y_1(N, p) \hookrightarrow X_1(N, p)$ 为 $\tilde{\jmath}$. 拓扑学中的逆紧基变换定理代入上图给出
+\[ \mathrm{R}^1 v_* A = \mathrm{R}^1 v_* \tilde{q}_2^* A \leftiso q_2^* \mathrm{R}^1 \pi_* A, \quad \mathrm{R}^1 u_* A = \mathrm{R}^1 u_* \tilde{q}_1^* A \leftiso q_1^* \mathrm{R}^1 \pi_* A. \]
+鉴于显然的同构 $\Sym^k q_i^* \simeq q_i^* \Sym^k$, 我们归结出 $\cate{Shv}(Y_1(N, p))$ 中的 $A$-线性同构
+\begin{equation}\label{eqn:Hecke-cohomology-Tp}
+	q_2^* \Sym^k \mathrm{R}^1 \pi_* A \rightiso \Sym^k \mathrm{R}^1 v_* A \xrightarrow{\varphi^*} \Sym^k \mathrm{R}^1 u_* A \leftiso q_1^* \Sym^k \mathrm{R}^1 \pi_* A. 
+\end{equation}
+
+今后将不加说明地等同 $\mathsf{W}_A$ 和 $\tilde{\Hm^1}\left( Y(\Gamma_1(N)), \Sym^k \mathrm{R}^1 \pi_* A \right)$, 并以 Eichler--志村同构等同 $\mathsf{W}_{\CC}$ 和 $S_{k+2}(\Gamma_1(N)) \oplus \overline{S_{k+2}(\Gamma_1(N))}$.
+
+对于任何算子 $T \in \End_{\CC}(S_{k+2}(\Gamma_1(N)))$, 相应地有 $\overline{T} \in \End_{\CC}(\overline{S_{k+2}(\Gamma_1(N))})$ 映 $\overline{f}$ 为 $\overline{Tf}$. 现在考虑 Hecke 算子 $T_p$. 那么 $T_p \oplus \overline{T_p}$ 在 $\mathsf{W}_{\CC}$ 上作用, 它透过 \eqref{eqn:Hecke-correspondence-big} 获得拓扑的诠释, 细说如下.
+
+\begin{proposition}\label{prop:Hecke-cohomology-Tp} \index[sym1]{T[p]@$T[p]$}
+	设交换环 $A$ 满足定义 \ref{def:cohomology-WA} 的条件, $p$ 为素数. 记 $T[p]: \mathsf{W}_A \to \mathsf{W}_A$ 为合成映射
+	\begin{multline*}
+		\widetilde{\Hm}^1\left(Y_1(N), \Sym^k \mathrm{R}^1 \pi_* A\right) \xrightarrow{q_2^*} \widetilde{\Hm}^1\left(Y_1(N, p), q_2^* \Sym^k \mathrm{R}^1 \pi_* A\right) \\
+		\xrightarrow{\text{\eqref{eqn:Hecke-cohomology-Tp}}} \widetilde{\Hm}^1\left(Y_1(N, p), q_1^* \Sym^k \mathrm{R}^1 \pi_* A\right) \xrightarrow{(q_1)_*} \widetilde{\Hm}^1\left(Y_1(N), \Sym^k \mathrm{R}^1 \pi_* A\right)
+	\end{multline*}
+	其中用到相对简单的拓扑学事实: $q_i$ 是复曲线之间的有限态射, 故诱导 $\widetilde{\Hm}^1$ 之间的拉回 $q_i^*$ 和迹映射 $(q_i)_*$. 那么当 $A = \CC$ 时 $T[p]$ 即是 $T_p \oplus \overline{T_p}$ 在 $\mathsf{W}_{\CC}$ 上诱导的算子.
+\end{proposition}
+\begin{proof}
+	命 $\alpha := \twomatrix{1}{}{}{p}$, 算子 $T_p$ 由 $[\Gamma_1(N) \alpha \Gamma_1(N)]$ 诱导. 命 $\Gamma^\dagger := \Gamma_1(N) \cap \alpha \Gamma_1(N) \alpha^{-1}$. 我们已在 \eqref{eqn:Gamma1Np} 看到
+	\[ \Gamma_1(N, p) = \Gamma_1(N) \cap \alpha^{-1} \Gamma_1(N) \alpha = \alpha^{-1} \Gamma^\dagger \alpha. \]
+
+	在命题 \ref{prop:Hecke-cohomology} 中取 $\Gamma = \Gamma' = \Gamma_1(N)$, $\gamma = \alpha$, 从而将 $T_p \oplus \overline{T_p}$ 表述为上同调对应: 它基于和 \eqref{eqn:corr-diagram} 呼应的图表
+	\[\begin{tikzcd}
+		X_1(N, p) \arrow[d, "q_1"'] \arrow[r, "\sim", "\psi"'] \arrow[dashed, rd] & X(\Gamma^\dagger) \arrow[d, "{q^\dagger_2}"] \\
+		X_1(N) & X_1(N)
+	\end{tikzcd} \quad \psi: \Gamma_1(N, p)\tau \mapsto \Gamma^\dagger \alpha\tau, \]
+	其中 $q_1, q^\dagger_2$ 是自明的投影. 因为 $\alpha(\tau) = \tau/p$, 配合命题 \ref{prop:Np-moduli} 立见使图表交换的虚线箭头无非是 $q_2$. 问题化为比较 $\varphi^*$ 和 \S\ref{sec:Hecke-via-cohomology} 的诸般构造, 等式当然不出所料. 细节从略.
+\end{proof}
+
+循此``拉---搬---推''套路在上同调群之间给出的映射通称为\emph{上同调对应}; 为了节制几何的使用, 本书不给出精确定义. 稍后还会看到 $\ell$-进平展上同调的版本. \index{shangtongdiaoduiying@上同调对应 (cohomological correspondence)}
+
+尚需考虑两个老朋友: 菱形算子 $\lrangle{d} $ 与定义 \ref{def:Fricke-involution} 的 Fricke 对合 $W_N$. 它们反映模空间的下述操作.
+
+\begin{enumerate}
+	\item 设 $d \in (\Z/N\Z)^\times$. 定义模空间 $\mathcal{M}(\Gamma_1(N))$ 的自同构 $I_d$ 及它在泛椭圆曲线上的提升如下:
+	\[\begin{tikzcd}[column sep=small]
+		E_{\mathrm{univ}} \arrow[d, "\pi"'] \arrow[r, "I_d"] & E_{\mathrm{univ}} \arrow[d, "\pi"] \\
+		\mathcal{M}(\Gamma_1(N)) \arrow[r, "I_d"' inner sep=0.6em] & \mathcal{M}(\Gamma_1(N)) \\
+		(E, P) \arrow[phantom, u, "\in" description, sloped] \arrow[r, mapsto] & (E, dP) \arrow[phantom, u, "\in" description, sloped]
+	\end{tikzcd} \qquad
+		\text{在纤维上:}\; \begin{tikzcd}[column sep=small]
+		E_{\mathrm{univ}}|_{(E, P)} \arrow[equal, d] & E_{\mathrm{univ}}|_{(E, dP)} \arrow[equal, d] \\
+		E \arrow[r, "\identity"] & E .
+	\end{tikzcd}\]
+%	当然, $I_{de} = I_d I_e$ 和 $I_1 = \identity$, 其中 $d, e \in (\Z/N\Z)^\times$.
+	\item 设 $L$ 为交换 $\Z[1/N\ell]$-代数, $\zeta \in L^\times$ 为 $N$ 阶元. 考虑模空间到 $L$ 的基变换 $\mathcal{M}(\Gamma_1(N))_L$ 及交换图表
+	\[\begin{tikzcd}[column sep=small]
+		E_{\mathrm{univ}, L} \arrow[d, "\pi"'] \arrow[r, "w_\zeta"] & E_{\mathrm{univ}, L} \arrow[d, "\pi"] \\
+		\mathcal{M}(\Gamma_1(N))_L \arrow[r, "w_\zeta"] & \mathcal{M}(\Gamma_1(N))_L \\
+		(E, P) \arrow[phantom, u, "\in" description, sloped] \arrow[r, mapsto] & (E/\lrangle{P} , P' \bmod \lrangle{P}) \arrow[phantom, u, "\in" description, sloped]
+	\end{tikzcd} \quad
+		\text{在纤维上}\; \begin{tikzcd}[column sep=small]
+		E_{\mathrm{univ}}|_{(E, P)} \arrow[equal, d] & E_{\mathrm{univ}}|_{(E/\lrangle{P}, P')} \arrow[equal, d] \\
+		E \arrow[r, "\text{商}"] & E/\lrangle{P}
+	\end{tikzcd}\]
+	这里取 $P'$ 使得注记 \ref{rem:Weil-pairing-algebraic} 的 Weil 配对满足 $e_N(P, P') = \zeta$. 
+\end{enumerate}
+
+这些态射对于 $\Sym^k \mathrm{R}^1 \pi_* A$ 的上同调有拉回作用, 进一步诱导出 $\mathsf{W}_A$ 的自同构 $I_d^*$ (或 $w_\zeta^*$), 其中 $A$ 是交换 $\Z[1/N\ell]$-代数 (或交换 $L$-代数, 其中 $L$ 满足如上性质).
+
+\begin{proposition}\label{prop:Hecke-cohomology-I}
+	设 $d \in (\Z/N\Z)^\times$, 则 $\lrangle{d} \oplus \overline{\lrangle{d}}$ 在 $\mathsf{W}_{\CC}$ 上的作用等于 $I_d^*$.
+\end{proposition}
+\begin{proof}
+	回忆 $\lrangle{d}$ 的定义 \ref{def:diamond-operator}, 并应用注记 \ref{rem:Hecke-cohomology-deg}.
+\end{proof}
+
+\begin{proposition}\label{prop:Hecke-cohomology-w}
+	在 $w_\zeta^*$ 的定义中取 $A = L = \CC$ 和 $\zeta := e^{-2\pi i/N}$, 那么 $W_N \oplus \overline{W_N}$ 在 $\mathsf{W}_{\CC}$ 上的作用等于 $i^{k+2} N^{-k/2} w_\zeta^*$.
+\end{proposition}
+\begin{proof}
+	在复解析框架下取 $E = \CC/\Lambda_\tau$, $P = \frac{1}{N} + \Lambda_\tau$ 和 $P' = \frac{\tau}{N} + \Lambda_\tau$, 那么 $e_N(P, P') = \zeta$ 而 $w_\zeta(E, P)$ 等于
+	\[ \left( \frac{\CC}{\frac{1}{N}\Z \oplus \Z\tau}, \frac{\tau}{N} + \frac{1}{N}\Z \oplus \Z\tau \right) \xrightarrow[\sim]{\cdot \frac{1}{\tau}} \left( \frac{\CC}{\frac{-1}{N\tau}\Z \oplus \Z}, \frac{1}{N} + \frac{-1}{N\tau}\Z \oplus \Z \right), \]
+	正好契合 $\alpha_N := \twomatrix{}{-1}{N}{}$ 在 $Y_1(N)$ 上诱导的自同构. 为了确定 $w_\zeta^*$, 还要考察 $w_\zeta$ 在 $E_{\mathrm{univ}}$ 上的效果. 在 $(E, P)$ 和 $ w_\zeta(E, P)$ 的纤维间, $w_\zeta$ 给出椭圆曲线的同源
+	\[ \Phi: \CC/\Lambda_\tau \to \CC/\Lambda_{\alpha_N \tau}, \quad z + \Lambda_\tau \mapsto \frac{z}{\tau} + \Lambda_{\alpha_N \tau}. \]
+	考虑 $\Phi$ 在 $\Hm_1(\cdot ; \Z)$ 亦即周期格上诱导的映射, 以 \S\ref{sec:Shimura-locsys} 的符号写作
+	\[ \left( \check{e}_1(\tau), \check{e}_2(\tau) \right) = \left( 1, -\tau \right) \xmapsto{\Phi_*} \left( 1/\tau, -1 \right) = \left(N\check{e}_2(\alpha_N \tau), -\check{e}_1(\alpha_N \tau) \right). \]
+	取对偶基, 可见 $\Phi^*$ 按 $\left( N^{-1} e_2(\alpha_N \tau), -e_1(\alpha_N \tau) \right) \mapsto \left( e_1(\tau), e_2(\tau) \right)$ 联系 $V_\tau$ 和 $V_{\alpha_N \tau}$, 这正是 \eqref{eqn:V-fiber-transport} 规定的 $\alpha_N$ 作用. 取 $\Sym^k$ 便给出 $w_\zeta$ 对 ${}^k V_{\Gamma_1(N)}$ 的效用.
+
+	基于注记 \ref{rem:Hecke-cohomology-deg} 和上述观察, 可知 $w_\zeta^*$ 无非是 $[\Gamma_1(N) \alpha_N] \oplus \overline{[\Gamma_1(N) \alpha_N]}$ 的作用. 定义 \ref{def:w_N} 后续的讨论表明 $[\Gamma_1(N)\alpha_N]$ 对 $S_{k+2}(\Gamma_1(N))$ 的作用是 $N^{k/2} w_N = i^{-k-2} N^{k/2} W_N$. 明所欲证.
+\end{proof}
+
+\section{Eichler--志村关系: 主定理}\label{sec:Eichler-Shimura-cong-2}
+视角切到平展上同调, 其余符号照旧. 选定素数 $\ell$. 先前用复解析方式在 $\mathcal{M}(\Gamma_1(N))$ 上定义的 $\mathrm{R}^1 \pi_* \CC$ 也能在平展拓扑的语言下如法炮制, 给出 $\Q_\ell$-局部系统 $\mathrm{R}^1 \pi_* \Q_\ell$ 及其延拓 $j_* \mathrm{R}^1 \pi_* \Q_\ell$.
+
+简记 $\mathcal{M} := \mathcal{M}(\Gamma_1(N))$ 和 $\overline{\mathcal{M}} := \overline{\mathcal{M}(\Gamma_1(N))}$. 取定素数 $\ell$ 并考虑模空间的结构态射 $a: \mathcal{M} \to \Spec \Z[1/N\ell]$. 对任意交换 $\Z[1/N\ell]$-代数 $R$, 记 $\mathcal{M}_R := \mathcal{M} \dtimes{\Spec\Z[1/N\ell]} \Spec R$, 这是一个 $R$-概形; 同理可定义 $\overline{\mathcal{M}}_R$. 井草准一的一个定理断言: 若素数 $p \nmid N$ 则 $\overline{\mathcal{M}}_{\F_p}$ 是光滑 $\F_p$-概形.
+
+对标命题 \ref{prop:parabolic-cohomology}, 我们考虑 $\Spec \Z[1/N\ell]$ 上的 $\Q_\ell$-层
+\begin{equation*}
+	\mathcal{W}_\ell := \Image\left[ \mathrm{R}^1 a_! \left( \Sym^k \mathrm{R}^1 \pi_* (\Q_\ell) \right) \to \mathrm{R}^1 a_* \left( \Sym^k \mathrm{R}^1 \pi_* (\Q_\ell) \right) \right].
+\end{equation*}
+
+进一步的几何论证 \cite[p.161]{Del71} 指出 $\mathcal{W}_\ell$ 是平展拓扑意义下的 $\Q_\ell$-局部系统, 其构造与一切基变换相交换. 浅显地说, 对任何素数 $p \nmid N\ell$, 取定代数闭包 $\overline{\F_p} | \F_p$, 那么 $\mathcal{W}_\ell$ 在 $p$ 处的几何纤维自然地同构于
+\begin{equation}\label{eqn:parabolic-cohomology-p}
+	\mathcal{W}_{\ell, p} := \Image\left[ \Hm_c^1\left(\mathcal{M}_{\overline{\F_p}}, \Sym^k \mathrm{R}^1 \pi_* (\Q_\ell) \right) \to \Hm^1\left(\mathcal{M}_{\overline{\F_p}}, \Sym^k \mathrm{R}^1 \pi_* (\Q_\ell) \right) \right];
+\end{equation}
+在此 $\Hm^1$ 都指代数簇的平展上同调. 另一方面, $\Spec \Z[1/N\ell]$ 的泛点 $\eta$ 以 $\Q$ 为剩余类域, 故可考虑基变换 $\mathcal{M}_{\overline{\Q}}$. 回忆定义 \ref{def:cohomology-WA} 和 \eqref{eqn:etale-comparison}, 可见 $\mathcal{W}_\ell$ 在 $\eta$ 的几何纤维 $\mathcal{W}_{\ell, \Q}$ 典范地同构于 
+\begin{multline*}
+	\Image\left[ \Hm_c^1\left(\mathcal{M}_{\overline{\Q}}, \Sym^k \mathrm{R}^1 \pi_* (\Q_\ell) \right) \to \Hm^1\left(\mathcal{M}_{\overline{\Q}}, \Sym^k \mathrm{R}^1 \pi_* (\Q_\ell) \right) \right] \\
+	\rightiso \Image\left[ \Hm_c^1\left(Y_1(N), \mathrm{R}^1 \pi_* (\Q_\ell) \right) \to \Hm^1\left(Y_1(N), \mathrm{R}^1 \pi_* (\Q_\ell) \right) \right] = \mathsf{W}_{\Q_\ell}.
+\end{multline*}
+
+综上, $\mathsf{W}_{\Q_\ell} = \mathsf{W}_{\Q} \otimes \Q_\ell$ 连同所有的 $\mathcal{W}_{\ell, p}$ (让 $p$ 取遍素数 $\nmid N\ell$) 融为单一的几何对象 $\mathcal{W}_\ell$. 既知 $\mathcal{W}_\ell$ 是 $\Spec \Z[1/N\ell]$ 上的 $\Q_\ell$-局部系统, 遂有 $\Q_\ell$-向量空间的同构
+\begin{equation}\label{eqn:W-isom}
+	\mathcal{W}_{\ell, p} \rightiso \mathcal{W}_{\ell, \Q}, \quad p \nmid N\ell.
+\end{equation}
+同构依赖于 \S\ref{sec:Galois-rep} 中的资料 \eqref{eqn:specialization} 的选取.
+
+精确到上述选取, 我们得出 $\mathcal{W}_{\ell, \Q}$, $\mathcal{W}_{\ell, p}$ 都同构于复解析版本 $\mathsf{W}_{\Q_\ell}$. 然而 $\ell$-进上同调的优势在于它带 Galois 表示.
+\begin{enumerate}
+	\item 且先看泛点的几何纤维: $\Hm^1_c\left(\mathcal{M}(\Gamma_1(N))_{\overline{\Q}}, \mathrm{R}^1 \pi_* (\Q_\ell)\right)$ 和 $\Hm^1\left(\mathcal{M}(\Gamma_1(N))_{\overline{\Q}}, \mathrm{R}^1 \pi_* (\Q_\ell)\right)$ 都自然地成为 $G_{\Q}$ 的连续表示, 从而 $\mathcal{W}_{\ell, \Q}$ 亦然. 由于 $\mathcal{W}_\ell$ 是 $\Spec \Z[1/N\ell]$ 上的局部系统, $\mathcal{W}_{\ell, \Q}$ 作为 Galois 表示在 $N\ell$ 之外非分歧; 见 \S\ref{sec:Galois-rep} 的定义.
+	\item 类似地, 对于一切素数 $p \nmid N\ell$ 者, Galois 群 $\Gal(\overline{\F_p}|\F_p)$ 在 $\mathcal{W}_{\ell, p}$ 上连续地作用, 此作用可拉回到 $G_{\Q_p}$ 上. 由于 $\mathcal{W}_\ell$ 是 $\Spec\Z[1/N\ell]$ 上的 $\Q_\ell$-局部系统, 一旦取定 \eqref{eqn:specialization} 的资料, 则 $G_{\Q}$ 和 $G_{\Q_p}$ 的作用通过 $G_{\Q_p} \hookrightarrow G_{\Q}$ 兼容于 $\mathcal{W}_{\ell, p} \rightiso \mathcal{W}_{\ell, \Q}$.
+\end{enumerate}
+
+\begin{definition}\label{def:FV}
+	依据上述讨论, 对任意素数 $p \nmid N\ell$, 记几何 Frobenius 自同构 $\Frob_p^{-1} \in G_{\F_p}$ 在 $\mathcal{W}_{\ell, p}$ 上的作用为 $F \in \End_{\Q_\ell}(\mathcal{W}_{\ell, p})$, 称为 \emph{Frobenius 对应}.
+	
+	根据 $\ell$-进平展上同调的 Poincaré 对偶定理, 存在典范的非退化双线性型 $\lrangle{\cdot, \cdot}_\ell: \mathcal{W}_{\ell, p} \times \mathcal{W}_{\ell, p} \to \Q_\ell$, 满足 $\lrangle{x, y}_\ell = (-1)^{k+1} \lrangle{y, x}_\ell$. 对之定义 $F$ 的转置 $V \in \End_{\Q_\ell}(\mathcal{W}_{\ell, p})$, 它由等式 $\lrangle{Fx, y}_\ell = \lrangle{x, Vy}_\ell$ 刻画, 称为\emph{移位对应}\footnote{德文: die Verschiebung}.
+	
+	一旦选定 \eqref{eqn:specialization} 的资料, 这些自同态可以搬运到 $\mathcal{W}_{\ell, \Q}$ 上.
+\end{definition}
+
+另一方面, 命题 \ref{prop:Hecke-cohomology-Tp} 之 Hecke 对应 $T[p]$, 以及其后定义之 $I_d^*$ 和 $w_\zeta^*$ (对应到菱形算子和 Fricke 对合的某个倍数) 都有 $\ell$-进上同调的版本, 给出 $\mathcal{W}_{\ell, p}$ 的自同态; 它们也可以在 $\mathcal{W}_{\ell, \Q}$ 上操作, 并且与同构 \eqref{eqn:W-isom} 兼容; 通过比较定理, $\ell$-进版本的 $T[p]$ 因之也兼容于 $T_p \oplus \overline{T_p}$.
+
+留意到 $F$ 和 $I_d^*$, $T[p]$ 相交换, 因为后两者是``定义在 $\F_p$ 上''的; 根据下述定理第二个等式, 以 $F$ 代 $V$ 亦然.
+
+\begin{theorem}[Eichler--志村关系]\label{prop:Eichler-Shimura-cong}
+	符号如上, 依然设 $p \nmid N\ell$, 则有 $\End_{\Q_\ell}(\mathcal{W}_{\ell, p})$ 中的等式
+	\begin{equation*}\begin{gathered}
+			T[p] = F + I_p^* V, \quad FV = p^{k+1} \cdot \identity = VF, \\
+			(w_\zeta^*)^{-1} V w_\zeta^* =  I_p^* V ;
+	\end{gathered}\end{equation*}
+	第二行的 $\zeta$ 选作 $\overline{\F_p}$ 中的任意 $N$ 次本原单位根.
+\end{theorem}
+
+证明虽超纲, 无妨勾勒几笔. 第一行的证明见 \cite[Proposition 4.8]{Del71}, 第二行则见诸 \cite[Corollary 7.10 或 (7.5.2)]{Shi71}. 关键是分解 $T[p]$. 第一步是将 $F$ 和 $V$ 都表示成上同调对应, 以便和 $T$ 比较. 核心在于对模问题 $\mathcal{M}(\Gamma_1(N))_{\F_p}$ 和 $\mathcal{M}(\Gamma_1(N, p))_{\F_p}$ 的透彻研究. 粗略地说, 特征 $p$ 的域上有一类椭圆曲线被称为是\emph{超奇异}的, 此性质等价于 $E$ 的 Hasse 不变量 (例 \ref{eg:Hasse-invariant}) 不可逆, 是故超奇异椭圆曲线构成 $\mathcal{M}(\Gamma_1(N))_{\F_p}$ 的闭子空间. 进一步, $\overline{\mathcal{M}(\Gamma_1(N, p))}_{\F_p}$ 作为代数曲线可等同于两份 $\overline{\mathcal{M}(\Gamma_1(N))}_{\F_p}$ 沿着超奇异点的粘合. 非超奇异椭圆曲线的 $p$-挠子群概形容易控制. 上同调对应 $T[p]$ 可以适当地拉回非超奇异部分来计算, 其结果是 $T[p]$ 分解为两个上同调对应之和, 分别给出 $F$ 和 $I_p^* V$. \index{tuoyuanquxian!超奇异 (supersingular)}
+
+\section{重访 Hecke 代数}\label{sec:Hecke-revisited}
+我们在 \S\ref{sec:Eichler-Shimura-cong} 以模空间及其上同调诠释了级为 $\Gamma_1(N)$ 的 Hecke 算子. 下一步是研究 Hecke 代数. 符号照旧.
+
+\begin{definition}\label{def:cohomological-Hecke-algebra} \index[sym1]{TZ@$\HkT_{\Z}$}
+	记 $\HkT_{\Z}$ 为 $\HkT_1(N)$ (定义 \ref{def:T_n}) 在 $\End_{\CC}(S_{k+2}(\Gamma_1(N)))$ 中的像; 换言之 $\HkT_{\Z}$ 是由所有 $T_p$ 和 $\lrangle{d}$ 在 $\End_{\CC}(S_{k+2}(\Gamma_1(N)))$ 中生成的子环. 对任意交换环 $A$, 定义 $A$-代数 $\HkT_A := \HkT_{\Z} \dotimes{\Z} A$.
+\end{definition}
+
+现在让每个 $T \in \HkT_{\Z}$ 通过 $\mathrm{ES}(f, \overline{g}) \xmapsto{T} \mathrm{ES}(Tf, \overline{Tg})$ 在 $\mathsf{W}_{\CC}$ 上作用; 换言之, 我们映 $T$ 为 $T \oplus \overline{T}$. 故 $S_{k+2}(\Gamma_1(N))$ 和 $\overline{S_{k+2}(\Gamma_1(N))}$ 皆嵌入为 $\mathsf{W}_{\CC}$ 的 $\HkT_{\Z}$-子模.
+
+称环 $A$ 上的左模 $M$ 是\emph{忠实}的, 如果对所有 $a \in A$ 皆有 $aM = \{0\} \iff a = 0$.
+
+\begin{lemma}\label{prop:Hecke-freeness}
+	记 $\mathsf{W}_{\Z}$ 在 $\mathsf{W}_{\CC}$ 中的像为 $\mathsf{W}'_{\Z}$, 则 $\mathsf{W}'_{\Z}$ 是忠实 $\HkT_{\Z}$-模. 作为推论, $\HkT_{\Z}$ 是有限秩自由 $\Z$-模.
+\end{lemma}
+\begin{proof}
+	首先 $\HkT_{\Z}$ 保持 $\mathsf{W}'_{\Z}$, 这是因为 $T_p \oplus \overline{T_p}$ 和 $\lrangle{d} \oplus \overline{\lrangle{d}}$ 已经实现为上同调对应, 作用在每个 $\mathsf{W}_A$ 上并与 $\mathsf{W}_{\Z} \to \mathsf{W}_{\CC}$ 兼容. 至于忠实性, 若 $T \in \HkT_{\Z}$ 零化 $\mathsf{W}'_{\Z}$, 则它也零化 $\CC \cdot \mathsf{W}'_{\Z} = \mathsf{W}_{\CC}$, 故 $T=0$.
+
+	已知 $W_{\Z}$ 是有限生成 $\Z$-模, 故其像 $\mathsf{W}'_{\Z}$ 亦然, 又因为 $W_{\CC}$ 无挠, 由此知 $\mathsf{W}'_{\Z}$ 是有限秩自由 $\Z$-模, 秩记为 $r$. 于是 $\HkT_{\Z} \hookrightarrow \End_{\Z}(\mathsf{W}'_{\Z}) \simeq \Z^{r^2}$ 也是有限秩自由 $\Z$-模.
+\end{proof}
+
+\begin{lemma}\label{prop:Hecke-faithful}
+	让 $\HkT_{\CC} = \HkT_{\Z} \otimes \CC$ 通过 $f \xrightarrow{T \otimes z} z Tf$ 作用在 $S_{k+2}(\Gamma_1(N))$ 上. 那么 $S_{k+2}(\Gamma_1(N))$ 是忠实 $\HkT_{\CC}$-模.
+\end{lemma}
+\begin{proof}
+	本书不给出完整论证, 详见 \cite[\S 12.4]{DI95} 等文献. 思路是以 \S\ref{sec:geometric-modular-form} 的理论, 特别是注记 \ref{rem:rational-structure-Gamma1}, 来获取``有理结构'', 亦即 $\Q$-向量子空间 $S_{k+2}(\Gamma_1(N); \Q) \subset S_{k+2}(\Gamma_1(N))$ 使得
+	\[ S_{k+2}(\Gamma_1(N); \Q) \dotimes{\Q} \CC \rightiso S_{k+2}(\Gamma_1(N)). \]
+	重点是 $\HkT_{\Z}$ 的作用保持 $S_{k+2}(\Gamma_1(N); \Q)$. 以 $T_p$ 为例 ($p$: 任意素数), 对凝聚层的上同调同样有拉--搬--推的套路
+	\begin{multline*}
+		\Gamma\left( \overline{\mathcal{M}_1(N)}_{\Q}, \bomega_{\Gamma_1(N)}^{\otimes (k+2)} \right) \xrightarrow{q_2^*} \Gamma\left( \overline{\mathcal{M}(\Gamma_1(N, p))}_{\Q}, q_2^* \bomega_{\Gamma_1(N, p)}^{\otimes (k+2)} \right) \\
+		\rightiso \Gamma\left( \overline{\mathcal{M}(\Gamma_1(N, p))}_{\Q}, q_1^* \bomega_{\Gamma_1(N, p)}^{\otimes (k+2)} \right)
+		\xrightarrow{(q_1)_*} \Gamma\left( \overline{\mathcal{M}_1(N)}_{\Q}, \bomega_{\Gamma_1(N)}^{\otimes (k+2)} \right),
+	\end{multline*}
+	这样实现的算子是 $p T_p$, 参见 \cite[\S 4.5]{Co07} 的讨论; 至于 $\lrangle{d}$ 的模诠释, 在 \S\ref{sec:Eichler-Shimura-cong} 已有说明.
+
+	由此可见 $\HkT_{\Z} \to \End_{\Q} \left( S_{k+2}(\Gamma_1(N); \Q) \right)$ 是单射. 既然右式是无挠可除 $\Z$-模, 立见 $\HkT_{\Q} \to \End_{\Q}\left( S_{k+2}(\Gamma_1(N); \Q) \right)$ 也是单射. 基变换到 $\CC$ 便给出所求的忠实性.
+\end{proof}
+
+\begin{convention}\label{conv:dual-module}
+	设 $R$ 为交换环 $\Bbbk$ 上的代数, 而 $M$ 为 $R$-模. 今后记 $M^\vee := \Hom_\Bbbk(M, \Bbbk)$. 它透过 $(r f)(x) = f(rx)$ 成为 $R$-模 ($f \in M^\vee$, $r \in R$). 今后应用的主要是 $R = \HkT_\Bbbk$ 的场景.
+\end{convention}
+
+\begin{proposition}\label{prop:Hecke-dual}
+	定义 $\CC$-双线性型
+	\begin{align*}
+		\HkT_{\CC} \times S_{k+2}(\Gamma_1(N)) & \longrightarrow \CC \\
+		(T, f) & \longmapsto a_1(Tf) =: \psi_f(T).
+	\end{align*}
+	\begin{enumerate}[(i)]
+		\item 此双线性型诱导 $\HkT_{\CC}$-模的同构 $\HkT_{\CC} \rightiso S_{k+2}(\Gamma_1(N))^\vee$ 和 $S_{k+2}(\Gamma_1(N)) \to \HkT_{\CC}^\vee$;
+		\item $f \in S_{k+2}(\Gamma_1(N))$ 是正规化 Hecke 特征形式当且仅当对应的 $\psi_f$ 是环同态.
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	双线性型非退化: 若 $f$ 使得 $a_1(Tf) = 0$ 对所有 $T \in \HkT_{\Z}$ 成立, 则 $a_n(f) = a_1(T_n f)$ (定理 \ref{prop:Hecke-Fourier}) 将导致 $f = 0$. 若 $T \in \HkT_{\CC}$ 使得 $a_1(Tf) = 0$ 对所有 $f$ 成立, 则从 $a_n(Tf) = a_1(T_n Tf) = a_1(T T_n f) = 0$ 知 $Tf = 0$, 配合引理 \ref{prop:Hecke-faithful} 遂有 $T = 0$.
+	
+	对于 (i), 考虑映射 $T \mapsto \left[ f \mapsto a_1(Tf) \right]$ 和 $f \mapsto \left[ T \mapsto a_1(Tf) \right]$. 以上讨论表明两者皆是 $\HkT_{\CC}$-模同构.
+
+	对于 (ii), 若 $f$ 是正规化 Hecke 特征形式, 则 $\psi_f(T) = a_1(Tf)$ 无非是 $f$ 对 $T$ 的特征值, 故 $\psi_f$ 是环同态. 反之, 若 $\psi_f$ 是环同态则 $a_1(f) = 1$, 而且对所有 $T \in \HkT_{\Z}$ 和 $n \geq 1$ 皆有
+	\[ a_n(Tf) = a_1(T_n T f) = \psi_f(T) \psi_f(T_n) = \psi_f(T) a_n(f). \]
+	这蕴涵 $Tf = \psi_f(T) f$, 故 $f$ 是正规化 Hecke 特征形式. 证毕.
+\end{proof}
+
+命题 \ref{prop:Hecke-dual} 给出双射
+\[\begin{tikzcd}[row sep=small]
+	\left\{ f \in S_{k+2}(\Gamma_1(N)): \text{正规化 Hecke 特征形式} \right\} \arrow[r, "1:1"] & \left\{ \HkT_{\Z} \xrightarrow{\text{环同态}} \CC\right\} \\
+	f \arrow[mapsto, r] \arrow[phantom, u, "\in" description, sloped] & \left( \phi_f: T_{\Z} \to T_{\CC} \xrightarrow{\psi_f} \CC \right) \arrow[phantom, u, "\in" description, sloped] .
+\end{tikzcd}\]
+这导致两个重要的算术结论.
+
+\begin{corollary}\label{prop:algebraic-eigenvalue}
+	设 $f \in S_{k+2}(\Gamma_1(N))$ 是正规化 Hecke 特征形式. 令 $K_f$ 为 $\{a_n(f) : n \geq 1\}$ 在 $\CC$ 中生成的子域, 则每个 $a_n(f)$ 皆是代数整数, 并且
+	\begin{compactitem}
+		\item $K_f$ 是 $\Q$ 的有限扩张;
+		\item $\Image(\phi_f) \subset K_f$;
+		\item $K_f$ 包含 $f$ 对每个 $\lrangle{d}$ 的特征值 ($d \in (\Z/N\Z)^\times$).
+	\end{compactitem}
+\end{corollary}
+\begin{proof}
+	因为 $\HkT_{\Z}$ 是有限生成 $\Z$-模, $\Image(\phi_f)$ 亦然, 故 $\Image(\phi_f)$ 由代数整数组成, 并且生成 $\Q$ 的有限扩张. 根据 $\HkT_{\Z}$ 的定义, $\Image(\phi_f)$ 由 $f$ 对所有算子 $T_n$ 和 $\lrangle{d}$ 的特征值生成, 特别地它包含所有 $a_n(f)$.
+	
+	若只看 $\Q \cdot \Image(\phi_f)$, 则由于 $p \nmid N$ 时 $\lrangle{p} = p^{1-k}(T_{p^2} - T_p^2)$, 生成元 $\lrangle{d}$ 便属多余. 综上, $\Image(\phi_f)$ 生成的有限扩张无非是 $K_f$.
+\end{proof}
+
+\begin{corollary}\label{prop:Fourier-coeff-conjugate}
+	设 $f = \sum_{n \geq 1} a_n(f) q^n \in S_{k+2}(\Gamma_1(N))$ 是 Hecke 特征形式, $\sigma$ 是域 $\CC$ 的自同构, 那么 $f^\sigma := \sum_{n \geq 1} \sigma(a_n(f)) q^n$ 仍是 $S_{k+2}(\Gamma_1(N))$ 中的 Hecke 特征形式.
+\end{corollary}
+\begin{proof}
+	引理 \ref{prop:normalized-abundance} 说明 $a_1(f) \neq 0$. 适当伸缩后可以设 $f$ 是正规化 Hecke 特征形式. 考虑从 $\HkT_{\Z}$ 到 $\overline{\Q}$ 的环同态 $T \mapsto \sigma(\phi_f(T))$, 对应之正规化 Hecke 特征形式记为 $g \in S_{k+2}(\Gamma_1(N))$. 从 $a_n(g) = \phi_g(T_n) = \sigma(\phi_f(T_n)) = \sigma(a_n(f))$ 立见 $g = f^\sigma$.
+\end{proof}
+
+命题 \ref{prop:Hecke-dual} 的论证还给出以下结果.
+\begin{lemma}\label{prop:S-conj-Hecke}
+	存在 $\HkT_{\CC}$-模同构 $\overline{S_{k+2}(\Gamma_1(N))} \simeq S_{k+2}(\Gamma_1(N))^\vee$.
+\end{lemma}
+\begin{proof}
+	按 $(f, \overline{g}) \mapsto \innerPet{f}{W_N g}$ 定义非退化 $\CC$-双线性型 $S_{k+2}(\Gamma_1(N)) \times \overline{S_{k+2}(\Gamma_1(N))} \to \CC$, 引理 \ref{prop:involution-adjoint} 说明 $\HkT_{\Z}$ 的元素对之皆自伴.
+\end{proof}
+
+\begin{theorem}\label{prop:Gorenstein-0}
+	存在 $\HkT_{\CC}$-模同构 $S_{k+2}(\Gamma_1(N)) \simeq \overline{S_{k+2}(\Gamma_1(N))}$. 此外 $S_{k+2}(\Gamma_1(N))$, $S_{k+2}(\Gamma_1(N))^\vee$ 和 $\HkT_{\CC}^\vee$ 都是秩 $1$ 自由 $\HkT_{\CC}$-模, 而 $\mathsf{W}_{\CC}$ 秩 $2$ 自由.
+\end{theorem}
+\begin{proof}
+	和引理 \ref{prop:Hecke-faithful} 的证明一样, 运用 $\Q$-结构导出 $\HkT_{\CC} = \HkT_{\Q} \dotimes{\Q} \CC$-模的同构
+	\begin{equation*}
+		\overline{S_{k+2}(\Gamma_1(N))} \simeq \left( S_{k+2}(\Gamma_1(N); \Q) \dotimes{\Q} \CC \right) \dotimes{\CC, \text{conj}} \CC
+		\simeq S_{k+2}(\Gamma_1(N); \CC) \dotimes{\Q} \CC \simeq S_{k+2}(\Gamma_1(N)),
+	\end{equation*}
+	这就给出第一部分. 其余是命题 \ref{prop:Hecke-dual} 和 \ref{prop:S-conj-Hecke} 的应用.
+\end{proof}
+
+
+\section{从特征形式构造 Galois 表示}\label{sec:Deligne-Shimura}
+符号照旧, 依然固定 $k \in \Z_{\geq 0}$ 和 $N \geq 5$. 取定素数 $\ell$. 按 \S\ref{sec:Hecke-revisited} 的讨论, \index[sym1]{Tl@$\HkT_\ell$}
+\[ \HkT_\ell := \HkT_{\Q_\ell} \]
+映入以下每一个 $\Q_\ell$-向量空间的自同态代数
+\[ \mathsf{W}_{\Q_\ell} \simeq \mathcal{W}_{\ell, \Q} \simeq \mathcal{W}_{\ell, p}, \quad p: \text{素数}, \quad p \nmid N\ell. \]
+
+在定义 $\HkT_{\Z}$ 在 $\mathcal{W}_{\ell, \Q}$ 上的作用时, 涉及的上同调对应总是在 $\Spec\Z[1/N\ell]$ 上操作的, 由此推得 $\HkT_\ell$ 和 $G_{\Q}$ 的作用相互交换.
+
+以下令 $\zeta := e^{-2\pi i/N} \in \overline{\Q}$. 设 $p$ 为素数. 取 $\Q(\zeta)$ 的赋值 $\lambda \mid p$, 那么 $\lambda$ 的剩余类域可以嵌入 $\overline{\F_p}$, 由此得到同态 $\lrangle{\zeta} \rightiso \mu_N(\Q(\zeta)_\lambda) \xrightarrow{\text{商}} \mu_N(\overline{\F_p})$. 当 $p \nmid N$ 时, Teichmüller 代表元的理论说明这是同构 (见 \cite[例 10.8.6]{Li1}); 作为推论, 此时 $\zeta$ 在 $\overline{\F_p}$ 中的像也是 $N$ 次本原单位根, 仍记为 $\zeta$.
+
+\begin{theorem}\label{prop:Gorenstein}
+	取定素数 $p \nmid N\ell$ 和 $N$ 次本原单位根 $\zeta \in \overline{\Q}$, 后者也视同它在 $\overline{\F_p}$ 中的像.
+	\begin{enumerate}[(i)]
+		\item 考虑定义 \ref{def:FV} 中 $\mathcal{W}_{\ell, p}$ 上的非退化双线性型 $\lrangle{\cdot, \cdot}_\ell$. 所有 $T \in \HkT_\ell$ 相对于双线性型
+		\[ \left[ x, y \right]_\ell := \lrangle{x, w_\zeta^* y}_\ell, \quad x, y \in \mathcal{W}_{\ell, p} \]
+		都是自伴的.
+		\item 存在 $\HkT_\ell$-模的同构 $\mathcal{W}_{\ell, \Q} \simeq \HkT_\ell^{\oplus 2}$ 和 $\HkT_\ell^\vee \simeq \HkT_\ell$, 符号如约定 \ref{conv:dual-module}.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	见 \cite[\S 12.4]{DI95}. 以下略述梗概.
+
+	断言 (i) 可以从模空间观点直接证明, 以下给出绕道复解析情形的论证. 回忆到 $\HkT_{\Z}$ 里的元素和 $w_\zeta^*$ 皆可实现为上同调对应. 上同调的比较定理和 \eqref{eqn:W-isom} 给出同构 
+	\[ \mathcal{W}_{\ell, p} \simeq \mathcal{W}_{\ell, \Q} \simeq \mathsf{W}_{\Q_\ell}, \]
+	它们保持 $\HkT_{\Z}$, 也保持各空间自带的双线性型 (即 Poincaré 对偶性). 另一方面, 上同调对应 $w_\zeta^*$ 是定义在 $\Z[\frac{1}{N}, \zeta]$ 上的, 它可以同时``特殊化''到 $\overline{\Q}$ 和 $\overline{\F_p}$ 上, 这确保 $w_\zeta^*$ 在 $\mathcal{W}_{\ell, p}$ 和 $\mathcal{W}_{\ell, \Q} \simeq \mathsf{W}_{\Q_\ell}$ 上的作用兼容.
+
+	断言 (i) 遂过渡到复解析世界的 $\mathsf{W}_{\Q_\ell}$ 上; 记如是重新表述的断言为 $\mathcal{P}(\Q_\ell)$. 现在变化上同调的系数: 对于任意特征 $0$ 的域 $\Bbbk$, 相对于 $\mathsf{W}_\Bbbk$ 上的双线性型 (Poincaré 对偶性), $\HkT_\Bbbk$ 作用和 $w_\zeta^*$ 作用, 仍可如法炮制断言 $\mathcal{P}(\Bbbk)$. 简单的线性代数表明 $\mathcal{P}(\Bbbk) \iff \mathcal{P}(\Q)$. 一来一往, 得出 $\mathcal{P}(\Q_\ell) \iff \mathcal{P}(\CC)$.
+
+	注记 \ref{rem:Petersson-Poincare} 说明 $\mathsf{W}_{\CC}$ 上的双线性型透过 Eichler--志村同构转译为 Petersson 内积, 精确到一个常数. 命题 \ref{prop:Hecke-cohomology-w} 蕴涵 $w_\zeta^*$ 和 $W_N \oplus \overline{W_N}$ 或 $w_N \oplus \overline{w_N}$ 成比例, 断言 $\mathcal{P}(\CC)$ 遂化约到引理 \ref{prop:involution-adjoint}.
+	
+	对于 (ii), 同样先过渡到 $\mathsf{W}_{\Q_\ell}$, 再将原断言从 $\Q_\ell$ 推广到任何特征 $0$ 的域 $\Bbbk$ 上, 得到断言 $\mathcal{Q}(\Bbbk)$:
+	\begin{equation*}
+		\mathsf{W}_\Bbbk \;\text{是秩 $2$ 自由 $\HkT_\Bbbk$-模}, \quad \Hom_\Bbbk(\HkT_\Bbbk, \Bbbk) \;\text{是秩 $1$ 自由 $\HkT_\Bbbk$-模}.
+	\end{equation*}
+	注意到 $\HkT_\Bbbk$ 是有限维 $\Bbbk$-代数, 因而是 Artin 环, 仅含有限多个极大理想; 因而在 $\mathcal{Q}(\Bbbk)$ 中可将``自由''等价地换作``局部自由 + 常秩''. 应用代数几何/交换代数中的平坦下降法, 同样可见 $\mathcal{Q}(\Bbbk) \iff \mathcal{Q}(\Q)$, 问题再次从 $\Q_\ell$ 归结到 $\CC$, 最后再以定理 \ref{prop:Gorenstein-0} 料理.
+\end{proof}
+
+\begin{remark}
+	因为 $\HkT_\ell$ 是有限维 $\Q_\ell$-向量空间 (见引理 \ref{prop:Hecke-freeness}), 定理 \ref{prop:Gorenstein} (ii) 中的 $\HkT_\ell^\vee \simeq \HkT_\ell$ 等价于说 $\HkT_\ell$ 是所谓的 \emph{Gorenstein 环}. 这一类环论性质对于 Hecke 代数的研究至关紧要, B.\ Mazur 首先用以研究模形式的同余.
+\end{remark}
+
+\begin{theorem}\label{prop:Hecke-polynomial}
+	取定素数 $p \nmid N\ell$, 任取 $\mathcal{W}_{\ell, \Q}$ 的 $\HkT_\ell$-基, 以将相应的 Frobenius 对应 $F \in \End_{\HkT_\ell}(\mathcal{W}_{\ell, \Q})$ 视为交换环 $\HkT_\ell$ 上的 $2 \times 2$ 矩阵. 那么 $F$ 的特征多项式等于
+	\[ X^2 - T_p X + \lrangle{p} p^{k+1} \; \in \HkT_\ell[X]. \]
+\end{theorem}
+\begin{proof}
+	以下均在 $\mathcal{W}_{\ell, p}$ 上操作. 定理 \ref{prop:Eichler-Shimura-cong} 给出等式
+	\[ (X - F) (X - I_p^* V ) = X^2 - T_p X + I_p^* p^{k+1}, \]
+	两边看作是取值在 $\HkT_\ell[X]$ 中的 $2 \times 2$ 矩阵, 右式是常值矩阵. 同取 $\det := \det_{\HkT_\ell[X]}$ 给出
+	\[ \det\left( X - F \right) \det\left(X - I_p^* V \right) = \left( X^2 - T_p X + I_p^* p^{k+1} \right)^2. \]
+	基于初等的练习 \ref{exo:monic-squareroot}, 问题归结为证 $\det(X - F) = \det(X - I_p^* V)$. 现在动用定理 \ref{prop:Gorenstein}. 从 $\lrangle{Fx, y}_\ell = \lrangle{x, Vy}_\ell$ 易见
+	\[ \left[ Fx, y \right]_\ell = \left[ x, (w_\zeta^*)^{-1} V w_\zeta^* \right]_\ell. \]
+	而定理 \ref{prop:Eichler-Shimura-cong} 给出 $(w_\zeta^*)^{-1} V w_\zeta^* = I_p^* V$. 综上, $I_p^* V$ 是 $F$ 对 $[\cdot, \cdot]_\ell$ 的转置 $F^\vee \in \End_{\HkT_\ell}(\mathcal{W}_{\ell, p}^\vee)$ (见约定 \ref{conv:dual-module}). 问题最终化为证 $F$ 和 $F^\vee$ 作为秩 $2$ 自由 $\HkT_\ell$-模的自同态有相同的特征多项式. 这是次一引理的内容 (取 $\Bbbk = \Q_\ell$, $R = \HkT_\ell$ 和 $M = \mathcal{W}_{\ell, p}$).
+\end{proof}
+
+\begin{lemma}
+	在约定 \ref{conv:dual-module} 的场景中假设 $M$ 为秩 $n$ 自由 $R$-模, 并且存在 $R$-模同构 $h: R \rightiso R^\vee = \Hom_\Bbbk(R, \Bbbk)$. 那么 $M^\vee$ 是秩 $n$ 自由 $R$-模, 而且对于任何 $\phi \in \End_R(M)$, 其转置 $\phi^\vee \in \End_R(M^\vee)$ 和 $\phi \in \End_R(M)$ 有相同的特征多项式.
+\end{lemma}
+\begin{proof}
+	首先描述 $M^\vee$. 设 $M = Re_1 \oplus \cdots \oplus Re_n$. 对于 $i = 1, \ldots, n$, 定义 $\pi_i: M \twoheadrightarrow Re_i \simeq R$ 和 $M^\vee$ 的元素 $\check{e}_i := h(1) \circ \pi_i$. 那么对所有 $r, r' \in R$ 和 $1 \leq i, j \leq n$ 都有
+	\[ (r' \check{e}_i) (r e_j) = \check{e}_i(r r' e_j) = \begin{cases}
+		h(1)(r' r) = h(r)(r'), & i = j, \\
+		0, & i \neq j.
+	\end{cases}\]
+	由此可见 $\check{e}_1, \ldots, \check{e}_n$ 构成 $R$-模 $M^\vee$ 的一组基; 事实上, 这可以化到 $n = 1$ 情形验证.
+
+	设 $\phi(e_j) = \sum_{k=1}^n a_{jk} e_k$ 对所有 $j$ 成立, 则 $\phi^\vee(\check{e}_i)$ 映 $re_j$ 为 $\check{e}_i(ra_{ji} e_i) = h(a_{ji})(r)$. 比较上一步的结果, 遂有 $\phi^\vee(\check{e}_i) = \sum_{j=1}^n a_{ji} \check{e}_j$. 综之, $\phi$ 和 $\phi^\vee$ 相对于 $\{e_i\}_i$ 和 $\{\check{e}_i\}_i$ 的矩阵互为转置.
+\end{proof}
+
+\begin{exercise}\label{exo:monic-squareroot}
+	设 $A$ 为交换环, $2$ 在 $A$ 中不是零除子. 证明对于任何首一多项式 $g \in A[X]$, 至多仅有一个首一多项式 $f \in A[X]$ 满足 $f^2 = g$.
+
+	\begin{hint}
+		令 $f = \sum_{k=0}^n a_k X^k$ ($a_n = 1$). 列式说明如何逐步从 $X^h$ 在 $g$ 中的系数读出 $a_{h-n}$, 其中 $n \leq h < 2n$.
+	\end{hint}
+\end{exercise}
+
+记 $G_{\Q}$ 在 $\mathcal{W}_{\ell, \Q}$ 上作用诱导的群同态为 $\check{\rho}_\ell: G_{\Q} \to \GL_{\HkT_\ell}\left(\mathcal{W}_{\ell, \Q}\right)$.
+
+轮到模形式进场. 对任何正规化 Hecke 特征形式 $f \in S_{k+2}(\Gamma_1(N))$, 推论 \ref{prop:algebraic-eigenvalue} 断言环同态
+\begin{gather*}
+	\phi_f: \HkT_{\Z} \to \CC, \\
+	\phi_f(T_p) f = T_p(f), \quad \phi_f(I_d^*) f = \lrangle{d} f.
+\end{gather*}
+的像生成有限扩张 $K_f | \Q$. 赋值的基本理论 \cite[定理 10.7.7]{Li1} 表明
+\[ \Q_\ell \dotimes{\Q} K_f = \prod_{\lambda \mid \ell} K_{f,\lambda}. \]
+现在 $\phi_f$ 诱导满同态 $\HkT_{\Q} \twoheadrightarrow K_f$. 给定赋值 $\lambda$ 如上, 对满同态两端取 $- \dotimes{\Q} \Q_\ell$ 以得到 $\HkT_\ell \twoheadrightarrow \prod_{\lambda' \mid \ell} K_{f, \lambda'}$, 然后投影到 $\lambda' = \lambda$ 的部分, 遂有
+\begin{equation}
+	\phi_{f, \lambda}: \HkT_\ell \twoheadrightarrow K_{f, \lambda}.
+\end{equation}
+
+透过 $\phi_{f, \lambda}$ 定义 $2$ 维 $K_{f, \lambda}$-向量空间 $V^\vee_{f, \lambda} := \mathcal{W}_{\ell, \Q} \dotimes{\HkT_\ell, \phi_{f, \lambda}} K_{f, \lambda}$. 自然同态 $\mathcal{W}_{\ell, \Q} \to V^\vee_{f, \lambda}$ (映 $w \mapsto w \otimes 1$) 与 $\check{\rho}_\ell$ 相铆合, 给出群同态
+\[ \check{\rho}_{f, \lambda}: G_{\Q} \to \GL_{K_{f, \lambda}}\left( V^\vee_{f, \lambda} \right) \stackrel{\text{取基}}{\simeq} \GL\left( 2, K_{f, \lambda}\right). \]
+
+按构造, 这番操作从 $f$ 和 $\lambda \mid \ell$ 出发, 构作了 $G_{\Q}$ 在 $V^\vee_{f, \lambda}$ 上的 $2$ 维 Galois 表示 $\check{\rho}_{f, \lambda}$, 系数在域 $K_{f, \lambda}$ 中. 这还不是最终目标. 记 $V_{f, \lambda} := \Hom_{K_{f, \lambda}}(V^\vee_{f, \lambda}, K_{f, \lambda})$.
+
+\begin{definition}
+	对于上述资料, 定义 $2$-维 $\ell$-进 Galois 表示 $\rho_{f, \lambda}$ 为 $\check{\rho}_{f, \lambda}$ 的逆步表示. 换言之, $\rho_{f, \lambda}: G_{\Q} \to \GL_{K_{f, \lambda}}(V_{f, \lambda})$ 由下式刻画
+	\begin{align*}
+		\rho_{f, \lambda}(g)(\xi): V^\vee_{f, \lambda} & \to K_{f, \lambda} \\
+		v^\vee & \mapsto \xi\left( \check{\rho}_{f, \lambda}(g^{-1}) \check{v} \right),
+	\end{align*}
+	其中 $g \in G_{\Q}, \; \xi \in V_{f, \lambda}$.
+\end{definition}
+
+正规化 Hecke 特征形式 $f \in S_{k+2}(\Gamma_1(N))$ 确定群同态 $\chi_f: (\Z/N\Z)^\times \to \CC^\times$ 使得 $\lrangle{d} f = \chi_f(d) f$; 它取值在 $K_f$, 故可视为同态 $(\Z/N\Z)^\times \to K_{f, \lambda}^\times$. 类域论给出对应的同态 $G_{\Q} \twoheadrightarrow G_{\Q, \mathrm{ab}} \to K_{f, \lambda}^\times$, 仍记为 $\chi_f$; 相关讨论见例 \ref{eg:classfield-theory}. 几条基本性质:
+\begin{compactitem}
+	\item 若素数 $p \nmid N\ell$, 则 $\chi_f(\Frob_p) = \chi_f(p)$;
+	\item 记 $\text{conj} \in G_{\Q}$ 为复共轭, 则 $\chi_f(\text{conj}) = \chi_f(-1)$.
+\end{compactitem}
+
+\begin{theorem}[P.\ Deligne, 志村五郎]\label{prop:Galois-rep}
+	设 $f = \sum_{n \geq 1} a_n(f) q^n \in S_{k+2}(\Gamma_1(N))$ 为正规化 Hecke 特征形式, 相应地有同态 $\chi_f: (\Z/N\Z)^\times \to K_f^\times$. 那么 $2$ 维 Galois 表示 $\rho_{f, \lambda}$ 具备下述性质.
+	\begin{enumerate}[(i)]
+		\item 它在 $N\ell$ 之外非分歧, 见 \S\ref{sec:Galois-rep}.
+		\item 对一切素数 $p \nmid N\ell$ 者, $\rho_{f, \lambda}(\Frob_p) \in \GL(2, K_{f, \lambda})$ 的特征多项式为
+		\[ X^2 - a_p(f) X + \chi_f(p) p^{k+1} \; \in K_f[X]. \]
+		\item 以 $\chi_\ell$ 记 $\ell$-进分圆特征标 (见 \S\ref{sec:Galois-rep}), 则 $\det \rho_{f, \lambda} = \chi_f \chi_\ell^{k+1}$.
+		\item 复共轭 $\mathrm{conj} \in G_{\Q}$ 满足 $\det \rho_{f, \lambda}(\mathrm{conj}) = -1$.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	(i) 既然 $\check{\rho}_{f, \lambda}$ 在 $N\ell$ 之外非分歧, $\rho_{f, \lambda}$ 亦然. 
+	
+	(ii) 取定 \eqref{eqn:specialization} 的资料. 定理 \ref{prop:Hecke-polynomial} 说明 Frobenius 对应 $F = \check{\rho}_\ell(\Frob_p^{-1}) \in \End_{\HkT_\ell}(\mathcal{W}_{\ell, \Q})$ 以 $X^2 - T_p X + \lrangle{p} p^{k+1}$ 为特征多项式. 作张量积 $- \dotimes{\HkT_\ell, \phi_{f, \lambda}} K_{f, \lambda}$ 可见 $\check{\rho}_{f, \lambda}(\Frob_p^{-1})$ 的特征多项式为 $X^2 - a_p(f) X + \chi_f(p) p^{k+1}$. 由逆步表示定义, 立见这也是 $\rho_{f, \lambda}(\Frob_p)$ 的特征多项式.
+	
+	接着证明 (iii) 的 $\det \rho_{f, \lambda} = \chi_f \chi_\ell^{k+1}$. 因为两端都是连续同态, 根据定理 \ref{prop:Chebotarev}, 对所有素数 $p \nmid N\ell$ 证 $\det \rho_{f, \lambda}(\Frob_p) = \chi_f(\Frob_p) \chi_\ell^{k+1}(\Frob_p)$ 即可. 但 (ii) 已说明
+	\[ \det \rho_{f, \lambda}(\Frob_p) = \chi_f(\Frob_p) p^{k+1} = \chi_f(p) p^{k+1}, \]
+	同时又有 $\chi_\ell(\Frob_p) = p$, 故等式得证.
+	
+	最后, $f \modact{k+2} \twomatrix{-1}{}{}{-1} = (-1)^{k+2} f$ 导致 $\chi_f(\text{conj}) = \chi_f(-1) = (-1)^{k+2}$. 代入 $\det \rho_{f, \lambda} = \chi_f \chi_\ell^{k+1}$ 并利用 $\chi_\ell(\text{conj}) = -1$, 立见 $\det \rho_{f, \lambda}(\mathrm{conj}) = -1$.
+\end{proof}
+
+\begin{remark}
+	对一切素数 $p \nmid N\ell$ 者, 定理 \ref{prop:Galois-rep} (ii) 蕴涵
+	\[ \det\left( 1 - \rho_{f, \lambda}(\Frob_p) p^{-s} \right)^{-1} = \left( 1 - a_p(f) p^{-s} + \chi_f(p) p^{k+1-2s} \right)^{-1} ; \]
+	这正是 $L(s, f)$ 的 Euler 乘积中对应到 $p$ 的项, 见定理 \ref{prop:Euler-prod-eigenform}.
+\end{remark}
+
+\begin{remark}\label{rem:Galois-rep-wt2}
+	Galois 表示的构造对于权为 $2$ 的情形有如下简化, 详见 \cite[\S 9.5]{DS05} 或 \cite[\S 3]{Sai16}. 考虑模曲线的 Jacobi 簇 $J := \Jac(X_1(N))$; 因为 $X_1(N)$ 是定义在 $\Z[1/N]$ 上的光滑曲线, $J$ 也是 $\Z[1/N]$ 上的交换光滑群概形. 取 $J$ 的有理 Tate 模
+	\[ V_\ell(J) := \left( \varprojlim_{m \geq 1} J(\overline{\Q})[\ell^m] \right) \dotimes{\Z_\ell} \Q_\ell, \]
+	其中按同态 $J(\overline{\Q})[\ell^m] \xrightarrow{\ell \;\text{倍}} J(\overline{\Q})[\ell^{m-1}]$ 来取 $\varprojlim_m$. 每个 $J(\overline{\Q})[\ell^m]$ 都是 $\Z/\ell^m \Z$-模, 故 $V_\ell(J)$ 为 $\Z_\ell$-模, 其上继承来自 $J(\overline{\Q})$ 的 $G_{\Q}$-作用. Hecke 代数仍透过几何方式作用在 $V_\ell(J)$ 上, 与 $G_{\Q}$-作用交换; 记此表示为 $\rho_{J, \ell}$. 取
+	\[ V_{f, \lambda} := V_\ell(J) \dotimes{\HkT_\ell, \phi_f} K_{f, \lambda}, \]
+	可以证明其上携带的 $G_{\Q}$-表示 $\rho_{J, \ell} \dotimes{\HkT_\ell, \phi_f} K_{f, \lambda}$ 同构于 $\rho_{f, \lambda}$. 这根本上是缘于 $\Hm^1(X_1(N), \Q_\ell)$ 作为 Galois 表示对偶于 $V_\ell(J)$; 这是关于曲线及其 Jacobi 簇的一般现象.
+\end{remark}
+
+以下事实述而不证, 它牵涉到 $1$ 维 $\ell$-进 Galois 表示的知识和关于 $L$-函数的一些分析学技术.
+\begin{theorem}[Deligne--Serre {\cite[8.7]{DS74}}, K.\ Ribet {\cite[Theorem 2.3]{Rib77}}]
+	定理 \ref{prop:Galois-rep} 构造的 Galois 表示 $\rho_{f, \lambda}$ 是绝对不可约表示.
+\end{theorem}
+
+配合命题 \ref{prop:rep-character}, 可知 $\rho_{f, \lambda}$ 的同构类完全由每个 $\rho_{f, \lambda}(g)$ 的特征多项式确定. 结合 Chebotarev 定理 \ref{prop:Chebotarev}, 可知只要对一切素数 $p \nmid N\ell$ 确定 $\rho_{f, \lambda}(\Frob_p)$, 即可确定 $\rho_{f, \lambda}$ 的同构类.
+
+回忆推论 \ref{prop:newform-basis} 和 \ref{rem:newform-mult1}: $S_k(\Gamma(N))$ 有一组基由形如 $f^{\mathrm{old}} = f(d\tau)$ 的正规化 Hecke 特征形式组成, 其中 $f \in S_k(\Gamma_1(N'))$ 是定义 \ref{def:newform} 的新形式, 而 $dN' \mid N$. 以下结果表明 Galois 表示的构造可以归结到新形式的情形.
+
+\begin{proposition}
+	设 $f \in S_k(\Gamma_1(N'))$ 为新形式, 而 $f^{\mathrm{old}} = f(d\tau) \in S_k(\Gamma_1(N))$, 其中 $dN' \mid N$. 那么 $\rho_{f^{\mathrm{old}}, \lambda} \simeq \rho_{f, \lambda}$.
+\end{proposition}
+\begin{proof}
+	
+	鉴于以上讨论, 仅须说明 $\rho_{f^{\mathrm{old}}, \lambda}(\Frob_p)$ 和 $\rho_{f, \lambda}(\Frob_p)$ 对所有素数 $p \nmid N\ell$ 都有相同的特征多项式, 亦即 $f^{\mathrm{old}}$ 和 $f$ 对 $T_p, \lrangle{p}$ 有相同的特征值. 这是引理 \ref{prop:oldform-invariance} (ii) 的内容.
+\end{proof}
+
+我们以关于定理 \ref{prop:Galois-rep} 的几点注记收尾.
+\begin{enumerate}
+	\item 对于权 $\geq 2$ 的新形式 $f$, A.\ J.\ Scholl \cite{Sch90} 进一步将 $\rho_{f, \lambda}$ 升级为系数在 $K_f$ 上的 Grothendieck \emph{原相} \footnote{法语: le motif}  $M_f$. 在权为 $2$ 的情形, 该原相简化为模曲线的 Jacobi 簇用 Hecke 对应和 $\phi_f$ 截下的某个商.
+
+	\item 定理 \ref{prop:Galois-rep} 仅处理权 $\geq 2$ 的尖点形式. 对于 $f \in S_1(\Gamma_1(N))$, Galois 表示的构造是 \cite{DS74} 的成果, 其手法取道模形式的同余 (需要 \S\ref{sec:geometric-modular-form} 的理论) 以化约到 $\geq 2$ 的权, 但最终得到的 Galois 表示能写作 $\rho_f: G_{\Q} \to \GL(2, K_f)$, 其中 $K_f$ 带来自 $\CC$ 的拓扑, 不再涉及 $\ell$ 和完备化.
+
+	\item 另一方面, 对 Eisenstein 级数也可以赋予 $2$ 维 Galois 表示, 它们总是可约的, 详见 \cite[Theorem 9.6.6]{DS05}.
+\end{enumerate}
+
+\section{模性一瞥}\label{sec:modularity}
+迄今关于 Galois 表示的结果可以图解为
+\begin{equation}\label{eqn:Galois-rep-diagram} \begin{tikzcd}[column sep=0]
+	& \left\{ \text{``原相'' \; (几何对象)} \right\} \arrow[rd, "\text{平展上同调}"] & \\
+	\left\{ \begin{array}{l} f \in S_{k+2}(\Gamma_1(N)) : \\ \text{新形式} \end{array} \right\} \arrow[rr, "\text{Deligne--志村}"] \arrow[ru, "\text{Scholl}"] & & \left\{ \begin{array}{l} \text{表示族}\; G_{\Q} \xrightarrow{\rho_\lambda} \GL(2, K_\lambda) : \\ K|\Q = \text{有限扩域} \\ \lambda = \text{非 Archimedes 赋值} \end{array} \right\} \\
+	f \arrow[mapsto, rr] \arrow[phantom, u, "\in" description, sloped] & & \left( G_{\Q} \xrightarrow{\rho_{f, \lambda}} \GL(2, K_{f, \lambda}) \right)_{\lambda \mid \ell} \arrow[phantom, u, "\in" description, sloped]
+\end{tikzcd}\end{equation}
+
+这套理论最著名的应用当属 Wiles--Taylor \cite{TW95} 对 Fermat 大定理的证明. 其根本在于一个称为谷山丰--志村五郎--Weil 猜想的重大结果, 涉及权为 $2$ 的情形. 为此有必要先说明何谓椭圆曲线的模性. 设 $E$ 为 $\Q$ 上的椭圆曲线. 它有一个重要的算术几何不变量 $N_E \in \Z_{\geq 1}$, 称为导子. 按照注记 \ref{rem:Galois-rep-wt2} 的套路, 构造 $E$ 的有理 $\ell$-进 Tate 模
+\[ V_\ell(E) := \left( \varprojlim_{m \geq 1} E(\overline{\Q})[\ell^m] \right) \dotimes{\Z_\ell} \Q_\ell. \]
+这是 $2$ 维 $\Q_\ell$-向量空间, 继承来自 $E(\overline{\Q})$ 的 $G_{\Q}$-作用, 相应的 Galois 表示记为 $\rho_{E, \ell}: G_{\Q} \to \GL(V_\ell(E))$. 它的算术意义可以从以下事实来理解. 首先 $\rho_{E, \ell}$ 在 $N_E \ell$ 之外非分歧. 再者, 对每个素数 $p$, 考虑 $E$ 到 $\Q_p$ 的基变换 $E_{\Q_p}$, 取其 Weierstrass 方程使得系数全在 $\Z_p$ 中, 并要求方程判别式的 $p$-进赋值尽量小. 由此遂可定义 $E$ 的 $\bmod\; p$ 约化, 特别地, 可以谈论 $E$ 的 $\F_p$-点个数 $|E(\F_p)|$. 命
+\[ a_p(E) := p + 1 - |E(\F_p)|, \]
+来自代数几何的一则事实是 \footnote{这是 Grothendieck--Lefschetz 迹公式, 但椭圆曲线的情形肇自 Hasse 和 Deuring 在 1930 年代的工作.}: 当 $p \nmid N_E \ell$ 时, $\rho_{E, \ell}(\Frob_p)$ 的特征多项式等于 $X^2 - a_p(E) X + p$. 
+
+\begin{definition}\label{def:modularity-rep}\index{moxing@模性 (modularity)}
+	设 $E$ 是 $\Q$ 上的椭圆曲线. 若以下性质成立则称 $E$ 具有\emph{模性}: 存在新形式 $f \in S_2\left(\Gamma_1(N_E)\right)$ 以及 $K_f$ 的赋值 $\lambda \mid \ell$, 任选代数闭包 $K_{f, \lambda} \hookrightarrow \overline{\Q_\ell}$, 我们要求
+	\[ \rho_{E, \ell} \dotimes{\Q_\ell} \overline{\Q_\ell} \simeq \rho_{f, \lambda} \dotimes{K_{f, \lambda}} \overline{\Q_\ell}. \]
+\end{definition}
+
+\begin{theorem}[Taylor--Wiles {\cite{TW95}}, Breuil--Conrad--Diamond--Taylor {\cite{BCDT}}]
+	所有 $\Q$ 上的椭圆曲线都具有模性.
+\end{theorem}
+
+根据新形式的强重数一性质 (注记 \ref{rem:newform-mult1}), $\rho_{f, \lambda}$ 唯一确定 $f$. 另一方面, $\rho_{E, \ell}$ 则唯一确定了 $N_E$ 和 $E$ 的同源等价类\footnote{容易说明同源的 $E$ 有相同的 $\rho_{E, \ell}$, 其逆则是 Faltings 的同源定理.}. 综之, 模性所断言的是权 $2$ 新形式和 $\Q$ 上椭圆曲线同源类的某种对应. 在此对应下, 椭圆曲线 $\bmod\; p$ 数点给出的 $a_p(E)$ 反映在模形式的 Fourier 系数 $a_p(f)$ 上. 这是深具震撼力的数学发现. R.\ Taylor 和 A.\ Wiles 证明的是 $E$ 半稳定, 亦即 $N_E$ 无平方因子的情形, 这已经足以导出 Fermat 大定理. \index{tongyuan}
+
+\begin{exercise}
+	说明定义 \ref{def:modularity-rep} 中的 $f$ 事实上属于 $S_2\left(\Gamma_0(N_E)\right)$.
+	
+	\begin{hint}
+		设 $f \in S_2(\Gamma_1(N_E), \chi_f)$. 对所有 $p \nmid N_E \ell$ 考虑 $\rho_{f, \lambda}(\Frob_p)$ 的特征多项式以说明 $\chi_f(p) = 1$, 从而导出 $\chi_f = 1$.
+	\end{hint}
+\end{exercise}
+
+模性的反方向, 亦即由新形式 $f \in S_2(\Gamma_0(N))$ 构造 $E$ 是相对容易的, 这是志村五郎的贡献: 从 $f$ 定义环同态 $\phi_f: \HkT_{\Z} \to K_f$; 在 \S\ref{sec:Deligne-Shimura} 末尾已经约略提到, Hecke 算子可通过 ``Hecke 对应''作用在 $J_0(N) := \Jac(X_0(N))$ 上, 商簇 $E := J_0(N) \big/ \Ker(\phi_f)J_0(N)$ 即是所求的 $\Q$ 上椭圆曲线, 满足 $N_E = N$; 相关构造详见 \cite[Chapters 6---7]{DS05}.
+
+%定义 \ref{def:modularity-rep} 中的对象按以下方式相互确定
+%\begin{center}\begin{tikzpicture}[
+%	object/.style={draw, rounded corners, outer sep=2pt},
+%	bend angle=30
+%	]
+%	\node[object] (F) at (0, 0) { 新形式 $f$ };
+%	\node[object] (R) [right=of F] {Galois 表示};
+%	\node[object] (E) [right= of R] {椭圆曲线 $E \; \big/ \text{同源}$};
+%	\node[object] (EE) [above= of E] {椭圆曲线 $E \; \big/ \text{同构}$};
+%	\node[object] (N) [below=of R]  {$N = N_E$};
+%	\path (EE) edge[->] (E);
+%	\path (F) edge[->] (R) edge[->, bend left] node[above, sloped] {\scriptsize 志村五郎的构造} (EE) edge[->, bend right] (N);
+%	\path (R) edge[->, dashed, bend left] node[above] {\scriptsize Faltings 同源定理} (E) edge[->, dashed, bend left] node[below] {\scriptsize 强重数一} (F) edge[->, dashed] (N); 
+%	\path (E) edge[->] (R) edge[->, bend left] (N);
+%\end{tikzpicture}\end{center}
+%虚线箭头代表信息可以从对应的 Galois 表示读出. 综之, 模性的陈述中真正起作用的仅是 $E$ 的同源等价类.
+
+模性有一系列等价陈述, 其中一个几何版本如下: 存在 $\Q$-代数曲线的非常值态射 $\xi: X_0(N) \to E$. 这里用上了 $X_0(N)$ 可定义在 $\Q$ 上这一事实. 最小可能的 $N$ 是 $N_E$. 参照志村五郎的构造, 所求之 $\xi$ 无非是 Abel--Jacobi 映射 $\phi: X_0(N) \to J_0(N)$ 和商 $\tilde{\xi}: J_0(N) \twoheadrightarrow E$ 的合成; 注意到 $S_2(X_0(N))$ 非零蕴涵 $g(X_0(N)) > 0$, 故 $\phi$ 是闭嵌入.
+
+对于 $E$, $f$ 和 $\xi$ 的关联, 不妨再多说几句.
+\begin{enumerate}
+	\item 在志村五郎的构造中, 将 $E$ 适当地代换为同源的椭圆曲线, 可以假设 $\Ker(\tilde{\xi})$ 连通; 称这样的 $\tilde{\xi}$ 为最优商. 考虑 $f$, $E$ 和最优商 $\tilde{\xi}$ 如上. Néron 模型给出典范的秩 $1$ 自由 $\Z$-模 $\mathcal{L}$ 使得 $\bomega_{E|\Q} = \mathcal{L} \otimes \Q$; 任意生成元 $\omega \in \mathcal{L}$ 拉回为 $X_0(N_E)$ 上的 $1$-形式 $\tilde{\xi}^* \omega$. 另一方面, $f$ 也对应到 $X_0(N)$ 上的 $1$-形式, 在 $\mathcal{H}$ 上表为 $f \dd\tau$ (定理 \ref{prop:dimension-formula} 或 \ref{prop:modular-vs-omega}). 注意到 $\omega$ 精确到 $\Z^\times = \{\pm 1\}$ 是唯一的.
+
+	\item 在上述场景中, 基于 Hecke 算子和重数一性质的论证说明存在 $c_E \in \Q^\times$ 使得
+	\[ \tilde{\xi}^* \omega = 2\pi i c_E f \dd\tau. \]
+	如要求 $c_E > 0$ 即可同步确定 $\omega$ 和 $c_E$. 称此 $c_E$ 为 $E$ 的 \emph{Manin 常数}. Y.\ Manin 猜想 $c_E = 1$. 迄今最广的结果是 $E$ 半稳定的情形, 归功于 K.\ Česnavičius \cite{Ces18}, 涉及关于整 $p$-进 Hodge 理论的一些思想.
+\end{enumerate}
+
+焦点转回图表 \eqref{eqn:Galois-rep-diagram}. 它仅仅是 Langlands 纲领的冰山一角. 有必要细化兼推广这些对应:
+\begin{itemize}
+	\item 运用自守表示的语言, 权 $\geq 2$ 的新形式可以代换为 $\GL(2)$ 的\emph{上同调尖自守表示}, 不再指涉级结构. 进一步, $\GL(2)$ 可以代换为 $\GL(n)$, 乃至于更一般的约化群.
+	\item 将 Galois 表示的系数变换到代数闭包上.
+	\item 表示族 $(\rho_{f, \lambda})_\lambda$ 的诸般性质可以提炼为 $G_{\Q}$ 的 $n$ 维 Galois 表示的\emph{相容系}, 定义 \ref{def:compatible-system} 将给出其一种版本.
+\end{itemize}
+局势遂变为
+\[\begin{tikzcd}[column sep=0, row sep=small]
+	& \left\{ \text{``原相''} \right\} \arrow[dashed, dash, rd] \arrow[dashed, dash, ld] & \\
+	\left\{ \begin{array}{l} \GL(n) \;\text{的上同调尖自守表示} \end{array} \right\} \arrow[dashed, dash, rr] & & \left\{ \begin{array}{l} \text{相容系}\; G_{\Q} \xrightarrow{\rho_\lambda} \GL(n, \overline{K_\lambda}) \\ \exists S \subset \text{\{素数\}}: \;\text{有限集} \\ \rho_\lambda \;\text{在 $S$ 外非分歧}  \end{array} \right\}
+\end{tikzcd}\]
+相容系中的 $K$ 是 $\Q$ 的有限扩张, 而 $\lambda$ 遍历 $K$ 的非 Archimedes 赋值, 精确到等价. 之所以标上虚线, 是因为当 $n > 1$ 时, 不同对象间的关系仅是猜想, 须另加复杂的条件才能保证. 几何, 算术与表示理论在此熔于一炉, 这是 Langlands 纲领的一个重要案例.
+
+自然的问题是确定哪些相容系源自新形式, 或者源自更广泛的尖自守表示. 对于 $n=2$ 的情形, 这相当于寻求定理 \ref{prop:Galois-rep} 的另一方向. 这称为 Galois 表示的\emph{模性}或\emph{自守性}问题, 是 Langlands 纲领的核心之一, 迄今无完整答案. 为了陈述相关猜想, 最低限度也须对 $\rho_\lambda|_{G_{\Q_p}}$ 在 $\ell = p$ 的情形施加限制, 以确保它来自几何; 这里 $p$ 是任意素数而 $\ell$ 是赋值 $\lambda$ 的剩余特征. 另一个要求则是 $\rho_\lambda$ 应当在某种意义下和 $\lambda$ 无关, 这是因为 $\ell$-进平展上同调有类似的性质. 一切汇归以下概念.
+
+\begin{definition}[Barnet-Lamb--Gee--Geraghty--Taylor]\label{def:compatible-system} \index{xiangrongzu@相容系 (compatible system)}
+	设 $K$ 是 $\Q$ 的有限扩张, $S \subset \{p: \text{素数}\}$ 是有限集. 考虑一族半单 Galois 表示 $\rho_\lambda: G_{\Q} \to \GL(n, \overline{K_\lambda})$, 其中
+	\begin{compactitem}
+		\item $\lambda$ 遍历 $K$ 的非 Archimedes 赋值, 精确到等价, 以下记其剩余类域的特征为 $\ell$;
+		\item $\overline{K_\lambda}$ 表 $K_\lambda$ 的代数闭包.
+	\end{compactitem}
+
+	若 $(\rho_\lambda)_\lambda$ 符合以下要求, 则称之为定义在 $K$ 上并且在 $S$ 外分歧的\emph{相容系} (或称弱相容系): 对任意素数 $p$, 要求
+	\begin{enumerate}[(i)]
+		\item 当 $p \notin S \cup \{\ell\}$ 时, $\rho_\lambda$ 在 $p$ 处非分歧, 而 $\rho_\lambda(\Frob_p)$ 的特征多项式落在 $K[X]$ 中, 与 $\lambda$ 无关;
+		\item 若 $p = \ell$ 则 $\rho_\lambda |_{G_{\Q_p}}$ 是 \emph{de Rham 表示}, 若 $p = \ell \notin S$ 则 $\rho_\lambda |_{G_{\Q_p}}$ 还是\emph{晶体表示};
+		\item $\rho_\lambda$ 的 Hodge--Tate 数与 $\lambda$ 无关. 
+	\end{enumerate}
+\end{definition}
+特别地, 根据命题 \ref{prop:rep-character} 和定理 \ref{prop:Chebotarev}, 对于任何一个选定的 $\lambda$, 相容系完全由
+\[ \left( \det(X - \rho_\lambda(\Frob_p)) \; \in K[X] \right)_{p \notin S \cup \{\ell\} } \]
+来确定, 至多差一个同构.
+
+\begin{example}
+	定理 \ref{prop:Galois-rep} 造出的 $\rho_{f, \lambda}$ 便是定义在 $K_f$ 上, 并且在 $N$ 的素因子之外非分歧的相容系; 本书仅验证了条件 (i).
+\end{example}
+
+定义 \ref{def:compatible-system} 中关于 $p = \ell$ 和 Hodge--Tate 数的条件涉及 $p$-进表示的术语, 目的是确保 $\rho_\lambda$ 能够来自几何; 想真正理解其意涵就必须了解代数簇的种种 $p$-进上同调理论. 如此一来, 我们便自然从模形式步入了 $p$-进 Hodge 理论的畛域. 纸短理长, 就此打住.

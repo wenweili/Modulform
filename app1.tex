@@ -1,0 +1,530 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter{分析学背景}
+本附录大致分为两部分. \S\S\ref{sec:topological-group}--\ref{sec:fundamental-domain} 围绕群作用, 商空间和基本区域. \S\S\ref{sec:holomorphy}--\ref{sec:PL} 则是来自调和分析和复变函数论的一些经典工具. 相关内容都是标准的, 但未必被纳入大学课程和标准教材.
+
+\section{拓扑群及其作用}\label{sec:topological-group}
+本节需要点集拓扑的基本语汇, 标准的参考资料包括但不限于 \cite{Xiong, You},
+
+\emph{拓扑群}是指一个具有 Hausdorff 拓扑空间结构的群 $G$, 使得乘法 $G \times G \to G$ 及取逆 $G \to G$ 都是连续映射. 如果进一步要求 $G$ 是 $C^\infty$ 流形, 而乘法与取逆都是流形之间的 $C^\infty$ 映射, 那么 $G$ 称作 Lie 群. 设 $X$ 为局部紧 Hausdorff 拓扑空间, 若 $G$ 左作用于 $X$ 上, 而按 $a(g,x) = gx$ 定义的作用映射 $a: G \times X \to X$ 连续, 则此作用称为是连续的. 如果 $X$ 是 $C^\infty$ 流形, $G$ 是 Lie 群而 $a$ 是 $C^\infty$ 映射, 那么这个作用称为 $C^\infty$ 或光滑的. 对任意 $x \in X$, 稳定化子群 $\Stab_G(x)$ 是 $G$ 的闭子群. 若 $X$ 在 $G$ 作用下仅有一个轨道, 则称 $G$ 的作用\emph{可递}, 而 $X$ 是 $G$ 作用下的\emph{齐性空间}. 若对每个 $x \in X$ 皆有 $\Stab_G(x)=\{1\}$, 则称 $G$ 的作用\emph{自由}. 如赋予 $X$ 一个 Riemann 度量, 而且要求每个群元素的作用 $a(g, \cdot): X \to X$ 都保持 Riemann 度量, 则我们称 $G$ 的作用\emph{保距}. 基于对称性, 保距作用下的齐性空间必为常曲率空间. 右作用的情形全然相同. 拓扑群的一般理论可见 \cite{FL14}.
+
+\begin{exercise}
+	设 $G$ 为离散群. 证明 $G$ 在空间 (或流形) $X$ 上的作用是连续 (或 $C^\infty$) 的, 当且仅当每个 $g \in G$ 给出的 $X \to X$ 都是连续 (或 $C^\infty$) 的.
+\end{exercise}
+
+空间若具有一族可数的拓扑基, 则称其满足\emph{第二可数公理}; 见 \cite[第一章, \S 3.3 和 第二章, \S 1.3]{You}. 流形按定义 \cite[Chapter 1]{Lee13}皆满足第二可数公理.
+
+对于连续的群作用可定义商空间 $G \backslash X$, 由全体 $G$ 的轨道构成, 带有使商映射 $\pi: X \to G \backslash X$ 连续的最粗拓扑; 等价的说法是 $U \subset G \backslash X$ 为开当且仅当 $\pi^{-1}(U) \subset X$ 为开. 此即商拓扑. \index{shangtuopu@商拓扑 (quotient topology)}
+
+\begin{lemma}\label{prop:quotient-common-sense}
+	对于连续群作用如上, $X \xrightarrow{\pi} G \backslash X$ 是开映射. 若 $X$ 满足第二可数公理, 则 $G \backslash X$ 亦然.
+\end{lemma}
+\begin{proof}
+	给定开集 $U \subset X$, 我们有 $\pi^{-1}(\pi(U)) = \bigcup_{g \in G} gU$ 为开, 故 $\pi(U)$ 亦开, 第一条断言得证. 对于第二条, 设 $\mathcal{U}$ 是 $X$ 的一族可数拓扑基, 证明 $\mathcal{V} := \{\pi(U) : U \in \mathcal{U} \}$ 为拓扑基即可. 诚然, 给定开子集 $V \subset G \backslash X$, 可将 $\pi^{-1}(V)$ 写成 $\mathcal{U}$ 中一族元素之并; 于是 $V = \pi(\pi^{-1}(V))$ 相应地成为 $\mathcal{V}$ 中元素之并.
+\end{proof}
+上述结果对右作用同样成立. 商空间的重要特例是拓扑群的陪集空间.
+
+\begin{proposition}\label{prop:coset-space}
+	设 $H$ 是拓扑群 $G$ 的子群, 赋予 $G/H$ 商拓扑, 那么
+	\begin{compactenum}[(i)]
+		\item 商映射 $\pi: G \to G/H$ 是开的;
+		\item 若 $G$ 局部紧, 则 $G/H$ 亦然;
+		\item $G/H$ 是 Hausdorff 空间当且仅当 $H$ 闭;
+	\end{compactenum}
+\end{proposition}
+\begin{proof}
+	引理 \ref{prop:quotient-common-sense} 已包含 (i). 对于 (ii), 基于 $G$ 在 $G/H$ 上作用的可递性, 仅须证明 $1 \cdot H \in G/H$ 有紧邻域. 取 $1 \in G$ 的紧邻域 $K$, 再以乘法连续性取 $1 \in G$ 的邻域 $U$ 使得 $U^{-1} U \subset K$. 我们断言 $\overline{\pi(U)} \subset \pi(K)$. 诚然, 若陪集 $gH \in \overline{\pi(U)}$, 那么其邻域 $UgH$ 必交 $\pi(U)$, 亦即存在 $u, u' \in U$ 使得 $ugH = u'H$, 这就导致
+	\[ gH = u^{-1} u'H \in \pi(U^{-1} U) \subset \pi(K). \]
+	由于 $\pi(K)$ 为紧, 上述断言遂蕴涵 $\overline{\pi(U)}$ 是 $\pi(1) = 1 \cdot H$ 的紧邻域.
+	
+	对于 (iii), 设若 $G/H$ 是 Hausdorff 的, 那么 $H = \pi^{-1}(\pi(1))$ 为闭. 反之设 $H$ 闭. 对给定之陪集 $xH \neq yH$, 存在 $G$ 中的开邻域 $V \ni 1$ 使得 $Vx \cap yH = \emptyset$, 或等价地说 $VxH \cap yH = \emptyset$. 再取 $G$ 中开邻域 $U \ni 1$ 使得 $U^{-1} U \subset V$. 这就使得 $UxH \cap UyH = \emptyset$, 如是给出 $\pi(x)$, $\pi(y)$ 的无交开邻域.
+\end{proof}
+
+精确到同构, 陪集空间穷尽了所有的局部紧 $G$-齐性空间.
+\begin{theorem}\label{prop:homogeneous-space}
+	设 $G$ 是满足第二可数公理的局部紧群, 局部紧拓扑空间 $X$ 带有可递的连续 $G$-作用, 而 $x \in X$, 那么轨道映射
+	\begin{align*}
+		\mathrm{orb}_x: G/\Stab_G(x) & \longrightarrow X \\
+			g & \longmapsto gx
+	\end{align*}
+	是同胚.
+
+	进一步, 若 $G$ 是 Lie 群而 $H$ 是其闭 Lie 子群, 那么空间 $G/H$ 上带有唯一的 $C^\infty$ 结构, 使得 $G$ 在 $G/H$ 上的左平移作用是 $C^\infty$ 的, 而且 $G \to G/H$ 是 $C^\infty$ 浸没 (即: 切映射处处满秩). 设 $C^\infty$ 流形 $X$ 是 Lie 群 $G$ 左作用下的齐性空间, $x \in X$ 并赋予 $G/\Stab_G(x)$ 上述之流形结构, 那么 $\mathrm{orb}_x$ 实际还是 $C^\infty$ 流形之间的同构.
+\end{theorem}
+
+对于右作用和陪集空间 $H \backslash G$ 自然也有相应的结果, 这里不再赘述.
+\begin{proof}
+	对于 Lie 群情形, 这是微分流形理论中的基本事实, 见 \cite[Theorem 21.17, Theorem 21.18]{Lee13}. 以下仅讨论第一部分. 已知 $\mathrm{orb}_x$ 是连续双射, 再证其为开映射即可. 但根据商拓扑的定义, 证明 $g \mapsto gx$ 是从 $G$ 到 $X$ 的开映射即足.
+	
+	考虑 $G$ 中的紧邻域 $K \ni 1$. 第二可数公理确保 $G$ 有稠密可数子集 $\{ g_i \}_{i=1}^\infty$, 故 $G = \bigcup_{i \geq 1} g_i K$, 故 $X = \bigcup_{i \geq 1} g_i K x$. 既然 $g_i K x$ 紧, 它们在 $X$ 中是闭的. 故 Baire 定理蕴涵存在 $i$ 使得 $(g_i K x)^\circ \neq \emptyset$. 左平移给出同胚 $g_i K x \rightiso Kx$, 故存在 $kx \in (Kx)^\circ$. 再作平移遂导出 $x \in (k^{-1} Kx)^\circ \subset (K^{-1} Kx)^\circ$.
+	
+	接着考虑任意开子集 $V \subset G$ 和 $g \in V$. 取 $G$ 中的紧邻域 $K \ni 1$ 使得 $gK^{-1}K \subset V$, 那么 $gx \in gK^{-1}Kx \subset Vx$. 既然已知 $x \in (K^{-1} Kx)^\circ$, 平移后 $gx \in (gK^{-1} Kx)^\circ \subset (Vx)^\circ$. 综上, $Vx$ 的每一点都是内点, 故 $Vx$ 为开子集.
+\end{proof}
+
+
+拓扑群 $G$ 的子群 $\Gamma$ 若是 $G$ 的离散子集, 则称其为\emph{离散子群}. 子群 $\Gamma \subset G$ 离散当且仅当存在开集 $U \subset G$ 使 $U \cap \Gamma = \{1\}$, 或者说 $\{1\}$ 在 $\Gamma$ 中离散, 因为如此一来对所有 $\gamma \in \Gamma$ 皆有 $\gamma U \cap \Gamma = \{\gamma\}$, 而 $\gamma U \ni \gamma$ 为开集. \index{lisanziqun@离散子群 (discrete subgroup)}
+
+\begin{lemma}\label{prop:discrete-closed}
+	拓扑群 $G$ 的离散子群 $\Gamma$ 总是闭的.
+\end{lemma}
+\begin{proof}
+	选定 $g \notin \Gamma$, 只消说明 $g$ 有不交 $\Gamma$ 的开邻域. 选择开邻域 $U \ni 1$ 使得 $U \cap \Gamma = \{1\}$. 因为乘法连续, 存在开邻域 $V \ni g$ 满足 $VV^{-1} \subset U$; 于是对 $x,y \in V$ 有 $xy^{-1} \in \Gamma \iff x=y$. 是故 $|V \cap \Gamma| \leq 1$. 若 $V \cap \Gamma = \emptyset$ 则可收工, 否则设 $V \cap \Gamma = \{x\}$. 因为 $G$ 是 Hausdorff 空间, 存在开集 $W$ 使得 $g \in W$ 而 $x \notin W$. 取开集 $W \cap V \ni g$ 即所求.
+\end{proof}
+
+\begin{definition}\label{def:discontinuous-action} \index{zhengchangzuoyong@正常作用 (proper action)}
+	设离散群 $\Gamma$ 连续地作用在局部紧 Hausdorff 拓扑空间 $X$ 上. 如果对任何紧子集 $K_1, K_2 \subset X$, 集合 $\{\gamma \in \Gamma : \gamma K_1 \cap K_2 \neq \emptyset \}$ 皆有限, 则称 $\Gamma$ 的作用是\emph{正常}的\footnote{这种作用旧称为``不连续''作用, 如 \cite[p.18]{Bu97}, 易滋误会, 在此采纳了 \cite[\S 21]{Lee13} 的建议.}.
+\end{definition}
+
+\begin{exercise}
+	对于正常作用, 验证每个 $x \in X$ 皆满足
+	\begin{inparaenum}[(a)]
+		\item $\Stab_\Gamma(x)$ 有限,
+		\item 轨道 $\Gamma x$ 离散.
+	\end{inparaenum}
+	\begin{hint}
+		对于 (a), 在定义中取 $K_1 = K_2 = \{x\}$. 对于 (b), 仅须证明 $x$ 的任何紧邻域 $K$ 交 $\Gamma x$ 于有限多个点 (取 $K_1 = \{x\}$, $K_2 = K$), 再将此邻域适当缩小.
+	\end{hint}
+\end{exercise}
+
+\begin{proposition}\label{prop:nbhd-normal-action}
+	设 $\Gamma$ 在 $X$ 上的作用正常, 而且 $X$ 满足第二可数公理, 则每个 $x \in X$ 都有开邻域 $U$ 使得对任意 $y, y' \in U$,
+	\[ \forall \gamma \in \Gamma, \; \left[ \gamma y = y' \implies \gamma \in \Stab_\Gamma(x) \right]. \]
+\end{proposition}
+\begin{proof}
+	设若不然, 则存在 $X$ 中的收敛点列 $y_i \to x$, $y'_i \to x$ 以及 $\Gamma$ 中的点列 $\gamma_i \in \Gamma \smallsetminus \Stab_\Gamma(x)$, 使得 $y'_i = \gamma_i y_i$. 可取 $y_i, y'_i$ 全在 $x$ 的一个紧邻域中, 正常作用遂蕴涵 $\gamma_i$ 的选择有限. 萃取子序列后可进一步假设 $\gamma_i$ 为常元 $\gamma \in \Gamma$. 对 $y'_i = \gamma y_i$ 取极限 $i \to \infty$ 导出 $\gamma \in \Stab_\Gamma(x)$, 矛盾.
+\end{proof}
+
+\begin{proposition}\label{prop:quot-Hausdorff}
+	对于 $\Gamma$ 在 $X$ 上的正常作用, 商空间 $\Gamma \backslash X$ 也是局部紧 Hausdorff 的.
+\end{proposition}
+\begin{proof}
+	已知 $X \to \Gamma \backslash X$ 是开映射, 而连续映射映紧集为紧集, 由此知 $\Gamma \backslash X$ 也是局部紧空间. 为了证明 Hausdorff 性质, 考虑 $x, y \in X$ 使得轨道 $\bar{x} \neq \bar{y} \in \Gamma \backslash X$ 者. 因为 $X$ 局部紧, 可取开邻域 $A \ni x$ 和 $B \ni y$ 使得闭包 $\bar{A}, \bar{B}$ 紧, 并且由假设知 $\{\gamma : \gamma\bar{A} \cap \bar{B} \neq \emptyset \}$ 有限, 其元素枚举为 $\gamma_1, \ldots, \gamma_n$. 既然 $X$ 是 Hausdorff 的, 而且对所有 $1 \leq i \leq n$ 皆有 $\gamma_i x \neq y$, 对每个 $i$ 可取开邻域 $U_i \ni \gamma_i x$ 和 $V_i \ni y$ 使得 $U_i \cap V_i = \emptyset$. 进一步取开集
+	\begin{align*}
+		x \in U & := A \cap \bigcap_{i=1}^n \gamma_i^{-1} U_i, \\
+		y \in V & := B \cap \bigcap_{i=1}^n V_i,
+	\end{align*}
+	以确保 $\gamma U \cap V = \emptyset$ 对所有 $\gamma$ 成立, 那么 $U, V$ 在 $\Gamma \backslash X$ 中的像给出 $\bar{x}, \bar{y}$ 的无交开邻域.
+\end{proof}
+
+若 $H \subset G$ 为局部紧拓扑群的闭子群, 则命题 \ref{prop:coset-space} 说明 $G/H$ 是局部紧 Hausdorff 空间, 由此可以谈论离散群对 $G/H$ 的作用是否正常. 以下提供的判准需要一点准备工作. 回忆到一个连续映射 $f: A \to B$ 被称为\emph{逆紧}的, 如果紧集的逆像仍为紧.
+
+\begin{lemma}\label{prop:proper-quotient-compact}
+	设 $G$ 为拓扑群而 $H \subset G$ 为闭子群, 则商映射 $\pi: G \to G/H$ 逆紧蕴涵 $H$ 为紧群; 如果 $G$ 是局部紧群, 则其逆亦真.
+\end{lemma}
+\begin{proof}
+	设 $\pi$ 逆紧, 则 $H$ 作为 $\left\{ 1 \cdot H \right\} \subset G/H$ 的逆像也是紧的.
+	
+	以下设 $H$ 紧而 $G$ 局部紧. 设 $E \subset G/H$ 为紧子集, 对每个 $x \in G$ 取开集 $U_x \ni x$ 使得 $\overline{U_x}$ 紧. 基于 $\pi$ 为开映射这一事实, $\left\{\pi(U_x): x \in G \right\}$ 给出 $E \subset G/K$ 的开覆盖, 从中选取有限子覆盖 $\pi(U_{x_1}), \ldots \pi(U_{x_n})$. 于是
+	\[ \pi^{-1}(E) \subset \pi^{-1}\left( \bigcup_{i=1}^n \pi\left(\overline{U_{x_i}}\right) \right) = \left( \bigcup_{i=1}^n \overline{U_{x_i}} \right) \cdot H, \]
+	而右式是紧的, $\pi^{-1}(E)$ 闭, 故 $\pi^{-1}(E)$ 紧.
+\end{proof}
+
+\begin{proposition}\label{prop:discrete-group-discontinuous}
+	设 $G$ 为局部紧拓扑群, $H \subset G$ 为紧子群而 $\Gamma \subset G$ 为离散子群, 则 $\Gamma$ 在 $G/H$ 上的左乘作用为正常作用.
+\end{proposition}
+\begin{proof}
+	引理 \ref{prop:proper-quotient-compact} 蕴涵商映射 $\pi: G \to G/H$ 逆紧. 今取定紧子集 $K_1, K_2 \subset G/H$, 对任意 $\gamma \in G$, 我们有
+	\begin{align*}
+		\gamma K_1 \cap K_2 \neq \emptyset & \iff \left[ \begin{array}{ll} \exists \kappa_1 \in \pi^{-1}(K_1), \\ \exists \kappa_2 \in \pi^{-1}(K_2), \end{array} \quad \gamma \kappa_1 \in \kappa_2 H \right] \\
+		& \implies \gamma \in \kappa_2 H \kappa_1^{-1} \subset \pi^{-1}(K_2) \cdot  \pi^{-1}(K_1)^{-1}.
+	\end{align*}
+	然而 $A := \pi^{-1}(K_2) \cdot \pi^{-1}(K_1)^{-1}$ 为紧; 作为紧集 $A$ 的离散子集, 引理 \ref{prop:discrete-closed} 蕴涵 $\Gamma \cap A$ 必有限. 证毕.
+\end{proof}
+
+取特例 $H = \{1\}$ 可知任何离散子群 $\Gamma$ 在局部紧群 $G$ 上的平移作用皆正常.
+
+\section{基本区域}\label{sec:fundamental-domain}
+本节谈论的空间都是局部紧 Hausdorff 空间, 群都是离散群.
+
+\begin{definition}\label{def:fundamental-domain} \index{jibenquyu}
+	设群 $\Gamma$ 在空间 $X$ 上正常地作用. 当子集 $\mathcal{F} \subset X$ 满足以下条件时, 称 $\mathcal{F}$ 是 $X$ 的\emph{基本区域}.
+	\begin{enumerate}[\bfseries {F}.1]
+		\item $\mathcal{F}$ 是 $\mathcal{F}^\circ$ 的闭包;
+		\item 对任意相异的 $\gamma, \gamma' \in \Gamma$ 皆有 $(\gamma \mathcal{F})^\circ \cap (\gamma' \mathcal{F})^\circ = \emptyset$;
+		\item $X = \bigcup_{\gamma \in \Gamma} \gamma \mathcal{F}$，而且此覆盖是局部有限的: 对任意 $x \in X$, 存在开邻域 $U \ni x$ 使得仅有有限多个 $\gamma \in \Gamma$ 使得 $U \cap \gamma\mathcal{F} \neq \emptyset$. \index{jubuyouxian@局部有限 (locally finite)}
+	\end{enumerate}
+	上述形如 $\gamma \mathcal{F}$ 的子集也称为 $\mathcal{F}$ 的一个 $\Gamma$-平移.
+\end{definition}
+
+下面是一个简单的观察: 小群的基本区域能从大群得到.
+\begin{proposition}\label{prop:fundamental-domain-sub}
+	设 $\Gamma'$ 在 $X$ 上正常地作用, 并且有基本区域 $\mathcal{F}'$. 若子群 $\Gamma \subset \Gamma'$ 满足 $k = (\Gamma':\Gamma)$ 有限, 任选陪集分解
+	\[ \Gamma' = \bigsqcup_{i=1}^k \Gamma g_i, \quad g_1, \ldots, g_k \in \Gamma', \]
+	则 $\mathcal{F} := \bigcup_{i=1}^k g_i\mathcal{F}'$ 是 $\Gamma$ 的基本区域.
+\end{proposition}
+\begin{proof}
+	关于 $\textbf{F.1}$ 的验证是初等的. 至于 \textbf{F.3}, 首先有
+	\[ X = \bigcup_{i=1}^k \bigcup_{\gamma \in \Gamma} \gamma g_i \mathcal{F}' = \bigcup_{\gamma \in \Gamma} \gamma \cdot \bigcup_{i=1}^k g_i \mathcal{F}' = \bigcup_{\gamma \in \Gamma} \gamma \mathcal{F}. \]
+	接着验证 \textbf{F.3} 中的局部有限性: 对任意 $x$, 取开邻域 $U \ni x$ 使得
+	\[ \Xi := \left\{ \gamma \in \Gamma: \gamma\mathcal{F}' \cap U \neq \emptyset \right\} \]
+	是有限集. 若 $\gamma \mathcal{F} \cap U = \bigcup_{i=1}^k \gamma \left( g_i \mathcal{F}' \cap U \right)$ 非空, 则 $\gamma$ 属于有限集 $\bigcup_{i=1}^k \Xi g_i^{-1}$.
+
+	以下证明 \textbf{F.2}. 由于
+	\[ \bigsqcup_{i=1}^k g_i(\mathcal{F}')^\circ \stackrel{\text{开}}{\subset} \mathcal{F}^\circ \subset \mathcal{F} = \bigcup_{i=1}^k g_i\mathcal{F}' , \]
+	从 $(\mathcal{F}')^\circ$ 在 $\mathcal{F}'$ 中稠密导出 $\bigsqcup_i g_i(\mathcal{F}')^\circ$ 在 $\mathcal{F}$ 中稠密, 故 $\mathcal{F}^\circ$ 也在 $\mathcal{F}$ 中稠密. 若存在 $x \in \gamma \mathcal{F}^\circ \cap \mathcal{F}^\circ$, 其中 $\gamma \in \Gamma$, 那么由于 $\gamma\mathcal{F}^\circ \cap \mathcal{F}^\circ$ 为开, 稠密性蕴涵存在 $i,j$ 使得 $x$ 可以扰动到 $\gamma g_i (\mathcal{F}')^\circ \cap g_j(\mathcal{F}')^\circ$ 中, 故 $\gamma = g_j g_i^{-1}$. 若 $i=j$ 则 $\gamma = 1$. 若 $i \neq j$ 则 $\gamma = g_j g_i^{-1} \notin \Gamma$, 矛盾.
+\end{proof}
+
+基本区域 $\mathcal{F}$ 是研究商空间 $\Gamma \backslash X$ 的有力工具. 在 $\mathcal{F}$ 上定义等价关系
+\[ \forall x,y \in \mathcal{F}, \quad x \sim y \iff \exists \gamma \in \Gamma, \; \gamma x = y. \]
+根据 \textbf{F.2}, 此关系仅在 $\mathcal{F}$ 的边界 $\partial \mathcal{F}$ 上才是非平凡的. 存在自然的映射
+\[ \theta: (\mathcal{F}/\sim) \longrightarrow \Gamma \backslash X. \]
+赋予 $\mathcal{F}$ 子空间拓扑, 再赋予 $\mathcal{F}/\sim$ 商拓扑. 下述结果说明将 $\mathcal{F}$ 沿边按 $\sim$ 粘合, 就能得出 $\Gamma\backslash X$.
+\begin{proposition}\label{prop:fundamental-domain-paste}
+	映射 $\theta$ 是同胚.
+\end{proposition}
+\begin{proof}
+	根据基本区域的定义可知 $\theta$ 是双射. 从商拓扑定义和交换图表
+	\[\begin{tikzcd}
+		\mathcal{F} \arrow[d, twoheadrightarrow, "\pi"'] \arrow[r, hookrightarrow] & X \arrow[d, twoheadrightarrow, "\pi_X"] \\
+		\mathcal{F}/\sim \arrow[r, "\theta"'] & \Gamma\backslash X
+	\end{tikzcd}\]
+	可知 $\theta$ 连续, 问题归结为证明 $\theta$ 是开映射. 令 $U \subset \mathcal{F}/\sim$ 为开集, 存在开集 $\tilde{U} \subset X$ 使得 $\pi^{-1}(U) = \mathcal{F} \cap \tilde{U}$. 定义 $X$ 的 $\Gamma$-不变子集
+	\[ V := \bigcup_{\gamma \in \Gamma} \gamma (\mathcal{F} \cap \tilde{U}). \]
+	它满足
+	\[ \pi_X(V) = \pi_X(\mathcal{F} \cap \tilde{U}) = \pi_X(\pi^{-1}(U)) = \theta(U). \]
+	既然 $\pi_X$ 是开映射, 证 $V$ 为 $X$ 的开子集即足. 下面证明每个 $x \in V$ 都有包含于 $V$ 的开邻域. 根据局部有限性, 存在 $X$ 中的开邻域 $W \ni x$ 使得 $W \subset \bigcup_{i=1}^k \gamma_i \mathcal{F}$, 其中 $\forall \gamma_i \in \Gamma$. 因 $\mathcal{F}$ 为闭, 缩小 $W$ 后还可以假设 $\forall i, \; x \in \gamma_i\mathcal{F}$.
+	
+	由 $\pi(\gamma_i^{-1} x) = \pi(x) \in U$ 可知 $\gamma_i^{-1}x \in \pi^{-1}(U) = \mathcal{F} \cap \tilde{U} \subset \tilde{U}$. 于是乎每个开集 $\gamma_i \tilde{U}$ 皆包含 $x$; 进一步缩小 $W$ 可确保 $W \subset \bigcap_{i=1}^k \gamma_i \tilde{U}$. 最后观察到 $W \subset V$: 若 $w \in W$, 取 $1 \leq i \leq k$ 使得 $w \in \gamma_i \mathcal{F}$, 于是 $w \in \gamma_i \mathcal{F} \cap \gamma_i\tilde{U} = \gamma_i(\mathcal{F} \cap \tilde{U}) \subset V$. 证毕.
+\end{proof}
+
+\begin{example}
+	取 $X = \R$, 离散群 $\Gamma := \Z$ 以加法作用在 $X$ 上. 极易看出区间 $[0,1]$ 满足定义 \ref{def:fundamental-domain} 的所有条件, 因而是基本区域. 如果考虑 $\Z$ 的子群 $2\Z$, 那么 $[0,2] = [0,1] \cup (1 + [0,1])$ 是相对于 $2\Z$ 的基本区域, 正与命题 \ref{prop:fundamental-domain-sub} 一致. 根据命题 \ref{prop:fundamental-domain-paste}, 将 $[0,1]$ 两端粘合便可描述商空间 $\R/\Z$, 显然粘合后的空间同胚于圆环 $\mathbb{S}^1$. 更直接的同胚 $\R/\Z \rightiso \mathbb{S}^1$ 可由 $x + \Z \mapsto e^{2\pi ix}$ 给出.
+\end{example}
+
+最后考察 $X$ 为 Riemann 流形的情形. 假定 $\Gamma$ 的作用保距, 则 $\Gamma$ 也保持相应的测度.
+\begin{proposition}\label{prop:fundamental-domain-vol}
+	设离散群 $\Gamma$ 透过保距变换正常地作用在 Riemann 流形 $X$ 上. 设 $\mathcal{F}_1$, $\mathcal{F}_2$ 是 $\Gamma$ 作用下的两个基本区域, 并且 $\partial\mathcal{F}_1$ 和 $\partial\mathcal{F}_2$ 皆为零测集, 则 $\mathrm{vol}(\mathcal{F}_1) = \mathrm{vol}(\mathcal{F}_2)$.
+\end{proposition}
+\begin{proof}
+	基于对称性, 证 $\mathrm{vol}(\mathcal{F}_1) \geq \mathrm{vol}(\mathcal{F}_2)$ 即可. 基本区域的性质和题设给出
+	\begin{align*}
+		\mathrm{vol}(\mathcal{F}_1) & \geq \sum_{\gamma \in \Gamma} \mathrm{vol}\left( \mathcal{F}_1 \cap \gamma\mathcal{F}_2^\circ \right) = \sum_{\gamma \in \Gamma} \mathrm{vol}\left( \gamma^{-1}\mathcal{F}_1 \cap \mathcal{F}_2^\circ \right) \\
+		& \geq \mathrm{vol}\left( \left(\bigcup_{\gamma \in \Gamma} \gamma^{-1}\mathcal{F}_1\right) \cap \mathcal{F}_2^\circ \right) \\
+		& = \mathrm{vol}\left( \mathcal{F}_2^\circ \right) = \mathrm{vol}\left( \mathcal{F}_2 \right).
+	\end{align*}
+	明所欲证.
+\end{proof}
+
+\begin{remark}\label{rem:fundamental-domain-vol}
+	假设存在边界为零测集的基本区域 $\mathcal{F}$, 则命题 \ref{prop:fundamental-domain-vol} 表明 $\mathrm{vol}(\mathcal{F})$ 实则是 $X$ 在 $\Gamma$ 作用下的不变量, 无关 $\mathcal{F}$ 的选择. 此量可理解为商空间 $\Gamma \backslash X$ 的体积, 然而这并不严谨, 因为当 $\Gamma$ 作用非自由时, 要说清 $\Gamma \backslash X$ 的几何结构是颇费周折的.
+\end{remark}
+
+\section{正规收敛与全纯函数}\label{sec:holomorphy}
+请回忆: 从度量空间 $(X, d)$ 到 $(X', d')$ 的函数 $f$ 被称为是\emph{一致连续}的, 如果对任意 $\epsilon > 0$ 存在 $\delta$ 使得
+\[ d(x, y) < \delta \implies d'(f(x), f(y)) < \epsilon. \]
+一族以集合 $T$ 为下标的函数 $(f_t: X \to X')_{t \in T}$ 称为是\emph{等度连续}的, 如果以上条件改为
+\[ d(x, y) < \delta \implies \forall t \in T, \; d'\left(f_t(x), f_t(y)\right) < \epsilon. \]
+
+令 $\Omega$ 为 $\CC$ 的非空开子集, $T$ 为局部紧 Hausdorff 拓扑空间, $\mu$ 是其上的 Radon 测度. 本书实际用到的具体情形仅有
+\begin{compactitem}
+	\item $T = \Z_{\geq 1}$ 带离散拓扑, $\mu$ 是计数测度;
+	\item $T$ 是 $\R^n$ 的开子集, $\mu$ 是 Lebesgue 测度;
+	\item $T$ 是 $\CC$ 或更一般的 Riemann 曲面上的一条曲线, $\mu$ 来自曲线的某个参数化, 这用于处理围道积分.
+\end{compactitem}
+
+\begin{definition}\label{def:normal-convergence} \index{zhengguishoulian@正规收敛 (normal convergence)}
+	设 $(f_t)_{t \in T}$ 是一族 $\Omega$ 上的函数, 并且假设 $t \mapsto f_t(s)$ 对每个 $s \in \Omega$ 都 $\mu$-可测. 对于子集 $K \subset \Omega$, 若积分
+	\[ \int_{t \in T} \sup_{s \in K}|f_t(s)| \; \dd\mu(t) \]
+	有限, 则称积分 $f(s) := \int_T f_t(s) \dd\mu(t)$ 在 $K$ 上\emph{正规收敛}; 若此性质对所有紧子集 $K \subset \Omega$ 都成立, 则称该积分在 ($\Omega$ 的)\emph{紧子集上正规收敛}.
+\end{definition}
+
+取 $T = \Z_{\geq 1}$ 和计数测度 $\mu$, 则积分化为无穷级数, 按此可以讨论 $\sum_{n \geq 1} f_n(s)$ 的正规收敛性. 数学分析中, Weierstrass 判别法给出的就是级数的正规收敛性.
+
+\begin{lemma}\label{prop:equicontinuity}
+	设积分 $\int_T f_t(s) \dd\mu(t)$ 在紧子集上正规收敛, 并且对 $T \times \Omega$ 的所有紧子集 $E \times K$, 函数族 $\left\{ f_t|_K: K \to \CC \right\}_{t \in E}$ 等度连续, 那么 $f$ 也连续.
+
+	关于等度连续的前提在以下两种情形自动成立:
+	\begin{compactenum}[(a)]
+		\item $T$ 是度量空间而 $f_t(s)$ 是 $(t,s)$ 的连续函数;
+		\item $T$ 离散 (例如 $T = \Z_{\geq 0}$) 而且每个 $f_t$ 皆连续.
+	\end{compactenum}
+\end{lemma}
+\begin{proof}
+	先说明 $f$ 的连续性. 给定 $\epsilon > 0$. 连续性对变量 $s$ 是局部性质, 所以不妨设 $s, s'$ 属于 $\Omega$ 的某个紧子集 $K$; 再取紧子集 $E \subset T$ 使得 $\int_{T \smallsetminus E} \sup_{s \in \Omega} |f_t(s)| \; \dd\mu(t) < \frac{\epsilon}{3}$; 留意到 $\mu(E)$ 有限. 当 $|s-s'|$ 充分小时, 等度连续导致 $\sup_{t \in E} |f_t(s) - f_t(s')| < \mu(E)^{-1} \frac{\epsilon}{3}$. 所以
+	\begin{multline*}
+		\left| f(s) - f(s') \right| \leq \left( \int_E + \int_{T \smallsetminus E} \right) |f_t(s) - f_t(s')| \dd\mu(t) \\
+		\leq \int_E |f_t(s) - f_t(s')| \dd\mu(t) + 2 \int_{T \smallsetminus E} \sup_{s \in \Omega} |f_t(s)| \dd\mu(t) < \frac{\epsilon}{3} + \frac{2\epsilon}{3} = \epsilon.
+	\end{multline*}
+	
+	接着说明等度连续性成立的情形. 在情形 (a), $T \times \Omega$ 的拓扑来自度量
+	\[ d((t,s), (t',s')) := \max\left\{ d_T(t,t'), \|s - s'\| \right\}. \]
+	按条件可知 $(t,s) \mapsto f_t(s)$ 在紧集 $E \times K$ 上一致连续. 因为
+	\[ \forall t \in E, \; d((t, s), (t, s')) = \|s - s' \|, \]
+	一致连续蕴涵 $\{f_t|_K \}_{t \in E}$ 等度连续. 因为离散空间是度量空间, 情形 (b) 是 (a) 的一个特例.
+\end{proof}
+
+\begin{proposition}\label{prop:integral-holomorphy}
+	设 $(f_t)_{t \in T}$ 是 $\Omega$ 上的一族全纯函数, 服从于引理 \ref{prop:equicontinuity} 的前提, 则 $f := \int_T f_t \dd\mu(t)$ 也是 $\Omega$ 上的全纯函数, 而且
+	\[ f^{(m)} = \int_T f^{(m)}_t \dd\mu(t), \quad m \in \Z_{\geq 0}. \]
+\end{proposition}
+\begin{proof}
+	引理 \ref{prop:equicontinuity} 确保 $f$ 连续. 考虑 $\Omega$ 中任一个由逐段光滑曲线围出的单连通区域 $\Delta$, 则 Fubini 定理给出
+	\[ \oint_{\partial \Delta} f(s) \dd s = \oint_{\partial \Delta} \int_T f_t(s) \dd\mu(t) \dd s = \int_T \oint_{\partial \Delta} f_t(s) \dd s \dd\mu(t) \]
+	因 $f_t$ 全纯故积分为 $0$, 由 Morera 定理 \cite[\S 3.3, 定理 3]{TW06} 遂得 $f$ 全纯.
+	
+	设 $m \in \Z_{\geq 1}$ 而 $s \in \Omega$. 取 $\epsilon \in \R_{>0}$ 充分小, Cauchy 积分公式配合 Fubini 定理给出
+	\begin{align*}
+		f^{(m)}(s) & = \frac{m!}{2\pi i} \oint_{|z -s| = \epsilon} \dfrac{f(z)}{(z-s)^{m+1}}\; \dd z \\
+		& = \frac{m!}{2\pi i} \oint_{|z -s| = \epsilon} \int_T \dfrac{f_t(z)}{(z-s)^{m+1}}\; \dd\mu(t) \dd z \\
+		& = \int_T \frac{m!}{2\pi i} \oint_{|z -s| = \epsilon} \dfrac{f_t(z)}{(z-s)^{m+1}}\; \dd z \dd\mu(t) \\
+		& = \int_T f^{(m)}_t(s) \;\dd\mu(t).
+	\end{align*}
+	明所欲证.
+\end{proof}
+
+\begin{proposition}\label{prop:sum-holomorphy}
+	设 $f_1, f_2, \ldots$ 是 $\Omega$ 上的一族全纯函数, 并且 $\sum_{n \geq 1} f_n$ 在紧子集上正规收敛, 则 $f := \sum_{n \geq 1} f_n$ 也是 $\Omega$ 上的全纯函数, 而且
+	\[ f^{(m)} = \sum_{n \geq 1} f^{(m)}_n, \quad m \in \Z_{\geq 0}. \]
+\end{proposition}
+\begin{proof}
+	在命题 \ref{prop:integral-holomorphy} 中取 $T = \Z_{\geq 1}$ 而 $\mu$ 为计数测度, 化积分为级数. 因为 $f_1, f_2, \ldots$ 皆连续, 所需的等度连续性根据引理 \ref{prop:equicontinuity} 自动成立.
+\end{proof}
+
+\section{无穷乘积}
+\begin{definition}
+	考虑复数列 $u_1, u_2, \ldots$. 若乘积 $\Pi_N := u_1 \cdots u_N$ 在当 $N \to \infty$ 时有非零的极限, 则称无穷乘积 $\prod_{k=1}^\infty u_k$ \emph{条件收敛}.
+\end{definition}
+
+极限非零蕴涵各项 $u_k$ 皆非零, 而 $\lim_{k \to \infty} u_k = 1$. 若 $\prod_k u_k$ 收敛, 则 $\prod_k u_k^a = (\prod_k u_k)^a$ 亦然 ($a \in \Z$).
+
+\begin{remark}
+	因为探讨 $\prod_k u_k$ 的收敛性时可以舍弃有限项, 有时不妨便宜行事, 容许 $u_1, u_2, \ldots$ 中至多有限项取零, 其余仍收敛如上, 这时也可说 $\prod_{k \geq 1} u_k$ ``收敛到零''. 譬如复变函数论经典的公式 (见 \cite[\S 1.7 (3)]{GW})
+	\[ \frac{\sin(\pi s)}{\pi s} = \prod_{n=1}^\infty \left( 1 - \frac{s^2}{n^2} \right) \]
+	即是一例: 当 $s \in \Z \smallsetminus \{0\}$ 时第 $n = |s|$ 项取零, 正对应 $\frac{\sin(\pi s)}{\pi s}$ 的所有零点. 本节关于收敛性和全纯性的结果都能延伸到这类情形.
+\end{remark}
+
+以下将无穷乘积的通项写为
+\[ u_k = 1 + a_k, \quad a_k \in \CC \smallsetminus \{-1\}, \quad \lim_{k \to \infty} a_k = 0. \]
+这时对充分大的 $k$ 有 $|a_k| < 1$, 从而可取 $\log(1 + a_k)$ 使其幅角落在 $[\frac{-\pi}{2}, \frac{\pi}{2}]$; 对于其它有限多项, 取 $\log(1 + a_k)$ 的任意分支. 综之,
+\begin{equation}\label{eqn:infinite-product-log}
+	\prod_{k = 1}^N (1 + a_k) = \exp\left( \sum_{k=1}^N \log(1 + a_k) \right).
+\end{equation}
+兹断言
+\[ \prod_{k=1}^\infty (1 + a_k)\; \text{条件收敛} \iff \sum_{k=1}^\infty \log(1 + a_k) \; \text{条件收敛}. \]
+诚然, 方向 $\impliedby$ 由 \eqref{eqn:infinite-product-log} 一眼可见. 现在假设 $\prod_k (1 + a_k)$ 条件收敛到 $\exp(L) \in \CC \smallsetminus \{0\}$. 当 $N \to \infty$ 时 \eqref{eqn:infinite-product-log} 导致 $\sum_{k=1}^N \log(1 + a_k)$ 在 $\bmod \; 2\pi i\Z$ 意义下趋近 $L$; 然而 $\log(1 + a_k) \to 0$ 而 $2\pi i\Z$ 是 $\CC$ 的离散子群, 所以 $\sum_k \log(1 + a_k)$ 必收敛到某个 $L + 2\pi i m$, 其中 $m \in \Z$, 故 $\implies$ 得证.
+
+\begin{definition}\label{def:infinite-product-abs}
+	若 $\sum_{k=1}^\infty \left|\log(1 + a_k)\right|$ 收敛, 则我们称无穷乘积 $(1 + a_1) (1 + a_2) \cdots$ \emph{绝对收敛}于 $\prod_{k=1}^\infty (1 + a_k)$, 或径称\emph{收敛}. 当 $\forall a_k \geq 0$ 时, 这等价于条件收敛.
+\end{definition}
+
+由于绝对收敛的无穷级数可以任意重排, 根据 \eqref{eqn:infinite-product-log}, 绝对收敛的无穷乘积亦然.
+
+\begin{proposition}\label{prop:infinite-product-conv}
+	对任意复数列 $a_1, a_2, \ldots \in \CC \smallsetminus \{-1\}$, 无穷乘积 $\prod_{k=1}^\infty (1 + a_k)$ 绝对收敛当且仅当 $\sum_{k=1}^\infty a_k$ 绝对收敛.
+\end{proposition}
+\begin{proof}
+	两边的条件都蕴涵 $a_k \to 0$. 不妨设 $|a_k| < 1$, 则有
+	\begin{align*}
+		\left| \frac{\log(1 + a_k)}{a_k} - 1 \right| & = \left| \sum_{m \geq 1} (-1)^m \frac{|a_k|^m}{m+1} \right| \leq \sum_{m \geq 1} |a_k|^m \\
+		& = |a_k| (1 - |a_k|)^{-1} \xrightarrow{k \to \infty} 0.
+	\end{align*}
+	特别地, $k \to \infty$ 时 $|\log(1 + a_k)| \sim |a_k|^{-1}$. 由此见得 $\sum_k \left| \log(1 + a_k) \right|$ 和 $\sum_k |a_k|$ 的收敛性等价.
+\end{proof}
+
+现给定 $\CC$ 的非空开子集 $\Omega$ 和一族函数 $f_n: \Omega \to \CC \smallsetminus \{0\}$. 考虑无穷乘积 $\prod_{n \geq 1} f_n(s)$, 其中 $s \in \Omega$. 按前述办法用 $\log$ 化乘积为级数, 就可代入 \S\ref{sec:holomorphy} 的框架.
+
+\begin{proposition}\label{prop:infinite-product-holomorphy}
+	设 $f_n: \Omega \to \CC \smallsetminus \{0\}$ 是一族全纯函数 ($n \in \Z_{\geq 1}$), 并且假设在 $\Omega$ 的每个紧子集上 $f_n$ 皆有以下性质
+	\begin{compactitem}
+		\item 当 $n$ 充分大时, 存在 $g_n$ 使得 $f_n(s) = \exp(g_n(s))$;
+		\item 承上, $\sum_n g_n(s)$ 在该紧子集上正规收敛.
+	\end{compactitem}
+	则 $\prod_{n \geq 1} f_n$ 收敛到全纯函数 $f: \Omega \to \CC \smallsetminus \{0\}$, 进一步, $f$ 满足于
+	\[ \frac{f'}{f} = \sum_{n \geq 1} \frac{f'_n}{f_n}. \]
+\end{proposition}
+\begin{proof}
+	鉴于之前讨论和 \eqref{eqn:infinite-product-log}, 这是命题 \ref{prop:sum-holomorphy} 的直接结论.
+\end{proof}
+
+\begin{theorem}[Euler 乘积]\label{prop:Euler-product-general} \index{Euler chengji}
+	假设复数列 $(a_n)_{n \geq 1}$ 满足乘性, 亦即
+	\[ n, m \;\text{互素} \implies a_{nm} = a_n a_m, \quad a_1 = 1, \]
+	则 $\sum_{n \geq 1} |a_n|$ 收敛当且仅当 $\prod_{p: \text{素数}} \sum_{k \geq 0} |a_{p^k}|$ 收敛, 而此时
+	\[ \sum_{n=1}^\infty a_n =  \prod_{p: \text{素数}} \left( \sum_{k \geq 0} a_{p^k} \right), \]
+	右式是按定义 \ref{def:infinite-product-abs} 绝对收敛的无穷乘积.
+\end{theorem}
+\begin{proof}
+	先注意到若 $(a_n)_{n \geq 1}$ 满足乘性, 则 $(|a_n|)_{n \geq 1}$ 亦然. 对任意素数 $p_1 < \cdots < p_h$ 及非负整数 $e_1, \ldots, e_h$, 正整数的唯一分解性给出
+	\begin{equation}\label{eqn:Euler-prod-aux}
+		\sum_{k=0}^{e_1} a_{p_1^k} \cdots \sum_{k=0}^{e_h} a_{p_h^k}
+		= \sum_{\substack{n = p_1^{f_1} \cdots p_h^{f_h} \\ \forall i,\; 0 \leq f_i \leq e_i }} a_n.
+	\end{equation}
+	
+	现在设 $\sum_{n \geq 1} |a_n|$ 收敛. 对每个素数 $p$, 命
+	\[ A_p := \sum_{k \geq 0} a_{p^k} = 1 + \sum_{k \geq 1} a_{p^k}. \]
+	
+	命题 \ref{prop:infinite-product-conv} 说明无穷乘积 $\prod_p A_p$ 绝对收敛: 仅须注意到 $\sum_p \left| \sum_{k \geq 1} a_{p^k} \right|$ 被 $\sum_{n \geq 1} |a_n|$ 控制即可. 以 $|a_n|$ 代 $a_n$, 立见此时 $\prod_{p: \text{素数}} \sum_{k \geq 0} |a_{p^k}|$ 也收敛.
+
+	依然设 $\sum_{n \geq 1} |a_n|$ 收敛. 对任意正整数 $N$, 绝对收敛级数的相乘理论给出
+	\[ \left| \sum_{n \geq 1} a_n - \prod_{p < N} A_p \right| \leq \sum_{\substack{n \geq 1 \\ \text{有素因子}\; \geq N}} |a_n| \leq \sum_{n \geq N} |a_n|. \]
+	最右式在 $N \to \infty$ 时趋近于 $0$. 因之 $\sum_{n \geq 1} a_n = \prod_p A_p$.
+	
+	反过来假设 $\prod_p \sum_{k \geq 0} |a_{p^k}|$ 收敛, 从 \eqref{eqn:Euler-prod-aux} 对 $|a_n|$ 的情形可见对所有正整数 $N$,
+	\[ \sum_{n=1}^N |a_n| \leq \prod_{\substack{p: \text{素数} \\ p \leq N}} \left( 1 + \sum_{k=1}^\infty |a_{p^k}| \right) \leq \prod_{p: \text{素数}} \left( 1 + \sum_{k=1}^\infty |a_{p^k}| \right) \]
+	故 $\sum_{n \geq 1} |a_n|$ 也收敛.
+\end{proof}
+
+关于 Euler 乘积, 最著名的例子是取乘性复数列 $a_n = n^{-s}$ 代入定理 \ref{prop:Euler-product-general}, 其中 $s \in \CC$. 相应的无穷乘积是 $\prod_p (1 + p^{-s} + p^{-2s} + \cdots)$. 回忆到 $\sum_{n \geq 1} n^{-s}$ 绝对收敛的充要条件是 $\Re(s) > 1$, 对之得到无穷乘积
+\[ \prod_{p: \text{素数}} \left( 1 - p^{-s} \right)^{-1} = \prod_{p: \text{素数}} \sum_{k \geq 0} p^{-ks}, \quad \Re(s) > 1. \]
+
+相关的一则有趣应用是取 $a_n := \frac{1}{n} > 0$, 推导
+\[ \sum_{p: \text{素数}} \frac{1}{p} = +\infty. \]
+设若不然, 应用命题 \ref{prop:infinite-product-conv} 可知 $\prod_p (1 - p^{-1})$ 收敛, 故 $\prod_p (1 - p^{-1})^{-1} = \prod_p \sum_{k \geq 0} p^{-k}$ 亦收敛. 代入定理 \ref{prop:Euler-product-general} 可知 $\sum_{n \geq 1} \frac{1}{n}$ 亦收敛, 矛盾.
+
+Euler 依此给出素数个数无限的解析证明. 此结果也是解析数论的开端之一.
+
+\section{调和分析}\label{sec:Poisson}
+本节旨在摘录 $\R^n$ 或 $\R^n/\Z^n$ 上关于 Fourier 变换的基本结果, 继而导出 Poisson 求和公式, 这是探究模形式或自守形式理论的一件利器. 理论细节是分析学的任务, 这里就不掠美了.
+
+定义 $\mathbb{S}^1 := \{z \in \CC^\times: |z|=1 \}$, 它对乘法成为拓扑群. 以下将考虑一对交换群 $A$ 和 $A^\vee$, 群运算记为加法, 它们都带有
+\begin{compactitem}
+	\item 局部紧 Hausdorff 拓扑群的结构,
+	\item 平移不变测度,
+	\item 连续映射 $[\cdot, \cdot]: A \times A^\vee \to \{z \in \CC^\times : |z| = 1 \}$, 满足于
+	\begin{gather*}
+		[a + b, \alpha] = [a, \alpha] [b, \alpha], \quad [a, \alpha+\beta] = [a,\alpha] [a,\beta], \\
+		[a, \cdot] = 1 \iff a=0, \qquad [\cdot, \alpha]=1 \iff \alpha=0.
+	\end{gather*}
+\end{compactitem}
+固定 $n \in \Z_{\geq 1}$. 本节仅考虑三种具体情形:
+\begin{enumerate}[(a)]
+	\item 向量空间 $A = A^\vee = \R^n$, 带有 Lebesgue 测度和标准的拓扑群结构.
+	\item $n$ 维环面 $A = \R^n/\Z^n \simeq (\R/\Z)^n$, $A^\vee = \Z^n$. 赋 $A$ 以 Lebesgue 测度的商测度, 它是 $A$ 上满足 $\text{vol}(A)=1$ 的不变测度, 具下述性质: 如果 $f$ 是 $\R^n$ 上的 $\Z^n$-不变连续函数, 则
+	\begin{equation}\label{eqn:quotient-measure}
+		\int_{\R^n/\Z^n} f(\bar{x}) \dd\bar{x} = \int_{[0,1]^n} f(x) \dd x ;
+	\end{equation}
+	实际上 $[0,1]^n$ 是 $\R^n$ 在 $\Z^n$ 平移作用下的基本区域, 见定义 \ref{def:fundamental-domain}. 另一方面, 赋予 $A^\vee$ 离散拓扑和计数测度, 亦即 $\int_{\Z^n} g(\xi) \dd\xi = \sum_{\xi \in \Z^n} g(\xi)$.
+	\item 同上, 但取 $A = \Z^n$ 而 $A^\vee = \R^n/\Z^n$.
+\end{enumerate}
+用 $(x, \xi) \mapsto x \cdot \xi$ 表示 $\R^n$ 空间上的标准内积. 对每一情况都取 $[\cdot, \cdot]$ 为
+\[ [x, \xi] := e^{2\pi i x \cdot \xi}, \quad x \in A, \; \xi \in A^\vee. \]
+请读者验证此式在每个具体情形下都是良定的, 而且满足上述要求. 测度既然取定, 对于 $A$ 或 $A^\vee$ 上的函数可以谈论可积性, $L^p$ 范数等等; 可积函数也径称为 $L^1$ 函数. 
+
+对于 $A$ 上的 $L^1$ 函数 $f$, 定义 $A^\vee$ 上函数
+\[ \check{f}(\xi) := \int_A f(x) [x, \xi] \dd x. \]
+
+有时 $\check{f}$ 也标作 $f^{\vee}$ 或 $\mathcal{F}f$. 积分的收敛性和连续性来自以下结果.
+
+\begin{lemma}\label{prop:Fourier-continuity}
+	设 $f \in L^1(A)$, 则定义 $\check{f}(\xi)$ 的积分收敛, 并给出 $A^\vee$ 上的一致连续函数.
+\end{lemma}
+\begin{proof}
+	收敛性缘于 $|\check{f}(\xi)| \leq \int_A |f(x)| \dd x = \|f\|_{L^1}$. 进一步,
+	\begin{align*}
+		\left|\check{f}(\xi+\eta) - \check{f}(\xi) \right| & \leq \int_A |f(x)| \cdot \bigg| [x, \xi+\eta] - [x, \xi] \bigg| \dd x \\
+		& = \int_A |f(x)| \cdot \bigg| [x, \eta] - 1 \bigg| \dd x.
+	\end{align*}
+	末项和 $\xi$ 无关. 由于 $|f(x)| \cdot \left| [x, \eta] - 1 \right| \leq 2|f(x)|$, Lebesgue 控制收敛定理说明当 $\eta \to 0$ 时 $\int_A |f(x)| \cdot \bigg| [x, \eta] - 1 \bigg| \dd x$ 趋近于 $0$. 证毕.
+\end{proof}
+
+基于定义的对称性, 如果 $f^\vee$ 在 $A^\vee$ 上也是 $L^1$, 那么还能考虑 $A$ 上的函数 $f^{\vee\vee}$. 下面摘录关于 Fourier 反演的两条标准事实.
+\begin{theorem}[Fourier 反演]\label{prop:Fourier-inversion}
+	如果 $f, \check{f}$ 都是 $L^1$ 的, 那么 $f^{\vee\vee}(x) = f(-x)$ 在 $A$ 上几乎处处成立.
+	
+	在 $A = \R$ 或 $A = \R/Z$ 的情形, 如果 $f \in L^1(A)$ 是局部有界变差函数, 那么
+	\[ \frac{f(x-) + f(x+)}{2} = \begin{cases}
+		\displaystyle\lim_{T \to +\infty} \int_{-T}^{T} f^\vee(\xi) [x, \xi] \dd\xi, & A = \R \\
+		\displaystyle\lim_{N \to +\infty} \sum_{\xi = -N}^N f^\vee(\xi) [x, \xi], & A = \R/\Z
+	\end{cases}\]
+	也处处成立; 右式是所谓的 Cauchy 主值积分. 见 \cite[\S 1.9, Theorem 3]{Ti86}.
+\end{theorem}
+\begin{proof}
+	第一部分是基础调和分析: 对于 $A = \R^n$ 情形, 可参考 \cite[Exercise 2.2.6]{Gra14}; 环面情形可参考 \cite[Theorem 3.1.14]{Gra14}. 关于 $\R$ 或 $\R/\Z$ 的第二部分则是 Jordan--Dirichlet 定理, 见 \cite[\S 1.9, Theorem 3]{Ti86}.
+\end{proof}
+
+\begin{theorem}[Parseval 公式]\label{prop:Parseval}
+	定义在 $L^1(A) \cap L^2(A)$ 上的变换 $f \mapsto \check{f}$ 唯一地延拓为等距同构 $L^2(A) \rightiso L^2(A^\vee)$.
+\end{theorem}
+\begin{proof}
+	文献同上.
+\end{proof}
+
+尚有一则观察: 将 $\R^n$ 的元素等同于列向量, 设 $f \in L^1(\R^n)$, $a \in \GL(n, \R)$ 而 $f_a(x) := f(ax)$, 那么在积分中换元可得
+\begin{equation}\label{eqn:Fourier-dilation}
+	(f_a)^\vee(\xi) = |\det(a)^{-1}| \check{f}\left({}^t a^{-1}\xi\right), \quad \xi \in \R^n.
+\end{equation}
+
+\begin{theorem}[Poisson 求和公式]\label{prop:Poisson-sum} \index{Poisson 求和公式 (Poisson summation formula)}
+	假定 $f, \check{f} \in L^1(\R^n)$, 并且存在常数 $C, \delta > 0$ 使得
+	\[ \sup\left\{ |f(x)|, \; |\check{f}(x)| \right\} \leq C(1 + |x|)^{-n-\delta}, \quad x \in \R^n. \]
+	那么 $f, \check{f}$ 都是连续函数, 而且
+	\[ \sum_{\xi \in \Z^n} \check{f}(\xi) e^{-2\pi ix \cdot \xi} = \sum_{\xi \in \Z^n} f(x + \xi), \quad x \in \R^n. \]
+	代入 $x=0$ 给出 $\sum_{\xi \in \Z^n} \check{f}(\xi) = \sum_{\xi \in \Z^n} f(\xi)$.
+\end{theorem}
+\begin{proof}
+	我们复述 \cite[Theorem 3.1.17]{Gra14} 的标准论证. 首先 $\check{f}$ 的连续性缘于 \ref{prop:Fourier-continuity}, 同理知 $f(x) = f^{\vee \vee}(-x)$ (定理 \ref{prop:Fourier-inversion}) 连续. 今定义 $\phi(x) = \sum_{\xi \in \Z^n} f(x+\xi)$, 定理的条件确保其收敛, 并且 $\|\phi\|_{L^1(\R^n/\Z^n)} = \|f\|_{L^1(\R^n)} < +\infty$. 对任意 $\xi \in \Z^n$, 因为 $\eta \in \Z^n \implies e^{2\pi i(x+\eta)\cdot\xi} = e^{2\pi ix \cdot \xi}$, 商测度的性质 \eqref{eqn:quotient-measure} 蕴涵
+	\begin{align*}
+		\check{\phi}(\xi) & = \int_{\R^n/\Z^n} \phi(x) e^{2\pi ix \cdot \xi} = \sum_{\eta \in \Z^n} \int_{\eta + [0,1]^n} f(x) e^{2\pi ix \cdot \xi} \dd x \\
+		& = \int_{\R^n} f(x) e^{2\pi ix \cdot \xi} \dd x = \check{f}(\xi).
+	\end{align*}
+	又 $\sum_\xi \check{\phi}(\xi) = \sum_\xi \check{f}(\xi)$ 按定理的条件也收敛, 换言之 $\check{\phi} \in L^1(\Z^n)$. 现在对 $\phi$ 应用 $\R^n/\Z^n$ 上的 Fourier 反演 (定理 \ref{prop:Fourier-inversion}) 导出
+	\begin{align*}
+		\sum_{\xi \in \Z^n} \check{f}(\xi) e^{-2\pi ix \cdot \xi} & = \sum_{\xi \in \Z^n} \check{\phi}(\xi) [\xi, -x] \\
+		& = \phi(x) = \sum_{\xi \in \Z^n} f(x + \xi).
+	\end{align*}
+	明所欲证.
+\end{proof}
+
+证明中的 $\sum_{\eta \in \Z^n} \int_{\eta + [0,1]^n} = \int_{\R^n}$ 是自守形式理论常见``开折''技巧的原型, 值得留意. \index{kaizhe}
+
+调和分析的抽象理论可以拓展到一般的局部紧交换群 $A$ 上, 这对自守形式的研究十分重要, 有兴趣的读者不妨移驾 \cite[第三章]{FL14}.
+
+\section{Phragmén--Lindelöf 原理}\label{sec:PL}
+本节论及任意子集 $S \subset \R$ 的下确界 $\inf S$; 约定在 $S$ 无下界时 $\inf S = -\infty$, 而 $\inf\emptyset = +\infty$. 凡是关于某函数 $g(y)$ 的阶的估计, 都是对 $|y| \to +\infty$ 而论.
+
+\begin{definition}\index[sym1]{mu@$\mu, \mu_F$}
+	设 $a < b$ 为实数. 对定义在竖带 $\{z \in \CC: a \leq \Re(z) \leq b\}$ 上的连续函数 $F$, 记
+	\begin{align*}
+		\mu = \mu_F: [a,b] & \longrightarrow \R \sqcup \{\pm\infty\} \\
+		c & \longmapsto \inf\left\{ M \in \R : f(c + iy) \ll (1 + |y|)^M \right\}
+	\end{align*}
+	推而广之, 选定 $T \geq 0$, 对于定义在``单向''竖带区域
+	\[ \left\{ z \in \CC : \Re(z) \in [a,b], \; \Im(z) \geq T \right\} \; \text{或}\; \left\{ z \in \CC : \Re(z) \in [a,b], \; \Im(z) \leq -T  \right\} \]
+	或两者之并上的 $F$, 按同样方法定义 $\mu_F$.
+\end{definition}
+
+无论是上述哪种形式的竖带区域, 本节均简称为竖带. 定义直接给出以下性质.
+
+\begin{lemma}\label{prop:PL-order-translation}
+	设某竖带上的函数 $G$ 皆满足 $G(c+iy) \sim (1 + |y|)^\alpha$, 其中 $\alpha \in \R$ 而 $c \in [a,b]$, 那么 $\mu_G(c) = \alpha$, 而且对该竖带上所有函数 $F$ 都有 $\mu_{FG}(c) =  \mu_F(c) + \alpha$.
+\end{lemma}
+
+\begin{lemma}\label{prop:PL-0}
+	设全纯函数 $F$ 定义在包含竖带 $\left\{ z \in \CC : |\Re(z)| \leq \frac{\pi}{2}, \; \Im(z) \geq 0  \right\}$ 的某个开集上. 假设 $\Re(z) = \frac{\pm\pi}{2} \implies |F(z)| \leq 1$, 而且存在常数 $0 < \alpha < 1$ 和 $C > 0$ 使得在竖带上有估计
+	\[ |F(z)| \ll \exp\left( C e^{\alpha |z|} \right), \]
+	则 $|F(z)| \leq 1$ 在竖带上成立.
+\end{lemma}
+\begin{proof}
+	取 $\alpha < \beta < 1$ 和 $\epsilon > 0$. 定义竖带上的全纯函数
+	\[ G_\epsilon(z) := F(z) \exp\left( -2\epsilon \cos(\beta z)\right). \]
+	观察到 $\Re(\cos \beta z) = \cosh(\beta \Im(z)) \cos(\beta\Re(z))$. 既然 $0 < \beta < 1$, 条件便导致 $|z| \to +\infty$ 时 $G_\epsilon(z) \to 0$. 此外, 易见 $\Re(z) = \frac{\pm\pi}{2}$ 或 $\Im(z) = 0$ 时 $|G_\epsilon(z)| \leq |F(z)| \leq 1$. 复变函数论的极大模原理遂对竖带中的任一点 $z$ 给出 $|G_\epsilon(z)| \leq 1$, 亦即
+	\[ |F(z)| \leq \exp\left( 2\epsilon \Re\cos(\beta z) \right). \]
+	令 $\epsilon \to 0$ 以导出 $|F(z)| \leq 1$.
+\end{proof}
+
+\begin{theorem}[Phragmén--Lindelöf]\label{prop:PL} \index{Phragmén--Lindelöf 原理}
+	选定实数 $T > 0$ 和 $a < b$. 设全纯函数 $F$ 定义在 $\CC$ 中包含竖带
+	\[ D := \left\{ z \in \CC: \Re(z) \in [a,b], \; \Im(z) \geq T \right\} \]
+	的开集上, 并且存在 $C, \lambda \geq 0$ 使得在定义域内 $F(z) \ll  \exp(C|z|^\lambda)$. 那么 $\mu$ 是 $[a,b]$ 上的凸向下函数; 
+	换言之, $\mu$ 的函数图形落在连接 $(a, \mu(a))$ 和 $(b, \mu(b))$ 两点的线段下方.
+
+	同样性质对 $\{ z : a \leq \Re(z) \leq b, \; \Im(z) \leq -T \}$ 或整条竖带 $\{z: \Re(z) \in [a,b] \}$ 亦成立.
+\end{theorem}
+\begin{proof}
+	仅须处理 $\Re(z) \in [a,b]$ 且 $\Im(z) \geq T$ 的情形: 以 $\overline{F(\overline{z})}$ 代 $F(z)$ 即可导出 $\Im(z) \leq -T$ 版本; 而因为在 $\mu$ 的定义中可不论虚部 $\in [-T, T]$ 的部分, 两者并用就导出整条竖带 $\Re(z) \in [a,b]$ 的情形.
+
+	对参数 $z$ 作适当的仿射变换以化约到 $[a, b] = [\frac{-\pi}{2}, \frac{\pi}{2}]$ 情形. 选取 $\mu'(a) > \mu(a)$ 和 $\mu'(b) > \mu(b)$, 命
+	\[ k(z) := \mu'(a) \cdot \frac{z - c}{b - a} + \mu'(b) \cdot \frac{z - a}{b - a}, \quad \Re(z) \in [a,b]. \]
+	因为 $T > 0$, 可在含 $D$ 的适当开集上定义
+	\[ G(z) := \exp\left( -k(z) \log(-iz) \right) \]
+	这里取 $\log$ 的主分支 (定义在 $\CC \smallsetminus \R_{\geq 0}$ 上). 易见对所有 $c \in [a,b]$ 都有 $\mu_G(c) = -k(c)$, 并且 $FG$ 仍满足断言中的增长条件. 应用引理 \ref{prop:PL-0} 从 $\mu_{FG}(a), \mu_{FG}(b) < 0$ 导出 $FG$ 有界, 故 $\mu_{FG} \leq 0$; 根据引理 \ref{prop:PL-order-translation}, 这又回头给出 $\mu_F(c) \leq k(c)$. 让 $\mu'(a)$, $\mu'(b)$ 分别趋近 $\mu(b)$, $\mu(a)$ 即得所求.
+\end{proof}
+
+设 $F$ 为 $\CC$ 上的全纯函数, 其\emph{阶}定义为 \index{jie@阶 (order)}
+\[ \inf\left\{ \lambda \geq 0: \; F(z) \ll \exp(|z|^\lambda) \right\}. \]
+于是定理 \ref{prop:PL} 适用于 $\CC$ 上的一切有限阶全纯函数.

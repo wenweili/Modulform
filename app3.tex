@@ -1,0 +1,202 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter{算术背景}
+本附录旨在简要勾勒和代数或数论有关的语言, 限于最浅显的部分. 这部分材料主要用于第九章和第十章.
+
+\section{群的上同调}\label{sec:group-cohomology}
+本节选定群 $G$, 其运算写作乘法. 群上同调的完整理论可参阅 \cite{AM04} 或代数数论的进阶教材.
+
+\begin{definition}\label{def:G-module} \index{G-mo@$G$-模}
+	设 $E$ 是加法群, 而 $G$ 透过群自同态在 $E$ 上左作用; 今后称此结构为 $G$-模. 全体 $G$-模对态射 (或称等变同态) 构成范畴, 这是一个 Abel 范畴.
+\end{definition}
+
+对于任意 $G$-模 $E$, 记 $E^G := \left\{ x \in E : \forall g \in G\; gx = x \right\}$.
+
+\begin{definition}[群的上同调]
+	对于任何 $G$-模 $E$, 命
+	\begin{gather*}
+		C^n(G, E) := \left\{ \text{映射}\; f: G^n \to E \right\} \quad n \in \Z_{\geq 0}, \\
+		\dd: C^n(G, E) \longrightarrow C^{n+1}(G, E),
+	\end{gather*}
+	每一项都构成加法群, 其中
+	\begin{multline*}
+		\dd f(g_1, \ldots, g_{n+1}) = g_1 f(g_2, \ldots, g_{n+1}) + \\
+		\sum_{h=1}^n (-1)^h f(g_1, \ldots, g_h g_{h+1}, \ldots, g_{n+1}) + (-1)^{n+1} f(g_1, \ldots, g_n);
+	\end{multline*}
+	另对 $n < 0$ 定义 $C^n(G, E) = \{0\}$. 这给出复形 $(C^\bullet(G, E), \dd)$, 定义
+	\[ \Hm^n(G, E) := \Hm^n\left(C^\bullet(G, E), \dd \right) = \dfrac{\Ker[\dd: C^n(G, E) \to C^{n+1}(G, E)]}{\Image[\dd: C^{n-1}(G, E) \to C^n(G, E) ]}. \]
+\end{definition}
+
+上同调具有函子性: 对 $G$ 的同态可以拉回, 对 $E$ 的等变同态可以推出. 事实上 $\Hm^\bullet(G, \cdot)$ 是 $E \mapsto E^G$ 的右导出函子. 若 $E$ 是交换环 $R$ 上的模, 而 $G$ 以 $R$-模自同态作用在 $E$ 上, 则称 $E$ 为 $R[G]$-模, 此时 $\Hm^n(G, E)$ 对每个 $n$ 都成为 $R$-模. 取 $R = \Z$ 就回到初始定义.
+
+如果 $N \lhd G$ 为正规子群, 则对任何 $G$-模 $E$, 各阶上同调 $\Hm^\bullet(N, E)$ 也带自然之 $G/N$-作用. 若进一步假设
+\[ \forall n > 0, \quad \Hm^n\left(G/N, E^N \right) = \{0\} \]
+则群上同调理论中的 \emph{Lyndon--Hochschild--Serre 谱序列}退化成自然同构
+\[ \Hm^\bullet\left(G, E\right) \simeq \Hm^\bullet\left( N, E \right)^{G/N}; \]
+同构具体是透过 $N \hookrightarrow G$ 的拉回诱导的. 作为推论, 此时拉回 $\Hm^n(G, E) \to \Hm^n(N, E)$ 对所有 $n$ 都是单射.
+
+\begin{remark}\label{rem:HS-sequence-degenerate}
+	如果上述讨论中 $G/N$ 是有限群, $\CC$-向量空间 $E$ 是 $G$ 的有限维线性表示, 那么 $H^{\geq 1}(G/N, E^N) = \{0\}$ 自动成立. 这是有限群表示论中 Maschke 定理的直接结果: 函子 $A \mapsto A^{G/N}$ 是正合的, 故其高阶导出函子为零.
+\end{remark}
+
+\section{\texorpdfstring{Galois 群及 $p$-进数}{Galois 群及 p 进数}}\label{sec:p-adic}
+\begin{convention}\index[sym1]{GK@$G_K$}
+	设 $K$ 为域. 对于取定的可分闭包 $\overline{K}|K$, 记
+	\[ G_K := \Gal(\overline{K}|K) = \varprojlim_{\substack{L|K \\ \text{有限 Galois 子扩张} }} \Gal(L|K), \]
+	它是 pro-有限群, 其拓扑以形如 $\Gal(\overline{K}|L)$ 的正规子群作为 $1$ 的一族邻域基, 其中 $L|K$ 取遍 $\overline{K}|K$ 的有限 Galois 子扩张.
+\end{convention}
+
+此拓扑称为 \emph{Krull 拓扑}, 相关的一般理论可见 \cite[定义 4.10.5]{Li1}.
+
+\begin{definition}[绝对值]\index{jueduizhi@绝对值 (absolute value)}
+	域 $K$ 上的\emph{绝对值}指的是一个函数 $|\cdot|: K \to \R_{\geq 0}$, 满足以下条件:
+	\begin{compactenum}[(i)]
+		\item $|x|=0 \iff x=0$,
+		\item $|xy|=|x| |y|$,
+		\item $|x+y| \leq |x|+|y|$ (三角不等式).
+	\end{compactenum}
+
+	绝对值 $|\cdot|$ 透过 $d(x,y) := |x-y|$ 使 $K$ 成为度量空间. 如果存在 $t > 0$ 使得 $|\cdot|^t = |\cdot|'$, 则称绝对值 $|\cdot|$, $|\cdot|'$ 是\emph{等价}的, 它们诱导相同的拓扑. 如果 $\left\{ |n| : n \in \Z \right\}$ 无界, 则称 $|\cdot|$ 是 \emph{Archimedes} 的. 如果 $x \neq 0 \implies |x|=1$, 则称 $|\cdot|$ 是平凡绝对值.
+\end{definition}
+
+两则事实:
+\begin{compactitem}
+	\item 对于任何非 Archimedes 而且非离散的绝对值, 不等式 $|\cdot| \leq 1$ 截出 $K$ 的子环 $\mathcal{O}$, 而 $|\cdot| < 1$ 截出 $\mathcal{O}$ 的极大理想 $\mathfrak{m}$. 称 $\mathcal{O}/\mathfrak{m}$ 为 $(K, |\cdot|)$ 的\emph{剩余类域}.
+	\item 若 $L|K$ 是代数扩张, 则 $K$ 的任何非 Archimedes 绝对值都能延拓到 $L$ 上.
+\end{compactitem}
+
+\begin{convention}
+	设 $L|K$ 为代数扩张, $w$ (或 $v$) 是 $L$ (或 $K$) 上的绝对值的一个等价类. 那么符号 $w \mid v$ 意谓 $w|_K$ 和 $v$ 等价.
+\end{convention}
+
+绝对值有时也称为取值在 $\R_{\geq 0}$ 中的\emph{赋值}, 但后者在一些场合专指非 Archimedes 情形. 域 $K$ 对绝对值 $|\cdot|$ 的完备化仅依赖于 $|\cdot|$ 的等价类 $v$, 记为 $K_v$; 可以证明 $K_v$ 仍是域, 包含 $K$ 作为稠密子域 (见 \cite[\S 10.4]{Li1}). 以下专注于 $K = \Q$ 的情形. \index{fuzhi@赋值 (valuation)}
+
+\begin{example}
+	在 $\Q$ 上取数学分析中标准的绝对值, 这是 Archimedes 绝对值, 相应的完备化无非是 $\R$. 记此绝对值为 $|\cdot|_\infty$.
+\end{example}
+
+\begin{example}[$p$-进绝对值] \index[sym1]{Qp@$\Q_p$} \index[sym1]{Zp@$\Z_p$}
+	设 $p$ 为素数, 定义 $v_p: \Z \to \Z_{\geq 0} \sqcup \{\infty\}$ 如下
+	\[ v_p(n) := \max\{ a: p^a \mid n \}, \quad n \in \Z, \]
+	再以 $v_p(r/s) := v_p(r) - v_p(s)$ 将其扩充为 $v_p: \Q \to \Z \sqcup \{\infty\}$. 对应的 $p$-进绝对值取为
+	\[ |x|_p := p^{-v_p(x)}, \quad x \in \Q, \]
+	这是非 Archimedes 的. 以 $|\cdot|_p$ 对 $\Q$ 作完备化得到 $p$-进数域 $\Q_p$, 对 $\Z$ 作完备化则得到 $p$-进整数环 $\Z_p \subset \Q_p$.
+\end{example}
+
+Ostrowski 定理 \cite[定理 10.4.6]{Li1} 说明: 精确到等价, 这两类绝对值穷尽了 $\Q$ 的所有非平凡绝对值, 既不重复也不遗漏. 可以证明 $\Q_p = \Z_p\left[\frac{1}{p}\right]$, 而且存在拓扑环的同构
+\[ \Z_p \rightiso \varprojlim_{n \geq 1} \Z/p^n \Z, \]
+由此还能导出 $\Z_p$ 的剩余类域是 $\Z_p/p\Z_p \simeq \F_p$. 详见 \cite[例 10.2.1 + \S 10.3]{Li1}.
+
+任取代数闭包 $\overline{\Q_p}|\Q_p$ 和 $\overline{\F_p}| \F_p$. 存在域嵌入 $\iota: \overline{\Q} \to \overline{\Q_p}$ 使下图交换
+\begin{equation}\label{eqn:specialization} \begin{tikzcd}[row sep=small, column sep=small]
+		\overline{\Q} \arrow[r, "\iota"] & \overline{\Q_p} \\
+		\Q \arrow[r] \arrow[u] & \Q_p \arrow[u]
+\end{tikzcd}\end{equation}
+相应地有对 Krull 拓扑连续的群嵌入 $G_{\Q_p} \hookrightarrow G_{\Q}$, 映 $g \mapsto g \iota$; 注意到 $\iota$ 在下述意义唯一: 对任两个 $\iota, \iota'$, 存在 $\tau \in G_{\Q}$ 和 $\sigma \in G_{\Q_p}$ 使得 $\iota' = \sigma \iota \tau$; 以上全是标准结果, 见 \cite[定理 10.7.5]{Li1}.
+
+给定 $\overline{\Q}|\Q$ 的 Galois 子扩张 $K|\Q$ (容许无穷), 则资料 \eqref{eqn:specialization} 诱导 $\iota: K \hookrightarrow \overline{\Q_p}$, 从而根据前引定理确定了 $K$ 的赋值 $v \mid p$; 进一步, 资料 \eqref{eqn:specialization} 也诱导连续嵌入 $\Gal(K_v|\Q_p) \hookrightarrow \Gal(K|\Q)$.
+
+对任意素数 $p$, 存在拓扑群的典范短正合列
+\[ 1 \to I_p \to G_{\Q_p} \to G_{\F_p} \to 1, \]
+其中 $I_p \lhd G_{\Q_p}$ 称为\emph{惯性子群}. 群 $G_{\F_p}$ 有熟悉的拓扑生成元
+\[ \Frob_p: x \mapsto x^p, \quad x \in \overline{\F_p}, \]
+称为 \emph{Frobenius 自同构}. 若 $\overline{\Q}|\Q$ 的 Galois 子扩张 $K|\Q$ 在 $p$ 上非分歧, 按上一段的方式选定 $K$ 的赋值 $v \mid p$, 则 $\Frob_p$ 可以视为 $\Gal(K_v|\Q_p)$ 的元素, 继而放入 $\Gal(K|\Q)$. 尽管 $\Frob_p$ 在 $\Gal(K|\Q)$ 中的像依赖于 \eqref{eqn:specialization} 的选取, 它的共轭类终归是良定义的.
+
+在代数几何的脉络下, 常称 $\Frob_p$ 为\emph{算术 Frobenius}, $\Frob_p^{-1}$ 为\emph{几何 Frobenius}.
+
+与这些概念相关的是代数数论中著名的 Chebotarev 密度定理. 本书只需要以下的弱形式.
+\begin{theorem}[N.\ Chebotarev]\label{prop:Chebotarev-0}
+	设 $S \subset \{ p: \text{素数} \}$ 为有限集, 而 $K|\Q$ 是在 $S$ 之外非分歧的 Galois 扩张, 则所有 $\Frob_p$ 的共轭类 (取遍 $p \notin S$) 之并在 $\Gal(K|\Q)$ 中稠密.
+\end{theorem}
+
+\section{Galois 表示和平展上同调}\label{sec:Galois-rep}
+称 $\Q$ 的有限扩张为\emph{数域}\index{shuyu@数域 (number field)}. 代数数论的宗旨是对一切数域 $K$ 探究紧拓扑群 $G_K$ 的结构; 相关背景知识可见任何一本相关教材或 \cite[第十章]{Li1}. 简单起见, 本节只论 $K = \Q$ 的情形. 标准的进路之一是研究 $G_{\Q}$ 的一切有限维连续表示, 亦即同态
+\[ \rho: G_{\Q} \to \GL(V) \xrightarrow[\text{取基}]{\sim} \GL(n, E), \]
+其中
+\begin{compactitem}
+	\item $E$ 是选定的拓扑域;
+	\item $V$ 是有限维 $E$-向量空间, 拓扑由 $E$ 诱导, $n := \dim_E V$;
+	\item 作用映射 $G_{\Q} \times V \to V: (g, v) \mapsto \rho(g)v$ 是连续的.
+\end{compactitem}
+一旦选定域 $E$, 群 $G_{\Q}$ 的有限维连续表示便构成加性范畴, 对之可以探讨子表示, 直和等等概念. 今后径称这般表示 $\rho$ 为 \emph{Galois 表示}. \index{Galois 表示 (Galois representation)}
+
+\begin{definition}
+	若 Galois 表示 $\rho: G_{\Q} \to \GL(V)$ 除 $\{0\}$ 和 $V$ 以外无其它子表示, 则称 $\rho$ 不可约; 如果 $\rho$ 可写作不可约子表示的直和, 则称 $\rho$ 半单. 任何 Galois 表示 $\rho: G_{\Q} \to \GL(V)$ 都有合成列, 定义 $\rho$ 的半单化 $\rho^{\mathrm{ss}}$ 为所有合成因子的直和; 特别地, $\rho$ 不可约时 $\rho \simeq \rho^{\mathrm{ss}}$.
+	
+	对于任意扩域 $E'|E$, 从 $\rho$ 自然地导出 $\rho \otimes E' : G_{\Q} \to \GL(V \dotimes{E} E')$. 若对于代数闭包 $E^{\mathrm{alg}} | E$, 表示 $\rho \otimes E^{\mathrm{alg}}$ 仍不可约, 则称 $\rho$ 为绝对不可约表示.
+\end{definition}
+
+对每个 $g \in G_{\Q}$, 考虑 $\rho(g)$ 的特征多项式
+\[ \det(X - \rho(g) | V) = X^n - c_1(g) X^{n-1} + \cdots + (-1)^n c_n(g), \]
+每个系数 $c_i: G_{\Q} \to E$ 都是共轭不变的连续函数, 仅依赖于 $\rho^{\mathrm{ss}}$; 特别地, 对于特征标 $c_1 = \Tr(\rho)$ 和行列式 $c_n = \det\rho$ 也是如此. 以下的代数学基本事实述而不证.
+
+\begin{proposition}[Brauer--Nesbitt--Schur]\label{prop:rep-character}
+	设 $\rho, \rho'$ 为 $G_{\Q}$ 的 $n$ 维 Galois 表示. 那么 $\rho^{\mathrm{ss}} \simeq (\rho')^{\mathrm{ss}}$ 当且仅当 $\rho, \rho'$ 对所有 $g \in G_{\Q}$ 都有相同的特征多项式. 若要求 $\mathrm{char}(E) = 0$ 或 $\mathrm{char}(E) > n$, 则充要条件可以放宽为 $\Tr(\rho) = \Tr(\rho')$.
+\end{proposition}
+
+对 Galois 表示 $(\rho, V)$ 和素数 $p$, 注意到 $I_p$-不变子空间 $V^{I_p}$ 是 $G_{\F_p}$ 的表示. 考虑 $\Frob_p$ 在 $V^{I_p}$ 上作用的特征多项式 $\det\left( X - \rho(\Frob_p) | V^{I_p} \right)$, 它无关资料 \eqref{eqn:specialization} 的选取. 若 $V^{I_p} = V$ 则称 $(\rho, V)$ 在 $p$ 处\emph{非分歧}, 此概念也不依赖 \eqref{eqn:specialization}.
+\begin{compactitem}
+	\item 设 $S \subset \{p: \text{素数}\}$ 为有限集, 若对每个 $p \notin S$, 表示 $(\rho, V)$ 皆在 $p$ 处非分歧, 则称 $(\rho, V)$ 在 $S$ 之外非分歧;
+	\item 设 $\mathfrak{m} \in \Z$, 若 $(\rho, V)$ 在 $S := \{p: p \mid \mathfrak{m} \}$ 之外非分歧, 则称 $(\rho, V)$ 在 $\mathfrak{m}$ 外非分歧.
+\end{compactitem}
+
+\begin{theorem}\label{prop:Chebotarev}
+	设 $\rho, \rho'$ 为 $G_{\Q}$ 的 $n$ 维 Galois 表示, 在有限集 $S \subset \{p: \text{素数}\}$ 外非分歧. 假设对所有 $p \notin S$, 算子 $\rho(\Frob_p)$ 和 $\rho'(\Frob_p)$ 的特征多项式相同, 则 $\rho^{\mathrm{ss}} \simeq (\rho')^{\mathrm{ss}}$. 若要求 $\mathrm{char}(E) = 0$ 或 $\mathrm{char}(E) > n$, 则条件可以放宽为 $\Tr\rho(\Frob_p) = \Tr\rho'(\Frob_p)$ ($\forall p \notin S$).
+\end{theorem}
+\begin{proof}
+	取 $\Q_S|\Q$ 为极大 $S$ 之外非分歧扩张, 则 $\rho, \rho'$ 来自 $\Gal(\Q_S|\Q)$ 的 $n$ 维连续表示, 再结合定理 \ref{prop:Chebotarev-0} 和命题 \ref{prop:rep-character} 便是.
+\end{proof}
+
+\begin{example}\label{eg:classfield-theory}
+	回到原始问题. 研究 $G_{\Q}$ 的第一步自然是考虑其 $1$ 维表示, 这相当于研究 $G_{\Q}$ 的交换化 $G_{\Q, \mathrm{ab}} = \Gal(\Q^{\mathrm{ab}}|\Q)$ 及所有连续同态
+	\[ \chi: G_{\Q} \twoheadrightarrow G_{\Q, \mathrm{ab}} \to E^\times, \]
+	此处 $\Q^{\mathrm{ab}} \subset \overline{\Q}$ 是 $\Q$ 的极大交换扩张. 类域论中的 Kronecker--Weber 定理给出
+	\begin{align*}
+		\Q^{\mathrm{ab}} & = \bigcup_{n \geq 1} \Q(\zeta_n) = \varinjlim_{\substack{n \geq 1 \\ \text{按整除性赋序}}} \Q(\zeta_n), \qquad \zeta_n \in \overline{\Q}: \; \text{$n$ 次本原单位根}, \\
+		G_{\Q, \mathrm{ab}} & \rightiso \varprojlim_{\substack{n \geq 1 \\ \text{按整除性赋序}}} \Gal\left( \Q(\zeta_n) | \Q \right) \rightiso \varprojlim_{\substack{n \geq 1 \\ \text{按整除性赋序}}} (\Z/n\Z)^\times \\
+		&  \simeq \prod_{p: \text{素数}} \; \varprojlim_{m = 1, 2, 3 \ldots} (\Z/p^m \Z)^\times \simeq \prod_{p} \Z_p^\times \quad \text{(作为拓扑群.)}
+	\end{align*}
+	这里用到了同构 $\Gal\left( \Q(\zeta_n) | \Q \right) \rightiso (\Z/n\Z)^\times$, 映 $g$ 为 $a(g) \in \Z/n\Z$ 使得 $g\zeta_n = \zeta_n^{a(g)}$, 它不依赖 $\zeta_n$ 的选择.
+	
+	表示理论的经典进路是取 $E = \CC$. 因为 $\chi$ 连续, 存在紧开正规子群 $U \subset G_{\Q}$ 使得 $\chi(U) \subset \{z \in \CC^\times : |z| < 1 \}$, 但右边除 $\{1\}$ 之外不含任何子群, 所以 $\chi$ 分解为 $G_{\Q}/U \to E^\times$. 根据以上对 $G_{\Q, \mathrm{ab}}$ 的描述, 存在充分可除的 $n$ 使得 $\chi$ 透过 $G_{\Q, \mathrm{ab}} \twoheadrightarrow (\Z/n\Z)^\times$ 分解. 换言之, $\chi$ 是 Dirichlet 特征标; 这说明系数在 $\CC$ 上的 $1$ 维 Galois 表示并不多, 而且无涉 $\CC$ 的拓扑.
+	
+	若改取 $E = \Q_\ell$, 其中 $\ell$ 是素数, 则能得到更多的特征标. 其中特别重要的一员是 $\ell$-进\emph{分圆特征标} $\chi_\ell: G_{\Q} \to \Z_\ell^\times \subset \Q_\ell^\times$, 定义为 $G_{\Q, \mathrm{ab}} \rightiso \prod_p \Z_p^\times \twoheadrightarrow \Z_\ell^\times$, 或者重新写为合成 \index{fenyuantezhengbiao@分圆特征标 (cyclotomic character)}
+	\[ G_{\Q} \twoheadrightarrow \Gal\left( \Q(\zeta_{\ell^\infty}) | \Q \right) \simeq \varprojlim_{m \geq 1} \Gal\left( \Q(\zeta_{\ell^m}) | \Q \right) \simeq \varprojlim_{m \geq 1} (\Z/\ell^m \Z)^\times = \Z_\ell^\times, \]
+	其中 $\zeta_{\ell^m}$ 是任意 $\ell^m$ 次本原单位根, $\Q(\zeta_{\ell^\infty}) := \bigcup_{m \geq 1} \Q(\zeta_{\ell^m})$; 它映 $g$ 为 $(a_m)_{m \geq 1}$ 使得 $g\zeta_{\ell^m} = \zeta_{\ell^m}^{a_m}$.
+	
+	关于分圆域的一则事实是 $\Q(\zeta_{\ell^m}) | \Q$ 在 $\ell$ 之外非分歧, $m = 1, 2, \ldots, \infty$. 从定义可以验证:
+	\begin{itemize}
+		\item 对于素数 $p \neq \ell$, 将 $\Frob_p$ 提升为 $\Gal\left( \Q(\zeta_{\ell^\infty}) | \Q \right)$ 中的共轭类, 则 $\chi_\ell(\Frob_p) = p$.
+		\item 记 $\text{conj} \in G_{\Q}$ 为复共轭, 则 $\chi_\ell(\text{conj}) = -1$.
+	\end{itemize}
+\end{example}
+
+今后只论系数在 $\Q_\ell$ 或其代数扩张上的 Galois 表示. 我们已经看到 $1$ 维 Galois 表示无非是类域论. 下一站自然是 $2$ 维 Galois 表示, 基于模形式的相关构造是 \S\ref{sec:Deligne-Shimura} 的主题, 其技术基于\emph{平展上同调}, 以下略述一二. \index{pingzhanshangtongdiao@平展上同调 (étale cohomology)}
+
+任何概形 $X$ 上都可以定义平展拓扑, 以及相应的层范畴 $\cate{Shv}_{\text{ét}}(X)$. 在一些合理的假设下\footnote{分离, 有限型态射; 拟紧拟分离概形.}, 可以对态射 $f: X \to Y$ 和层定义导出函子 $\mathrm{R}^\bullet f_*$ 和 $\mathrm{R}^\bullet f_!$ 等等. 若 $C$ 是可分闭域, 则 $\cate{Ab} \xrightarrow[\text{取常值层}]{\sim}\cate{Shv}_{\text{ét}}(\Spec C)$. 是故可分闭域 \footnote{确切地说应是严格 Hensel 环.} 的 $\Spec$ 在平展拓扑下扮演的角色类似于独点集 $\{\mathrm{pt}\}$.
+
+特别地, 设 $X \xrightarrow{a} \Spec(C)$ 是可分闭域 $C$ 上的概型, 考虑素数 $\ell$ 和 $X$ 上的常值层 $\Z/\ell^m \Z$, 可定义~$\ell$-进平展上同调
+\begin{align*}
+	\Hm^\bullet(X, \Z/\ell^m \Z) & := \mathrm{R}^\bullet a_* (\Z/\ell^m \Z) \qquad (m \geq 1), \\
+	\Hm^\bullet(X, \Z_\ell) & := \varprojlim_{m \geq 1} \Hm^\bullet(X, \Z/\ell^m \Z), \\
+	\Hm^\bullet(X, \Q_\ell) & := \Hm^\bullet(X, \Z_\ell) \dotimes{\Z_\ell} \Q_\ell.
+\end{align*}
+它们分别是 $\Z/\ell^m \Z$, $\Z_\ell$ 和 $\Q_\ell$-模. 拓扑学中熟悉的操作如拉回, 迹映射等都有 $\ell$-进平展上同调的版本. 同理还可以定义 $\Hm^\bullet_c(X, \cdot) = \mathrm{R}^\bullet a_!$ 等等.
+\begin{enumerate}
+	\item 取 $C = \CC$. \emph{比较定理}说明只要 $X$ 满足一定的有限性和分离性条件, 考虑相系的复解析空间 $X^{\mathrm{an}}$ 上的上同调函子 $\Hm^\bullet(X^{\mathrm{an}}, \cdot)$, 则有典范同构
+	\[ \Hm^\bullet(X, R) \simeq \Hm^\bullet(X^{\mathrm{an}}; R), \quad R \in \{ \Z/\ell^m \Z, \Z_\ell, \Q_\ell \}. \]
+	
+	\item 如果 $X$ 定义在一般的域 $K$ 上, $L|K$ 为任意扩域, 记 $X_L$ 为 $X$ 沿着 $L|K$ 的基变换. 取可分闭包 $\overline{K}|K$, 那么 $\Hm^\bullet(X_{\overline{K}}, \Q_\ell)$ 上带有自然的连续 $G_K$-表示.
+	\item 在以上构造中取 $K \subset \CC$ 为数域, 选定嵌入 $K \hookrightarrow \overline{K} := \overline{\Q} \subset \CC$, 并假设 $X$ 光滑, 则有典范同构
+	\begin{equation}\label{eqn:etale-comparison}
+		\Hm^\bullet(X_{\overline{\Q}}, R) \xrightarrow[\text{光滑基变换}]{\sim} \Hm^\bullet(X_{\CC}, R) \xrightarrow[\text{比较定理}]{\sim} \Hm^\bullet(X_{\CC}^{\mathrm{an}}; R).
+	\end{equation}
+	一切对 $\Hm^\bullet_c$ 同样成立. 左项带有的 Galois 作用是复解析理论所未见的.
+\end{enumerate}
+
+从定义可见常系数 $\Q_\ell$ 的平展上同调其实是从 $\Z/\ell^m \Z$ 逐步逼近的; 直接在定义中取常值层 $\Z$ 为系数并不会给出期望的结果. 是故 $\Z_\ell$ 系数实属必要. 透过适当的理论包装, 例如 pro-平展拓扑, 仍然可以在平展拓扑下定义 $\Q_\ell$-层以及 $\Q_\ell$-局部系统来充当平展上同调的系数; 上述所有性质都能推及一般的 $\Q_\ell$-局部系统. 这是 \S\ref{sec:Eichler-Shimura-cong} 所需的情形.

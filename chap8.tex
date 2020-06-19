@@ -1,0 +1,1128 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter{椭圆函数和复椭圆曲线}
+本章暂时断开模形式的研究, 转向与之关系密切, 彼此又环环相扣的几个题目: 椭圆函数, 复环面的射影嵌入, 复椭圆曲线及其加法结构, 旁及 Jacobi 簇的复解析初步理论. 与这些主题相关的理论是 19 世纪数学极耀眼的成就, 尤其是复乘理论; \S\ref{sec:CM} 仅是复乘的粗浅介绍, 我们将以之证明 $j$ 函数在复乘点上取值为代数数. 本章最后的 \S\ref{sec:wp-application} 介绍椭圆函数的若干应用, 包括它和椭圆积分的关系.
+
+受限于篇幅, 本章主要着墨于 $\CC$ 上的椭圆曲线和 Jacobi 簇, 不深入一般的域或概形上的情形; 第十章还会触及这些概念.
+
+本章将用到关于平面代数曲线的一些基本知识, 但我们尽量在复系数的框架下讨论, 以使用分析学的工具. 部分论证取法于 \cite{Mum99} 的附录; 该份讲义流畅而极富洞见, 在此一并推荐给读者.
+
+如无另外说明, 本章的 $\PP^n$ 皆代表复射影空间 $\PP^n(\CC)$, Riemann 曲面皆假设连通.
+
+\section{椭圆函数}\label{sec:elliptic-function}
+令 $\Lambda = \Z u \oplus \Z v$ 为 $\CC$ 中的格 (定义 \ref{def:lattice}). 循 \S\ref{sec:cplx-tori} 惯例, 必要时调换次序, 不妨设 $u, v$ 与 $\CC$ 的标准定向相反. 运用伸缩 $z \mapsto v^{-1}z$, 总可以化 $\Lambda$ 为与之同构的格 $\Lambda_\tau := \Z \tau \oplus \Z$, 其中 $\tau \in \mathcal{H}$.
+
+\begin{definition}\index{tuoyuanhanshu@椭圆函数 (elliptic function)}
+	周期格为 $\Lambda$ 的\emph{椭圆函数}意谓 Riemann 曲面 $\CC/\Lambda$ 上的亚纯函数.
+\end{definition}
+
+一旦选定 $\Lambda$ 的基 $u,v$, 椭圆函数无非是 $\CC$ 上的双周期亚纯函数: $f(z + u) = f(z)$, $f(z + v) = f(z)$, 这般函数完全由在它平行四边形 $\left\{au + bv: a,b \in [0,1] \right\}$ 或其任一平移上的取值所确定. 若要求 $f$ 全纯, 那么 $f$ 必有界, 故 Liouville 定理 \cite[\S 3.5, 定理 3]{TW06} 将导致 $f$ 为常值函数.
+
+和一般 Riemann 曲面的情形相同, 对 $\CC/\Lambda$ 上的亚纯函数 $f$ 可定义它在点 $x \in \CC/\Lambda$ 处的消没次数 $\ord_x(f) \in \Z \sqcup \{\infty\}$; 若视 $f$ 为 $\CC$ 上亚纯函数, 则留数 $\Res_x{f}$ 也有定义且只依赖于 $x + \Lambda$; 这和一般 Riemann 曲面上的留数是一回事: $\Res_x(f) = \Res_x(f \dd z)$, 其中 $z$ 是 $\CC/\Lambda$ 上的标准局部坐标.
+
+以下如不另外申明, 周期格 $\Lambda$ 都是选定的. 容易看出全体椭圆函数对逐点加法和乘法构成域, 包含所有常值函数作为子域 $\CC$, 这实际就是 Riemann 曲面 $\CC/\Lambda$ 的亚纯函数域.
+
+\begin{lemma}\label{prop:ell-prep}
+	设 $f$ 为椭圆函数, 则
+	\begin{enumerate}[(i)]
+		\item $\sum_x \ord_x(f) = 0$;
+		\item $\sum_x \Res_x(f) = 0$;
+		\item 作为 $\CC/\Lambda$ 中元素, $\sum_x \ord_x(f) \cdot x = 0$.
+	\end{enumerate}
+	此处的求和皆取遍 $x \in \CC/\Lambda$, 至多有限项非零.
+\end{lemma}
+\begin{proof}
+	工具是定理 \ref{prop:sum-of-residues}. 取 $\CC/\Lambda$ 上亚纯微分形式 $\omega := f^{-1}\dd f$ 得 (i); 取 $\omega = f \dd z$ 得 (ii).
+	
+	对于 (iii), 取 $\omega = z f^{-1} \dd f$; 这里必须注意到 $\omega$ 不再是 $\CC/\Lambda$ 上的微分形式, 所以须选定一个平行四边形 ($\Lambda$ 的基本区域) $P := w + \{au + bv: 0 \leq a,b \leq 1 \}$, 沿 $\partial P$ 正向积分, 如下图所示.
+	\begin{center}\begin{tikzpicture}
+		\draw[-Latex] (0, 0) node[below] {$w$} -- (2, 0) node[below] {$w + v$};
+		\draw[-Latex] (2, 0) -- (3, 1.5) node[above] {$w + v + u$};
+		\draw[-Latex] (3, 1.5) -- (1, 1.5) node[above] {$w + u$};
+		\draw[-Latex] (1, 1.5) -- (0, 0);
+		\node at (1.5, 0.75) {$P$};
+	\end{tikzpicture}\end{center}
+	这里取 $w \in \CC$ 使得 $f$ 在 $\partial P$ 上既无极点又无零点, $0 \notin P$. 在围道上 $\log f$ 局部可定义, 不同``分支''相差 $2\pi i\Z$; 留数定理遂给出 $\CC$ 中的等式
+	\begin{multline*}
+		\sum_{x \in P} \ord_x(f) \cdot x = \sum_{x \in P} \Res_x (\omega) \\
+		= \frac{1}{2\pi i} \left( \int_{w \to w + v} + \int_{w+v \to w+v+u} + \int_{w+v+u \to w+u} + \int_{w+u \to w} \right) z \dd \log f.
+	\end{multline*}
+	左式 $\bmod\; \Lambda$ 的类即是 $\sum_{x \in \CC/\Lambda} \ord_x(f) \cdot x$. 右式则应用 $f$ 的周期性来处理:
+	\begin{align*}
+		\left( \int_{w \to w+v} + \int_{w+v+u \to w+u} \right) z \dd \log f & = -u \int_{w \to w+v} \dd\log f, \\
+		\left( \int_{w+v \to w+v+u} + \int_{w+u \to w} \right) z \dd \log f & = -v \int_{w+u \to w} \dd\log f.
+	\end{align*}
+
+	一旦在顶点 $w$ 附近选定 $\log f$ 的定义, 便可以沿边 $[w, w+v]$ 解析延拓; 因为 $f$ 有周期 $v$, 于是
+	\[ \int_{w \to w+v} \dd \log f = \log f(w+v) - \log f(w) \in 2\pi i \Z. \]
+	
+	同理 $\int_{w+u \to w} \dd \log f \in 2\pi i\Z$. 综之 $\sum_{x \in P} \ord_x(f) \cdot x \in \Z u \oplus \Z v = \Lambda$.
+\end{proof}
+
+\begin{proposition}\label{prop:elliptic-pole}
+	计入重数, 非常值椭圆函数至少有两个极点.
+\end{proposition}
+\begin{proof}
+	引理 \ref{prop:ell-prep} (i) 说明非常值的 $f$ 至少有一个极点 $y$; 若 $y$ 是唯一极点, 则 (ii) 将导致 $\Res_y(f) = 0$, 从而 $y$ 至少是二阶极点.
+\end{proof}
+
+环面 $\CC/\Lambda$ 自然地构成交换复 Lie 群, 当然的加法律是 $(x + \Lambda) + (y + \Lambda) = (x+y) + \Lambda$. 复环面之间的态射定为全纯的群同态, 借此使得全体复环面成一范畴. 同态集 $\Hom(\CC/\Lambda_1, \CC/\Lambda_2)$ 对态射的逐点加法成交换群, 其结构已在命题 \ref{prop:tori-homomorphism} 中澄清了.
+
+以下构造以 $\Lambda$ 为周期格的椭圆函数. 谨先介绍 Weierstrass 的方法. 初步思路是从任意亚纯函数 $f_0$ 出发, 对群作用取平均 $f(z) := \sum_{\omega \in \Lambda} f_0(z+\omega)$. 由于 $\Lambda$ 无穷, 这里涉及收敛性问题. 是以我们需要若干基本估计.
+
+\begin{lemma}\label{prop:Weierstrass-conv}
+	设 $r \in \R_{>0}$ 而 $z \in \CC$ 满足 $|z| < r$. 级数
+	\[ \sum_{\substack{\omega \in \Lambda \\ |\omega| \geq 2r }} |z + \omega|^{-c} \]
+	在 $c > 2$ 时收敛, 其上界可由 $(r, c, \Lambda)$ 的函数决定.
+\end{lemma}
+\begin{proof}
+	对任意 $t > 0$, 定义 $P(t) := \left\{ au + bv : a,b \in \R, \; \max\{|a|,|b|\}=t \right\}$; 直观上它是一个平行四边形的边界. 对于 $n \in \Z_{\geq 1}$, 初等计算给出 $|P(n) \cap \Lambda| = 8n$. 此外, 显然存在依赖于 $(\Lambda, r)$ 的常数 $B > 0$ 和 $N \in \Z_{\geq 1}$, 使得
+	\[ \omega \in P(1) \implies |\omega| \geq B + \frac{r}{N}. \]
+	由此推知当 $n \geq N$ 时
+	\[ \omega \in P(n) \implies |\omega| \geq n\left(B + \frac{r}{N}\right) \geq Bn + r \implies |\omega + z| \geq |\omega| - |z| \geq Bn. \]
+	此外, $|\omega| \geq 2r$ 蕴涵 $|\omega + z| \geq 2r - |z| > r$. 于是乎 $\sum_{\substack{\omega \in \Lambda \\ |\omega| \geq 2r }} |z + \omega|^{-c}$ 有上界
+	\[ \sum_{n < N} |P(n) \cap \Lambda| r^{-c} + \sum_{n \geq N} |P(n) \cap \Lambda| B^{-c} n^{-c} = \sum_{n < N} |P(n) \cap \Lambda| r^{-c} + 8 B^{-c} \sum_{n \geq N} n^{-c+1}, \]
+	明所欲证.
+\end{proof}
+
+根据命题 \ref{prop:elliptic-pole}, 最简单的椭圆函数理应是在 $\CC/\Lambda$ 上有一个二阶极点, 其余处可逆的函数 $f$; 将此二阶极点平移到 $0$, 那么这类函数必为偶函数 $f(z) = f(-z)$: 这是因为 $f(z) - f(-z)$ 将给出 $\CC/\Lambda$ 上的全纯奇函数, 从而为 $0$.
+
+于是合情的想法是从 $f_0(z) := z^{-2}$ 出发对 $\Lambda$ 取平均来构造椭圆函数. 然而引理 \ref{prop:Weierstrass-conv} 对此不适用, 须修改级数来确保收敛性.
+
+\begin{definition-theorem}\label{def:wp} \index[sym1]{P@$\wp$}
+	给定格 $\Lambda$, 含参数 $z \in \CC$ 的级数
+	\begin{align*}
+		\wp(z) & = \dfrac{1}{z^2} + \sum_{\substack{\omega \in \Lambda \\ \omega \neq 0}} \left( \dfrac{1}{(z - \omega)^2} - \dfrac{1}{\omega^2} \right), \\
+		\wp'(z) & = -2 \sum_{\omega \in \Lambda} \dfrac{1}{(z - \omega)^3}
+	\end{align*}
+	在 $\CC$ 的紧子集上正规收敛 (见定义 \ref{def:normal-convergence}), 前提是要舍弃有限多项来回避极点. 作为推论, $\wp(z)$ 和 $\wp'(z)$ 定义 $\CC$ 上的亚纯函数. 它们满足
+	\begin{itemize}
+		\item $\wp' = \dfrac{\dd \wp}{\dd z}$;
+		\item $\wp(z) = \wp(-z)$ 而 $\wp'(z) = -\wp'(-z)$;
+		\item 在 $z=0$ 附近, $\wp(z) = z^{-2} + O(z^2)$ 而 $\wp'(z) = -2 z^{-3} + O(z)$, 而且 $\wp(z)$ 的极点都来自 $\Lambda$, 这里用标准符号 $O(z^a)$ 代表被 $z^a$ 整除的幂级数;
+		\item $\wp, \wp'$ 都是周期格为 $\Lambda$ 的椭圆函数.
+	\end{itemize}
+\end{definition-theorem}
+\begin{proof}
+	关于 $\wp'(z)$ 的诸性质由引理 \ref{prop:Weierstrass-conv} 确保; 例如, 对给定之 $r > 0$, 舍弃级数中对应到 $|\omega| < 2r$ 的项便得到 $\{z: |z| < r \}$ 上的全纯函数, 从而见得 $\wp'(z)$ 是 $\CC$ 上的亚纯函数. 它对 $\Lambda$ 的周期性和 $\wp'(z) = -\wp'(-z)$ 可在极点之外检验, 一切缘于简单的级数重排.
+
+	对于 $\wp(z)$, 运用以下对所有满足 $|z| < |\omega|$ 的复数 $z, w$ 皆成立的等式
+	\begin{equation}\label{eqn:wp-estimate}
+		\left| \dfrac{1}{(z-\omega)^2} - \dfrac{1}{\omega^2} \right| = \left| \dfrac{ z (2\omega - z) }{\omega^2 (z - \omega)^2} \right| = \dfrac{ |z| \cdot \left| 2 - z/\omega \right| }{ |\omega|^3 \cdot \left| 1 - z/\omega \right|^2 }
+	\end{equation}
+	可知当 $|z| < r$ 而 $|\omega| \geq 2r$ 趋近 $+\infty$ 时, 左式约略按 $|\omega|^{-3}$ 增长, 故扣除 $|\omega| < 2r$ 的项以后得到在 $|z| < r$ 上的收敛级数, $\wp(z)$ 的亚纯性质水到渠成. 这一论证还说明了:
+	\begin{compactitem}
+		\item $\wp$ 的极点都来自 $\Lambda$ (对给定的 $r$ 观察舍弃掉的有限多项);
+		\item $\wp(z) - z^{-2}$ 在 $z=0$ 取值为 $0$ (取 $r$ 充分小使得唯一舍弃的项是 $z^{-2}$).
+	\end{compactitem}
+	
+	基于以上结果, 当 $z$ 限制在紧子集上时可以逐项求导. 于是推得 $\wp' = \dfrac{\dd \wp}{\dd z}$. 级数重排给出 $\wp(z) = \wp(-z)$. 既然 $\wp(z) - z^{-2}$ 在 $z=0$ 处取 $0$, 由 $\wp$ 的偶性遂得 $\wp(z) = z^{-2} + O(z^2)$. 对 Laurent 级数求导给出 $\wp'(z) = -2z^{-3} + O(z)$.
+	
+	既然 $\wp$ 的导函数在 $\Lambda$ 平移下不变, 对任何 $\omega \in \Lambda$ 都存在常数 $c$ 使得 $\forall z, \; \wp(z+\omega) = \wp(z) + c$; 于是
+	\[ \wp(-z) - c = \wp(-z-\omega) = \wp(z + \omega) = \wp(z) + c. \]
+	由此立见 $c=0$, 亦即 $\wp(z)$ 是周期格为 $\Lambda$ 的椭圆函数.
+\end{proof}
+
+\begin{remark}
+	兹断言椭圆函数 $\wp(z)$ 由以下性质刻画.
+	\begin{enumerate}[(i)]
+		\item 在 $z=0$ 附近, $\wp(z) = z^{-2} + O(z^2)$;
+		\item 在 $\CC/\Lambda$ 上 $\wp(z)$ 无其它极点.
+	\end{enumerate}
+	先前已说明 $\wp$ 具备性质 (i) 和 (ii). 反之, 若椭圆函数 $f$ 也满足 (i), (ii), 那么 $f(z) - \wp(z)$ 是在 $z=0$ 处取值为 $0$ 的全纯椭圆函数, 故 $f - \wp = 0$.
+\end{remark}
+
+\begin{lemma}\label{prop:elliptic-fcn-ord}
+	设 $f$ 为格 $\Lambda$ 的椭圆函数, 不恒为零并且是偶函数, 则对任意 $x \in \CC/\Lambda$ 皆有 $\ord_x(f) = \ord_{-x}(f)$. 若 $2x = 0 \in \CC/\Lambda$ , 则 $\ord_x(f) \in 2\Z$.
+\end{lemma}
+\begin{proof}
+	偶性显然蕴涵 $\ord_x(f) = \ord_{-x}(f)$. 对于第二部分, 我们将 $x$ 等同于 $\CC$ 中的某个代表元, 将 $f$ 视作 $\CC$ 上的周期亚纯函数. 首先处理特例 $x=0$: 观察 Laurent 展开式立见任何亚纯偶函数 $f$ 都满足 $\ord_0(f) \in 2\Z$; 对于一般的 $x$, 令 $f_1(z) := f(z + x)$, 它仍是 $\Lambda$ 的椭圆函数, $\ord_0(f_1) = \ord_x(f)$, 并且
+	\[ f_1(-z) = f(-z + x) = f(z - x) = f(z + x + \Lambda) = f_1(z) \]
+	表明 $f_1$ 仍是偶函数, 故一般情形得证.
+\end{proof}
+
+\begin{theorem}\label{prop:wp-field}
+	由所有周期格为 $\Lambda$ 的椭圆函数构成的域等于 $\CC(\wp, \wp')$.
+\end{theorem}
+\begin{proof}
+	设 $f$ 为周期格 $\Lambda$ 的椭圆函数, 也视为 $\CC$ 上的亚纯函数. 因
+	\[ f(z) = \dfrac{f(z) + f(-z)}{2} + \dfrac{f(z) - f(-z)}{2}, \]
+	问题化简到 $f$ 是偶函数或奇函数的情形. 若 $f$ 奇则 $\wp'(z)f(z)$ 偶; 综之, 以下仅考虑不恒为 $0$ 的偶函数 $f$.
+	
+	对任意 $x \in \CC/\Lambda$ 记 $m_x := \ord_x(f)$. 定义 $\CC$ 上的亚纯函数
+	\[ g(z) := \prod_{\substack{\pm x \in \CC/\Lambda \\ 2x \neq 0}} \left( \wp(z) - \wp(x) \right)^{m_x} \cdot \prod_{\substack{x \in \CC/\Lambda \\ x \neq 0, \; 2x=0}} \left( \wp(z) - \wp(x) \right)^{m_x/2}; \]
+	连乘积只取 $x \sim -x$ 的等价类, 这里用上了引理 \ref{prop:elliptic-fcn-ord}; 显然 $g \in \CC(\wp)$.
+	
+	定义--定理 \ref{def:wp} 言明对每个 $x \in \CC/\Lambda$, $x \neq 0 + \Lambda$ 者, 函数 $\wp(z) - \wp(x)$ 在 $z \in \Lambda$ 时有二阶极点, 其余处全纯. 于是引理 \ref{prop:ell-prep} 蕴涵 $\wp(z) - \wp(x)$ 视为 $\CC/\Lambda$ 上亚纯函数恰有两个零点, 计入重数, 其描述如下. 当 $2x \neq 0$ 时零点无非是 $\pm x$, 必为相异单零点; 当 $2x = 0$ 时 $x$ 是其零点, 既然 $m_x \in 2\Z$, 它实为二阶零点. 这就穷尽了 $\wp(z) - \wp(x)$ 的所有零点.
+
+	当 $y \in \CC/\Lambda$ 非零时, 以上讨论导致 $\ord_y(f) = \ord_y(g)$; 应用引理 \ref{prop:ell-prep} 可知对 $y=0$ 亦然. 因此存在 $c \in \CC^\times$ 使 $f = cg \in \CC(\wp)$. 明所欲证.
+\end{proof}
+
+必要时, 记 $\wp = \wp_\Lambda$ 和 $\wp' = \wp'_\Lambda$ 来申明 $\Lambda$ 的角色. 令 $\alpha \in \CC^\times$, 以下公式就定义--定理 \ref{def:wp} 观之是明白的.
+\begin{align*}
+	\wp_{\alpha\Lambda}(\alpha z) & := \alpha^{-2} \wp_\Lambda(z), \\
+	\wp'_{\alpha\Lambda}(\alpha z) & = \alpha^{-3} \wp'_\Lambda(z).
+\end{align*}
+
+\begin{exercise}\label{exo:triple-product}
+	对 $(z,\tau) \in \CC \times \mathcal{H}$ 定义 $q := e^{\pi i\tau}$, $\eta := e^{2\pi i z}$ 和
+	\begin{align*}
+		\vartheta(z; \tau) & := \sum_{n \in \Z} q^{n^2} \eta^n, \\
+		P(z; \tau) & := \prod_{n \geq 1} \left(1 + q^{2n-1} \eta \right) \left(1 + q^{2n-1} \eta^{-1} \right);
+	\end{align*}
+	参看注记 \ref{rem:Jacobi-form} (该处记 $q$ 为 $q_2$). 定义 $\CC$ 中的格 $\Lambda_\tau := \Z \oplus \Z\tau$.
+	\begin{enumerate}
+		\item 证明 $\vartheta(z + \tau; \tau) = (q\eta)^{-1}\vartheta(z; \tau)$, $P(z + \tau; \tau) = (q\eta)^{-1} P(z; \tau)$, 从而说明 $z \mapsto \frac{\vartheta(z;\tau)}{P(z;\tau)}$ 是以 $\Lambda_\tau$ 为周期格的椭圆函数.
+		\item 固定 $\tau$, 证明 $z \mapsto P(z; \tau)$ 的零点集是 $z = \frac{1}{2} + \frac{\tau}{2} + \Lambda_\tau$. 证明它们也是 $\vartheta(z; \tau)$ 的零点, 而 $\vartheta(z;\tau)/P(z;\tau)$ 只和 $q$ 相关, 记作 $\phi(q)$.
+		\item 证明
+		\begin{align*}
+			\vartheta\left( \frac{1}{2}; 4\tau \right) & = \vartheta\left( \frac{1}{4}; \tau \right), \\
+			P\left( \frac{1}{2}; 4\tau \right) & = P\left( \frac{1}{4}; \tau\right) \cdot \prod_{n \geq 1} \left(1 - q^{4n-2} \right)\left( 1 - q^{8n-4} \right), \\
+			\lim_{q \to 0} \phi(q) & = 1.
+		\end{align*}
+		\item 由上式证明 $\phi(q) = \prod_{n \geq 1} (1 - q^{2n})$, 由之导出 \emph{Jacobi 三重积公式} \index{Jacobi 三重积 (Jacobi triple product)}
+		\[ \sum_{n \in \Z} q^{n^2} \eta^n = \prod_{n \geq 1} \left( 1 - q^{2n} \right) \left( 1 + q^{2n-1}\eta \right) \left( 1 + q^{2n-1} \eta^{-1} \right). \]
+		\item 在三重积中代入 $(z, \tau) \leadsto \left( -\dfrac{\tau}{4} + \dfrac{1}{2}, \; \dfrac{3\tau}{2} \right)$, 记 $q^t := e^{t\pi i \tau}$, 相应地 $(q, \eta) \leadsto (q^{\frac{3}{2}}, -q^{-\frac{1}{2}})$, 由此导出 \emph{Euler 五边形数定理} \index{wubianxingshudingli}
+		\[ \sum_{n \in \Z} (-1)^n q^{ \frac{3n^2 + n}{2} } = \prod_{n \geq 1} (1 - q^n). \]
+		此即我们在推导 $\eta$ 函数的 Fourier 展开 \eqref{eqn:eta-Fourier} 时使用的公式 \eqref{eqn:pentagonal-number}.
+	\end{enumerate}
+\end{exercise}
+
+\section{射影嵌入}\label{sec:proj-embedding}
+令 $\mathcal{X}$ 为亏格 $1$ 的紧 Riemann 曲面, 见 \S\ref{sec:Riemann-Hurwitz}, 取定其中一点 $O$. 本节宗旨是定义射影嵌入 $\iota: \mathcal{X} \hookrightarrow \PP^2$, 并从中构造不变量以分类 $(\mathcal{X}, O)$.
+
+对任意 $D \in \text{Div}(\mathcal{X})$, 考虑 \eqref{eqn:Gamma-D} 定义之 $\CC$-向量空间 $\Gamma(\mathcal{X}, D)$. 因为 $g(\mathcal{X}) = 1$, 注记 \ref{rem:RR} 给出简单的公式
+\begin{equation}\label{eqn:genus-1-sections}
+	\deg D \geq 1 \implies \ell(D) := \dim \Gamma(\mathcal{X}, D) =  \deg D.
+\end{equation}
+考虑 $D=kO$, 容易看出存在 $\mathcal{X}$ 上的亚纯函数 $x,y$ 使得
+\begin{equation}\label{eqn:wp-table} \begin{array}{c|c|c|c|}
+	k & \dim\Gamma(\mathcal{X},kO) & \Gamma(\mathcal{X}, kO) \;\text{的生成元} & \text{特性} \\ \hline
+	0 & 1 & 1 & \text{常值函数} \\
+	1 & 1 &  1 & \\
+	2 & 2 & 1, x & \ord_O(x)=2 \\
+	3 & 3 & 1, x, y & \ord_O(y)=3 \\
+	4 & 4 & 1, x, y, x^2 & \\
+	5 & 5 & 1, x, y, x^2, xy & \\
+	6 & 6 & 1, x, y, x^2, xy, x^3, y^2 & \text{线性相关}
+\end{array}\end{equation}
+第三列也枚举了 $\Gamma(\mathcal{X}, kO)$ 中 $x,y$ 构成的所有单项式, $k = 0, \ldots, 6$.
+
+复射影平面 $\PP^2$ 是复二维的复流形, 事实上还是代数簇, 其局部坐标卡由以下同构于 $\CC^2$ 的开集给出
+\[ U_0 := (1:*:*), \quad U_1 := (*:1:*), \quad U_2 := (*:*:1). \]
+对于任意 $(A:B:C) \in \PP^2$, 线性方程 $AX+BY+CZ = 0$ 在 $\PP^2$ 中截出一条射影直线 $\ell \simeq \PP^1$. 
+
+我们希望研究基 $\{x,y,1\}$ 给出的下述映射.
+\begin{definition-proposition}
+	我们有良定的全纯映射
+	\begin{align*}
+		\iota: \mathcal{X} & \longrightarrow \PP^2 \\
+		p & \longmapsto \begin{cases}
+			(x(p) : y(p) : 1), & p \neq O \\
+			(0 : 1 : 0), & p = O,
+		\end{cases}
+	\end{align*}
+	它在 $\PP^2$ 中的像为闭. 特别地, $(0:1:0)$ 是 $\iota(\mathcal{X})$ 和``无穷远直线'' $(*:*:0) = \PP^2 \smallsetminus U_2$ 的唯一交点.
+\end{definition-proposition}
+\begin{proof}
+	在 $x,y$ 的唯一极点 $O$ 附近取局部坐标 $u$ 使得 $u(O)=0$, 则存在非零常数 $c, c'$ 使得
+	\begin{align*}
+		(x : y : 1) & = \left( c u^{-2} + O(u^{-1}) : c' u^{-3} + O(u^{-2}): 1 \right) \\
+		& = \left( cu + O(u^2) : c' + O(u) : u^3 \right) \qquad \left(\text{同乘以}\; u^3 \right);
+	\end{align*}
+	它趋近于 $(0:1:0) =: \iota(O)$. 既然 $\mathcal{X}$ 紧, $\iota$ 的像闭.
+\end{proof}
+
+对于任意 $D = \sum_p n_p p \in \text{Div}(\mathcal{X})$ 和 $s \in \Gamma(\mathcal{X}, D)$, 定义
+\[ \ord_p(s,D) := \ord_p(s) + n_p. \]
+举例明之, 由上述的局部坐标 $u$ 可见 $\ord_O(x, 3O) = 1$, $\ord_O(y, 3O) = 0$ 而 $\ord_O(1, 3O) = 3$; 除子 $3O$ 在此的效应正好契合 $\iota(O)$ 定义中来自 $u^3$ 的调整.
+
+几何中习惯将 $s$ 看作由 $D$ 确定的线丛 $\mathcal{O}(D)$ 的全纯截面, 那么 $s$ 在点 $p$ 处作为线丛截面的消没次数正是 $\ord_p(s, D)$. 这边不深掘相关的理论框架.
+
+\begin{lemma}
+	映射 $\iota: \mathcal{X} \to \PP^2$ 是闭浸入: 换言之 $\iota$ 是单射, 而且对每个 $p \in \mathcal{X}$, 全纯切映射 $T_{p, \mathrm{hol}} \mathcal{X} \to T_{\iota(p), \mathrm{hol}} \PP^2$ 也单.
+\end{lemma}
+\begin{proof}
+	考虑 $\mathcal{X}$ 的相异点 $p \neq q$. 根据 \eqref{eqn:genus-1-sections}, 存在 $s \in \Gamma(\mathcal{X}, 3O - p)$ 使得 $s \notin \Gamma(\mathcal{X}, 3O - p - q)$. 将 $s$ 表作 $ux + vy + w$, 令 $\ell_s := \left\{(A:B:C) \in \PP^2 : uA + vB + wC = 0 \right\}$, 那么以上条件相当于 $\iota(p) \in \ell_s$ 而 $\iota(q) \notin \ell_s$. 故 $\iota(p) \neq \iota(q)$.
+	
+	类似地, 给定 $p \in \mathcal{X}$, 仍用 \eqref{eqn:genus-1-sections} 选取 $s = ux + vy + w \in \Gamma(\mathcal{X}, 3O-p)$ 使得 $s \notin \Gamma(\mathcal{X}, 3O-2p)$. 对于 $p \neq O$ (或 $p = O$), 考虑定义在 $p$ 附近的全纯函数 $f := s$ (或 $f := s/y$). 无论哪种情形都有 $\ord_p(f) = 1$, 并且存在 $\iota(p)$ 附近的全纯函数 $g$ 使得 $f = g\iota$ (当 $p \neq O$ 时取 $g(A:B:1) = uA+vB+w$, 否则取 $g(A:1:C) = uA + v +wC$). 因为 $\dd f = \dd g \dd \iota$, 这就表明 $\dd\iota(p) \neq 0$, 否则将有 $\ord_p(f) \geq 2$.
+\end{proof}
+
+为了刻画 $\iota(\mathcal{X})$ 的像, 首务自然是研究 $x$ 和 $y$ 所能满足的代数关系, 这又等价于研究 $\{ x^a y^b : a,b \geq 0 \}$ 在 $\CC$ 上的线性关系. 从表 \eqref{eqn:wp-table} 立见随着 $k = 2a+3b$ 增大, 最低次的线性关系出现在 $\Gamma(\mathcal{X}, 6 O)$: 精确到 $\CC^\times$, 表列 $7$ 个生成元之间满足唯一的线性关系, 其中 $x^3$ 和 $y^2$ 的系数皆非零, 因它们是唯二在 $O$ 处恰有 $6$ 阶极点者. 将 $x$ 和 $y$ 适当伸缩后, 可确保有系数在 $\CC$ 上的代数关系 \index{Weierstrass 方程 (Weierstrass equation)}
+\begin{equation}\label{eqn:elliptic-Weierstrass}
+	y^2 + a_1 xy + a_3 y = x^3 + a_2 x^2 + a_4 + a_6;
+\end{equation}
+称之为 \emph{Weierstrass 方程}. 左式通过 $y \leadsto y + (a_1 x + a_3)/2$ 配方, 不改变 $y$ 的极点阶数, 得到新的代数关系
+\begin{equation}\label{eqn:elliptic-abc}
+	y^2 = (x-a)(x-b)(x-c).
+\end{equation}
+易验证多项式 $Y^2 - (X-a)(X-b)(X-c) \in \CC[X, Y]$ 不可约. 代入 $X \leadsto X/Z$ 和 $Y \leadsto Y/Z$, 通分得到 $\PP^2$ 中由齐次方程
+\[ E: \quad Y^2 Z - (X-aZ)(X-bZ)(X-cZ) = 0. \]
+定义的代数曲线 (复 $1$ 维); 由定义立见
+\begin{align*}
+	E \cap U_2 = E \cap (*:*:1) & \simeq \left\{ (x,y) \in \CC^2: y^2 = (x-a)(x-b)(x-c) \right\}, \\
+	E \cap (*:*:0) & = \{(0:1:0)\}.
+\end{align*}
+按射影几何的术语, 我们也称 $E \cap U_2$ 是曲线 $E$ 的仿射部分, 而 $(0:1:0)$ 是 $E$ 的无穷远点.
+
+\begin{lemma}\label{prop:iota-bijection}
+	上述映射 $\iota: \mathcal{X} \to E$ 是双射, 而且 $a,b,c$ 相异.
+\end{lemma}
+
+展开证明之前, 首先说明 $a,b,c$ 相异蕴涵 $E$ 是光滑的, 在此按微分形式或梯度的观点理解光滑性. 令 $P(X) := (X-a)(X-b)(X-c)$. 当 $a,b,c$ 相异时, 微分形式
+\[ \dd (Y^2 - P(X)) = 2Y \dd Y - P'(X) \dd X \]
+在 $E \cap U_2$ 上处处非零, 因之仿射部分光滑. 在无穷远点 $(0:1:0)$ 附近, 将 $E \cap (*:1:*)$ 用 $Z - (X-aZ)(X-bZ)(X-cZ) = 0$ 来表示; 左式在 $(X,Z)=(0,0)$ 处的梯度是 $(0,1)$, 因此 $E$ 在无穷远点 $(0:1:0)$ 处亦光滑.
+
+于是 $E$ 给出 $\PP^2$ 中的光滑代数曲线, 全纯版本的隐函数定理在 $E$ 上给出一族局部坐标卡. 作为引理 \ref{prop:iota-bijection} 的推论, $\iota: \mathcal{X} \rightiso E$ 实际是紧 Riemann 曲面的同构, 映 $O$ 为无穷远点. 以下就来证明引理 \ref{prop:iota-bijection}.
+
+\begin{proof}
+	断言可以从复代数几何的一般理论导出, 以下给出更直接的论证.
+
+	视 $x$ 为态射 $\mathcal{X} \to \PP^1$. 因为 $x$ 唯一极点是二阶的 $O$, 此态射次数为 $2$ (推论 \ref{prop:value-degree}), 特别地 $x$ 为满射并且在 $O$ 处分歧. 对仿射部分 $E \cap U_2 = E \smallsetminus \{(0:1:0)\}$ 可考虑两个坐标投影 $p_X(X:Y:1) = X$ 和 $p_Y(X:Y:1) = Y$. 请打量交换图表
+	\[\begin{tikzcd}
+		& \mathcal{X} \smallsetminus \{O\} \arrow[hookrightarrow, d, "\iota"'] \arrow[ld, bend right, "y"'] \arrow[twoheadrightarrow, bend left, rd, "x"] & \\
+		\CC & E \smallsetminus \{(0:1:0)\} \arrow[twoheadrightarrow, r, "p_X"' inner sep=1em] \arrow[twoheadrightarrow, l, "p_Y" inner sep=1em] & \CC
+	\end{tikzcd}\]
+	对每个 $\alpha \in \CC$ 审视 $\iota$ 的限制 $x^{-1}(\alpha) \hookrightarrow p_X^{-1}(\alpha)$, 这相当于考虑映射
+	\begin{equation} \label{eqn:y-fiber}\begin{tikzcd}
+		x^{-1}(\alpha) \arrow[hookrightarrow, r, "y"] & \left\{ \beta \in \CC: \beta^2 = (\alpha - a)(\alpha - b)(\alpha - c) \right\} .
+	\end{tikzcd}\end{equation}
+
+	对 $x: \mathcal{X} \to \PP^1$ 应用 \S\ref{sec:branched-covering} 的分歧复叠理论: 留意到 $O \in \mathrm{Ram}(x)$. 兹断言
+	\[ E' := \left\{ (\alpha:\beta:1) \in E: \alpha \notin x(\mathrm{Ram}(f)) \right\} \subset \iota(\mathcal{X}). \]
+	诚然, 选定 $(\alpha:\beta:1) \in E'$, 则 $|x^{-1}(\alpha)| = 2$ (见推论 \ref{prop:ramified-covering-unramified}); 另一方面 \eqref{eqn:y-fiber} 右项至多也只有两个元素, 故 \eqref{eqn:y-fiber} 对 $\alpha$ 为双射. 取 $p \in x^{-1}(\alpha)$ 使 $y(p) = \beta$, 则 $\iota(p) = (\alpha:\beta:1)$.
+
+%	依照推论 \ref{prop:ramified-covering-unramified}, 有限集 $A := x^{-1}( x(\mathrm{Ram}(x)))$ 包含 $O$, 而且 $x: \mathcal{X} \smallsetminus A \to \PP^1 \smallsetminus x(\mathrm{Ram}(x))$ 是二重复叠. 兹断言
+%	\[ E' := \left\{ (\alpha:\beta:1) \in E: \alpha \notin x(\mathrm{Ram}(f)) \right\} \subset \iota(\mathcal{X}). \]
+%	诚然, 若 $(\alpha:\beta:1) \in E'$, 那么 $|x^{-1}(\alpha)| = 2$, 另一方面 \eqref{eqn:y-fiber} 右项至多也只有两个元素, 故 \eqref{eqn:y-fiber} 对 $\alpha$ 为双射. 取 $p \in x^{-1}(\alpha)$ 使 $y(p) = \beta$, 则 $\iota(p) = (\alpha:\beta:1)$.
+
+	复代数曲线没有拓扑意义下的孤立点. 又因为 $E \smallsetminus E'$ 有限而 $\iota(\mathcal{X})$ 在 $E$ 中闭, 上述断言遂导致 $\iota(\mathcal{X}) = E$.
+
+	以上满性也说明 \eqref{eqn:y-fiber} 总是双射. 今考虑 \eqref{eqn:y-fiber} 右项元素个数, 可知 $2$ 次分歧复叠 $x$ 满足 $x\left(\mathrm{Ram}(x)\right) = \{a,b,c,\infty\}$, 而且分歧点 $p$ 皆满足 $e(p) = 2$ (命题 \ref{prop:sum-ram-degree}); Riemann--Hurwitz 公式 (定理 \ref{prop:Riemann-Hurwitz}) 写作
+	\[ \underbracket{2g(\mathcal{X}) - 2}_{= 0} = \underbracket{(2g(\PP^1) - 2)}_{= -2} \underbracket{\deg x}_{= 2} + \sum_{p \in \text{Ram}(x)} \underbracket{(e(p) - 1)}_{= 1}, \]
+	于是 $|\text{Ram}(x)| = 4$, 其元素只能是 $a,b,c,\infty$ 各自对 $x$ 的唯一逆像; 故 $a, b, c$ 相异.
+\end{proof}
+
+以上从 $(\mathcal{X}, O)$ 到 $E$ 的构造依赖于 $x \in \Gamma(\mathcal{X}, 2O)$. 如果 $x_1, x_2 \in \Gamma(\mathcal{X}, 2O)$ 在 $O$ 处皆有二阶极点, 关于 \eqref{eqn:wp-table} 的讨论表明这等价于说 $\{1, x_1\}$ 和 $\{1, x_2\}$ 是 $\Gamma(\mathcal{X}, 2O)$ 的两组基, 亦即
+\[ \exists \gamma = \twobigmatrix{a_{11}}{a_{12}}{a_{21}}{a_{22}} \in \GL(2,\CC), \quad
+	\left\{\begin{array}{rl}
+		x_2 & = a_{11} \cdot x_1 + a_{12} \cdot 1 \\
+		1 & = a_{21} \cdot x_1 + a_{22} \cdot 1
+	\end{array}\right. \]
+考虑极点可知 $a_{21} = 0$ 而 $a_{22} = 1$, 故在线性分式变换作用下 $\gamma(\infty) = \infty$ 而 $\gamma x_1 = x_2$.
+\begin{compactitem}
+	\item 在此变换下, $x: \mathcal{X} \to \PP^1$ 的分歧点 $a, b, c, \infty$ 相应地被 $\gamma$ 搬动;
+	\item 反之, 若 $\gamma \in \Stab_{\PGL(2,\CC)}(\infty)$, 则能以 $\gamma \circ x$ 代 $x$, 化分歧点 $(a,b,c,\infty)$ 为 $(\gamma a, \gamma b, \gamma c, \infty)$.
+\end{compactitem}
+综上, 精确到 $\Stab_{\PGL(2,\CC)}(\infty)$ 作用, 集合 $\{a,b,c,\infty\}$ 由 $(\mathcal{X}, O)$ 唯一确定.
+
+为了得到更标准的方程, 用交比 \eqref{eqn:cross-ratio-transitivity} 取唯一的 $\gamma$ 使 $(\gamma a, \gamma b, \gamma \infty) = (0,1,\infty)$; 任取 $b-a$ 的平方根, 则坐标变换具体写作
+\[ x \leadsto \gamma x = (x,b;a,\infty) = \frac{x-a}{b-a}, \qquad y \leadsto (b-a)^{-3/2} y. \]
+令 $\lambda := \gamma c = \frac{c-a}{b-a}$, 方程 \eqref{eqn:elliptic-abc} 进一步化为 \emph{Legendre 形式}, 无穷远点 $(0:1:0)$ 不动:
+\[ Y^2 = X(X-1)(X-\lambda), \quad \lambda \in \CC \smallsetminus \{0,1\}. \]
+
+虽然 $\lambda = (c, b; a, \infty)$ 对 $\Stab_{\PGL(2,\CC)}(\infty)$ 不变, 它仍依赖 $a,b,c$ 的顺序, 还不是 $(\mathcal{X}, O)$ 的不变量. 对所有排列求 $\lambda$ 的值, 得到
+\[ \lambda, \frac{1}{\lambda}, 1-\lambda, \frac{1}{1-\lambda}, \frac{\lambda}{\lambda-1}, \frac{\lambda-1}{\lambda}. \]
+这也是 $\lambda \in \CC \smallsetminus \{0,1\}$ 在 $\lrangle{ \twomatrix{}{1}{1}{}, \twomatrix{-1}{1}{}{1} } \simeq \mathfrak{S}_3$ 作用下的轨道. 初等的不变量计算或稍后的练习表明此轨道完全由复数
+\begin{equation}\label{eqn:j-genus-0}
+	j(\mathcal{X}, O) := 2^8 \cdot \dfrac{(\lambda^2 - \lambda + 1)^3}{\lambda^2(\lambda-1)^2}
+\end{equation}
+来确定. 我们总结出以下定理.
+
+\begin{theorem}\label{prop:j-classification}
+	设 $\mathcal{X}, \mathcal{X}'$ 是亏格为 $1$ 的紧 Riemann 曲面, $O \in \mathcal{X}$ 而 $O' \in \mathcal{X}'$, 那么存在同构 $\phi: \mathcal{X} \rightiso \mathcal{X}'$ 使得 $\phi(O) = O'$ 当且仅当 $j(\mathcal{X}, O) = j(\mathcal{X}', O')$.
+\end{theorem}
+
+在 \S\ref{sec:tori-embedding} 将确定复环面的 $j$-不变量, 由之可见每个 $j \in \CC$ 都被某个 $(\mathcal{X}, O)$ 取到; 这一事实当然也有代数论证, 见 \cite[VI.1.6]{DR73} 的具体公式.
+
+\begin{exercise}
+	视 $\lambda$ 为变元, 让 $\mathfrak{S}_3 \simeq \lrangle{ \twomatrix{}{1}{1}{}, \twomatrix{-1}{1}{}{1} } \subset \PGL(2,\CC)$ 按 $(\sigma f)(\lambda) = f(\sigma^{-1}\lambda)$ 忠实地作用在有理函数域 $\CC(\lambda)$ 上, 并且按 \eqref{eqn:j-genus-0} 定义 $j \in \CC(\lambda)$. 循序证明以下陈述.
+	\begin{enumerate}
+		\item 用基础的 Galois 理论 (如 \cite[引理 9.1.6]{Li1}) 说明 $\CC(\lambda)$ 是 $\CC(\lambda)^{\mathfrak{S}_3}$ 的 $6$ 次扩域.
+		\item 验证 $j \in \CC(\lambda)^{\mathfrak{S}_3}$, 因而 $[\CC(\lambda): \CC(j)] \geq [\CC(\lambda): \CC(\lambda)^{\mathfrak{S}_3}] = 6$.
+		\item 说明 $\lambda$ 满足系数在 $\CC(j)$ 中的 $6$ 次方程, 因而 $\CC(\lambda)^{\mathfrak{S}_3} = \CC(j)$.
+		\item 若 $x,y \in \CC \smallsetminus \{0,1\}$ 的 $\mathfrak{S}_3$-轨道无交, 那么存在 $f \in \CC[\lambda]$ 使得 $f(x)=0$ 而 $f(\sigma y) \neq 0$ 对所有 $\sigma \in \mathfrak{S}_3$ 成立. 取 $h := \prod_{\sigma \in \mathfrak{S}_3} \sigma(f) \in \CC(j)$, 从 $h(x)=0$ 和 $h(y) \neq 0$ 推导 $j(x) \neq j(y)$.
+	\end{enumerate}
+	如此便说明不变量 $j$ 足以区分 $\CC \smallsetminus \{0,1\}$ 中的 $\mathfrak{S}_3$-轨道.
+\end{exercise}
+
+\begin{remark}\label{rem:cubic-uniqueness}
+	设 $x,y$ 为 $\mathcal{X}$ 上不恒为零的亚纯函数, 使得 $y^2 = P(x)$ 的三次多项式 $P(X)$ 如存在则是唯一的. 设 $y^2 = P_1(x) = P_2(x)$, 那么 $(P_1 - P_2)(x) = 0$ 而 $x: \mathcal{X} \to \PP^1$ 是满态射, 故 $P_1 - P_2 = 0$.
+\end{remark}
+
+\begin{exercise}\label{exo:j-equals-0}
+	应用 $\lambda$ 的交比诠释, 证明若 $\mathcal{X}$ 可以嵌入为仿射部分形如 $Y^2 = X^3 - C$ 的三次平面射影曲线, 其中 $C \neq 0$ 而 $O$ 嵌为 $(0:1:0)$, 那么 $j(\mathcal{X}, O)=0$.
+	
+	\begin{hint}
+		取 $C$ 的任意立方根 $\alpha$ 和 $\omega := \frac{-1 + \sqrt{-3}}{2}$, 那么 $X^3 - C = (X - \alpha)(X - \omega\alpha)(X - \omega^2 \alpha)$; 按此算出 $\lambda = \omega + 1$ 和 $j = 0$.
+	\end{hint}
+\end{exercise}
+
+上面说明了亏格 $1$ 的紧 Riemann 曲面可以实现为 $\PP^2$ 中的三次光滑曲线. 其逆命题是代数几何学中的一个初等结果, 在此述而不证.
+\begin{theorem}
+	设 $E$ 是 $\PP^2$ 中的三次光滑曲线, 则 $E$ 的亏格为 $1$.
+\end{theorem}
+
+对于一般的 $g \geq 0$, 当然也能探究亏格为 $g$, 带 $n$ 个点 $O_1, \ldots, O_n$ 的紧 Riemann 曲面的分类问题, 并寻求合适的粗模空间 $\mathcal{M}_{g,n}$. 本节的结果相当于说 $\mathcal{M}_{1,1}$ 是仿射直线. 推论 \ref{prop:genus-1-transitive} 将说明对任意亏格 $1$ 的 $\mathcal{X}$, 自同构群 $\Aut(\mathcal{X})$ 在 $\mathcal{X}$ 上可递, 所以 $\mathcal{M}_{1,1} \rightiso \mathcal{M}_{1,0}$. 至于一般的 $\mathcal{M}_{g,n}$, 读者可参阅 \cite[Appendix, II]{Mum99} 的介绍.
+
+\section{复环面的情形}\label{sec:tori-embedding}
+接续 \S\ref{sec:proj-embedding} 的脉络. 选定 $\CC$ 中的格 $\Lambda$, 置 $\mathcal{X}_\Lambda := \CC/\Lambda$, 并取 $O$ 为零点; 这是一个亏格 $1$ 的紧 Riemann 曲面. 取定义--定理 \ref{def:wp} 的椭圆函数 $\wp = \wp_\Lambda$, 那么
+\[ 1 \in \Gamma(\mathcal{X}_\Lambda, O), \quad \wp \in \Gamma(\mathcal{X}_\Lambda, 2 O), \quad \wp' \in \Gamma(\mathcal{X}_\Lambda, 3 O). \]
+
+观察极点阶数, 代入 \S\ref{sec:proj-embedding} 的讨论可知 $1, \wp, \wp'$ 为 $\Gamma(\mathcal{X}_\Lambda, 3 O)$ 的一组基. 综之, 早先的射影嵌入 $\iota$ 可取为
+\[ \iota = (\wp : \wp' : 1): \mathcal{X}_\Lambda \to \PP^2. \]
+
+\begin{exercise}
+	试避开 Riemann--Roch 定理, 径以定理 \ref{prop:wp-field} 或其证明来导出以上性质.
+\end{exercise}
+
+如 \S\ref{sec:proj-embedding} 所见, $\wp, \wp'$ 必满足某个不可约三次多项式; 注记 \ref{rem:cubic-uniqueness} 确保这样的多项式是唯一的. 它可按下述手法从 $\Lambda$ 明确地给出. 定义
+\[ G_k(\Lambda) := \sum_{\substack{\omega \in \Lambda \\ \omega \neq 0}} \omega^{-k}, \quad k \in \Z_{> 2}. \]
+
+在引理 \ref{prop:Weierstrass-conv} 中取 $2r \leq \min\left\{ |\omega| : \omega \in \Lambda, \; \omega \neq 0 \right\}$ 和 $z = 0$ 可得 $G_k(\Lambda)$ 收敛. 对于 $\alpha \in \CC^\times$, 显见 $G_k(\alpha\Lambda) = \alpha^{-k} G_k(\Lambda)$; 取 $\alpha = -1$ 可见 $k \notin 2\Z \implies G_k = 0$.
+
+由于存在 $\alpha \in \CC^\times$ 和 $\tau \in \mathcal{H}$ 使得 $\alpha\Lambda = \Lambda_\tau := \Z\tau \oplus \Z$, 关于 $G_k$ 的性质完全反映在 $\tau \mapsto G_k(\Lambda_\tau)$ 上; 后者正是 \S\ref{sec:Eisenstein-fulllevel} 定义的 Eisenstein 级数 $G_k(\tau)$.
+
+\begin{proposition}\label{prop:wp-Laurent}
+	在 $z = 0$ 附近, $\wp = \wp_\Lambda$ 具有 Laurent 展开
+	\[ \wp(z) = \dfrac{1}{z^2} + \sum_{n \in 2\Z_{\geq 1}} (n+1) G_{n+2}(\Lambda) z^n; \]
+\end{proposition}
+\begin{proof}
+	可假定 $|z| < \min\left\{ |\omega| : \omega \in \Lambda, \; \omega \neq 0 \right\}$. 对于 $\omega \in \Lambda \smallsetminus \{0\}$, 直接计算
+	\begin{align*}
+		\dfrac{1}{(z - \omega)^2} - \dfrac{1}{\omega^2} & = \omega^{-2} \left( \left(1 - \frac{z}{\omega}\right)^{-2} - 1 \right) \\
+		& = \omega^{-2} \left( \left( \sum_{n \geq 0} \dfrac{z^n}{\omega^n} \right)^2 - 1 \right) = \sum_{n \geq 1} (n+1) \dfrac{z^n}{\omega^{n+2}}.
+	\end{align*}
+	此式对 $\omega$ 求和便得到 $\wp(z) - z^{-2}$. 二重级数的收敛性不成问题: 在以上推导中以 $|z|, |\omega|$ 代替 $z, \omega$, 再应用估计 \eqref{eqn:wp-estimate} 便有
+	\[ \sum_{n \geq 1} (n+1) \dfrac{|z|^n}{|\omega|^{n+2}} = \underbracket{ \dfrac{1}{(|z|-|\omega|)^2} - \dfrac{1}{|\omega|^2} }_{> 0} \leq \dfrac{ |z| \cdot \left( 2 - |z|/|\omega| \right) }{ |\omega|^3 \cdot \left( 1 - |z|/|\omega| \right)^2 } \approx |\omega|^{-3}. \]
+	所以 $\sum_{\omega \neq 0} \sum_{n \geq 1} (n+1) |z|^n |\omega|^{-n-2}$ 收敛无虞.	交换求和顺序后得到
+	\[ \wp(z) - \frac{1}{z^2} = \sum_{n \geq 1} (n+1) G_{n+2}(\Lambda) z^n. \]
+	最后, 回忆到 $n \notin 2\Z \implies G_{n+2} = 0$.
+\end{proof}
+
+\begin{convention}\label{conv:discriminant}
+	对于三次多项式 $4X^3 - g_2 X - g_3$, 定义其\emph{判别式}为 $g_2^3 - 27 g_3^2$: 设 $4X^3 - g_2 X - g_3 = 4 \prod_{i=1}^3 (X - \alpha_i)$, 那么 $\prod_{i < k} (\alpha_i - \alpha_k)^2 = 4^{-2} (g_2^3 - 27 g_3^2)$; 这兼容于 \cite[\S 5.8]{Li1} 的定义.
+\end{convention}
+
+\begin{theorem}\label{prop:wp-equations}
+	\index[sym1]{Delta} \index[sym1]{$j$} \index{mopanbieshi} \index{mobubianliang}
+	命 $g_2(\Lambda) := 60 G_4(\Lambda)$ 而 $g_3(\Lambda) := 140 G_6(\Lambda)$, 则
+	\begin{enumerate}[(i)]
+		\item 我们有 $(\wp')^2 = 4\wp^3 - g_2(\Lambda) \wp - g_3(\Lambda)$;
+		\item 记 $(\CC/\Lambda)[2] := \{ \alpha \in \CC/\Lambda: 2\alpha = 0 \}$, 则 $(\wp, \wp')$ 满足的代数方程 $Y^2 = 4X^3 - g_2(\Lambda) X - g_3(\Lambda)$ 可以表作
+			\[ Y^2 = 4 \prod_{\substack{\alpha \in (\CC/\Lambda)[2] \\ \alpha \neq 0}} \left( X - \wp(\alpha) \right), \]
+			而且右式的 $\wp(\alpha)$ 为三个相异复数;
+		\item 当 $\Lambda = \Lambda_\tau := \Z\tau \oplus \Z$ 时, $4X^3 - g_2(\Lambda) X - g_3(\Lambda)$ 的判别式等于
+			\[ \dfrac{2^6 \pi^{12}}{3^3} \cdot \left( E_4(\tau)^3 - E_6(\tau)^2 \right) = (2\pi)^{12} \Delta(\tau) = \left( \sqrt{2\pi} \cdot \eta \right)^{24}; \]
+		\item 定义于 \eqref{eqn:j-genus-0} 的不变量 $j(\mathcal{X}_\Lambda, O)$ 等于
+			\[ \dfrac{1728 g_2(\Lambda)^3}{ g_2(\Lambda)^3 - 27 g_3(\Lambda)^2 }, \]
+			当 $\Lambda = \Lambda_\tau$ 时它也等于 $j(\tau) = E_4(\tau)^3/\Delta(\tau)$.
+	\end{enumerate}
+
+	关于 $\eta(\tau)$, $\Delta(\tau)$ 和 $j(\tau)$ 的定义详见 \S\ref{sec:j-invariant}.
+\end{theorem}
+\begin{proof}
+	对于 (i), 先用命题 \ref{prop:wp-Laurent} 导出
+	\[ \wp(z) = z^{-2} + 3G_4(\Lambda) z^2 + 5G_6(\Lambda) z^4 + O(z^6), \]
+	于是乎
+	\[ \wp'(z) = -2z^{-3} + 6 G_4(\Lambda) z + 20 G_6(\Lambda) z^3 + O(z^5). \]
+	由此可见 $(\wp')^2 - (4\wp^3 - g_2(\Lambda) \wp - g_3(\Lambda))$ 是在 $0$ 处取 $0$ 值的全纯椭圆函数, 故恒为 $0$.
+
+	对于 (ii), 首先注意到 $\wp'$ 计重数在 $\CC/\Lambda$ 上有三个零点 (引理 \ref{prop:ell-prep}), 而且 $\wp'(z) = -\wp'(-z)$ 蕴涵 $\alpha \in (\CC/\Lambda)[2] \smallsetminus \{0\}$ 时 $\wp'(\alpha)=0$. 既然 $(\CC/\Lambda)[2]$ 有 $4$ 个元素, 这就穷尽了 $\wp'$ 的三个一阶零点. 现在 $(\wp')^2$ 恰有三个二阶零点在 $(\CC/\Lambda)[2] \smallsetminus \{0\}$, 唯一极点在 $O$ (六阶). 另一方面, 定理 \ref{prop:wp-field} 证明中业已说明对每个 $\alpha \in (\CC/\Lambda)[2] \smallsetminus \{0\}$, 函数 $\wp(z) - \wp(\alpha)$ 在 $\alpha$ 处也是二阶零点, 唯一极点在 $O$ (二阶). 于是存在常数 $c$ 使得 $(\wp')^2 = c\prod_\alpha (\wp - \wp(\alpha))$; 考察 $z=0$ 附近 $z^{-6}$ 的系数可见 $c=4$.
+
+	计入所有逆像及重数, 推论 \ref{prop:value-degree} 说明 $\wp: \mathcal{X} \to \PP^1$ 对任何值都恰取 $2$ 次. 对于二阶点 $\alpha$ 如上, 已知 $\wp(z) - \wp(\alpha)$ 在 $\alpha$ 处是二阶零点, 所以当 $\alpha$ 变化时 $\wp(\alpha)$ 取相异值. 最后, 注记 \ref{rem:cubic-uniqueness} 说明 $(\wp,\wp')$ 能满足的三次方程 $Y^2 = 4X^3 - g_2 X - g_3$ 是唯一的.
+
+	对于 (iii), 基于 $G_k = 2\zeta(k) E_k$, 应用 $\Delta = \frac{1}{1728}(E_4^3 - E_6^2)$ (推论 \ref{prop:Delta-Eisenstein}), 推论 \ref{prop:zeta-2n} 和 \eqref{eqn:Bernoulli-table} 来直接计算便是.
+
+	对 (iv), 同样作繁而不难的计算.
+\end{proof}
+
+模判别式 $\Delta$ 因此得名. 定理 \ref{prop:wp-equations} (ii) 蕴涵 $\Delta$ 在 $\mathcal{H}$ 上没有零点, 这一性质在 \S\ref{sec:j-invariant} 是由无穷乘积来说明的.
+
+另外一种观点是将 $(\wp')^2 = 4\wp^3 - g_2 \wp + g_3$ 诠释为 $\wp$ 满足的非线性微分方程, 详见 \S\ref{sec:wp-application}.
+
+为了 \S\ref{sec:Tate-curve} 的应用, 以下记录射影嵌入的坐标函数 $\wp_\Lambda(z)$, $\wp'_\Lambda(z)$ 在 $\Lambda = \Lambda_\tau$ 时的一则展开式. 论证纯然是经典的, 用到一个简单的求和公式: 对一切满足 $|x| < 1$ 的复数 $x$ 皆有 $\sum_{k=1}^\infty k x^k = \frac{x}{(1 - x)^2}$.
+
+\begin{proposition}\label{prop:Weierstrass-q-expansion}
+	设 $(z, \tau) \in \CC \times \mathcal{H}$. 命 $(t, q) := \left( e^{2\pi iz}, e^{2\pi i\tau} \right)$. 记 $\wp = \wp_{\Lambda_\tau}$, 那么
+	\begin{align*}
+		(2\pi i)^{-2} \wp(z) & = \frac{1}{12} + \sum_{n \in \Z} \frac{q^n t}{(1 - q^n t)^2} - 2 \sum_{n=1}^\infty \frac{nq^n}{1 - q^n}, \\
+		(2\pi i)^{-3} \wp'(z) & = \sum_{n \in \Z} \frac{q^n t (1 + q^n t)}{(1 - q^n t)^3}.
+	\end{align*}
+\end{proposition}
+\begin{proof}
+	因为 $0 < |q| < 1$, 右式的无穷级数皆收敛, 并对 $z$ 全纯. 依据解析延拓, 不妨假设 $-\Im(\tau) < \Im(z) < \Im(\tau)$. 按定义,
+	\begin{multline*}
+		\wp(z) = \frac{1}{z^2} + \sum_{\substack{(m, n)  \in \Z^2 \\ (m, n) \neq (0, 0)}} \left(\frac{1}{(z - m\tau - n)^2} - \frac{1}{(m\tau + n)^2} \right) \\
+		= \frac{1}{z^2} + \underbracket{\sum_{n \neq 0} \frac{1}{(z - n)^2} - 2\sum_{n=1}^\infty \frac{1}{n^2}}_{m=0 \;\text{部分}} + \sum_{m \neq 0} \sum_{n \in \Z} \left(\frac{1}{(z - m\tau - n)^2} - \frac{1}{(m\tau + n)^2} \right).
+	\end{multline*}
+
+	由引理 \ref{prop:Eisenstein-sum-lemma} (代入 $\pm z$) 和 $\zeta(2) = \frac{\pi^2}{6}$ 可知
+	\begin{align*}
+		\frac{1}{z^2} + \sum_{n \neq 0} \frac{1}{(z-n)^2} & = \frac{(2\pi i)^2 t}{(1 - t)^2}, \\
+		-2\sum_{n=1}^\infty \frac{1}{n^2} = -2\zeta(2) & = (2\pi i)^2 \cdot \frac{1}{12}.
+	\end{align*}
+
+	原式中 $\sum_{m \neq 0} \cdots$ 部分则改写成
+	\begin{equation*}
+		\sum_{m=1}^\infty \left( \sum_{n \in \Z} \left( \frac{1}{(z + m\tau + n)^2} + \frac{1}{(-z + m\tau + n)^2} \right) - 2\sum_{n \in \Z} \frac{1}{(m\tau + n)^2} \right).
+	\end{equation*}
+	再次应用引理 \ref{prop:Eisenstein-sum-lemma} (代入 $\pm z + m\tau \in \mathcal{H}$), 可将上式含 $z$ 的部分化为
+	\begin{multline*}
+		(2\pi i)^2 \sum_{m=1}^\infty \left( \dfrac{q^m t}{(1 - q^m t)^2} + \dfrac{q^m t^{-1}}{(1 - q^m t^{-1})^2} \right) = (2\pi i)^2 \sum_{m=1}^\infty  \left( \dfrac{q^m t}{(1 - q^m t)^2} + \dfrac{q^{-m} t}{(1 - q^{-m} t)^2} \right) \\
+		= (2\pi i)^2 \sum_{n \in \Z} \dfrac{q^n t}{(1 - q^n t)^2} - \dfrac{(2\pi i)^2 t}{(1 - t)^2}.
+	\end{multline*}
+	剩下部分按引理 \ref{prop:Eisenstein-sum-lemma} (代入 $m\tau \in \mathcal{H}$) 和 Lambert 级数的基础知识 (练习 \ref{exo:Lambert}) 化为
+	\begin{multline*}
+		-2 \sum_{m=1}^\infty \sum_{n \in \Z} \frac{1}{(m\tau + n)^2} = -2(2\pi i)^2 \sum_{m=1}^\infty \sum_{n=1}^\infty n q^{mn} \\
+		= -2(2\pi i)^2 \sum_{k=1}^\infty \left( \sum_{d \mid k} d \right) q^k = -2(2\pi i)^2 \sum_{n=1}^\infty \frac{n q^n}{1 - q^n}.
+	\end{multline*}
+
+	这些部分组合成为 $(2\pi i)^{-2} \wp(z)$ 的所求展开. 由于收敛性不成问题, 在 $\sum$ 下求导便给出 $(2\pi i)^{-3} \wp'(z)$.
+\end{proof}
+
+\section{Jacobi 簇与椭圆曲线}\label{sec:Jacobian}
+前几节已经说明:
+\begin{itemize}
+	\item 所有亏格 $1$ 的紧 Riemann 曲面 $\mathcal{X}$ 在选定基点 $O$ 后都能嵌入为 $\PP^2$ 中的三次光滑曲线 $E$, 方程写作 $Y^2 = X^3 + aX + b$, 或用齐次形式表作 $Y^2 Z = X^3 + aXZ^2 + bZ^3$.
+	\item 对于复环面 $\CC/\Lambda$, 其射影嵌入及 $E$ 的方程可由 $\Lambda$ 明确地表达.
+\end{itemize}
+
+本节将证明所有亏格 $1$, 带基点 $O$ 的紧 Riemann 曲面 $(\mathcal{X}, O)$ 都典范地同构于 $(\CC/\Lambda, 0)$, 其中 $\Lambda$ 是由 $\mathcal{X}$ 确定的格. 我们将从一般的紧 Riemann 曲面 $\mathcal{X}$ 及选定的基点 $O \in \mathcal{X}$ 起步. 记亏格为 $g = g(\mathcal{X})$, 以 $\Omega = \Omega_{\mathcal{X}}$ 表典范丛 (定义 \ref{def:canonical-bundle}), 则 Riemann--Roch 定理 (见注记 \ref{rem:RR} 和命题 \ref{prop:C-section-L}) 蕴涵
+\[ \dim_{\CC} \Gamma(\mathcal{X}, \Omega) = g. \]
+对任意 $\omega \in \Gamma(\mathcal{X}, \Omega)$ 和 $Q \in \mathcal{X}$, 沿着道路 $\gamma: O \to Q$ 的积分
+\[ \phi(\gamma, \omega): \int_{\gamma: O \to Q} \omega \]
+依赖于 $\gamma$ 的选取, 但因为 $\mathcal{X}$ 是复一维, 全纯 $1$-形式 $\omega$ 自动是闭的, Stokes 定理蕴涵该积分仅依赖于 $\gamma$ 的定端同伦等价类. 若考虑另一道路 $\gamma': O \to Q$, 则
+\[ \int_\gamma \omega - \int_{\gamma'} \omega = \oint_\delta \omega, \quad \delta := \gamma - \gamma'; \]
+此处 $\delta$ 由以下环路给出: 先沿 $\gamma$ 自 $O$ 走到 $P$, 再沿 $\gamma'$ 逆行返回 $O$. 同样由 Stokes 定理知 $\int_\delta \omega$ 只和环路 $\delta$ 在 $\Hm_1(\mathcal{X}; \Z)$ 中的类有关, 于是得到 $\Z$-模的同态
+\begin{equation}\label{eqn:AJ-preparation}\begin{aligned}
+	\Hm_1(\mathcal{X}; \Z) & \longrightarrow \Gamma(\mathcal{X}, \Omega)^\vee \\
+	\delta & \longmapsto \left[ \omega \mapsto \int_\delta \omega \right].
+\end{aligned}\end{equation}
+记该映射的像为 $L$, 形如 $\int_\delta \omega$ 的积分值叫作 $\mathcal{X}$ 的\emph{周期}. \index{zhouqijifen}
+
+\begin{lemma}\label{prop:AJ-inj}
+	映射 \eqref{eqn:AJ-preparation} 是单射. 其像 $L$ 是 $\Gamma(\mathcal{X}, \Omega)^\vee$ 中的格, 见定义 \ref{def:lattice}.
+\end{lemma}
+\begin{proof}
+	令 $\Bbbk := \R$ 或 $\CC$, 根据 de Rham 定理, $\Hm^1(\mathcal{X}; \Bbbk)$ 的元素由 $\mathcal{X}$ 上 $\Bbbk$-值的光滑闭微分 $1$-形式表示. 微分形式沿闭链的积分给出 $\Hm_1(\mathcal{X}; \Bbbk)$ 和 $\Hm^1(\mathcal{X}; \Bbbk)$ 的对偶. 空间 $\Hm^1(\mathcal{X}; \CC) \simeq \Hm^1(\mathcal{X}; \R) \dotimes{\R} \CC$ 上有自明的复共轭作用, 与 $\mathcal{X}$ 上光滑微分形式的复共轭相容; 共轭不动子空间正是 $\Hm^1(\mathcal{X}; \R)$.
+	
+	注意到若 $\delta \in \Hm_1(\mathcal{X}; \R)$, 那么 $\int_\delta \overline{\omega} = \overline{\int_\delta \omega}$.
+
+	倘若读者愿意承认 $\mathcal{X}$ 上的 Hodge 理论, 则可将 $\Hm^1(\mathcal{X}; \CC)$ 分解成子空间 $\Hm^{0,1}(\mathcal{X}) := \Gamma(\mathcal{X}, \Omega)$ 及其复共轭 $\Hm^{1,0}(\mathcal{X}) := \overline{\Gamma(\mathcal{X}, \Omega)}$ 的直和.
+	
+	照搬 \eqref{eqn:AJ-preparation} 的手法, 定义 $\R$-线性映射
+	\[ T: \Hm_1(\mathcal{X}; \R) \to \Gamma(\mathcal{X}, \Omega)^\vee, \qquad T(\delta): \omega \mapsto \int_\delta \omega. \]
+	若 $\delta \in \Ker(T)$, 则对所有 $\omega_1, \omega_2 \in \Gamma(\mathcal{X}, \Omega)$ 都有 $\int_\delta \overline{\omega_1} + \omega_2 = \overline{\int_\delta \omega_1} + \int_\delta \omega_2 = 0$; 对偶性遂给出 $\delta = 0$. 于是 $T$ 是单射. 然而可定向紧拓扑曲面的分类理论说明 $\Hm_1(\mathcal{X}; \Z)$ 是秩 $2g$ 的自由 $\Z$-模, 这就表明 \eqref{eqn:AJ-preparation} 也是单射.
+
+	取 $\Hm_1(\mathcal{X}; \Z)$ 的 $\Z$-基 $\delta_1, \ldots, \delta_{2g}$; 它们也是 $\Hm_1(\mathcal{X}; \R)$ 的 $\R$-基, 所以 $T(\delta_1), \ldots, T(\delta_{2g})$ 仍然 $\R$-线性无关. 既然 $\dim_{\R} \Gamma(\mathcal{X}, \Omega) = 2g$, 这就表明 $L$ 是格.
+\end{proof}
+
+\begin{definition}\label{def:Jacobian} \index{Jacobi 簇 (Jacobian)} \index[sym1]{JacX@$\Jac(\mathcal{X})$}
+	由于 \eqref{eqn:AJ-preparation} 的像 $L$ 是格, $\Gamma(\mathcal{X}, \Omega)^\vee \big/ L$ 是 $g$ 维复环面, 称为 $\mathcal{X}$ 的 \emph{Jacobi 簇}; 另一方面它又是 $g$ 维交换复 Lie 群, 其加法来自 $\Gamma(\mathcal{X}, \Omega)^\vee$ 的加法. 以下良定的映射称为 \emph{Abel--Jacobi} 映射: \index{Abel--Jacobi 映射}
+	\begin{align*}
+		\phi: \mathcal{X} & \longrightarrow \Jac(\mathcal{X}) := \dfrac{ \Gamma(\mathcal{X}, \Omega)^\vee }{ L } \\
+		Q & \longmapsto \left[ \omega \mapsto \int_{\gamma: O \to Q} \omega \right], \quad \gamma: O \to Q\; \text{为任意道路} \\
+		O & \longmapsto 0.
+	\end{align*}
+\end{definition}
+
+商掉 $L$ 是因为从 $O$ 到 $Q$ 的道路彼此未必同伦等价. 我们上升到泛复叠空间 $(\tilde{\mathcal{X}}, \tilde{O}) \to (\mathcal{X}, O)$ 来绕过这个问题; 常识表明 $\tilde{\mathcal{X}}$ 仍是 Riemann 曲面, 而 $\omega \in \Gamma(\mathcal{X}, \Omega)$ 拉回到 $\tilde{\mathcal{X}}$ 记为 $\tilde{\omega}$, 仍可沿任意道路 $\tilde{O} \to \tilde{Q}$ 对 $\tilde{\omega}$ 求积分, 其中 $\tilde{Q} \mapsto Q$; 积分值仅依赖端点. 于是有交换图表
+\begin{equation}\label{eqn:X-tilde-phi}\begin{tikzcd}
+	\tilde{\mathcal{X}} \arrow[r, "\tilde{\phi}"] \arrow[twoheadrightarrow, d] & \Gamma(\mathcal{X}, \Omega)^\vee \arrow[twoheadrightarrow, d, "\text{商}" inner sep=1em] \\
+	\mathcal{X} \arrow[r, "\phi"'] & \Jac(\mathcal{X}).
+\end{tikzcd} \qquad \lrangle{\tilde{\phi}(\tilde{Q}), \omega} = \int_{\tilde{O} \to \tilde{Q}} \tilde{\omega}. \end{equation}
+图中所有箭头皆全纯, 垂直箭头都是复叠, 而且 $\tilde{\phi}(\tilde{O}) = 0$.
+
+\begin{lemma}\label{prop:omega-pullback}
+	透过自然同构 $\Gamma(\mathcal{X}, \Omega) \simeq \Gamma(\mathcal{X}, \Omega)^{\vee\vee}$ 将 $\omega$ 视同 $\Gamma(\mathcal{X}, \Omega)^\vee$ 上的平移不变全纯微分形式 $\omega^\natural$; 后者可降到 $\Jac(\mathcal{X})$, 记作 $\omega^\flat$. 那么 $\phi^* (\omega^\flat ) = \omega$ 在 $\Gamma(\mathcal{X}, \Omega)$ 中成立.
+\end{lemma}
+\begin{proof}
+	问题的本质是``无穷小''的, 可拉到 \eqref{eqn:X-tilde-phi} 的上层来考虑, 故仅需证明 $\Gamma(\tilde{\mathcal{X}}, \Omega)$ 中的等式 $\tilde{\phi}^* (\omega^\natural) = \tilde{\omega}$. 这又化约为对所有 $\tilde{P} \in \tilde{\mathcal{X}}$ 证
+	\[ \int_{\tilde{\phi}(\tilde{O}) \to \tilde{\phi}(\tilde{P})} \omega^\natural = \int_{\tilde{O} \to \tilde{P}} \tilde{\omega}, \]
+	左式在向量空间中积分闭形式, 道路可任取, 不妨就取为线段, 于是左式化为
+	\[ \lrangle{\omega^\natural, \tilde{\phi}(\tilde{P})} - \lrangle{\omega^\natural, \tilde{\phi}(\tilde{O})} = \lrangle{\tilde{\phi}(\tilde{P}), \omega} - \lrangle{\tilde{\phi}(\tilde{O}), \omega}, \]
+	按 \eqref{eqn:X-tilde-phi}, 末项正是 $\int_{\tilde{O} \to \tilde{P}} \tilde{\omega}$.
+\end{proof}
+
+当 $g = 0$ 时 $\Jac(\mathcal{X}) = \{0\}$. 当 $g > 0$ 时, Abel--Jacobi 映射 $\mathcal{X} \xrightarrow{\phi} \Jac(\mathcal{X})$ 是闭嵌入. 记
+\[ \Pic^0(\mathcal{X}) := \Ker\left[ \deg: \Pic(\mathcal{X}) \to \Z \right], \]
+此群由形如 $P - O \in \Div(\mathcal{X})$ 的元素生成 ($P \in \mathcal{X}$). Jacobi 簇的一个重要诠释是群同构	% FIXME: 的元素之像生成... 另外，下图只需要 P - O 的像。
+\begin{equation}\label{eqn:Pic-Jacobian}\begin{aligned}
+	\Pic^0(\mathcal{X}) & \stackrel{\sim}{\longrightarrow} \Jac(\mathcal{X}) \\
+	\sum_{i=1}^n (P_i - O) & \longmapsto \sum_{i=1}^n \phi(P_i); 
+\end{aligned}\end{equation}
+详见 \cite[Appendix, III]{Mum99} 或 \cite[\S 3.5]{Mei13}. 相关理论可以推及一般的代数曲线, 这是曲线论最重要的工具之一, 但需要概形的语言. 本节仅限于陈述之后需要的性质. 今后专论 $g = 1$ 情形.
+
+\begin{lemma}\label{prop:invariant-differential}
+	设 $g(\mathcal{X}) = 1$, 则存在处处非零的全纯微分形式 $\omega$ 使得 $\Gamma(\mathcal{X}, \Omega) = \CC\omega$.
+\end{lemma}
+\begin{proof}
+	记 $\mathcal{X}$ 的典范除子类为 $K_{\mathcal{X}}$. 亏格 $1$ 的条件下, Riemann--Roch 定理 (注记 \ref{rem:RR} 配合命题 \ref{prop:C-section-L}) 给出
+	\[ \deg K_{\mathcal{X}} = 0, \quad \dim \Gamma(\mathcal{X}, \Omega) = \ell(K_{\mathcal{X}}) = 1. \]
+	取 $\Omega$ 的全纯截面 $\omega$ 使得 $\Gamma(\mathcal{X}, \Omega) = \CC\omega$. 从 $\deg(\divisor(\Omega, \omega)) = \deg K_{\mathcal{X}} = 0$ 可知 $\divisor(\Omega, \omega) = 0$, 所以 $\omega$ 处处非零.
+\end{proof}
+
+对于亏格 $1$ 情形, 选取引理 \ref{prop:invariant-differential} 中的 $\omega$. 通过对 $\omega$ 求值, 我们得到 $\Gamma(\mathcal{X}, \Omega)^\vee \simeq \CC$. 于是 \eqref{eqn:AJ-preparation} 的像 $L$ 可视同 $\CC$ 的子群, 由所有周期 $\int_\delta \omega$ 构成, 其中 $\delta \in \Hm_1(\mathcal{X}; \Z)$.
+
+\begin{theorem}\label{prop:Jacobian-ell}
+	设 $g(\mathcal{X}) = 1$ 并选取 $\omega$ 如上, 以等同 $\Gamma(\mathcal{X}, \Omega)^\vee$ 和 $\CC$. 那么:
+	\begin{compactitem}
+		\item $\CC$ 上的微分形式 $\dd z$ 可下降到 $\Jac(\mathcal{X})$, 满足 $\phi^*(\dd z) = \omega$;
+		\item Abel--Jacobi 映射 $\phi: \mathcal{X} \to \Jac(\mathcal{X})$ 是紧 Riemann 曲面的同构.
+	\end{compactitem}
+	作为推论, 所有亏格 $1$ 的紧 Riemann 曲面都透过 Abel--Jacobi 映射同构于复环面.
+\end{theorem}
+\begin{proof}
+	引理 \ref{prop:omega-pullback} 表明 $\phi^*(\dd z) = \omega$. 其推论是 $\phi$ 的切映射处处非退化.
+	
+	显然 $\Jac(\mathcal{X})$ 是紧 Riemann 曲面. 命题 \ref{prop:morphism-ramified-covering} 断言 $\phi$ 或者是常值, 或者是有限分歧复叠映射. 已知 $\phi$ 的切映射恒非零, 故 $\phi$ 必无分歧点. 众所周知 $\pi_1(\Jac(\mathcal{X}), 0) = L$, 故存在 $\Z$-子模 $L' \subset L$ 连同交换图表
+	\[\begin{tikzcd}
+		\tilde{\mathcal{X}} \arrow[r, "\tilde{\phi}"] \arrow[twoheadrightarrow, d] & \Gamma(\mathcal{X}, \Omega)^\vee \arrow[twoheadrightarrow, d] \arrow[twoheadrightarrow, dd, bend left=80, start anchor=east, end anchor=east] \\
+		\mathcal{X} \arrow[rd, bend right, "\phi"', end anchor=west] \arrow[r, "\exists\; \sim"] & \Gamma(\mathcal{X}, \Omega)^\vee \big/ L' \arrow[twoheadrightarrow, d] \\
+		& \Jac(\mathcal{X}) = \Gamma(\mathcal{X}, \Omega)^\vee \big/ L
+	\end{tikzcd} \qquad (L:L') = \deg(\phi: \mathcal{X} \to \Jac(\mathcal{X}) ). \]
+	上图蕴涵对于映至同一点 $Q \in \mathcal{X}$ 的 $\tilde{Q}, \tilde{Q}' \in \tilde{\mathcal{X}}$, 必有 $\tilde{\phi}(\tilde{Q}') - \tilde{\phi}(\tilde{Q}) \in L'$. 回顾 $\tilde{\phi}$ 的构造可知所有这些 $\tilde{\phi}(\tilde{Q}') - \tilde{\phi}(\tilde{Q})$ 恰好生成了 $\left\{ \int_\delta \omega : \delta \in \Hm_1(\mathcal{X}; \Z) \right\}$, 即 $L$. 于是 $L = L'$ 而 $\phi$ 是同构. 明所欲证.
+\end{proof}
+
+\begin{corollary}\label{prop:genus-1-transitive}
+	设 $\mathcal{X}$ 为亏格 $1$ 的紧 Riemann 曲面, 则 $\Aut(\mathcal{X})$ 在 $\mathcal{X}$ 上的作用可递.
+\end{corollary}
+\begin{proof}
+	由定理 \ref{prop:Jacobian-ell} 可假设 $\mathcal{X} = \CC/\Lambda$. 考虑群加法给出的平移自同构便知可递.
+\end{proof}
+
+若干观察如下.
+\begin{enumerate}
+	\item $\Jac(\cdot)$ 是函子: 设 $f: (\mathcal{X}, O) \to (\mathcal{X}' , O')$ 是保基点的态射, 那么它自然诱导出 $\CC$-线性映射 $f^*: \Gamma(\mathcal{X}', \Omega') \to \Gamma(\mathcal{X}, \Omega)$ 和 $\Z$-线性映射 $f_*: \Hm_1(\mathcal{X}; \Z) \to \Hm_1(\mathcal{X}'; \Z)$, 两者一道诱导复 Lie 群的态射 $\Jac(\mathcal{X}) \to \Jac(\mathcal{X}')$.
+	\item 设 $\mathcal{X} = \CC/\Lambda$ 而 $O := 0$. 考虑 $\CC/\Lambda$ 上的标准微分形式 $\dd z$, 则 $\Gamma(\mathcal{X}, \Omega) = \CC\dd z$ 等同于 $\CC$. 兹断言周期格 $L$ 等于 $\Lambda$: 诚然, $\Hm_1(\CC/\Lambda; \Z)$ 自然地等同于 $\Lambda$, 这使得
+	\[ L = \left\{ \int_0^\lambda \dd z : \lambda \in \Lambda \right\} = \Lambda \;\subset \CC. \]
+	另一方面, Abel--Jacobi 映射映 $\mathcal{X}$ 的元素 $x + \Lambda$ 为 $(\int_0^x \dd z) + \Lambda = x + \Lambda$. 综上, 复环面的 Jacobi 簇 $\Jac(\CC/\Lambda)$ 可以自然地等同于 $\CC/\Lambda$, 使得 $\phi: \CC/\Lambda \to \Jac(\CC/\Lambda)$ 等同于 $\identity$.
+	\item 考虑复环面的射影嵌入 (定理 \ref{prop:wp-equations})
+	\[ \iota := (\wp:\wp':1): \CC/\Lambda \rightiso \left( E: Y^2 = 4X^3 - g_2 X + g_3 \right) \subset \PP^2. \]
+	将 $\CC/\Lambda$ 上的微分形式 $\dd z$ 透过 $\iota$ 移植到 $E$ 上, 记为 $\omega$. 根据上一段, $L \subset \Gamma(E, \Omega_E)^\vee$ 便透过 $\omega$ 等同于 $\Lambda \subset \CC$, 故 $\Jac(E)$ 等同于 $\CC/\Lambda$. 兹断言 Abel--Jacobi 映射 $\phi: E \rightiso \CC/\Lambda$ 正是 $\iota$ 的逆.
+	
+	注意到 $\iota^*\left( \dd X/Y \right) = \dd\wp / \wp' = \dd z$, 于是 $\omega = \dd X /Y$. 另一方面, 定理 \ref{prop:Jacobian-ell} 又给出 $\phi^*(\dd z) = \omega$. 这就蕴涵了 $\iota^* \phi^*(\dd z) = \iota^*(\omega) = \dd z$. 复环面 $\CC/\Lambda$ 的自同构 $\phi \circ \iota$ 的全纯切映射是 $\identity$, 由此导出 $\phi \circ \iota = \identity$; 见命题 \ref{prop:tori-homomorphism}.
+\end{enumerate}
+
+\begin{definition}[椭圆曲线]\label{def:elliptic-curves}
+	\index{tuoyuanquxian@椭圆曲线} \index[sym1]{Ell@$\cate{Ell}_R$}
+	复数域 $\CC$ 上的椭圆曲线意谓一组资料 $(E, O)$, 其中 $E$ 是亏格 $1$ 的紧 Riemann 曲面而 $O \in E$. 全体椭圆曲线构成范畴 $\cate{Ell}_{\CC}$, 态射 $(E_1, O_1) \to (E_2, O_2)$ 定义为满足 $f(O_1) = O_2$ 的 Riemann 曲面态射 $f: E_1 \to E_2$.
+\end{definition}
+
+定理 \ref{prop:j-classification} 已分类了所有椭圆曲线. 复环面连同其零元自动是椭圆曲线.
+
+\begin{proposition}\label{prop:ell-group-law}
+	任何椭圆曲线 $(E, O)$ 都带有自然的群结构, 由以下性质刻画: 设 $\CC/\Lambda$ 为复环面而 $f: (\CC/\Lambda, 0) \rightiso (E, O)$, 则 $(E, O)$ 的群结构透过 $f$ 拉回为 $\CC/\Lambda$ 上自然的群结构. 椭圆曲线之间的态射自动是群同态.
+\end{proposition}
+\begin{proof}
+	定理 \ref{prop:Jacobian-ell} 说明这样的 $f$ 总是存在, 取为 $\phi^{-1}$ 即可. 设有不同的选取
+	\[\begin{tikzcd}
+		(\CC/\Lambda, 0) \arrow[r, "f"] \arrow[dashed, d, "{g := f'^{-1} f}"'] & (E, O) \\
+		(\CC/\Lambda', 0) \arrow[ru, "{f'}"'] &
+	\end{tikzcd} \qquad f,f': \;\text{同构}. \]
+	那么 $g(0)=0$ 蕴涵 $g$ 是复 Lie 群之间的同构, 所以 $(E, O)$ 的群结构无关 $f$ 的选取.
+	
+	根据命题 \ref{prop:tori-homomorphism}, 复环面之间保零点的态射自动是复 Lie 群的同态, 所以椭圆曲线之间的态射也必为群同态.
+\end{proof}
+
+记复环面及复 Lie 群同态给出的范畴为 $\cate{Tori}(1)$. 定理 \ref{prop:Jacobian-ell} 给出范畴间的一对函子
+$\begin{tikzcd}
+	\cate{Tori}(1) \arrow[bend left=15, r, "\text{incl}"] & \cate{Ell}_{\CC} \arrow[bend left=15, l, "{\Jac}"]
+\end{tikzcd}$,
+其中 $\text{incl}$ 意谓包含函子. Abel--Jacobi 映射给出函子的同构 $\identity \rightiso \text{incl} \circ \Jac$ 和 $\identity \rightiso \Jac \circ \text{incl}$ (后者亦见推论 \ref{prop:genus-1-transitive} 后的观察 2), 所以这是范畴等价. 椭圆曲线的分类问题因之等于复环面的分类问题. 定理 \ref{prop:Y(1)-moduli} 已经由解析途径分类了复环面. 首先 $Y(1) = Y(\SL(2,\Z))$ 给出 $\cate{Tori}(1)$ 的粗模空间; 对于 $\tau \in \mathcal{H}$, 命 $\Lambda_\tau := \Z\tau \oplus \Z$, 那么定理 \ref{prop:j-Hauptmodul} 表明模不变量 $\CC/\Lambda_\tau \mapsto j(\tau)$ 给出紧 Riemann 曲面的同构
+\[ j: X(1) = Y(1) \sqcup \{\infty\} \longrightiso \PP^1, \qquad \infty \mapsto \infty. \]
+至于椭圆曲线的分类则取道代数, 由定义于 \eqref{eqn:j-genus-0} 的不变量 $j(\mathcal{X}, O)$ 给出 (定理 \ref{prop:j-classification}). 两相比较, 定理 \ref{prop:wp-equations} 显式给出复环面 $\CC/\Lambda_\tau$ 的射影嵌入, 并说明由之算出的 $j\left(\CC/\Lambda_\tau, O\right)$ 正与 $j(\tau)$ 殊途同归. 一切顺理成章.
+
+此外, 复环面之间的同源概念也自然地移植到椭圆曲线上, 见 \S\ref{sec:cplx-tori}. \index{tongyuan}
+
+\begin{exercise}
+	对于亏格 $1$ 的紧 Riemann 曲面 $\mathcal{X}$, 尝试直接证明 $\Hm^1(\mathcal{X}; \CC) = \Gamma(\mathcal{X}, \Omega) \oplus \overline{\Gamma(\mathcal{X}, \Omega)}$.
+\end{exercise}
+
+\section{加法结构和若干例子}\label{sec:addition}
+在 \S\ref{sec:tori-embedding} 说明了任意椭圆曲线皆能嵌入为三次平面射影曲线 $E$, 其齐次方程形如 $Y^2 Z = X^3 + aXZ^2 + bZ^3$, 基点为 $O = (0:1:0)$. 这类曲线显然是代数几何学的对象, 我们自然要问: 如何运用代数几何的语言刻画命题 \ref{prop:ell-group-law} 赋予 $E$ 的群结构? 这是将椭圆曲线理论拓展到其它域上的必由之路.
+
+首先, 观察到 $\PP^2$ 中任一直线在射影几何意义下交 $E$ 于三点, 计重数. 这是代数几何学中 Bézout 定理的特例，直接证明也不难: 定义 $E$ 的齐次方程透过直线的参数式拉回为 $\PP^1$ 上的三次方程, 当然恰有三根.
+
+以下谈论直线和 $E$ 的交点时, 一概计入重数.
+\begin{compactitem}
+	\item 若已知两交点, 则第三个交点可以用三次方程根与系数的关系直接求出;
+	\item 直线 $\ell$ 和 $E$ 在点 $P$ 处的相交数 $\geq 2$ 若且唯若 $\ell$ 是 $E$ 在 $P$ 处的切线, 而切线存在缘于 $E$ 的光滑性;
+\end{compactitem}
+
+\begin{example}\label{eg:line-intersection}
+	举例明之, $E$ 在 $O = (0:1:0)$ 处的切线是 $\ell := \{Z=0\}$: 将 $\ell$ 等同于以 $X, Y$ 为齐次坐标的 $\PP^1$, 那么 $E$ 的方程拉回到 $\PP^1$ 变为 $X^3=0$, 截出三阶零点 $(0:1) \in \PP^1$. 注意到 $E \cap \{Z = 0\} = \{O\}$.
+	
+	另外, 对于 $E$ 上任意点 $P = (x_0 : y_0 : 1)$, 连接 $P$ 和 $(0:1:0)$ 的直线由方程 $\ell: X - x_0 Z = 0$ 确定; 就仿射部分 $E \smallsetminus \{Z=0\}$ 观照, $\ell$ 无非是平面上过 $P$ 点并且平行 $Y$-轴的直线.
+\end{example}
+
+\begin{lemma}\label{prop:X-Y-proj}
+	设三次首一多项式 $P$ 无重根, 则 $Y^2 = P(X)$ 在 $\PP^2$ 中定义光滑代数曲线 $E$. 坐标投影 $x: (X:Y:1) \mapsto X$ 和 $y: (X:Y:1) \mapsto Y$ 分别延拓为次数为 $2$ 和 $3$ 的态射 $E \to \PP^1$, 它们的极点都在 $E \cap \{Z=0\}$ 中.
+\end{lemma}
+\begin{proof}
+	光滑性是代数几何的初等结果, 见诸引理 \ref{prop:iota-bijection} 陈述之后的讨论. 关于 $x,y$ 极点的描述为自明, 至于次数, 注意到若 $x$ 使 $P(x) \neq 0$, 则方程 $y^2 = P(x)$ 对 $y$ 恰有两个相异解; 给定一般的 $y$ 使 $P(x) - y^2$ 无重根, 则 $y^2 = P(x)$ 对 $x$ 恰有 $3$ 个相异解. 有鉴于此, $x,y$ 的次数乃是定义 \ref{def:ramified-covering-degree} 的直接结论.
+\end{proof}
+
+\begin{theorem}[K.\ Weierstrass]\label{prop:wp-addition}
+	赋予 $E$ 来自命题 \ref{prop:ell-group-law} 的加法群结构, 使得 $O = (0:1:0)$ 为其幺元, 那么对所有 $A,B,C \in E$,
+	\[ A + B + C = O \iff \text{存在直线}\; \ell \subset \PP^2\; \text{交 $E$ 于}\; A,B,C. \]
+\end{theorem}
+\begin{proof}
+	考虑拓扑空间
+	\[ \mathcal{I} := \left\{ (A,B,C, \ell) : (A,B,C) \in E^3, \; \text{直线}\; \ell \subset \PP^2\; \text{与 $E$ 交点为}\; A,B,C \right\}. \]
+	所述交点自然都计入重数. 所谓的射影对偶性断言 $\PP^2$ 中所有直线构成的空间也是 $\PP^2$: 令 $aX+bY+cZ = 0$ 对应到 $(a:b:c)$ 即可. 兹断言 $\text{pr}_{12}: (A,B,C,\ell) \mapsto (A,B)$ 给出同胚 $\mathcal{I} \rightiso E^2$. 为此只消指明它的逆映射: 若 $A \neq B$, 则过这两点有唯一的直线 $\ell$; 若 $A=B$, 则 $E$ 在该处有良定的切线 $\ell$. 无论对哪种情形, 定义 $\ell$ 和 $E$ 在 $A, B$ 之外的第三个交点为 $C$. 容易看出 $(A, B) \mapsto (A,B,C,\ell)$ 连续, 并与 $\text{pr}_{12}$ 互逆.
+
+	接着对所有 $(A,B,C, \ell) \in \mathcal{I}$ 证明 $A+B+C=O$. 根据欲证性质的``闭性''和上述同胚, 无妨对 $A,B$ 稍事扰动以假设其 $X$-坐标不同而 $Z$-坐标为 $1$, 那么 $\ell$ 的方程能表作 $cX + Y + dZ = 0$. 考虑 $X,Y$ 坐标的投影 $x,y: E \smallsetminus \{Z=0\} \to \CC$; 根据引理 \ref{prop:X-Y-proj}, $E$ 上的亚纯函数
+	\[ R := cx + y + d \]
+	唯一的极点是 $O$ (三阶), 给出三次态射 $E \to \PP^1$. 引理 \ref{prop:ell-prep} 蕴涵 $R$ 计重数恰有三个零点; 已知零点 $A,B$ 相异且各自贡献至少一个重数. 取 Abel--Jacobi 映射之逆 $\CC/\Lambda \rightiso E$. 引理 \ref{prop:ell-prep} 施于 $\CC/\Lambda$ 遂蕴涵第三个零点 $C$ 必满足 $A+B+C=O$.
+	
+	这就说明了 $\impliedby$ 方向. 至于 $\implies$ 方向, 假定 $A,B,C$ 满足 $A+B+C=O$, 证明的第一段已表明存在唯一的 $C',\ell$ 使得 $(A,B,C',\ell) \in \mathcal{I}$, 而上一步又说明 $A+B+C'=O$. 群的消去律蕴涵 $C=C'$, 故 $\ell$ 交 $E$ 于 $A,B,C$ 三点. 明所欲证.
+\end{proof}
+
+设 $E$ 是嵌入 $\iota = (\wp:\wp':1): \CC/\Lambda \rightiso E \subset \PP^2(\CC)$ 的像. 在经典文献中, 共线性质也写作
+\[ \iota(u) + \iota(v) + \iota(w) = 0 \implies \begin{vmatrix}
+	\wp(u) & \wp'(u) & 1 \\
+	\wp(v) & \wp'(v) & 1 \\
+	\wp(w) & \wp'(w) & 1
+\end{vmatrix} = 0, \]
+其中 $u, v, w \in \CC/\Lambda \smallsetminus \{0\}$. 这是解析几何的初等常识.
+
+\begin{remark}\label{rem:addition-by-lines}
+	基于定理 \ref{prop:wp-addition} 的 $\impliedby$ 方向, 可以具体描绘椭圆曲线 $(E,O)$ 上的加法: 它是 $E$ 上具备以下性质的唯一加法群结构:
+	\begin{itemize}
+		\item $P,Q,R$ 共线 $\implies P + Q + R = O$,
+		\item $O$ 是加法幺元.
+	\end{itemize}
+	实际构造如下.
+	\begin{enumerate}
+		\item 取逆是简单的: 由于 $P + (-P) + O = O$, 为了从 $P$ 确定 $-P$, 仅须作过 $P,O$ 的直线 $\ell$, 并取 $-P$ 为 $\ell$ 和 $E$ 的第三个交点. 根据例 \ref{eg:line-intersection}, 如果 $P \neq O$, 则 $\ell$ 是过 $P$ 而平行 $Y$-轴的直线, 所以 $P \mapsto -P$ 无非是镜射 $(X:Y:Z) \mapsto (X:-Y:Z)$. 如果 $P=O$, 则 $\ell = \{Z=0\}$ 在 $O$ 处交 $E$ 三次, 故 $-O = O$, 仍是镜像.
+		\item 加法 $P+Q$ 的办法是先取过 $P$, $Q$ 的直线 $\ell$ (当 $P=Q$ 时取切线), $\ell$ 和 $E$ 的第三个交点 $R$ 容易用 $P,Q$ 的坐标来表示, 其对 $X$-轴的镜像即是 $P+Q$.
+	\end{enumerate}
+	此中奥妙在于 $(E,O)$ 的加法完全由代数几何的方法确定, 无关 $\wp, \wp'$ 等超越函数.
+\end{remark}
+
+% 以下代码取自 tex.stackexchange.com
+\begin{figure}[h]\centering
+	\begin{tikzpicture}[
+		point/.style={
+			rectangle,
+			fill=black,
+			inner sep=1.8pt,
+		}]
+		\begin{axis}[
+			xmin=-4.5,
+			xmax=4.5,
+			ymin=-6.1,
+			ymax=6.3,
+			xlabel={},
+			ylabel={},
+			scale only axis,
+			axis lines=middle,
+			domain=-1.912931:3,
+			samples=200,
+			smooth,
+			clip=false,
+			axis equal image=true
+		]
+			\addplot [black] {sqrt(x^3+7)}
+			node[right] {$E: Y^2=X^3+7$};
+			\addplot [black] {-sqrt(x^3+7)};
+
+			\coordinate	(P0) at (-4,0);
+			\node [point, label={left:$P$}]
+			(P) at (-1.71,1.4)  {};
+			\node [point, label={above:$Q$}]
+			(Q) at (0.33,2.65)  {};
+			\node [point, label={right:$R$}]
+			(R) at (1.76,3.53)  {};
+			\node [point, label={right:$P+Q = -R$}]
+			(R1)  at (1.76,-3.53) {};
+
+			% draw a line from (P0) a bit further than just to (P3)
+			\draw [black, thick] (P0) -- ($ (P0)!1.3!(R) $) node[below right] {$\ell$};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{$E: Y^2 = X^3 + 7$ 在实数部分的加法结构示意图}
+\end{figure}
+
+\begin{exercise}
+	在 $E$ 上和某条直线相切三次的点称为\emph{拐点}, 证明 $E$ 上恰有 $9$ 个拐点.
+\end{exercise}
+
+\begin{exercise}
+	尝试从三次平面光滑曲线的代数几何出发, 证明定理 \ref{prop:wp-addition} 和注记 \ref{rem:addition-by-lines} 确定的加法运算满足结合律等群论公理.
+\end{exercise}
+
+椭圆曲线的群结构还有以下的内禀描述, 请对照 \eqref{eqn:Pic-Jacobian} 的解析理论. 先回忆定义 \ref{def:Picard-group} 的除子类群 $\Pic(E) := \Div(E)/\mathcal{P}$.
+\begin{theorem}\label{prop:elliptic-Pic}
+	令 $(E, O)$ 为椭圆曲线. 映射
+	\begin{align*}
+		\Phi: E & \longrightarrow \Pic^0(E) := \Ker\left[ \deg: \Pic(E) \to \Z \right] \\
+		Q & \longmapsto Q - O \;\bmod \mathcal{P}
+	\end{align*}
+	是群同构, 而且下图交换
+	\[\begin{tikzcd}
+		E \arrow[r, "\Phi"] \arrow[rd, "\phi"'] & \Pic^0(E) \arrow[d, "\text{\eqref{eqn:Pic-Jacobian}}"] \\
+		& \Jac(E)
+	\end{tikzcd} \qquad \phi: \text{Abel--Jacobi 映射}. \]
+\end{theorem}
+\begin{proof}
+	我们断言对任何 $D \in \Div(E)$, $\deg D = 1$ 者, 存在唯一的 $Q$ 使得 $D \equiv Q \mod \mathcal{P}$; 承认这点, 两边同减 $O$ 便得到 $\Phi$ 为双射.
+	
+	Riemann--Roch 定理 (注记 \ref{rem:RR}) 蕴涵 $\ell(D) = 1$, 于是精确到 $\CC^\times$, 存在唯一的 $f$ 使得 $D' := \divisor(f) + D \geq 0$; 既然 $\deg D' = \deg D = 1$, 必然表作 $D' = Q$ 的形式, 上述断言得证.
+
+	现在说明 $\Phi$ 为群同构. 将 $(E,O)$ 实现为 $\PP^2$ 上的三次曲线. 考虑 $\PP^2$ 中的直线 $\ell: aX + bY + cZ = 0$. 那么 $\ell$ 交 $E$ 于 $P,Q,R$ 三点 (计入重数) 当且仅当 $E$ 上的有理函数 $f := Z^{-3}(aX + bY + cZ)|_E$ 满足
+	\[ \divisor(f) = P + Q + R - 3O = (P - O) + (Q - O) + (R - O). \]
+	此时 $\Phi(P) + \Phi(Q) + \Phi(R) = 0$. 此外显然有 $\Phi(O)=0$. 注记 \ref{rem:addition-by-lines} 遂说明 $\Phi$ 是群同构. 图表交换是 \eqref{eqn:Pic-Jacobian} 定义的显然结论.
+\end{proof}
+
+\begin{corollary}\label{prop:pullback-by-N}
+	设 $N \in \Z \smallsetminus \{0\}$. 记椭圆曲线 $(E, O)$ 的 $N$ 倍自同态为 $[N]$. 对于一切 $C \in \Pic^0(E)$, 皆有 $NC = [N]^* C$; 除子类的拉回详见定义--命题 \ref{def:divisor-pullback}.
+\end{corollary}
+\begin{proof}
+	应用定理 \ref{prop:elliptic-Pic} 可设 $C = \Phi(Q) = Q - O$. 任取 $R_0 \in [N]^{-1}(Q)$. 根据 $[N]^*$ 的定义, 在 $\Pic^0(E)$ 中有
+	\begin{align*}
+		[N]^* C & = \left( \sum_{R \in [N]^{-1}(Q)} R - \sum_{S \in E[N]} S \right) = \sum_{R \in [N]^{-1}(Q)} \Phi(R) - \sum_{S \in E[N]} \Phi(S) \\
+		& = \Phi\left( \sum_{R \in [N]^{-1}(Q)} R - \sum_{S \in E[N]} S \right) \\
+		& = \Phi\left( [N^2] R_0 + \sum_{S \in E[N]} S - \sum_{S \in E[N]} S \right) \\
+		& = \Phi\left( [N]Q \right) = N\Phi(Q) = NC.
+	\end{align*}
+	以上用到了 $|E[N]| = N^2$. 证毕.
+\end{proof}
+
+\begin{remark}[代数几何版本的 Weil 配对]
+	\label{rem:Weil-pairing-algebraic} \index{Weil 配对 (Weil pairing)!代数几何版本}
+	推论 \ref{prop:pullback-by-N} 可以推广到任意代数闭域 $\Bbbk$ 上的椭圆曲线. 当 $\text{char}(\Bbbk) \nmid N$ 时, 由此可赋予 $e_N(P, Q)$ (定义 \ref{def:Weil-pairing}) 基于代数几何的描述, 速写如下. 我们承认有自然的群同构
+	\[ (\Pic(E), +) \simeq \left(E \;\text{上的线丛}, \otimes \right) \big/ \simeq \]
+	使得除子类拉回对应到线丛拉回. 记 $\mathcal{L}$ 为 $\Phi(Q) \in \Pic^0(E)[N]$ 对应的线丛. 既然 $[N]$ 是以 $E[N]$ 为变换群的复叠态射 (非分歧), $[N]^* \mathcal{L} \simeq \mathcal{L}^{\otimes N}$ 平凡, 而平凡线丛的自同构群是 $\Bbbk^\times$, 所以线丛 $\mathcal{L}$ 的同构类由一个唯一的同态 $\chi_{\mathcal{L}}: E[N] \to \mu_N(\Bbbk)$ 确定 (所谓``下降资料''), 对之有
+	\[ e_N(P, Q) = \chi_{\mathcal{L}}(-P) \; \in \mu_N(\Bbbk). \]
+	基于除子的描述可见 \cite[\S 7.4]{DS05}.
+\end{remark}
+
+\begin{exercise}[不变微分形式]
+	设 $\omega \in \Gamma(E, \Omega_E)$, 利用引理 \ref{prop:invariant-differential} 证明 $\omega$ 对平移不变: 对所有 $E$ 的点 $Q$, 平移自同构 $\tau_Q: P \mapsto P+Q$ 皆满足 $\tau_Q^* \omega = \omega$.
+	
+	\begin{hint}
+		设 $\omega$ 非零. 因为 $\Gamma(E, \Omega_E)$ 是一维的, 存在唯一的全纯映射 $r: E \to \CC^\times$ 使得 $\tau_Q^* \omega = r(Q) \omega$. 那么 $r$ 必取常值, 但 $r(O) = 1$.
+	\end{hint}
+\end{exercise}
+
+\begin{example}\label{eg:invariant-differential}
+	考虑嵌入 $\PP^2$ 的椭圆曲线 $E: Y^2 = P(X)$, 其中 $P$ 为无重根的三次多项式, 生成元 $\omega \in \Gamma(E, \Omega_E)$ 可由 $\omega := \dfrac{\dd X}{Y}$ 直接给出.
+	
+	为了看清这点, 首先对 $E$ 的方程两边微分, 得到
+	\[ 2Y \dd Y = P'(X) \dd X, \quad \omega = 2 P'(X)^{-1} \dd Y. \]
+	因为 $P,P'$ 无公共根, $\omega$ 在 $E \smallsetminus \{Z=0\}$ 上全纯. 根据引理 \ref{prop:X-Y-proj}, 在 $E$ 和 $Z=0$ 的唯一交点 $O = (0:1:0)$ 附近, 可取 $E$ 的局部坐标 $u$ 使得 $u(O)=0$ 而 $x \sim u^{-2}$, $y \sim u^{-3}$, 由此知 $\ord_O(\omega) = 0$. 综之, $\omega \in \Gamma(E, \Omega_E) \smallsetminus \{0\}$. 结合引理 \ref{prop:invariant-differential} 可知 $\omega$ 张成 $\Gamma(E, \Omega_E)$, 处处非零.
+	
+	配合上一道练习, 可知 $\omega$ 是 $E$ 上的不变微分形式.
+\end{example}
+
+\begin{example}\label{eg:j-computation}
+	依据定理 \ref{prop:wp-equations}, 由 $\tau \in \mathcal{H}$ 确定的复环面 $\CC/\Lambda_\tau$ 满足 $j(\CC/\Lambda_\tau, 0) = j(\tau)$, 而模不变量 $j(\tau)$ 按推论 \ref{prop:Delta-Eisenstein} 写作
+	\[ j(\tau) = \frac{E_4(\tau)^3}{\Delta(\tau)} = 1728 \cdot \frac{E_4(\tau)^3}{E_4(\tau)^3 - E_6(\tau)^2}. \]
+	取 $\rho := e^{2\pi i/6} = \frac{1 + \sqrt{-3}}{2}$. 命题 \ref{prop:zeros-E4-E6} 给出 $E_4(\rho) = E_6(i) = 0$, 故 $j(i) = 1728$ 而 $j(\rho)=0$.
+	\begin{enumerate}
+		\item 考虑由 $Y^2 = X^3 - X$ 定义的三次曲线 $E \subset \PP^2$, 不再写出相应的齐次方程. 按 \eqref{eqn:j-genus-0} 直接计算可得 $j(E) = 2^6 3^3 = 1728$. 这就蕴涵作为椭圆曲线有 $(E, O) \simeq (\CC/\Lambda_i, 0)$.
+		
+		因为 $\Z[i] = \Z \oplus \Z i$ 成环 (称为 Gauss 整数环), 由命题 \ref{prop:tori-homomorphism} 易算出 $(E,O)$ 或 $(\CC/\Lambda_i, 0)$ 的自同态环为 $\Z[i]$.
+		\item 考虑 $Y^2 = X^3 - 432$ 定义的三次曲线 $E' \subset \PP^2$. 依练习 \ref{exo:j-equals-0} 可得 $j(E', O) = 0$, 这就蕴涵作为椭圆曲线有 $(E', O) \simeq (\CC/\Lambda_\rho, 0)$. 同样地, 易证 $\Z[\rho] = \Z \oplus \Z\rho$ 成环 (称为 Eisenstein 整数环), 从而 $(E', O)$ 或 $(\CC/\Lambda_\rho, 0)$ 的自同态环为 $\Z[\rho]$.
+	\end{enumerate}
+	在这两个例子中, 对应 $j=1728, 0$ 的自同态环颇有来头, 分别是虚二次数域 $\Q(\sqrt{-1})$ 和 $\Q(\sqrt{-3})$ 的代数整数环; 这类现象是 \S\ref{sec:CM} 的主题.
+\end{example}
+
+\section{复乘初阶}\label{sec:CM} \index{fucheng}
+复乘的深入研究可见 \cite[\S\S 4.4---5.4]{Shi71}.
+
+对于 $\CC$ 中的格 $\Lambda$, 可将 $\Lambda \otimes \Q$ 视同 $\CC$ 的 $\Q$-向量子空间 $\bigcup_{m \geq 1} \frac{1}{m}\Lambda$. 回忆命题 \ref{prop:tori-homomorphism}: 以下都是 $\CC$ 的子环
+\begin{align*}
+	\End(\CC/\Lambda) & = \left\{ x \in \CC: x\Lambda \subset \Lambda \right\}, \\
+	\End(\CC/\Lambda) \otimes \Q & = \bigcup_{m \geq 1} \frac{1}{m} \End(\CC/\Lambda) \\
+	& = \bigcup_{m \geq 1} \left\{ x \in \CC: x\Lambda \subset \frac{1}{m} \Lambda \right\} \\
+	& = \left\{ x \in \CC: x(\Lambda \otimes \Q) \subset \Lambda \otimes \Q \right\}.
+\end{align*}
+
+\begin{lemma}\label{prop:CM-prep1}
+	设 $\tau \in \mathcal{H}$, 记 $\Lambda_\tau := \Z\tau \oplus \Z$. 则 $\End(\Lambda_\tau)$ 总是 $\Lambda_\tau$ 的 $\Z$-子模, 而且 $\End(\Lambda_\tau) \supsetneq \Z$ 当且仅当存在非纯量矩阵 $\gamma \in \GL(2, \Q)^+$ 使得 $\gamma\tau = \tau$.
+\end{lemma}
+\begin{proof}
+	给定 $x \in \CC^\times$, 条件 $x \Lambda_\tau \subset \Lambda_\tau$ 等价于存在 $\gamma = \twomatrix{a}{b}{c}{d} \in \Mat_2(\Z)$ 使得
+	\begin{equation}\label{eqn:gamma-x-CM}
+		x\bigl( \begin{smallmatrix} \tau \\ 1 \end{smallmatrix} \bigr) = \gamma \bigl( \begin{smallmatrix} \tau \\ 1 \end{smallmatrix} \bigr).
+	\end{equation}
+	这蕴涵~$x = c\tau + d \in \Lambda_\tau$, 此外 $\gamma\tau = \tau$ (分式线性变换), 故 $\det\gamma > 0$. 由于 $x \notin \Z$ 时 $c \neq 0$, 此时 $\gamma$ 非纯量矩阵.
+	
+	反过来设 $\gamma \in \GL(2,\Q)^+$ 满足 $\gamma\tau = \tau$. 不失一般性可设 $\gamma \in \Mat_2(\Z) \cap \GL(2, \Q)^+$. 那么存在 $x \in \CC^\times$ 使 \eqref{eqn:gamma-x-CM} 成立. 假若 $x \in \Z$, 则 $c\tau + d \in \Z$ 导致 $\gamma \in \twomatrix{*}{*}{}{*}$, 这种矩阵在 $\mathcal{H}$ 上无不动点, 矛盾.
+\end{proof}
+
+所谓\emph{二次数域}是 $\Q$ 的形如 $\Q(\sqrt{D})$ 的 $2$ 次域扩张, 其中 $D \in \Z$ 无平方因子, 根据 $D > 0$ 或 $< 0$ 分别称为实或虚二次数域. 二次数域 $\Q(\sqrt{D})$ 有自同构 $a + b\sqrt{D} \mapsto a - b\sqrt{D}$, 当 $D < 0$ 时这无非是复共轭; $\Q(\sqrt{D})$ 中的代数整数构成子环
+\[ \mathfrak{o}_{\Q(\sqrt{D})} = \begin{cases}
+	\Z \oplus \Z\sqrt{D}, & D \not\equiv 1 \pmod{4}, \\
+	\Z \oplus \frac{1 + \sqrt{D}}{2}, & D \equiv 1 \pmod{4}.
+\end{cases}\]
+
+回忆 $\Q(\sqrt{D})$ 中的序模是指具备以下性质的子环 $\mathcal{O}$:
+\begin{inparaenum}[(a)]
+	\item 它是有限秩自由 $\Z$-模,
+	\item 它生成 $\Q$-向量空间 $\Q(\sqrt{D})$;
+\end{inparaenum}
+见定义 \ref{def:order}.
+
+\begin{exercise}\label{exo:order-integral}
+	设 $\mathcal{O}$ 为虚二次数域 $K$ 中的序模, 证明 $\mathcal{O} \subset \mathfrak{o}_K$, 而且 $\mathcal{O}$ 对复共轭封闭. 推论: 对任何 $t \in \mathcal{O}$ 都有 $t\overline{t} \in \Z_{\geq 0}$.
+	
+	\begin{hint}
+		从 $\mathcal{O}$ 是有限秩自由 $\Z$-模说明其元素都是代数整数. 若 $x \in \mathcal{O}$, 则 $x + \overline{x} \in \mathfrak{o}_K \cap \Q = \Z$, 从而 $\overline{x} \in \mathcal{O}$.
+	\end{hint}
+\end{exercise}
+
+\begin{lemma}\label{prop:CM-prep2} \index{xumo}
+	接续引理 \ref{prop:CM-prep1} 的符号. 我们有 $\End(\Lambda_\tau) \supsetneq \Z$ 当且仅当 $K := \Q(\tau)$ 是虚二次数域, 这时 $\End(\CC/\Lambda_\tau) \otimes \Q \simeq K$, 而 $\mathcal{O} := \End(\CC/\Lambda_\tau)$ 是 $K$ 中的序模.
+\end{lemma}
+\begin{proof}
+	应用引理 \ref{prop:CM-prep1}. 设 $\End(\Lambda_\tau) \supsetneq \Z$, 存在椭圆变换 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2, \Q)^+$ 固定 $\tau$, 而向量 $\bigl( \begin{smallmatrix} \tau \\ 1 \end{smallmatrix} \bigr)$ 对 $\gamma$ 的特征值是 $c\tau + d$; 此特征值必生成虚二次数域 $K$, 故 $K = \Q(\tau)$. 此时 $\Lambda_\tau \otimes \Q = \Q\tau \oplus \Q = K$, 故
+	\[ \End(\CC/\Lambda_\tau) \otimes \Q = \left\{ x \in \CC: x K \subset K \right\} = K. \]
+	于是子环 $\mathcal{O}$ 生成 $\Q$-向量空间 $K$, 另一方面, 已知 $\mathcal{O} \subset \Lambda_\tau$, 故为有限秩自由 $\Z$-模, 至此验证了序模的全部条件.
+	
+	反过来说, 设 $A\tau^2 + B\tau + C = 0$, 其中 $A, B, C \in \Z$ 不全为 $0$, 那么 $AC > \frac{B^2}{4} \geq 0$ 而 $\twomatrix{B}{C}{-A}{} \tau = \tau$, 故 $\End(\Lambda_\tau) \supsetneq \Z$. 
+\end{proof}
+
+满足引理 \ref{prop:CM-prep2} 条件的 $\tau \in \mathcal{H}$ 也称为复乘点. 
+
+\begin{definition}[复乘]
+	设 $E$ 为复椭圆曲线, 若 $\mathcal{O}$ 是某个虚二次数域 $K$ 的序模, 而且存在环同构 $[\cdot]: \End(E) \rightiso \mathcal{O}$, 则我们说 $E$ 带有 $\mathcal{O}$ 的复乘\footnote{经常按英文 complex multiplication 简写为 CM.}. 选定域嵌入 $\iota: K \hookrightarrow \CC$, 若进一步要求对所有 $\omega \in \Gamma(E, \Omega_E)$ 都有 $[\alpha]^* \omega = \iota(\alpha) \omega$, 则称 $(\mathcal{O}, [\cdot])$ 使 $E$ 具有 $\mathcal{O}$ 的正规化复乘.
+\end{definition}
+
+\begin{exercise}
+	说明当 $x \neq 0$ 给定, 满足 \eqref{eqn:gamma-x-CM} 的 $\gamma \in \GL(2, \Q)^+$ 是唯一确定的, 由此说明若 $\CC/\Lambda_\tau$ 带有 $\mathcal{O}$ 的复乘, 则存在典范的 $\Q$-代数嵌入 $\gamma: K \hookrightarrow \Mat_2(\Q)$, 使得 \eqref{eqn:gamma-x-CM} 对 $\gamma := \gamma(x)$ 成立.
+\end{exercise}
+
+复乘中的虚二次数域按 $K = \mathcal{O} \otimes \Q$ 确定. 正规化的概念依赖于嵌入 $\iota: K \hookrightarrow \CC$. 在引理 \ref{prop:CM-prep2} 的场景中, 序模 $\mathcal{O}$ 业已嵌入 $\CC$, 它在 $\CC/\Lambda_\tau$ 上的作用来自 $\CC$ 上的乘法 $z \mapsto xz$, 这般复乘当然是正规化的, 但 $z \mapsto \overline{x} z$ 给出的作用则不然. 
+
+\begin{lemma}
+	符号同上. 选定嵌入 $K \hookrightarrow \CC$. 若 $E$ 带 $\mathcal{O}$ 的复乘, 则存在唯一的同构 $[\cdot]: \mathcal{O} \rightiso \End(E)$ 使复乘正规化.
+\end{lemma}
+\begin{proof}
+	不失一般性, 设 $E = \CC/\Lambda_\tau$. 命题 \ref{prop:tori-homomorphism} 蕴涵正规化复乘中的 $[\cdot]$ 是唯一的. 存在性可以化约到以上讨论过的复环面情形.
+\end{proof}
+
+复乘及其正规化版本可以定义到一般数域上的椭圆曲线, 本书不论.
+
+今后在探讨复乘时, 总是选定嵌入 $K \hookrightarrow \CC$, 而且资料 $[\cdot]$ 总取为正规化的. 全体带有 $\mathcal{O}$ 复乘的复椭圆曲线构成范畴 $\cate{Ell}_{\CC}(\mathcal{O})$, 以复椭圆曲线的同构为态射; 记其中同构类组成的集合为 $\mathrm{ell}_{\CC}(\mathcal{O})$. 说复环面 $\CC/\Lambda$ 带序模 $\mathcal{O}$ 的复乘相当于说
+\begin{equation}\label{eqn:CM-lattice} \begin{gathered}
+	x\Lambda \subset \Lambda \iff x \in \mathcal{O},\\
+	[\alpha](z + \Lambda) = \alpha z + \Lambda, \quad \alpha \in \mathcal{O}.
+\end{gathered}\end{equation}
+
+固定虚二次数域 $K$ 及其序模 $\mathcal{O}$. 我们需要一些相关的代数概念, 细节见诸代数数论或交换代数的教材.
+\begin{compactitem}
+	\item 满足以下条件的 $\mathcal{O}$-子模 $\mathfrak{a} \subset K$ 称为\emph{分式理想}: 存在 $t \in \mathcal{O} \smallsetminus \{0\}$ 使得 $t\mathfrak{a} \subset \mathcal{O}$.
+	\item 任两个分式理想 $\mathfrak{a}, \mathfrak{b}$ 可以相乘: $\mathfrak{a}\mathfrak{b} = \left\{ \sum_i a_i b_i : a_i \in \mathfrak{a}, \; b_i \in \mathfrak{b} \right\}$ 仍是分式理想. 全体非零分式理想对乘法构成交换幺半群 $\mathrm{FracIdeal}(\mathcal{O})$, 以 $\mathcal{O}$ 为幺元.
+	\item 对非零分式理想 $\mathfrak{a}$, 命 $\mathfrak{a}^{-1} := \left\{ x \in K: x\mathfrak{a} \subset \mathcal{O} \right\}$, 这仍是非零分式理想; 可以证明若存在 $\mathfrak{b}$ 使得 $\mathfrak{a}\mathfrak{b} = \mathcal{O}$, 则必有 $\mathfrak{b} = \mathfrak{a}^{-1}$.
+	\item 基于以上理由, 定义\emph{可逆分式理想}为满足 $\mathfrak{a}\mathfrak{a}^{-1} = \mathcal{O}$ 的分式理想. 记可逆分式理想所成集合为 $\mathrm{InvIdeal}(\mathcal{O})$, 它无非是 $\mathrm{FracIdeal}(\mathcal{O})$ 中由可逆元构成的群.
+	\item 任何 $x \in K^\times$ 都生成主分式理想 $x\mathcal{O} \subset K$, 其逆为 $x^{-1} \mathcal{O}$; 它们构成 $\mathrm{InvIdeal}(\mathcal{O})$ 的子群 $\mathrm{PrinIdeal}(\mathcal{O})$.
+	\item 相对于以上运算, 定义 $\mathcal{O}$ 的\emph{类群}为
+	\[ \mathrm{cl}(\mathcal{O}) := \mathrm{InvIdeal}(\mathcal{O}) \big/ \mathrm{PrinIdeal}(\mathcal{O}); \]
+	代数数论中的一则基本事实是 $\left| \mathrm{cl}(\mathcal{O}) \right|$ 有限, 称为 $\mathcal{O}$ 的\emph{类数}.
+\end{compactitem}
+
+当 $\mathcal{O} = \mathfrak{o}_K$ 时, 上述构造全是代数数论的熟知内容, 此时所有非零分式理想皆可逆. 一般 $\mathcal{O}$ 的类数可以用 $\mathfrak{o}_K$ 的类数和 $\mathcal{O}$ 的导子来表示, 见 \cite[Exercise 4.12]{Shi71}.
+
+\begin{remark}\label{rem:quadratic-order}
+	二次数域的特殊性质之一是 $\mathfrak{a}$ 可逆当且仅当对所有 $x \in K$ 都有 $x\mathfrak{a} \subset \mathfrak{a} \iff x \in \mathcal{O}$; 这在 $\mathcal{O} = \mathfrak{o}_K$ 情形是简单的, 一般情形详见 \cite[Corollary 4.4]{Kei}. 这对更高次的数域及其序模并不成立.
+\end{remark}
+
+\begin{proposition}\label{prop:CM-via-ideal}
+	以下设 $\CC/\Lambda$ 有 $\mathcal{O}$ 的复乘, 
+	设 $\mathfrak{a}$ 是可逆分式理想, 则 $\mathfrak{a}$ 是 $\CC$ 中的格, 而且 $\CC/\mathfrak{a}$ 有 $\mathcal{O}$ 的复乘.
+\end{proposition}
+\begin{proof}
+	取 $t \in \mathcal{O} \smallsetminus \{0\}$ 使得 $t\mathfrak{a} \subset \mathcal{O}$; 应用练习 \ref{exo:order-integral}, 以范数 $\overline{t}t$ 代 $t$ 则可进一步要求 $t \in \Z_{\geq 1}$. 同理, 对 $\mathfrak{a} \cap \mathcal{O}$ 的非零元取范数可得 $s \in \Z_{\geq 1} \cap \mathfrak{a}$. 于是
+	\[ s\mathcal{O} \subset \mathfrak{a} \subset \frac{1}{t}\mathcal{O}. \]
+	根据上式, 因为 $\mathcal{O}$ 是秩 $2$ 自由 $\Z$-模并在 $\CC$ 中离散, $\mathfrak{a}$ 亦然, 而且 $\mathfrak{a}$ 和 $\mathcal{O}$ 一样生成 $\Q$-向量空间 $K$, 因而也生成 $\R$-向量空间 $\CC$. 这些性质表明 $\mathfrak{a}$ 是格. 最后, 注记 \ref{rem:quadratic-order} 提及的性质表明 $\CC/\mathfrak{a}$ 有 $\mathcal{O}$ 的复乘.
+\end{proof}
+
+\begin{proposition}\label{prop:CM-classgroup}
+	以下设 $\CC/\Lambda$ 有 $\mathcal{O}$ 的复乘, 而 $\mathfrak{a}$ 是可逆分式理想.
+	\begin{enumerate}[(i)]
+		\item 命 $\mathfrak{a}\Lambda := \left\{ \sum_i a_i \lambda_i : a_i \in \mathfrak{a}, \; \lambda_i \in \Lambda \right\}$, 这仍是格, 并且 $\CC/\mathfrak{a}\Lambda$ 有 $\mathcal{O}$ 的复乘; 此运算满足
+		\[ \mathfrak{a} (\mathfrak{b}\Lambda) = (\mathfrak{a}\mathfrak{b})\Lambda, \quad \mathcal{O} \Lambda = \Lambda. \]
+		\item 对所有可逆分式理想 $\mathfrak{a}, \mathfrak{b}$, 都存在自然双射
+		\[ \left\{x \in K^\times: x\mathfrak{a} = \mathfrak{b} \right\} \xrightarrow{1:1} \left\{ \text{同构}\; \CC/\mathfrak{a}\Lambda \rightiso \CC/\mathfrak{b}\Lambda\right\}. \]
+		\item 命 $\mathfrak{a} \star \CC/\Lambda := \CC/\mathfrak{a}^{-1}\Lambda$, 诱导 $\mathrm{cl}(\mathcal{O})$ 在 $\mathrm{ell}_{\CC}(\mathcal{O})$ 上的作用, 这是一个挠子 (见 \cite[定义 4.4.8]{Li1}).
+	\end{enumerate}
+	作为 (iii) 的推论, $\left| \mathrm{ell}_{\CC}(\mathcal{O}) \right| = \left| \mathrm{cl}(\mathcal{O}) \right|$ 有限.
+\end{proposition}
+\begin{proof}
+	首先, \eqref{eqn:CM-lattice} 蕴涵 $\mathcal{O} \Lambda = \Lambda$. 对于可逆分式理想 $\mathfrak{a}$, 应用之前的论证可取 $s, t \in \Z_{\geq 1}$ 使得
+	\[ s\Lambda \subset \mathfrak{a}\Lambda \subset \frac{1}{t} \mathcal{O} \Lambda = \frac{1}{t} \Lambda. \]
+	第一个 $\subset$ 确保 $\mathfrak{a}\Lambda$ 生成 $\R$-向量空间 $\CC$, 第二个 $\subset$ 确保 $\mathfrak{a}\Lambda$ 在 $\CC$ 中离散, 故 $\mathfrak{a}\Lambda$ 是格.
+
+	我们仍然有 $\mathcal{O} \cdot (\mathfrak{a} \Lambda) = \mathfrak{a}\Lambda$, 故以上论证说明对任意非零分式理想 $\mathfrak{b}$, 乘法 $\mathfrak{b}(\mathfrak{a}\Lambda)$ 总有意义并且等于 $(\mathfrak{b}\mathfrak{a}) \Lambda$. 现在来计算 $\End\left( \CC/\mathfrak{a}\Lambda \right)$:
+	\[ x\mathfrak{a}\Lambda \subset \mathfrak{a}\Lambda \iff x \underbracket{\mathfrak{a}^{-1}\mathfrak{a}}_{= \mathcal{O}} \Lambda = \underbracket{\mathfrak{a}^{-1}\mathfrak{a}}_{= \mathcal{O}} \Lambda \iff x\Lambda \subset \Lambda. \]
+	这就表明 $\End\left( \CC/\mathfrak{a}\Lambda \right) = \End(\CC/\Lambda) = \mathcal{O}$. 如是证完 (i).
+	
+	另外, 设 $\mathfrak{a}, \mathfrak{b}$ 为可逆分式理想. 给定同构 $\CC/\mathfrak{a}\Lambda \rightiso \CC/\mathfrak{b}\Lambda$ 相当于给定 $x \in \CC^\times$ 使得 $x\mathfrak{a}\Lambda = \mathfrak{b}\Lambda$. 这等价于 $\mathfrak{c} := x\mathfrak{a}\mathfrak{b}^{-1} \subset \mathcal{O}$, 由此见得 $x \in K^\times$, 故 $\mathfrak{c}$ 是可逆分式理想; 另一方面, 考虑 $x^{-1}$ 给出的逆同构, 则相同论证给出 $\mathfrak{c}^{-1} \subset \mathcal{O}$. 于是
+	\[ \mathcal{O} = \mathfrak{c}\mathfrak{c}^{-1} \subset \mathfrak{c} \subset \mathcal{O}, \]
+	故 $\mathfrak{c} = \mathcal{O}$. 综上, 同构的刻画变为 $x \in K^\times$, $x\mathfrak{a} = \mathfrak{b}$. 如是证完 (ii).
+	
+	对于 (iii), 剩下的仅是证明对于带 $\mathcal{O}$ 复乘的 $\CC/\Lambda_1$ 和 $\CC/\Lambda_2$, 总存在非零分式理想 $\mathfrak{a}$ 和同构 $\CC/\mathfrak{a}\Lambda_1 \simeq \CC/\Lambda_2$. 对于 $i \in \{1, 2\}$, 存在 $z_i \in \CC^\times$ 和 $\tau_i \in \mathcal{H}$ 使得 $\Lambda_i = z_i \left( \Z\tau_i \oplus \Z \right)$, 而引理 \ref{prop:CM-prep2} 确保 $\tau_i \in K$. 故可任取非零元 $\lambda_i \in \Lambda_i$ 使得 $\mathfrak{a}_i := \lambda_i^{-1}\Lambda_i \subset K$. 不难验证 $\mathfrak{a}_i$ 是满足 $x\mathfrak{a}_i \subset \mathfrak{a}_i \iff x \in \mathcal{O}$ 的分式理想, 注记 \ref{rem:quadratic-order} 蕴涵 $\mathfrak{a}_i$ 可逆. 命 $\mathfrak{a} := \mathfrak{a}_1^{-1} \mathfrak{a}_2$, 于是
+	\[ \frac{\lambda_2}{\lambda_1} \mathfrak{a} \Lambda_1 = \Lambda_2, \]
+	亦即 $\frac{\lambda_2}{\lambda_1}: \CC/\mathfrak{a}\Lambda_1 \rightiso \CC/\Lambda_2$. 明所欲证.
+\end{proof}
+
+\begin{remark}
+	考虑范畴 $\cate{Cl}(\mathcal{O})$, 它以可逆分式理想为对象, 以 $\left\{ x \in K^\times: x\mathfrak{a} = \mathfrak{b} \right\}$ 为从 $\mathfrak{a}$ 到 $\mathfrak{b}$ 的态射集, 态射合成来自 $K^\times$ 中乘法. 命题 \ref{prop:CM-via-ideal} 和 \ref{prop:CM-classgroup} 一道给出范畴间的等价
+	\[ \cate{Cl}(\mathcal{O}) \to \cate{Ell}_{\CC}(\mathcal{O}), \quad \mathfrak{a} \mapsto \CC/\mathfrak{a}; \]
+	它在同构类层次上诱导双射 $\mathrm{cl}(\mathcal{O}) \xrightarrow{1:1} \mathrm{ell}_{\CC}(\mathcal{O})$.
+\end{remark}
+
+现在切入代数曲线的视角. 复椭圆曲线 $(E, O)$总能嵌入 $\PP^2$, 其仿射部分由 Weierstrass 方程
+\[ Y^2 + a_1 XY + a_3 Y = X^3 + a_2 X^2 + a_4 + a_6 \]
+描述, 点 $O$ 对应 $(0:1:0)$. 对于任意域自同构 $\sigma \in \Aut(\CC)$, 定义 ${}^\sigma E$ 为仿射部分由方程
+\[ Y^2 + \sigma(a_1) XY + \sigma(a_3) Y = X^3 + \sigma(a_2) X^2 + \sigma(a_4) + \sigma(a_6) \]
+描述的平面三次射影曲线, 仍是以 $(0:1:0)$ 为基点的复椭圆曲线. Weierstrass 方程当然不是唯一的. 如果读者愿意用代数几何的抽象语言, 那么 ${}^\sigma E$ 可以内禀地定义为概形的基变换 $E \dtimes{\CC, \sigma} \CC$. 显然
+\[ {}^{\identity} E = E, \quad {}^\sigma \left( {}^\tau E \right) = {}^{\sigma\tau} E, \quad \sigma, \tau \in \Aut(\CC). \]
+因为椭圆曲线的 $j$ 不变量是 Weierstrass 方程系数的代数表达式, 自然有
+\[ j\left( {}^\sigma E \right) = \sigma\left( j(E) \right). \]
+
+接下来, 定义 $\PP^2$ 到自身的双射 $\sigma: (a:b:c) \mapsto (\sigma(a) : \sigma(b): \sigma(c))$. 它将集合 ${}^\sigma E$ 一对一地映到集合 $E$, 保持基点 $O$ 不变, 其逆映射由 $\sigma^{-1}$ 诱导.
+
+\begin{lemma}\label{prop:E-Galois-twist}
+	设 $(E, O)$ 是椭圆曲线, $\sigma \in \Aut(E)$, 则有环同构
+	\begin{align*}
+		\End(E) & \rightiso \End\left({}^\sigma E \right) \\
+		f & \mapsto \sigma^{-1} f \sigma.
+	\end{align*}
+\end{lemma}
+\begin{proof}
+	问题归结为说明 $\sigma^{-1} f \sigma$ 总是 ${}^\sigma E$ 到自身的态射. 如果读者了解态射在代数几何中的定义, 这理应是直接的推论.
+\end{proof}
+
+\begin{theorem}
+	设 $\tau \in \mathcal{H}$ 使得对应的椭圆曲线 $(E_\tau, O)$ 有复乘, 那么 $j(\tau)$ 是代数数; 记 $\mathcal{O} := \End(E_\tau)$, 则 $[\Q(j(\tau)): \Q] \leq \left| \mathrm{cl}(\mathcal{O}) \right|$.
+\end{theorem}
+\begin{proof}
+	固定 $\tau$ 而让 $\sigma \in \Aut(\CC)$ 变动. 根据命题 \ref{prop:CM-classgroup} 和引理 \ref{prop:E-Galois-twist} 可知 ${}^\sigma E_\tau$ 的同构类总属于 $\mathrm{ell}_{\CC}(\mathcal{O})$. 所以全体 $j\left({}^\sigma E_\tau\right) = \sigma\left(j(E_\tau)\right)$ 构成的集合 $\Xi$ 至多仅有 $\left| \mathrm{cl}(\mathcal{O}) \right|$ 个元素. 这就导致 $\Xi$ 的元素皆为代数数, 次数不大于 $\left| \mathrm{cl}(\mathcal{O}) \right|$. 事实上, 多项式 $\prod_{\xi \in \Xi} (X - \xi)$ 的系数都对 $\Aut(\CC)$ 不变, 因而都是有理数.
+\end{proof}
+
+\begin{exercise}
+	补充上述论证的最后一步: 证明若 $x \in \CC$ 对 $\Aut(\CC)$ 的作用不变, 则 $x \in \Q$.
+	
+	\begin{hint}
+		用超越基理论取中间域 $\CC \supset M \supset \Q$, 使得 $\CC$ 是 $M$ 的代数闭包, 而 $M$ 同构于 $\Q$ 上带不可数个变元的有理函数域; 见 \cite[\S 8.8]{Li1}. 从 $x$ 对 $\Gal(\CC|M)$ 不变导出 $x \in M$. 再以有理函数域的性质说明若 $x \in M \smallsetminus \Q$, 则必有 $\sigma \in \Aut(M)$ 挪动 $x$, 而 $\sigma$ 又能延拓为 $\Aut(\CC)$ 的元素; 后者本质上是基于代数闭包的唯一性.
+	\end{hint}
+\end{exercise}
+
+由于 $j$ 是超越函数, 它在复乘点的代数性是毫不显然的. 事实上还可以证明 $j(\tau)$ 是代数整数; 解析论证见 \cite[\S 4.6]{Shi71}, 更顺手的工具则是 Galois 表示, 不属此章范围. 复乘理论和 $j$ 函数的特殊值最终汇入 Kronecker 的``青春之梦'', 关乎虚二次数域的类域论, 这是椭圆曲线和代数数论之间优美的联系.
+
+\section{起源与应用}\label{sec:wp-application}
+\begin{definition}\index{tuoyuanjifen@椭圆积分 (elliptic integral)}
+	假设 $y$ 满足形如 $y^2 = P(x)$ 的代数关系, 其中 $x$ 为变元而 $d := \deg P \in \{3, 4\}$. 对应的\emph{椭圆积分}是形如
+	\[ \int R(x,y) \dd x, \qquad R(x,y):\; \text{有理函数} \]
+	的积分, 不论积分上下限和 $R(x,y)$ 的奇点.
+\end{definition}
+
+相关讨论见 \cite[\S 8.1, \S 10.8]{GW}. 这类积分在椭圆周长, 单摆周期等经典问题上有悠久的渊源, 因而得名; $d \geq 5$ 的情形则称为\emph{超椭圆积分}. J.\ Liouville 在 1835 年左右证明了这些不定积分通常不能表为初等函数 (指数, 对数和代数函数的有限组合); 见 \cite{Co05}.
+
+\begin{remark}\label{rem:hyperell-sing}
+	等式 $Y^2 - P(X) = 0$ 在仿射平面 $\CC^2$ 上定义一条代数曲线. 设 $P(X) = \sum_{k=0}^d a_k X^k$ 无重根, 则 $2 Y\dd Y - P'(X) \dd X$ 在曲线上处处非零, 故曲线无奇点. 另一方面, 曲线实现为 $d$ 次齐次多项式
+	\[ Y^2 Z^{d-2} - \sum_{k=0}^d a_k X^k Z^{d-k} = 0 \]
+	在 $\PP^2$ 中的零点集, 它和 $Z=0$ 的唯一交点是``无穷远点'' $(0:1:0)$. 当 $d = 3$ 时这就是 \S\ref{sec:proj-embedding} 处理的三次光滑射影曲线; 然而当 $d > 3$ 时它在 $(0:1:0)$ 有奇点, 因为此时齐次多项式取 $\dd$ 后形如 $-a_{d-1} X^{d-1} \dd Z + Z(\cdots)$, 在 $Z=0$ 时消没.
+
+	基于这个理由, 今后在 $d > 3$ 情形下只论曲线 $Y^2 = P(X)$ 的仿射部分.
+\end{remark}
+
+容易将 $d = 4$ 的椭圆积分降次到 $d = 3$ 情形, 前提是要指定 $P$ 的一个单根 $\alpha$. 具体机制如下.
+\begin{lemma}\label{prop:degree-lowering}
+	设 $P(x)$ 是以 $x$ 为变元的 $d$ 次多项式, $d \in 2\Z$ 而 $P(\alpha)=0$. 定义
+	\[ P_1(u) := u^d P \left( \alpha + \frac{1}{u} \right). \]
+	则 $\deg P_1 \leq d-1$. 进一步:
+	\begin{itemize}
+		\item 当 $\alpha$ 为单根时 $\deg P_1 = d-1$;
+		\item 若 $P$ 的根是 $\alpha, x_1, \ldots x_{d-1}$ (含重数) 而 $\forall i,\; \alpha \neq x_i$, 则 $P_1$ 的根是 $\left\{ (x_i - \alpha)^{-1}\right\}_{i=1}^{d-1}$;
+		\item 通过换元
+			\[ (x,y) = \left( \alpha + \dfrac{1}{u}, \; u^{-d/2} v \right), \quad (u,v) = \left( \dfrac{1}{x - \alpha}, \; (x - \alpha)^{-d/2} y \right), \]
+			方程 $y^2 = P(x)$ 化为 $v^2 = P_1(u)$.
+	\end{itemize}
+\end{lemma}
+\begin{proof}
+	我们有 $P(\alpha + x) = x P'(\alpha) + \text{高次项}$; 代入 $x = 1/u$ 得到
+	\[ P_1(u) =  u^{d-1} P'(\alpha) + \text{低次项}. \]
+	关于根的断言是明白的. 最后, 方程 $y^2 = P(x)$ 换元后化为 $u^{-d} v^2 = P\left(\alpha + \frac{1}{u}\right) = u^{-d} P_1(u)$, 亦即 $v^2 = P_1(u)$; 反之亦然.
+\end{proof}
+
+用代数几何的语言说, $(x,y) \mapsto (u,v)$ 是 $\PP^2$ 到自身的\emph{双有理变换}: 它定义在域 $\Q(\alpha)$ 上, 一般不是 $\PP^2$ 或仿射平面到自身的多项式映射. \index{shuangyoulibianhuan@双有理变换 (birational transformation)}
+
+\begin{example}\index{tuoyuanhanshu}
+	为厘清这些术语的来由, 请考虑平面上的椭圆
+	\[ \dfrac{X^2}{a^2} + \dfrac{Y^2}{b^2} = 1, \quad a > b > 0. \]
+	其参数式为 $(x(\theta), y(\theta) = (a\cos\theta, b\sin\theta)$, $0 \leq \theta \leq 2\pi$. 椭圆的离心率为 $e := \sqrt{(a^2 - b^2)/a^2}$, $0 < e < 1$. 椭圆周长等于
+	\begin{align*}
+		\int_{\theta=0}^{\theta=2\pi} \sqrt{(\dd x(\theta))^2 + (\dd y(\theta))^2} & = \int_0^{2\pi} \sqrt{ a^2\sin^2 \theta + b^2 \cos^2\theta } \dd\theta \\
+		& = 4a \int_0^{\pi/2} \sqrt{1 - e^2 \cos^2\theta} \dd\theta.
+	\end{align*}
+	代入 $x = \cos\theta$, $\dd\theta = -(\sin\theta)^{-1} \dd x$, 上式化作
+	\[ 4a \int_0^1 \dfrac{ \sqrt{1 - e^2 x^2} }{\sqrt{1 - x^2}} \cdot \dd x = 4a \int_0^1 \dfrac{ 1 - e^2 x^2 }{ \sqrt{(1 - x^2)(1 - e^2 x^2)} } \cdot \dd x. \]
+	取 $P(x) := (1 - x^2)(1 - e^2 x^2)$ 可知此为椭圆积分, $P$ 无重根.
+\end{example}
+
+回到一般框架. 根据引理 \ref{prop:degree-lowering}, 以下设 $\deg P = 3$ 并进一步要求 $P$ 无重根. 已知此时所有椭圆积分都能用以下三种来表达
+\[ I_0 := \int \dfrac{\dd x}{y}, \quad I_1 := \int \dfrac{x \dd x}{y}, \quad J_1 := \int \dfrac{\dd x}{(x-h)y} \quad (h \in \CC). \]
+按本节开头的描述, 方程 $E: Y^2 = P(X)$ 延伸为 $\PP^2$ 中的三次光滑曲线, 仍记为 $E$. 无论对 $I_0, I_1$ 还是 $J_1$, 被积函数都是 $E$ 上的一个亚纯微分形式 $\omega$. 积分 $I_0$ 的好处在于相应的 $\omega := \dfrac{\dd X}{Y}$ 在 $E$ 上全纯, 见例 \ref{eg:invariant-differential}.
+
+取 $\omega := \dfrac{\dd X}{Y}$ 如上. 若 $E$ 是射影嵌入 $\iota = (\wp:\wp':1): \CC/\Lambda \hookrightarrow \PP^2$ 的像, 那么 $\iota^* \omega = \wp'(z)^{-1} \dd \wp(z) = \dd z$. 于是在道路积分的意义下, 椭圆积分变为
+\[ \int_{(0:1:0)}^{(\wp(w): \wp'(w): 1)} \omega = \int_{0 \to w} \dd z = w + \Lambda \qquad \text{(任取道路)}. \]
+所以精确到周期格 $\Lambda$, 椭圆函数 $\wp$ 可谓是椭圆积分 $I_0$ 的逆. 如此一来, $\CC/\Lambda$ 上的加法反映为著名的椭圆积分加法公式
+\[ \int_{(0:1:0)}^P \omega + \int_{(0:1:0)}^Q \omega = \int_{(0:1:0)}^{P+Q} \omega, \]
+其中 $P+Q := \iota\left( \iota^{-1}(P) + \iota^{-1}(Q)\right)$, 此加法运算可以按注记 \ref{rem:addition-by-lines} 来几何地刻画.
+
+\begin{example}\index{kejixitong@可积系统 (integrable system)}
+	下面考虑另一个力学中的例子. 考虑三维空间中一个刚体对其质心的转动, 无外力矩. 取 $\Omega$ 为角速度向量, 并将转动惯量化到三个主轴上, 记为 $I_1, I_2, I_3$; 相应地 $\Omega = (\Omega_1, \Omega_2, \Omega_3)$ 是时间 $t$ 的函数. 刚体运动的 Euler 方程写作
+	\begin{align*}
+		I_1 \dot\Omega_1 & = (I_2 - I_3) \Omega_2 \Omega_3, \\
+		I_2 \dot\Omega_2 & = (I_3 - I_1) \Omega_3 \Omega_1, \\
+		I_3 \dot\Omega_3 & = (I_1 - I_2) \Omega_1 \Omega_2.
+	\end{align*}
+	假定 $I_1, I_2, I_3$ 相异, 否则问题无趣. 令 $u_i := a_i \Omega_i$, 其中 $a_i$ 是适当选取的常数 ($i = 1, 2, 3$), 运动方程可简化为
+	\begin{align*}
+		\dot{u}_1 & = u_2 u_3, \\
+		\dot{u}_2 & = u_1 u_3, \\
+		\dot{u}_3 & = u_1 u_2.
+	\end{align*}
+	这组微分方程是\emph{可积系统}的初步例子. 笼统地说, 可积系统的一部分共性是
+	\begin{compactitem}
+		\item 丰富的守恒量,
+		\item 蕴藏几何结构,
+		\item 有可能以显式求解.
+	\end{compactitem}
+	且先看守恒量:
+	\[ \frac{\dd}{\dd t} \left(u_1^2 - u_2^2\right) = 2u_1 u_2 u_ 3 - 2u_2 u_3 u_1 = 0 \implies A := u_1^2 - u_2^2 = \text{常数}. \]
+	同理可知 $B := u_1^2 - u_3^2$ 为常数. 下一步是对 $\dot{u}_1 = u_2 u_3$ 两边取平方, 代入上式得到
+	\[ (\dot{u}_1)^2 = \left(u_1^2 - A\right) \left( u_1^2 - B \right). \]
+	适当地选取平方根, 按标准程序以
+	\[ t = \int \dfrac{\dd u_1}{ \sqrt{\left(u_1^2 - A\right) \left(u_1^2 - B\right)} } + \text{常数} \]
+	来尝试反解 $u_1$. 右式是椭圆积分的特例, 对应到四次代数关系式
+	\[ y^2 = P(x) := \left(x^2 - A\right) \left(x^2 - B\right). \]
+	单作分门别类并不能加深我们对 $u_1$ 的了解. 以下将从几何视角切入.
+
+	当时间 $t$ 演化, $(x,y) := (u_1, \dot{u}_1)$ 恒在代数曲线 $S: Y^2 = (X^2 - A)(X^2 - B)$ 上; 这里只论仿射部分, 参见注记 \ref{rem:hyperell-sing}. 以下不妨设 $A \neq B$ 且 $A,B \neq 0$. 考虑 $S$ 上的微分形式 $\eta := \dd X \big/ Y$. 由 $(X^2 -A)(X^2-B)$ 无重根可验证 $\eta$ 在 $S$ 上全纯. 从动力学观点看, $\eta$ 是重要的对象: 将之由 $t \mapsto (u_1(t), \dot{u}_1(t))$ 拉回便是时间的微分 $\dd t$.
+	
+	依据引理 \ref{prop:degree-lowering}, 一旦选定 $A$ 或 $B$ 的一个平方根 $\alpha$, 可以在 $\PP^2 \supset \CC^2$ 中透过一个双有理变换化 $S$ 为曲线 $E: Y^2 = P_1(X)$; 这里我们将 $E$ 视作 $\PP^2$ 中的光滑三次曲线. 从双有理变换的具体形式可知它诱导良定映射 $S \to E$ 和
+	\[ \underbracket{\eta = \dfrac{\dd X}{Y}}_{S\; \text{上}} \longleftrightarrow \underbracket{\dfrac{ \dd\left( \alpha + \frac{1}{X} \right) }{X^{-2} Y} = - \dfrac{\dd X}{Y} =: -\omega}_{E\; \text{上}} . \]
+	例 \ref{eg:invariant-differential} 表明 $\omega \in \Gamma(E, \Omega_E)$ 上处处非零, 借此等同 $\Gamma(E, \Omega_E)^\vee$ 与 $\CC$.
+
+	最后来试着解 $u_1$. 取 Abel--Jacobi 映射 $\phi: E \rightiso \CC/\Lambda$, 满足 $\phi^*(\dd z) = \omega$, 其中 $z$ 是 $\CC$ 上的标准坐标; 见定理 \ref{prop:Jacobian-ell}. 于是在 $(u_1, \dot{u}_1)$ 的轨迹上, 我们有:
+	\[\begin{tikzcd}[row sep=tiny]
+		\text{时域} & S & E & \CC/\Lambda \\
+		\dd t & \eta \arrow[-stealth, l] \arrow[-stealth, r] & -\omega & -\dd z \arrow[-stealth, l, "{\phi^*}"', "\sim"]
+	\end{tikzcd} \]
+	所以随着时间 $t$ 演化, 曲线上的 $(u_1(t), \dot{u}_1(t))$ 固然复杂, 但在复环面上局部地看, 坐标 $z$ 却走直线. 不妨设想 $S \to E \rightiso \CC/\Lambda$ 拉平了原来的非线性系统, 如能描述 $\phi^{-1}$ 就能描述 $u_1(t)$; 这种现象罕见于一般的非线性常微分方程. 
+
+	逆态射 $\phi^{-1}$ 的坐标是椭圆函数. 事实上, 若取 $E$ 为嵌入 $\iota = (\wp:\wp':1): \CC/\Lambda \hookrightarrow \PP^2$ 的像, 则我们在 \S\ref{sec:Jacobian} 已说明 $\phi = \iota^{-1}$, 所以刚体运动方程可以适当地用函数 $\wp$ 来求解.
+\end{example}

@@ -1,0 +1,751 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter{Hecke 算子通论}
+Hecke 算子是模形式理论的核心之一. 粗略地说, 它们是模形式空间之间一族富含结构的线性映射, 反映其间的某种对称性. 在第六章和第七章将以 Hecke 算子萃取 $L$-函数中蕴藏的丰富算术信息.
+
+一如模形式的情形, 对 Hecke 算子也有多面的诠释. 本章首先以群论视角切入, 由某些双陪集来确定 Hecke 算子, 合成运算则是某种卷积的反映. 我们首先铺陈双陪集算子的抽象理论, 随后应用于模形式. 对于级为 $\SL(2,\Z)$ 的情形, 双陪集的卷积结构可透过线性代数, 亦即模论的语言来改写, 由此得到的代数也称为 Hall 代数; 这是 \S\ref{sec:Hecke-full-level} 将探讨的主题, 也是针对第六章的一场预演. 相关的线性代数技巧未来还会重复运用.
+
+本章前半部是关于双陪集与卷积的一般框架, 基于几个抽象假设; 在后半部, 我们以之定义 Hecke 算子并应用于模形式的研究. 相关论证和铺陈方式取法于 \cite{DS05,Mi89}. 模形式的权 $k$ 在本节是固定的.
+
+\section{双陪集与卷积}\label{sec:convolutions}
+以下定义遵循 \cite[\S 2.7]{Mi89}; 相关思路可以上溯到 Bourbaki \cite[VI, \S 2, ex 22]{Bou68}. 首先回忆定义 \ref{def:commensurable}: 固定一个抽象群 $\Omega$ 及其子群 $\Gamma, \Gamma'$, 若 $\Gamma \cap \Gamma'$ 在 $\Gamma$ 和 $\Gamma'$ 中的指数皆有限, 则称它们\emph{可公度}; 引理 \ref{prop:commensurable} 断言这给出 $\Omega$ 的子群间的等价关系 $\approx$. 若 $\sigma: \Omega \rightiso \Omega_1$ 是群同构, 那么显然有 $\Gamma \approx \Gamma' \iff \sigma(\Gamma) \approx \sigma(\Gamma')$. \index{kegongdu}
+
+\begin{convention}\label{conv:Gamma-tilde} \index[sym1]{Gammatilde@$\widetilde{\Gamma}$}
+	对于子群 $\Gamma \subset \Omega$, 记
+	\[ \widetilde{\Gamma} := \left\{g \in \Omega: g\Gamma g^{-1} \approx \Gamma \right\}. \]
+\end{convention}
+
+\begin{lemma}\label{prop:tilde-commensurable}
+	对任意 $\Gamma$, 子集 $\widetilde{\Gamma} \subset \Omega$ 乃是子群. 如果 $\Gamma \approx \Gamma'$, 则 $\widetilde{\Gamma} = \widetilde{\Gamma}'$.
+\end{lemma}
+\begin{proof}
+	先处理第一个断言. 显然 $1 \in \widetilde{\Gamma}$, 而且 $h\Gamma h^{-1} \approx \Gamma$ 蕴涵 $\Gamma = h^{-1}h\Gamma h^{-1}h \approx h^{-1}\Gamma h$, 故 $\widetilde{\Gamma}$ 对取逆封闭. 只消再对所有 $g, h \in \widetilde{\Gamma}$ 证 $gh \in \widetilde{\Gamma}$. 诚然:
+	\[ gh \Gamma h^{-1}g^{-1} \approx g\Gamma g^{-1} \approx \Gamma. \]
+	对于第二部分, 从 $\Gamma \approx \Gamma'$ 和 $g \Gamma g^{-1} \approx \Gamma$ 可推出
+	\[ g\Gamma' g^{-1} \approx g \Gamma g^{-1} \approx \Gamma \approx \Gamma' \]
+	于是 $\widetilde{\Gamma} \subset \widetilde{\Gamma}'$; 基于对称性亦有 $\widetilde{\Gamma}' \subset \widetilde{\Gamma}$.
+\end{proof}
+
+初步例子仍由 $\SL(2,\Z)$ 给出. 以下分别在 $\GL(2,\R)^+$ 和 $\GL(2,\R)$ 中确定 $\widetilde{\Gamma}$.
+\begin{proposition}\label{prop:SL2-normalizer}
+	设离散子群 $\Sigma \subset \SL(2,\R)$ 满足 $\Sigma \approx \SL(2,\Z)$. 在大群 $\GL(2,\R)^+$ (或 $\GL(2,\R)$) 中, 我们有 $\widetilde{\Sigma} = \R^\times \cdot \GL(2,\Q)^+$ (或 $\widetilde{\Sigma} = \R^\times \cdot \GL(2,\Q)$).
+\end{proposition}
+\begin{proof}
+	命 $\Gamma := \SL(2,\Z)$. 由于 $\widetilde{\Sigma} = \widetilde{\Gamma}$, 仅须考虑 $\Sigma = \Gamma$ 情形. 先考虑 $\GL(2,\R)^+$ 中的情况. 显然 $\R^\times \subset \widetilde{\SL(2,\Z)}$, 而稍早的计算 (命题 \ref{prop:normalize-congruence-subgroup}) 已说明 $\GL(2,\Q)^+ \subset \widetilde{\SL(2,\Z)}$, 所以关键在证明每个 $\gamma = \twomatrix{a}{b}{c}{d} \in \widetilde{\SL(2,\Z)}$ 都属于 $\R^\times \cdot \GL(2,\Q)^+$. 若 $\Gamma \subset \SL(2,\R)$ 是任意离散子群, 由``结构搬运''不难察觉
+	\[ \gamma \in \widetilde{\Gamma} \implies \mathcal{C}_\Gamma = \mathcal{C}_{\gamma\Gamma\gamma^{-1}} = \gamma\mathcal{C}_\Gamma. \]
+	施此于 $\Gamma = \SL(2,\Z)$, $\mathcal{C}_\Gamma = \Q \sqcup \{\infty\}$. 上式导致 $\gamma\infty, \gamma 0 \in \Q \sqcup \{\infty\}$ 故 $\frac{a}{c}, \frac{b}{d} \in \Q \sqcup\{\infty\}$. 由于 $x \mapsto {}^t x^{-1}$ 是保 $\Gamma$ 的群自同构, ${}^t \gamma^{-1} \in \widetilde{\Gamma}$, 继而 ${}^t \gamma \in \widetilde{\Gamma}$, 于是上一步论证又给出 $\frac{a}{b}, \frac{c}{d} \in \Q \sqcup \{\infty\}$. 由此易见 $\gamma \in \R^\times \cdot \GL(2,\Q)^+$.
+	
+	对于 $\GL(2,\R)$ 中的情况, 命 $\widetilde{\Gamma}_\pm := \{ \alpha \in \widetilde{\Gamma}: \sgn(\det \alpha) = \pm \}$, 那么 $\widetilde{\Gamma} = \widetilde{\Gamma}_+ \sqcup \widetilde{\Gamma}_-$. 留意到 $\widetilde{\Gamma}_\mp = \twomatrix{1}{}{}{-1} \widetilde{\Gamma}_\pm$, 而 $\widetilde{\Gamma}_+$ 无非是上一步确定的 $\R^\times \cdot \GL(2,\Q)^+$. 这就足以完成证明.
+\end{proof}
+
+回到抽象理论.
+\begin{lemma}\label{prop:double-coset-decomp}
+	设 $\Gamma, \Gamma' \subset \Omega$ 可公度, 则对任意 $x \in \widetilde{\Gamma}$, 存在无交并分解
+	\[ \Gamma x \Gamma' = \bigsqcup_{a \in A} \Gamma x a = \bigsqcup_{b \in B} bx \Gamma' \]
+	其中 $A$ (或 $B$) 是陪集空间 $(\Gamma' \cap x^{-1}\Gamma x) \big\backslash \Gamma'$ (或 $\Gamma \big/ (\Gamma \cap x \Gamma' x^{-1})$) 在 $\Gamma'$ (或 $\Gamma$) 中的任一族代表元; $A, B$ 都是有限的.
+\end{lemma}
+\begin{proof}
+	显然 $\Gamma x \Gamma' = \bigcup_{a \in \Gamma'} \Gamma xa = \bigcup_{b \in \Gamma} bx \Gamma'$. 相异陪集必无交, 而对任意 $a_1, a_2 \in \Gamma'$, 我们有
+	\begin{multline*}
+		\Gamma x a_1 = \Gamma x a_2 \iff \Gamma x a_1 a_2^{-1} x^{-1} = \Gamma \iff a_1 a_2^{-1} \in \Gamma' \cap x^{-1} \Gamma x \\
+		\iff (\Gamma' \cap x^{-1} \Gamma x) a_1 = (\Gamma' \cap x^{-1} \Gamma x) a_2.
+	\end{multline*}
+	由此可得 $\Gamma x \Gamma' = \bigsqcup_{a \in A} \Gamma xa$. 同理可证 $\Gamma x \Gamma' = \bigsqcup_{b \in B} bx \Gamma'$. 由于 $\widetilde{\Gamma} = \widetilde{\Gamma}'$ 成群, 从 $x\Gamma' x^{-1} \approx \Gamma' \approx \Gamma$ 推得 $(\Gamma: \Gamma \cap x \Gamma' x^{-1})$ 有限, 从 $x^{-1}\Gamma x \approx \Gamma \approx \Gamma'$ 推得 $(\Gamma': \Gamma' \cap x^{-1}\Gamma x)$ 亦有限.
+\end{proof}
+
+\begin{hypothesis}\label{hyp:X-groups} \index[sym1]{Xcurl@$\mathcal{X}$}
+	以下考虑
+	\begin{itemize}
+		\item 群 $\Omega$ 及其子幺半群 $\Delta$ (即: $\Delta$ 含幺元并且对乘法封闭);
+		\item $\Omega$ 的一族子群 $\mathcal{X} \neq \emptyset$, 其中元素彼此可公度, 并且所有 $\Gamma \in \mathcal{X}$ 都满足
+		\[ \widetilde{\Gamma} \supset \Delta \supset \Gamma; \]
+		\item 交换环 $\Bbbk$.
+	\end{itemize}
+\end{hypothesis}
+% 这些条件是很宽松的: 若 $\Gamma'$ 是 $\Omega$ 的子群, $\Gamma' \approx \Gamma$ 而 $\Gamma' \subset \Delta$, 那么将 $\Gamma'$ 添入 $\mathcal{X}$ 后假设仍成立. 本节旨在抽象地说明如何从上述资料导出进一步的代数结构.
+
+\begin{definition}
+	令 $\Omega, \Delta, \mathcal{X}$ 如假设 \ref{hyp:X-groups}. 对任意之 $\Gamma, \Gamma' \in \mathcal{X}$, 命
+	\begin{align*}
+		\EuScript{H}(\Gamma \backslash \Delta / \Gamma') & := \left\{ \begin{array}{l|l}
+			f: \Omega \to \Bbbk & \Gamma\; \text{左不变} \\
+			\Supp(f) \subset \Delta & \Gamma'\; \text{右不变} \\
+			& \Gamma \big\backslash \Supp(f) \big/ \Gamma'\; \text{有限} \end{array} \right\}, \\
+		\EuScript{H}(\Delta \sslash \Gamma) & := \EuScript{H}(\Gamma \backslash \Delta / \Gamma).
+	\end{align*}
+	对于 $s, t \in \Bbbk$ 定义运算 $(s f_1 + t f_2)(x) = s f_1(x) + t f_2(x)$, 这使 $\EuScript{H}(\Gamma \backslash \Delta / \Gamma')$ 构成 $\Bbbk$-模.
+\end{definition}
+基于引理 \ref{prop:double-coset-decomp}, 任意 $f \in \EuScript{H}(\Gamma \backslash \Delta / \Gamma')$ 之 $\Supp(f)$ 分解为有限个左 $\Gamma$-轨道, 也分解成有限个右 $\Gamma'$-轨道, 这一观察对稍后的论证至关重要.
+
+\begin{definition-theorem}\label{def:convolution}
+	\index[sym1]{H(Gamma)@$\EuScript{H}(\Gamma \backslash \Delta / \Gamma''), \EuScript{H}(\Delta \sslash \Gamma)$}
+	令 $\Gamma, \Gamma', \Gamma'' \in \mathcal{X}$, 对 $\alpha \in \EuScript{H}(\Gamma \backslash \Delta / \Gamma')$ 和 $\beta \in \EuScript{H}(\Gamma' \backslash \Delta /\Gamma'')$,
+	\begin{equation*}
+		\sum_{h \in \Gamma' \backslash \Omega} \alpha(xh^{-1})\beta(h) =
+		\sum_{h \in \Omega / \Gamma'} \alpha(h) \beta(h^{-1}x), \quad x \in \Delta.
+	\end{equation*}
+	两边的和皆有限, 记为 $(\alpha \star \beta)(x)$.
+	\begin{enumerate}[(i)]
+		\item 函数 $\alpha \star \beta$ 属于 $\EuScript{H}(\Gamma \backslash \Delta / \Gamma'')$ 的元素; 运算 $\star$ 满足分配律
+		\begin{gather*}
+			(s \alpha_1 + t \alpha_2) \star \beta = s (\alpha_1 \star \beta) + t (\alpha_2 \star \beta), \\
+			\alpha \star (s\beta_1 + t\beta_2) = s(\alpha \star \beta_1) + t (\alpha \star \beta_2).
+		\end{gather*}
+		其中 $s,t \in \Bbbk$.
+		\item 对 $\Gamma, \Gamma', \Gamma'', \Gamma''' \in \mathcal{X}$ 和
+		\[ \alpha \in \EuScript{H}(\Gamma \backslash \Delta / \Gamma'), \quad \beta \in \EuScript{H}(\Gamma' \backslash \Delta /\Gamma''), \quad \gamma \in \EuScript{H}(\Gamma'' \backslash \Delta / \Gamma'''), \]
+		结合律恒成立:
+		\[ \alpha \star (\beta \star \gamma) = (\alpha \star \beta) \star \gamma. \]
+		\item 定义 $\charfcn_\Gamma (x) := \begin{cases} 1, & x \in \Gamma \\ 0, & x \notin \Gamma. \end{cases}$, 它属于 $\EuScript{H}(\Delta \sslash \Gamma)$ 并且对任意 $\Gamma', \Gamma'' \in \mathcal{X}$ 皆有
+		\begin{align*}
+			\forall \alpha \in \EuScript{H}(\Gamma' \backslash \Delta /\Gamma), & \quad \alpha \star \charfcn_\Gamma = \alpha, \\
+			\forall \beta \in \EuScript{H}(\Gamma \backslash \Delta / \Gamma''), & \quad \charfcn_\Gamma \star \beta = \beta.
+		\end{align*}
+		特别地, $\EuScript{H}(\Delta \sslash \Gamma)$ 是 $\Bbbk$-代数, 其乘法幺元 $1$ 是 $\charfcn_\Gamma$.
+	\end{enumerate}
+\end{definition-theorem}
+\begin{proof}
+	给定 $\alpha, \beta$, 第一和式取遍 $h \in \Gamma' \backslash \Supp(\beta)$, 第二和式取遍 $\Supp(\alpha)/\Gamma'$, 已知两者皆有限. 第一式对 $x$ 是左 $\Gamma$ 不变的, 而第二式是右 $\Gamma''$ 不变的, 下面说明两式相等. 考虑集合 $\Theta_x := \left\{ (u,v) \in \Omega^2 : uv=x \right\}$, 其上有 $\Gamma'$ 的左作用 $\delta: (u,v) \mapsto (u\delta^{-1}, \delta v)$. 按假设, $(u,v) \mapsto \alpha(u)\beta(v)$ 下降为商空间上的函数 $\alpha \otimes \beta: \Gamma' \big\backslash \Theta_x \to \Bbbk$； 两式无非是对 $\alpha \otimes \beta$ 求和的两种方法.
+
+	易见 $\Supp(\alpha \star \beta) \subset \Supp(\alpha) \cdot \Supp(\beta) \subset \Delta$. 按引理 \ref{prop:double-coset-decomp} 作有限分解 $\Supp(\alpha) = \bigsqcup_i \Gamma \alpha_i$ 和 $\Supp(\beta) = \bigsqcup_j \beta_j \Gamma''$, 那么 $\Supp(\alpha \star \beta) \subset \bigsqcup_{i,j} \Gamma \alpha_i \beta_j \Gamma''$. 综之 $\alpha \star \beta \in \EuScript{H}(\Gamma \backslash \Delta /\Gamma')$.
+	
+	乘法分配律的验证毫无困难, 至于结合律, 请看
+	\begin{align*}
+		((\alpha \star \beta) \star \gamma)(x) & = \sum_{h \in \Gamma'' \backslash \Omega} (\alpha \star \beta)(xh^{-1}) \gamma(h) \\
+		& = \sum_{\substack{ h \in \Gamma'' \backslash \Omega \\ k \in \Omega/\Gamma'}} \alpha(k) \beta(k^{-1}xh^{-1}) \gamma(h) \\
+		& = \sum_{k \in \Omega/\Gamma'} \alpha(k) (\beta \star \gamma)(k^{-1}x) = (\alpha \star (\beta \star \gamma))(x),
+	\end{align*}
+	所见的和都是有限和. 最后考虑 $\charfcn_\Gamma \in \EuScript{H}(\Delta \sslash \Gamma)$, 容易按定义来验证 $\alpha \star \charfcn_\Gamma = \alpha$ 和 $\charfcn_\Gamma \star \beta = \beta$: 它只涉及 $h = 1$ 一项.
+\end{proof}
+
+\begin{remark}[结构常数]\label{rem:convolution-concrete}
+	\index{jiegouchangshu@结构常数 (structure constants)} \index[sym1]{$m(\gamma, \eta; \delta)$}
+	模 $\EuScript{H}(\Gamma \backslash \Delta / \Gamma')$ 是自由的: 诸 $[\Gamma \gamma \Gamma'] := \charfcn_{\Gamma \gamma \Gamma'}$ 给出它的一组自然的基, 其中 $\Gamma \gamma \Gamma'$ 取遍 $\Delta$ 对 $\Gamma, \Gamma'$ 的双陪集. 以上定义的乘法 $\star$ 显然脱胎于分析学中的卷积, 它有以下纯代数的描述: 给定 $\gamma, \eta, \delta \in \Delta$, 定义 $m(\gamma, \eta; \delta) := [\Gamma\gamma\Gamma'] \star [\Gamma'\eta\Gamma''] (\delta)$, 则
+	\[ [\Gamma\gamma\Gamma'] \star [\Gamma'\eta\Gamma''] = \sum_\delta m(\gamma,\eta;\delta) [\Gamma\delta\Gamma''] \]
+	其中 $\Gamma\delta\Gamma''$ 取遍 $\Delta$ 对 $\Gamma, \Gamma''$ 的双陪集; 习称 $\left\{ m(\gamma,\eta; \delta) \right\}_{\gamma,\eta,\delta}$ 为卷积 $\star$ 的\emph{结构常数}. 下面就来确定这些常数: 作分解
+	\[ \Gamma\gamma\Gamma' = \bigsqcup_{a \in A} \Gamma a, \quad \Gamma'\eta\Gamma'' = \bigsqcup_{b \in B} \Gamma' b, \quad A, B \subset \Delta: \text{有限子集}; \]
+	于是
+	\begin{multline}\label{eqn:structure-const-1}
+		m(\gamma,\eta;\delta) = \left( [\Gamma\gamma\Gamma'] \star [\Gamma'\eta\Gamma''] \right)(\delta) = \sum_{b \in B} \charfcn_{\Gamma\gamma\Gamma'}(\delta b^{-1}) \\
+		= \sum_{b \in B} \left| \{ a \in A: \delta b^{-1} \in \Gamma a \} \right|		= \left| \{ (a,b) \in A \times B: \Gamma \delta = \Gamma ab \} \right|.
+	\end{multline}
+	实际是一些由双陪集结构确定的非负整数, 无关乎 $\Bbbk$. 某些文献如 \cite[(2.7.2)]{Mi89} 以此直接定义 $\star$ 运算.
+	
+	同理, 换边作分解 $\Gamma\gamma\Gamma' = \bigsqcup_{a \in A} a\Gamma'$ 和 $\Gamma'\eta\Gamma'' = \bigsqcup_{b \in B} b\Gamma''$ 来计算
+	\[ \left( [\Gamma\gamma\Gamma'] \star [\Gamma'\eta\Gamma''] \right)(\delta) = \sum_{a \in A} \charfcn_{\Gamma'\gamma'\Gamma''}(a^{-1} \delta), \]
+	同样可以导出
+	\begin{equation}\label{eqn:structure-const-2}
+		m(\gamma,\eta;\delta) = \left| \{ (a,b) \in A \times B: \delta\Gamma'' = ab\Gamma''  \} \right|,
+	\end{equation}
+	细节留给读者练手.
+\end{remark}
+
+\begin{example}\label{eg:coset-normalizer}
+	下述性质对之后 Hecke 算子的计算极为有用. 设 $\alpha, \gamma \in \widetilde{\Gamma}$, 而且 $\gamma \Gamma \gamma^{-1} = \Gamma$, 这时
+	\begin{align*}
+		[\Gamma\alpha\Gamma] \star [\Gamma\gamma\Gamma] & = [\Gamma\alpha\gamma\Gamma], \\
+		[\Gamma\gamma\Gamma] \star [\Gamma\alpha\Gamma] & = [\Gamma\gamma\alpha\Gamma].
+	\end{align*}
+	诚然, 作分解 $\Gamma\alpha\Gamma = \bigsqcup_{i=1}^n \Gamma a_i$; 由于 $\Gamma\gamma\Gamma = \Gamma\gamma$, \eqref{eqn:structure-const-1} 给出
+	\[ [\Gamma\alpha\Gamma] \star [\Gamma \gamma \Gamma](\delta) = \left| \{ 1 \leq i \leq n: \Gamma \delta = \Gamma a_i \gamma \} \right|, \quad \delta \in \Omega \]
+	既然 $\Gamma\alpha\gamma\Gamma = \Gamma\alpha\Gamma \gamma = \bigsqcup_{i=1}^n \Gamma a_i \gamma$, 此函数无非是 $[\Gamma\alpha\gamma\Gamma]$. 同理, 作分解 $\Gamma\alpha\Gamma = \bigsqcup_{j=1}^m b_j \Gamma$, 则因为 $\Gamma\gamma\Gamma = \gamma\Gamma$, \eqref{eqn:structure-const-2} 给出
+	\[ [\Gamma\gamma\Gamma] \star [\Gamma \alpha \Gamma](\delta) = \left| \{ 1 \leq j \leq m : \delta\Gamma = \gamma b_j \Gamma \} \right|. \]
+	然而 $\Gamma\gamma\alpha\Gamma = \gamma \Gamma\alpha\Gamma = \bigsqcup_{j=1}^m \gamma b_j \Gamma$, 故此函数无非是 $[\Gamma\gamma\alpha\Gamma]$.
+\end{example}
+
+\begin{exercise}\label{ex:coset-mult}
+	证明当 $\Gamma_1 \subset \Gamma$ 时, 我们有
+	\begin{gather*}
+		[\Gamma \cdot 1 \cdot \Gamma_1] \star [\Gamma_1 \gamma \Gamma'] = \left( \Gamma \cap \gamma \Gamma' \gamma^{-1} : \Gamma_1 \cap \gamma \Gamma' \gamma^{-1} \right) [\Gamma \gamma \Gamma'], \\
+		[\Gamma'\gamma\Gamma_1] \star [\Gamma_1 \cdot 1 \cdot \Gamma] = \left( \Gamma \cap \gamma^{-1} \Gamma' \gamma : \Gamma_1 \cap \gamma^{-1} \Gamma' \gamma \right) [\Gamma'\gamma\Gamma].
+	\end{gather*}
+	\begin{hint} 应用引理 \ref{prop:double-coset-decomp}; 另外观察到若将 $\Omega$ 换为相反群 $\Omega^{\mathrm{op}}$, 则两式可相互过渡, 故择一证明即可. \end{hint}
+\end{exercise}
+
+\begin{exercise}
+	设 $\Omega$ 的子幺半群 $\Delta'$ 满足 $\Delta \subset \Delta' \subset \widetilde{\Gamma}$ (此处 $\Gamma \in \mathcal{X}$ 任取). 说明 $\EuScript{H}(\Gamma \backslash \Delta /\Gamma') \hookrightarrow \EuScript{H}(\Gamma \backslash \Delta' /\Gamma')$ 与运算 $\star$ 相容, 而且 $\EuScript{H}(\Delta \sslash \Gamma)$ 是 $\EuScript{H}(\Delta' \sslash \Gamma)$ 的 $\Bbbk$-子代数.
+\end{exercise}
+
+\section{双陪集代数: 模与反对合}\label{sec:convolution-modules}
+沿用 \S\ref{sec:convolutions} 的符号, 固定 $\Omega$ 的可公度子群族 $\mathcal{X}$ 和子幺半群 $\Delta$, 如假设 \ref{hyp:X-groups}. 我们需要模论的基本语言, 可参阅 \cite[\S 6.1]{Li1}.
+
+\begin{hypothesis}\label{hyp:M-space}
+	以下考虑一个左 $\Bbbk$-模 $M$, 纯量乘法写作左乘, 并假设 $M$ 上带有 $\Delta$ 的右作用 $(m,\delta) \mapsto m \delta$; 这相当于要求给定幺半群同态 $\Delta \to \End_\Bbbk(M)$, 或者说:
+	\begin{compactitem}
+		\item 每个 $\delta \in \Delta$ 皆有 $\Bbbk$-模 $M$ 的自同态 $m \mapsto m \delta$,
+		\item 对所有 $m \in M$ 皆有 $m \cdot 1 = m$,
+		\item 对所有 $\delta, \eta \in \Delta$ 皆有 $m (\delta\eta) = (m  \delta) \eta$.
+	\end{compactitem}
+\end{hypothesis}
+
+对所有 $\Gamma \in \mathcal{X}$, 定义 $M$ 的 $\Bbbk$-子模
+\[ M^\Gamma := \left\{ m \in M: \forall \gamma \in \Gamma,\; m\gamma = m \right\}. \]
+
+\begin{definition-theorem}\label{def:Hecke-action}
+	对于 $\Gamma, \Gamma' \in \mathcal{X}$ 和 $f \in \EuScript{H}(\Gamma \backslash \Delta / \Gamma')$, 可定义
+	\begin{align*}
+		f: M^\Gamma & \longrightarrow M^{\Gamma'} \\
+		m & \longmapsto m f := \sum_{\delta \in \Gamma \backslash \Delta} f(\delta) m\delta,
+	\end{align*}
+	当 $\Gamma=\Gamma'$ 时我们有 $m \cdot \charfcn_{\Gamma} = m$. 此外, 若 $\Gamma, \Gamma', \Gamma'' \in \mathcal{X}$, 给定 $f_1 \in \EuScript{H}(\Gamma \backslash \Delta / \Gamma')$, $f_2 \in \EuScript{H}(\Gamma' \backslash \Delta /\Gamma'')$, 则 $m(f_1 \star f_2) = (mf_1)f_2$.
+\end{definition-theorem}
+特别地, $M^\Gamma$ 构成右 $\EuScript{H}(\Delta \sslash \Gamma)$-模. 留意到
+\[ \Gamma\gamma\Gamma = \bigsqcup_{i=1}^n \Gamma a_i \implies  m[\Gamma \gamma \Gamma] = \sum_{i=1}^n m a_i, \quad m \in M^\Gamma. \]
+
+\begin{proof}
+	作为 $M$ 的元素, $mf$ 是良定的. 进一步,
+	\[ \delta' \in \Gamma' \implies (mf)\delta' = \sum_{\delta \in \Gamma \backslash \Delta} f(\delta\delta') m\delta\delta' = \sum_{\delta \in \Gamma \backslash \Delta} f(\delta) m\delta = mf, \]
+	而且 $m \cdot \charfcn_{\Gamma} = \sum_\delta \charfcn_{\Gamma}(\delta) m\delta = m$. 接着说明 $m(f_1 \star f_2) = (mf_1)f_2$:
+	\begin{align*}
+		(mf_1) f_2 & = \sum_{\delta_2 \in \Gamma' \backslash \Delta} f_2(\delta_2) (mf_1) \delta_2 \\
+		& = \sum_{\delta_2 \in \Gamma' \backslash \Delta} \left( \sum_{\delta_1 \in \Gamma \backslash \Delta} f_2(\delta_2) f_1(\delta_1) \cdot m \delta_1 \right) \delta_2.
+	\end{align*}
+	以下选定 $\Gamma' \backslash \Delta$ 在 $\Delta$ 中的一族代表元, 特别地 $\delta_2$ 可以视同 $\Delta$ 的元素. 在括号内换元以 $\delta := \delta_1 \delta_2 \in \Gamma \backslash \Omega$ 代 $\delta_1$ 求和, 原式遂化为
+	\begin{equation*}
+		\sum_{\delta_2} \left( \sum_{\delta \in \Gamma \backslash \Omega} f_1(\delta \delta_2^{-1}) f_2(\delta_2) m \delta \delta_2^{-1} \right) \delta_2
+		= \sum_{\delta \in \Gamma \backslash \Omega} \left( \sum_{\delta_2} f_1(\delta \delta_2^{-1}) f_2(\delta_2) \right)  m\delta,
+	\end{equation*}
+	右式不外是 $m (f_1 \star f_2)$.
+\end{proof}
+
+\begin{example}\label{eg:normalizer-action}
+	设 $\gamma \Gamma \gamma^{-1} = \Gamma$, 这时 $\Gamma \gamma \Gamma = \gamma \Gamma$. 按定义, 元素 $[\Gamma\gamma\Gamma]$ 在 $M^\Gamma$ 上的作用立刻简化为 $m[\Gamma\gamma\Gamma] = m\gamma$.
+\end{example}
+
+至此可以察觉 $\EuScript{H}(\Delta \sslash \Gamma)$ 赋予 $M^\Gamma$ 丰富的对称性, 当 $\EuScript{H}(\Delta \sslash \Gamma)$ 交换时, 其上的模论是相对容易的. 对此有方便的工具如下.
+
+\begin{definition}\label{def:anti-involution} \index{fanduihe@反对合 (anti-involution)}
+	对任意幺半群 $\Delta$, 映射 $\tau: \Delta \to \Delta$ 如满足以下性质则称为\emph{反对合}:
+	\[ \tau(xy) = \tau(y)\tau(x), \quad \tau(1)=1, \quad \tau \circ \tau = \identity_\Delta; \]
+\end{definition}
+留意到 $\tau^2 = \identity$ 蕴涵 $\tau$ 是双射. 恒等映射是反对合当且仅当 $\Delta$ 交换.
+
+\begin{example}
+	反对合的明显例子是一般群上的取逆 $x \mapsto x^{-1}$, 以及 $n \times n$ 矩阵的转置 $X \mapsto {}^t X$. 请读者验证当 $\Delta := \Mat_2(\Z) \cap \GL(2,\R)^+$ 时, $\delta \mapsto \delta' := \det(\delta)\delta^{-1}$ 给出 $\Delta$ 的反对合.
+\end{example}
+
+\begin{theorem}\label{prop:Hecke-comm-criterion}
+	设 $\Gamma \in \mathcal{X}$. 若存在反对合 $\tau: \Delta \to \Delta$ 保持 $\Gamma$ 的每个双陪集不变, 则 $\EuScript{H}(\Delta \sslash \Gamma)$ 是交换 $\Bbbk$-代数.
+\end{theorem}
+\begin{proof}
+	任意反对合 $\tau$ 都诱导``结构搬运''映射
+	\begin{align*}
+		\tau^*: \EuScript{H}(\Delta \sslash \tau(\Gamma)) & \longrightarrow \EuScript{H}(\Delta \sslash \Gamma) \\
+		f & \longmapsto f \circ \tau.
+	\end{align*}
+	因为反对合调换乘法顺序, 从卷积 $\star$ 的构造 (定义--定理 \ref{def:convolution}) 自然推出
+	\[ \tau^*(\alpha) \star \tau^*(\beta) = \tau^*(\beta \star \alpha), \quad \alpha, \beta \in \EuScript{H}(\Delta \sslash \tau(\Gamma)). \]
+	由于 $\tau(\Gamma \gamma \Gamma) = \Gamma\gamma\Gamma$ 对所有 $\gamma$ 成立, 特别地 $\tau(\Gamma) = \Gamma$, 故 $\tau^*$ 实际是 $\EuScript{H}(\Delta \sslash \Gamma)$ 到自身的恒等映射. 于是
+	\[ \alpha \star \beta = \tau^*(\alpha) \star \tau^*(\beta) = \tau^*(\beta \star \alpha) = \beta \star \alpha, \]
+	故 $\EuScript{H}(\Delta \sslash \Gamma)$ 交换.
+\end{proof}
+
+谨记录一条技术性的结果, 将在 \S\ref{sec:Hecke-full-level} 和 \S\ref{sec:congruence-Hecke-alg} 用上.
+\begin{theorem}\label{prop:Hecke-isom-criterion}
+	设 $\Delta, \Delta'$ 为 $\Omega$ 的子幺半群, 而子群 $\Gamma, \Gamma' \subset \Omega$ 满足
+	\[ \widetilde{\Gamma} \supset \Delta \supset \Gamma, \quad \widetilde{\Gamma}' \supset \Delta' \supset \Gamma'. \]
+	\begin{itemize}
+		\item 假设
+		\begin{compactenum}[(i)]
+			\item $\Delta' = \Gamma' \Delta$, 特别地 $\Delta \subset \Delta'$;
+			\item 对所有 $\alpha \in \Delta$ 皆有 $\Gamma' \alpha \Gamma' = \Gamma' \alpha \Gamma$, 特别地 $\Gamma \subset \Gamma'$ (取 $\alpha=1$);
+			\item 对所有 $\alpha \in \Delta$ 皆有 $\Gamma' \alpha \cap \Delta = \Gamma \alpha$.
+		\end{compactenum}
+		则 $\Gamma\alpha\Gamma \mapsto \Gamma' \alpha\Gamma'$ 给出双射 $\Gamma \backslash \Delta / \Gamma \xrightarrow{1:1} \Gamma' \backslash \Delta' /\Gamma'$, 并且 $[\Gamma\alpha\Gamma] \mapsto [\Gamma'\alpha\Gamma']$ 延拓为 $\Bbbk$-代数的同构 $\EuScript{H}(\Delta \sslash \Gamma) \rightiso \EuScript{H}(\Delta' \sslash \Gamma')$.
+		\item 承上, 进一步设 $\Delta'$ 在 $\Bbbk$-模 $M$ 上有右作用如假设 \ref{hyp:M-space}, 则对所有 $\alpha \in \Delta$ 皆有
+		\[ m [\Gamma \alpha \Gamma] = m[\Gamma'\alpha\Gamma'], \quad m \in M^{\Gamma'} \subset M^\Gamma. \]
+	\end{itemize}
+\end{theorem}
+\begin{proof}
+	由 (i) 可知 $\Gamma\alpha\Gamma \mapsto \Gamma' \alpha\Gamma'$ 为满射, 下面证其为单: 设 $\alpha,\beta \in \Delta$ 满足 $\Gamma'\alpha\Gamma' = \Gamma'\beta\Gamma'$. 根据 (ii) 知存在 $\gamma' \in \Gamma'$ 和 $\gamma \in \Gamma$ 使得 $\gamma'\alpha = \beta\gamma$, 继而由 (iii) 知 $\gamma'\alpha \in \Gamma'\alpha \cap \Delta = \Gamma\alpha$, 所以 $\gamma \in \Gamma$ 而 $\Gamma\alpha\Gamma = \Gamma\beta\Gamma$.
+	
+	注记 \ref{rem:convolution-concrete} 表明 $[\Gamma\alpha\Gamma] \mapsto [\Gamma'\alpha\Gamma']$ 延拓为 $\Bbbk$-模的同构 $\EuScript{H}(\Delta \sslash \Gamma) \rightiso \EuScript{H}(\Delta' \sslash \Gamma')$, 要点在于证它保持乘法. 首先, 我们断言
+	\begin{equation}\label{eqn:Hecke-isom-criterion}
+		\forall \alpha \in \Delta, \quad \Gamma \alpha \Gamma = \bigsqcup_{i=1}^n \Gamma a_i \implies \Gamma' \alpha \Gamma' = \bigsqcup_{i=1}^n \Gamma' a_i.
+	\end{equation}
+	确然, 由 (ii) 知左式蕴涵 $\Gamma' \alpha \Gamma' = \Gamma \cdot \Gamma\alpha\Gamma = \bigcup_{i=1}^n \Gamma' a_i$; 若 $\Gamma' a_i = \Gamma' a_j$ 则 (iii) 表明 $a_j \in (\Gamma' a_i) \cap \Delta = \Gamma a_i$, 从而 $i=j$. 故 \eqref{eqn:Hecke-isom-criterion} 右式确实是无交并.
+	
+	今选定 $\alpha, \beta \in \Delta$, 作分解 $\Gamma\alpha\Gamma = \bigsqcup_{i=1}^n \Gamma \alpha_i$ 和 $\Gamma\beta\Gamma = \bigsqcup_{j=1}^m \Gamma\beta_j$, 我们断言对一切 $i, j$ 和 $\gamma \in \Delta$ 都有
+	\[ \Gamma \gamma = \Gamma a_i b_j \iff \Gamma' \gamma = \Gamma' a_i b_j. \]
+	左式等号两边左乘以 $\Gamma'$ 就得到右式. 反设右式成立, 等号两边交 $\Delta$ 并应用条件 (iii) 便得到左式. 断言得证. 根据 \eqref{eqn:structure-const-1} 和 \eqref{eqn:Hecke-isom-criterion}, 使左右两式成立的 $(i,j)$ 个数分别是 $\EuScript{H}(\Delta \sslash \Gamma)$ 和 $\EuScript{H}(\Delta' \sslash \Gamma')$ 的结构常数, 它们确定乘法结构. 至此证完定理第一部分.
+	
+	第二部分的等式 $m [\Gamma \alpha \Gamma] = m[\Gamma'\alpha\Gamma']$ 是定义--定理 \ref{def:Hecke-action} 和 \eqref{eqn:Hecke-isom-criterion} 的综合.
+\end{proof}
+
+\section{与 Hermite 内积的关系}\label{sec:Hermitian-form}
+沿用假设 \ref{hyp:M-space} 的符号, 进一步假设 $\Delta$ 为群, $\Bbbk=\CC$ 而 $M$ 有一个 $\Delta$-不变子空间 $S$, 带有 Hermite 内积 $\innerp{\cdot}{\cdot}: S \times S \to \CC$; 关于 Hermite 内积的回顾请见 \S\ref{sec:Petersson}.
+
+我们期待 $\Delta$ 在 $S$ 上的右作用在某种意义上保持内积. 线性代数中一个自然的要求是 $\Delta$ 透过\emph{酉算子}来作用, 亦即 $\innerp{x\delta}{y\delta} = \innerp{x}{y}$ 对所有 $x,y, \in S$ 和 $\delta \in \Delta$ 皆成立. 本节要求较弱: 我们设 $\Delta$ 透过\emph{酉相似变换}来作用.
+
+\begin{definition} \index{youxiangsibianhuan@酉相似变换 (unitary similitude)} \index{xiangsibi@相似比 (similitude factor)}
+	设 $\Delta$ 线性地右作用在复向量空间 $S$ 上. 对取定之 Hermite 内积 $\innerp{\cdot}{\cdot}$, 若以下条件成立, 则称 $\Delta$ 在 $S$ 上透过\emph{酉相似变换}作用: 存在同态 $\nu: \Delta \to \CC^\times$ 使得
+	\[ \innerp{x\delta}{y\delta} = \nu(\delta) \innerp{x}{y}, \quad x,y \in S, \; \delta \in \Delta. \]
+	同态 $\nu$ 称为此作用的\emph{相似比}.
+\end{definition}
+
+除去 $S = \{0\}$ 的无聊情形不论, 代入 $x=y \neq 0$ 可见 $\nu(\delta) > 0$ 是唯一确定的, 而且 $\delta$ 是酉算子当且仅当 $\nu(\delta)=1$. 本节今后皆设 $\Delta$ 是群, 由定义立得
+\begin{equation}\label{eqn:Delta-adjoint}
+	\innerp{x\delta}{y} = \nu(\delta^{-1})^{-1} \innerp{x\delta\delta^{-1}}{y\delta^{-1}} = \nu(\delta) \innerp{x}{y\delta^{-1}}.
+\end{equation}
+
+\begin{hypothesis}\label{hyp:Hermitian-form}
+	设 $\Delta$ 是群, 在 $S$ 上透过酉相似变换作用, 相似比为 $\nu$. 以下要求假设 \ref{hyp:X-groups} 的可公度子群族 $\mathcal{X}$ 满足
+	\begin{equation}\label{eqn:triviality-hypothesis}
+		\Gamma \in \mathcal{X} \implies \nu|_\Gamma = 1,
+	\end{equation}
+	并且对每个 $\Gamma \in \mathcal{X}$ 和 $\delta \in \Delta$ 皆有
+	\begin{equation}\label{eqn:coset-hypothesis}
+		(\Gamma : \Gamma \cap \delta\Gamma\delta^{-1}) = (\Gamma: \Gamma \cap \delta^{-1}\Gamma\delta).
+	\end{equation}
+\end{hypothesis}
+
+稍行岔题, 来介绍一个必要的群论结果.
+\begin{lemma}\label{prop:same-representatives}
+	给定群 $\Omega$, 其子群 $\Gamma$ 和 $\delta \in \Omega$. 假设 $\Gamma \backslash \Gamma\delta\Gamma$ 与 $\Gamma\delta\Gamma/\Gamma$ 的基数相同, 则存在子集 $R \subset \Omega$ 使得
+	\[ \bigsqcup_{r \in R} r\Gamma = \Gamma\delta\Gamma = \bigsqcup_{r \in R} \Gamma r. \]
+\end{lemma}
+\begin{proof}
+	任取陪集代表元所成的子集 $U, V \subset \Omega$ 使得 $\bigsqcup_{u \in U} \Gamma u = \Gamma\delta\Gamma = \bigsqcup_{v \in V} v\Gamma$. 今断言对所有 $(u,v) \in U \times V$ 皆有 $\Gamma u \cap v \Gamma \neq \emptyset$. 设若不然, 则 $\Gamma u \subset \bigsqcup_{v' \in V \smallsetminus \{v\}} v' \Gamma$, 从而
+	\[ v \in \Gamma\delta\Gamma = \Gamma u \Gamma = \bigsqcup_{v' \in V \smallsetminus \{v\}} v'\Gamma, \]
+	是为悖理. 现在任取双射 $\sigma: U \to V$, 并且对每个 $u \in U$ 取 $r(u) \in \Gamma u \cap \sigma(u)\Gamma$, 如是则
+	\[ \Gamma u = \Gamma r(u), \quad \sigma(u)\Gamma = r(u)\Gamma, \]
+	易见 $R := \{r(u) : u \in U \}$ 即所求.
+\end{proof}
+
+基于假设 \ref{hyp:Hermitian-form}, 可以对一切 $\Gamma, \Gamma' \in \mathcal{X}$ 来定义映射
+\begin{equation}\label{eqn:Hecke-transpose}\begin{aligned}
+	\EuScript{H}(\Gamma \backslash \Delta / \Gamma') & \longrightarrow \EuScript{H}(\Gamma' \backslash \Delta /\Gamma) \\
+	f & \longmapsto \left[ \check{f}: \delta \mapsto \dfrac{(\Gamma': \Gamma \cap \Gamma')}{(\Gamma: \Gamma \cap \Gamma')} \cdot \nu(\delta)^{-1} \overline{f(\delta^{-1})} \right].
+\end{aligned}\end{equation}
+有时也将 $\check{f}$ 写作 $f^\vee$. 易见 $(af_1 + bf_2)^\vee = \overline{a}\check{f}_1 + \overline{b}\check{f}_2$, 其中 $a,b \in \CC$.
+
+\begin{proposition}\label{prop:Hermitian-adjoint}
+	在假设 \ref{hyp:Hermitian-form} 的条件下, 对所有 $\Gamma, \Gamma' \in \mathcal{X}$ 和 $f \in \EuScript{H}(\Gamma \backslash \Delta /\Gamma')$, 下式成立
+	\[ \innerp{xf}{y} = \innerp{x}{y\check{f}}, \quad x \in S^\Gamma, \; y \in S^{\Gamma'}. \]
+\end{proposition}
+\begin{proof}
+	可以设 $S \neq \{0\}$. 因为 $\Gamma_0 := \Gamma \cap \Gamma'$ 与 $\Gamma, \Gamma'$ 可公度, 不妨将 $\Gamma_0$ 加入 $\mathcal{X}$, 不影响论证. 留意到 $f$ 也可看作 $\EuScript{H}(\Delta \sslash \Gamma_0)$ 的元素, 记为 $f_0$ 以资区别, 而 $S^\Gamma \subset S^{\Gamma_0}$; 于是 $xf_0 = (\Gamma:\Gamma_0) xf$. 类似地, $\check{f}$ 看作 $\EuScript{H}(\Delta \sslash \Gamma_0)$ 的元素记为 $\check{f}_0$, 如是则 $y\check{f}_0 = (\Gamma':\Gamma_0) y\check{f}$. 从定义易见
+	\[ (f_0)^\vee = \dfrac{(\Gamma:\Gamma_0)}{(\Gamma':\Gamma_0)} \cdot \check{f}_0. \]
+	于是在原式中不妨以 $\Gamma_0$ 代 $\Gamma, \Gamma'$, 问题很容易简化到 $\Gamma=\Gamma'$ 的情形.
+
+	我们可进一步设 $f = [\Gamma\delta\Gamma]$, 其中 $\delta \in \Delta$. 应用假设 \eqref{eqn:coset-hypothesis}, 引理 \ref{prop:double-coset-decomp} 和 \ref{prop:same-representatives}, 得知存在 $r_1, \ldots, r_n \in \Delta$ 使得
+	\[ \bigsqcup_{i=1}^n r_i \Gamma = \Gamma\delta\Gamma = \bigsqcup_{i=1}^n \Gamma r_i; \]
+	此处 $n$ 无非是 \eqref{eqn:coset-hypothesis} 的值. 按定义--定理 \ref{def:convolution} 配合 \eqref{eqn:Delta-adjoint} 和 \eqref{eqn:triviality-hypothesis},
+	\[ \innerp{x[\Gamma\delta\Gamma]}{y} = \sum_{i=1}^n \innerp{x r_i}{y} = \nu(\delta)\sum_{i=1}^n \innerp{x}{y r_i^{-1}}. \]
+	
+	对 $\Gamma\delta\Gamma = \bigsqcup_{i=1}^n r_i \Gamma$ 两边取逆可知 $\Supp([\Gamma\delta\Gamma]^\vee) = \Gamma\delta^{-1}\Gamma = \bigsqcup_{i=1}^n \Gamma r_i^{-1}$. 因为 $\nu(\delta) = \nu(r_i)$, 上式最右项遂改写作
+	\[ \nu(\delta^{-1})^{-1} \sum_{i=1}^n \innerp{x}{y r_i^{-1}} = \sum_{i=1}^n \innerp{x}{y r_i^{-1}} \overline{[\Gamma\delta\Gamma]^\vee(r_i^{-1})} = \sum_{\eta \in \Gamma \backslash \Supp([\Gamma\delta\Gamma]^\vee)} \innerp{x}{y\eta} \overline{[\Gamma\delta\Gamma]^\vee(\eta)} \]
+	末项无非是 $\innerp{x\; }{\; y[\Gamma\delta\Gamma]^\vee}$.
+\end{proof}
+
+
+\section{模形式与 Hecke 算子}\label{sec:modular-form-vs-Hecke-algebra}
+本节开始将抽象理论应用于模形式的研究.
+
+\begin{hypothesis}\label{hyp:X-Hecke}
+	将假设 \ref{hyp:X-groups} 细化如下: 取 $\Bbbk = \CC$ 和
+	\begin{itemize}
+		\item $\Omega := \GL(2,\R)^+$;
+		\item $\Delta$ 是 $\GL(2, \R)^+$ 的子幺半群;
+		\item $\mathcal{X}$ 为一族余有限 Fuchs 群, 满足如下条件:
+		\begin{compactitem}
+			\item $\mathcal{X}$ 非空, 其中的元素彼此可公度;
+			\item 每个 $\Gamma \in \mathcal{X}$ 皆满足 $\Gamma \subset \Delta \subset \widetilde{\Gamma}$;
+			\item 设 $\Gamma, \Gamma' \in \mathcal{X}$ 而 $\delta^{\pm 1} \in \Delta$, 则 $\Gamma \cap \delta \Gamma' \delta^{-1} \in \mathcal{X}$. 特例 $\delta = 1$ 给出 $\Gamma \cap \Gamma' \in \mathcal{X}$.
+		\end{compactitem}
+	\end{itemize}
+\end{hypothesis}
+
+\begin{example}\label{eg:cong-Hecke}
+	取 $\Delta := \GL(2, \Q)^+$ 和 $\mathcal{X} := \left\{ \text{同余子群} \right\}$. 根据命题 \ref{prop:normalize-congruence-subgroup} 和 \ref{prop:SL2-normalizer}, 上述假设成立.
+	
+	给定四元数代数 $B$ (详见 \S\ref{sec:quaternion}), 将同余子群换成来自 $B$ 的算术子群, 亦可如法炮制, 但本书不讨论相应的 Hecke 算子; 读者可参看 \cite[\S 5.3]{Mi89}.
+\end{example}
+
+\begin{example}\label{eg:general-Hecke}
+	给定余有限 Fuchs 群 $\Gamma$, 取 $\Delta := \widetilde{\Gamma}$ (这是群) 和 $\mathcal{X} := \left\{ \Sigma \subset \SL(2, \R): \Sigma \approx \Gamma \right\}$, 则假设 \ref{hyp:X-Hecke} 对之成立.
+\end{example}
+
+今后选定权 $k \in \Z$. 每个 $\Gamma \in \mathcal{X}$ 皆有相应的模形式空间 $M_k(\Gamma) \supset S_k(\Gamma)$. 于假设 \ref{hyp:M-space} 代入
+\[ M := \bigcup_{\Gamma \in \mathcal{X}} M_k(\Gamma) = \sum_{\Gamma \in \mathcal{X}} M_k(\Gamma), \]
+这是 $\{f: \mathcal{H} \xrightarrow{\text{全纯}} \CC \}$ 的 $\CC$-向量子空间; 换言之, 这里固定权 $k$ 而容许模形式的级在 $\mathcal{X}$ 中任意放宽. 之所以能写下 $\bigcup = \sum$, 缘于对任意 $\Gamma, \Gamma' \in \mathcal{X}$ 总有 $\Gamma \cap \Gamma' \in \mathcal{X}$, 故 $M_k(\Gamma) + M_k(\Gamma') \subset M_k(\Gamma \cap \Gamma')$. 现在定义 $M$ 上的 $\Delta$-右作用: 对任意 $f \in M$ 和 $\delta \in \GL(2, \R)^+$, 按定义 \ref{def:bar-action} 置
+\begin{equation}\label{eqn:f-right-action}
+	f\delta := (\det\delta)^{\frac{k}{2} - 1} \cdot f \modact{k} \delta = \left[ \tau \mapsto (\det\delta)^{k-1} j(\delta, \tau)^{-k} f(\delta\tau) \right].
+\end{equation}
+易见此作用对 $f$ 是线性的, 而且 $f(\delta_1\delta_1) = (f\delta_1) \delta_2$. 尚须说明 $\delta \in \Delta \implies f\delta \in M$. 事实上有更为精确的结果如次: 记
+\[ S := \bigcup_{\Gamma \in \mathcal{X}} S_k(\Gamma) \hookrightarrow M. \]
+
+\begin{lemma}
+	设 $\Gamma \in \mathcal{X}$. 对于所有 $\delta \in \Delta$, 皆有
+	\[ f \in M_k(\Gamma) \implies f\delta \in M_k\left( \Gamma \cap \delta^{-1} \Gamma \delta\right), \quad f \in S_k(\Gamma) \implies f\delta \in S_k\left( \Gamma \cap \delta^{-1} \Gamma \delta\right). \]
+	作为推论, $\Delta$ 确实右作用在 $M$ 上, 保持子空间 $S$ 不变.
+\end{lemma}
+\begin{proof}
+	因为 $f\delta = (\det\delta)^{\frac{k}{2}-1} f \modact{k} \delta$, 只须应用引理 \ref{prop:transport-conjugation} 和 $M_k(\delta^{-1} \Gamma \delta) \subset M_k(\Gamma \cap \delta^{-1} \Gamma \delta)$ (对 $S_k$ 亦同).
+\end{proof}
+
+\begin{lemma}\label{prop:M-invariants}
+	相对于 \eqref{eqn:f-right-action} 的作用, 我们有 $M^\Gamma = M_k(\Gamma)$, $S^\Gamma = S_k(\Gamma)$.
+\end{lemma}
+\begin{proof}
+	设 $f \in M^\Gamma$ (或 $S^\Gamma$), 存在 $\Sigma \in \mathcal{X}$ 使得 $f \in M_k(\Sigma)$ (或 $S_k(\Sigma)$). 现在回顾关于模形式条件的注记 \ref{rem:common-cusps}: 因为 $\Gamma \approx \Sigma$, 在 $f \in M_k(\Gamma)$ (或 $S_k(\Gamma)$) 的要件中关于尖点 $\mathcal{C}_\Gamma = \mathcal{C}_\Sigma$ 的条件自动满足, 只需要 $f$ 对 $\Gamma$ 不变, 而后者由 $f \in M^\Gamma$ 保证.
+\end{proof}
+
+现在赋 $S$ 以 Hermite 内积. 对于 $f_1, f_2 \in S$, 总能取到充分小的 $\Gamma \in \mathcal{X}$ 使得 $f_1, f_2 \in S_k(\Gamma)$. 用定义--定理 \ref{def:Petersson} 的 Petersson 内积来定义
+\[ \innerp{f_1}{f_2} := \innerPet{f_1}{f_2}. \]
+命题 \ref{prop:Pet-indep} 确保右式无关 $\Gamma$ 的选取. 显然 $\innerp{\cdot}{\cdot}$ 是 Hermite 内积, 今后称之为 $S$ 上的 \emph{Petersson 内积}.
+
+\begin{proposition}\label{prop:modular-unitary-similitude}
+	设 $\Delta$ 是群而 $S \neq \{0\}$. 相对于 Petersson 内积, $\Delta$ 透过 \eqref{eqn:f-right-action} 在 $S$ 上透过酉相似变换作用, 其相似比为 $\nu = \det^{k-2}$. 这些资料满足假设 \ref{hyp:Hermitian-form} 的全部条件.
+\end{proposition}
+\begin{proof}
+	首先计算相似比. 取 $\delta \in \Delta$. 引理 \ref{prop:transport-conjugation} 已经说明 $f \mapsto f \modact{k} \delta$ 是 $S$ 相对于 Petersson 内积的酉算子, 根据定义, $f \mapsto f\delta$ 因之是 $S$ 上相似比 $\nu = (\det\delta)^{k-2}$ 的酉相似变换. 设 $\Gamma \in \mathcal{X}$, 从 $\Gamma \subset \SL(2,\R)$ 立见 $\nu|_\Gamma = 1$.
+	
+	最后来检验 \eqref{eqn:coset-hypothesis}. 因为
+	\[ -1 \in \Gamma \iff -1 \in \delta \Gamma \delta^{-1} \cap \delta^{-1} \Gamma \delta, \]
+	于是
+	\[ \left( \Gamma: \Gamma \cap \delta^{\pm 1}\Gamma\delta^{\mp 1} \right) = \left(\overline{\Gamma}: \overline{\Gamma \cap \delta^{\pm 1}\Gamma\delta^{\mp 1}} \right), \]
+	进而从 $\mes(Y(\cdots))$ 的定义 (注记 \ref{rem:Y-metric}) 连同命题 \ref{prop:fundamental-domain-sub} 得到
+	\begin{align*}
+		(\Gamma: \Gamma \cap \delta\Gamma\delta^{-1}) & = \dfrac{\mes(Y(\Gamma \cap \delta\Gamma\delta^{-1}))}{\mes(Y(\Gamma))} \\
+		& = \dfrac{\mes(Y(\Gamma \cap \delta^{-1}\Gamma\delta))}{\mes(Y(\Gamma))} = (\Gamma: \Gamma \cap \delta^{-1}\Gamma\delta);
+	\end{align*}
+	倒数第二个等号用到了引理 \ref{prop:transport-conjugation}, 这是因为 $\Gamma \cap \delta^{-1}\Gamma\delta = \delta^{-1} (\Gamma \cap \delta\Gamma\delta^{-1}) \delta$.
+\end{proof}
+
+一切就绪, 现在可以调动 \S\ref{sec:convolutions} 的全套工具.
+\begin{proposition}
+	对任意 $\Gamma, \Gamma' \in \mathcal{X}$, 我们有映射
+	\[\begin{tikzcd}[row sep=small]
+		S_k(\Gamma) \times \EuScript{H}(\Gamma \backslash \Delta / \Gamma') \arrow[r] \arrow[phantom, d, "\subset" sloped] & S_k(\Gamma') \arrow[phantom, d, "\subset" sloped] \\
+		M_k(\Gamma) \times \EuScript{H}(\Gamma \backslash \Delta / \Gamma') \arrow[r] & M_k(\Gamma') \\
+		(f, T) \arrow[mapsto, r] \arrow[phantom, u, "\in" sloped] & fT \arrow[phantom, u, "\in" sloped]
+	\end{tikzcd}\]
+	满足 $f \cdot \charfcn_\Gamma = f$ 和 $(f T_1) T_2 = f (T_1 \star T_2)$, 其中 $T_1 \in \EuScript{H}(\Gamma \backslash \Delta / \Gamma')$, $T_2 \in \EuScript{H}(\Gamma' \backslash \Delta / \Gamma'')$. 这使得 $M_k(\Gamma)$ 和 $S_k(\Gamma)$ 成为 $\EuScript{H}(\Delta \sslash \Gamma)$-模. 若采用注记 \ref{rem:convolution-concrete} 的基, 则 $\EuScript{H}(\Gamma \backslash \Delta / \Gamma')$ 在 $M_k(\Gamma)$ 上的右作用由
+	\[ f [\Gamma \gamma \Gamma'] = \sum_{\delta \in \Gamma \backslash \Gamma\gamma\Gamma'} (\det\delta)^{\frac{k}{2} - 1} \cdot f \modact{k} \delta, \quad \gamma \in \Delta. \]
+	所确定.
+\end{proposition}
+
+因此, 只要我们愿意同时考量所有的 $\Gamma \in \mathcal{X}$, 空间 $M = \bigcup_{\Gamma \in \mathcal{X}} M_k(\Gamma)$ 登时展现出它丰富的对称性. 凡 $\EuScript{H}(\Gamma \backslash \Delta / \Gamma')$ 的元素皆可表作双陪集算子 $[\Gamma\gamma\Gamma']$ 的线性组合; 我们也称其在 $M$ 上的作用为 \emph{Hecke 算子}. 对于给定的余有限 Fuchs 群 $\Gamma$, 取 $\Delta$, $\mathcal{X}$ 如例 \ref{eg:general-Hecke}, 便可以对任何 $\gamma \in \widetilde{\Gamma}$ 谈论 $M_k(\Gamma)$ 上的 Hecke 算子 $f \mapsto f[\Gamma\gamma\Gamma]$. \index{Hecke 算子 (Hecke operator)}
+
+且来考察三类 Hecke 算子.
+\begin{enumerate}
+	\item 设 $\Gamma \supset \Gamma'$ 都属于 $\mathcal{X}$, 而 $\gamma = 1$. 此时双陪集退化为 $\Gamma$, 而 $f[\Gamma] = f$ 退化为包含映射 $M_k(\Gamma) \hookrightarrow M_k(\Gamma')$.
+	\item 设 $\Gamma \in \mathcal{X}$, $\gamma \in \Delta$ 并且 $\Gamma' := \gamma^{-1}\Gamma\gamma \in \mathcal{X}$. 此时 $\Gamma\gamma\Gamma' = \Gamma \gamma = \gamma\Gamma'$, 而
+		\[ f[\Gamma\gamma] = f \gamma = \left[ \tau \mapsto (\det\gamma)^{k-1} j(\gamma,\tau)^{-k} f(\gamma\tau) \right] \]
+		无非是引理 \ref{prop:transport-conjugation} 的同构 $M_k(\Gamma) \rightiso M_k(\gamma^{-1}\Gamma\gamma)$.
+	\item 设 $\Gamma \subset \Gamma'$ 都属于 $\mathcal{X}$, 而 $\gamma=1$. 双陪集退化为 $\Gamma'$, 而 $f[\Gamma']$ 化为``迹映射'' $M_k(\Gamma) \to M_k(\Gamma')$:
+		\[ f[\Gamma'] = \sum_{\delta \in \Gamma \backslash \Gamma'} f \delta. \]
+\end{enumerate}
+
+至于一般的 $\Gamma\gamma\Gamma'$, 请琢磨
+\[\begin{tikzcd}
+	\Gamma \arrow[phantom, d, "\supset" sloped] & & \Gamma' \arrow[phantom, d, "\supset" sloped] \\
+	\Gamma \cap \gamma \Gamma' \gamma^{-1} \arrow[rr, "\sim", "x \mapsto \gamma^{-1}x\gamma"'] & & \gamma^{-1}\Gamma\gamma \cap \Gamma' \\
+	\Gamma_1 \arrow[phantom, u, ":=" sloped] & & \Gamma_2 \arrow[phantom, u, ":=" sloped]
+\end{tikzcd} \quad (\Gamma, \Gamma', \Gamma_1, \Gamma_2 \in \mathcal{X}) ; \]
+应用练习 \ref{ex:coset-mult} 可得 $[\Gamma \cdot 1 \cdot \Gamma_1] \star [\Gamma_1 \gamma \Gamma_2] = [\Gamma \gamma \Gamma_2]$ 和 $[\Gamma \gamma \Gamma_2] \star [\Gamma_2 \cdot 1 \cdot \Gamma'] = [\Gamma \gamma \Gamma']$, 具体推演留给读者. 由此立见
+\begin{equation}\label{eqn:Hecke-op-decomp}
+	[\Gamma\gamma\Gamma'] = [\Gamma \cdot 1 \cdot \Gamma_1] \star [\Gamma_1 \gamma \Gamma_2] \star [\Gamma_2 \cdot 1 \cdot \Gamma'];
+\end{equation}
+这就将一般的 Hecke 算子化到上述三种特例.
+
+\begin{exercise}
+	证明当 $\Gamma \subset \Gamma'$ 时, 迹映射 $f \mapsto f[\Gamma']$ 是满射.
+\end{exercise}
+
+照例将 $\R^\times$ 透过 $\lambda \mapsto \twomatrix{\lambda}{}{}{\lambda}$ 嵌入 $\GL(2,\R)^+$. 它同时是 $\GL(2,\R)$ 和 $\GL(2,\R)^+$ 的中心子群.
+
+\begin{exercise}\label{ex:central-action-easy}
+	对所有 $f \in M$ 和 $\lambda \in \R^\times$ 验证
+	\[ f\lambda = \lambda^{k-2} f \modact{k} \lambda = \lambda^{k-2} f. \]
+\end{exercise}
+
+焦点转向 Petersson 内积在 $S$ 上诱导的结构.
+\begin{proposition}\label{prop:delta-prime}
+	对所有 $\delta \in \GL(2, \R)$ 定义 $\delta' := \det(\delta) \delta^{-1}$. 设 $\Gamma$ 为余有限 Fuchs 群, 那么对所有 $\delta \in \widetilde{\Gamma}$ 皆有 $\delta' \in \widetilde{\Gamma}$ 和
+	\[ \innerp{f_1 [\Gamma\delta\Gamma]\;}{f_2} = \innerp{f_1}{f_2 [\Gamma\delta'\Gamma]}, \quad f_1, f_2 \in S_k(\Gamma). \]
+\end{proposition}
+\begin{proof}
+	命 $\lambda := \det\delta$. 因为 $\lambda$ 是中心元而 $\widetilde{\Gamma}$ 是群, 故 $\delta' \in \widetilde{\Gamma}$. 按命题 \ref{prop:modular-unitary-similitude} 和 \eqref{eqn:Hecke-transpose} 的定义, $[\Gamma\delta\Gamma]^\vee = \lambda^{k-2}[\Gamma\delta^{-1}\Gamma]$. 然而 $\Gamma \delta' \Gamma = \lambda \Gamma\delta^{-1}\Gamma$, 而且已知 $f\lambda = \lambda^{k-2} f$. 故 $f[\Gamma\delta'\Gamma] = \lambda^{k-2} f[\Gamma\delta^{-1}\Gamma] = f[\Gamma\delta\Gamma]^\vee$. 证毕.
+\end{proof}
+
+\section{\texorpdfstring{$\SL(2,\Z)$}{SL2Z} 情形概观: Hall 代数}\label{sec:Hecke-full-level}
+为了对双陪集和对应的 Hecke 算子培养具体的感觉, 本节取
+\[ \Delta := \Mat_2(\Z) \cap \GL(2,\Q)^+, \quad \Gamma = \Gamma(1) := \SL(2,\Z). \]
+本节聚焦于 $\EuScript{H}(\Delta \sslash \Gamma)$ 的结构, 以及它在模形式空间 $M_k(\SL(2,\Z))$ 上的作用. 这一特例非但对同余子群 $\Gamma_1(N)$ 情形是一次有益的热身, 若干论证还会在 \S\ref{sec:congruence-Hecke-alg} 重复运用.
+
+基本策略是将一切翻译成有限生成 $\Z$-模的语言, 业内统称为``线性代数''. 先取
+\begin{align*}
+	\Delta' & := \Mat_2(\Z) \cap \GL(2,\Q), \\
+	\Gamma' & := \GL(2,\Z).
+\end{align*}
+因为 $\Gamma$ 和 $\Gamma'$ 可公度, 命题 \ref{prop:SL2-normalizer} 已分别在大群 $\Omega := \GL(2,\R)^+$ 和 $\Omega' := \GL(2,\R)$ 中确定了 $\widetilde{\Gamma} = \R^\times \cdot \GL(2,\Q)^+$ 和 $\widetilde{\Gamma'} = \R^\times \cdot \GL(2,\Q)$; 子群 $\R^\times$ 的作用不甚有趣 (见练习 \ref{ex:central-action-easy}), 今后不论. 显见
+\[ \widetilde{\Gamma} \supset \Delta \supset \Gamma ,\quad \widetilde{\Gamma'} \supset \Delta' \supset \Gamma'. \]
+
+策略分两步.
+\begin{inparaenum}
+	\item 用线性代数研究 $\EuScript{H}(\Delta' \sslash \Gamma')$ 的各种性质,
+	\item 确立 $\EuScript{H}(\Delta' \sslash \Gamma')$ 和 $\EuScript{H}(\Delta \sslash \Gamma)$ 的关系.
+\end{inparaenum}
+第一步将自然地导向称为 Hall 代数的结构.
+
+先做线性代数部分. 设 $V$ 是二维 $\Q$-向量空间, 考虑集合 \index[sym1]{Latt@$\mathsf{Latt}$} \index{ge}
+\[ \mathsf{Latt} := \left\{ L \subset V: \text{秩 $2$ 的 $\Z$-子模}, \; \Q \cdot L = V \right\}, \]
+其元素也称为 $V$ 中的\emph{格}.
+
+群 $\GL(V)$ 在 $\mathsf{Latt}$ 上有自明的左作用 $L \mapsto \gamma L$. 易见作用可递: 若 $L, L' \in \mathsf{Latt}$, 取基表作 $L = \Z e_1 \oplus \Z e_2$ 而 $L' = \Z e'_1 \oplus \Z e'_2$, 那么 $e_1, e_2$ 和 $e'_1, e'_2$ 也自动是 $\Q$-基, 取 $\gamma \in \GL(V)$ 映 $e_i \mapsto e'_i$ 即是 ($i = 1, 2$).
+
+读者可以察觉上述套路和 \S\ref{sec:cplx-tori} 类似; 差别在于这里的格不包含于 $\CC$, 而且群作用来自于 $\GL(V)$ 而非格的标架化.
+
+再定义 \index[sym1]{Hecke@$\mathsf{Hecke}$}
+\[ \mathsf{Hecke} := \left\{ (L, L') \in \mathsf{Latt}^2 : L \subset L' \right\}, \]
+其上仍有 $\GL(V)$-左作用 $\gamma(L, L') = (\gamma L, \gamma L')$. 一种观点是把资料 $(L,L')$ 看成格的某种``修改'', $\GL(V)$-作用给出修改间的同构概念. 为了分类这些资料, 命 \index[sym1]{Dhk@$\mathcal{D}$}
+\begin{equation}\label{eqn:D-hk}
+	\mathcal{D} := \left\{ (h,k) \in \Z_{\geq 1}^2 : h \mid k \right\}.
+\end{equation}
+
+\begin{definition}\label{def:type} \index[sym1]{type@$\mathsf{type}$}
+	对于任何可由两个元素生成的挠 $\Z$-模 $M$, 有限生成 $\Z$-模的结构定理 \cite[\S 6.7]{Li1} 说明存在唯一的 $(h,k) \in \mathcal{D}$ 使得 $M \simeq \Z/h\Z \oplus \Z/k\Z$, 记作 $\mathsf{type}(M) = (h,k)$. 对于 $(L,L') \in \mathsf{Hecke}$, 我们定义 $\mathsf{type}(L, L') := \mathsf{type}(L'/L)$.
+\end{definition}
+
+代数上称 $\mathsf{type}(L'/L) \in \mathcal{D}$ 为 $L'/L$ 的\emph{初等因子}, 它由 $(L,L')$ 的 $\GL(V)$-轨道决定. 结构定理实际给出更精密的结果如下. 对任何 $(L,L') \in \mathsf{Hecke}$, 存在 $L'$ 的 $\Z$-基 $e_1, e_2$ 和 $(h,k) \in \mathcal{D}$ 使得 $L = \Z he_1 \oplus \Z k e_2$, 故
+\begin{equation}\label{eqn:coset-hk-determination-1}
+	L'/L \simeq \Z/h\Z \oplus \Z/k\Z, \quad (h,k) = \mathsf{type}(L, L').
+\end{equation}
+反过来说, 若 $\mathsf{type}(L, L') = \mathsf{type}(L_1, L'_1)$, 那么存在 $\gamma \in \GL(V)$ 使得 $\gamma(L, L') = (L_1, L'_1)$: 取 $\gamma$ 搬运如上之 $\Z$-基 $e_1, e_2$ 便是. 综之,
+\begin{equation}\label{eqn:type-bijection}
+	\mathsf{type}: \GL(V) \backslash \mathsf{Hecke} \xrightarrow{1:1} \mathcal{D}.
+\end{equation}
+
+今起取 $V = \Q^2$ 和标准格 $L_{\text{std}} := \Z^2 \in \mathsf{Latt}$. 观察到对于任意 $\gamma \in \GL(2,\Q)$, \index[sym1]{$L_{\text{std}}$}
+\begin{equation}\label{eqn:std-inclusion}
+	\gamma L_\text{std} \subset L_\text{std} \iff \gamma \in \Delta', \qquad \gamma L_\text{std} = L_\text{std} \iff \gamma \in \Gamma'.
+\end{equation}
+因为 $\GL(2, \Q)$ 的作用在 $\mathsf{Latt}$ 上可递, $\GL(2,\Q) \backslash \mathsf{Hecke}$ 中的元素有形如 $(\alpha L_\text{std} , L_\text{std})$ 的代表元. 前述讨论说明 $\alpha \in \Delta'$. 由此得到满射 $\Delta' \twoheadrightarrow \GL(2,\Q) \backslash \mathsf{Hecke}$, 它映 $\alpha$ 为 $(\alpha L_\text{std} , L_\text{std})$ 的轨道. 注意到 $\alpha, \beta \in \Delta'$ 的像相同当且仅当
+\[ \exists \gamma \in \GL(2,\Q), \quad \left( \beta L_\text{std} = \gamma\alpha L_\text{std} \right) \;\wedge\; \left( L_\text{std} = \gamma L_\text{std} \right), \]
+这也等价于存在 $\gamma \in \Gamma'$ 使得 $\beta L_\text{std} = \gamma\alpha L_\text{std}$, 亦即 $\Gamma' \beta \Gamma' = \Gamma' \alpha \Gamma'$. 综上,
+\begin{equation}\label{eqn:double-coset-bijection}
+	\Gamma' \backslash \Delta' /\Gamma' \xrightarrow{1:1} \GL(2,\Q) \backslash \mathsf{Hecke}, \quad \alpha \mapsto \GL(2,\Q) \cdot \left( \alpha L_\text{std}, L_\text{std} \right).
+\end{equation}
+
+
+\begin{lemma}\label{prop:hk-coset-decomp}
+	定义 $\mathcal{D}$ 如 \eqref{eqn:D-hk}. 对 $\lambda = (h,k) \in \mathcal{D}$, 记 $\Gamma'_\lambda = \Gamma'_{h,k} := \Gamma' \twomatrix{h}{}{}{k} \Gamma'$. 那么
+	\begin{equation*}
+		\Delta' = \bigsqcup_{\lambda \in \mathcal{D}} \Gamma'_\lambda.
+	\end{equation*}
+	而且 $\alpha \in \Delta'$ 属于 $\Gamma'_\lambda$ 当且仅当 $\mathsf{type}\left( \alpha L_\text{std}, L_\text{std} \right) = \lambda$.
+\end{lemma}
+\begin{proof}
+	基于双射 \eqref{eqn:type-bijection} 和 \eqref{eqn:double-coset-bijection}, 剩下的仅是验证 $\mathsf{type}\left( \twomatrix{h}{}{}{k} L_\text{std}, L_\text{std} \right) = (h,k)$.
+\end{proof}
+
+万事具备, 我们着手来描述 $\EuScript{H}(\Delta' \sslash \Gamma')$ 的结构. 令 $\lambda \in \mathcal{D}$, 任选可由两个元素生成的挠 $\Z$-模 $M$ 使得 $\mathsf{type}(M) = \lambda$. 对于所有 $\mu, \nu \in \mathcal{D}$, 定义非负整数 \index[sym1]{$g^\lambda_{\mu \nu}$}
+\begin{equation}\label{eqn:Hall-constant}
+	g^\lambda_{\mu \nu} := \left| \left\{ M^\dagger \subset M: \Z\text{-子模}, \;
+	\begin{array}{l}
+		\mathsf{type}(M^\dagger) = \nu \\
+		\mathsf{type}(M/M^\dagger) = \mu 
+	\end{array}	\right\} \right|.
+\end{equation}
+
+\begin{exercise}
+	说明若 $\mu = (h,k)$, $\nu = (h',k')$, 则 $g^\lambda_{\mu\nu} \neq 0$ 时 $\lambda$ 的第二个坐标必是 $k, k'$ 的公倍数.
+	
+	\begin{hint}
+		取 $M$ 使得 $\mathsf{type}(M) = \lambda$, 则 $\lambda$ 的第二个坐标生成理想 $\mathrm{ann}(M)$.
+	\end{hint}
+\end{exercise}
+
+\begin{exercise}
+	对 $\lambda = (h,k) \in \mathcal{D}$ 定义 $|\lambda| = hk$. 说明 $g^\lambda_{\mu\nu} \neq 0$ 蕴涵 $|\lambda| = |\mu| \cdot |\nu|$. 尝试进一步证明 $g^\lambda_{\mu\nu} = g^\lambda_{\nu\mu}$.
+\end{exercise}
+
+\begin{theorem}\label{prop:Hall-Hecke}
+	代数 $\EuScript{H}(\Delta' \sslash \Gamma')$ 是交换的, 以 $\left\{ \left[ \Gamma'_\lambda \right] \right\}_{ \lambda \in \mathcal{D}}$ 为一组基. 进一步
+	\begin{enumerate}[(i)]
+		\item 若 $\lambda = (d,d) \in \mathcal{D}$, 则 $[\Gamma'_\lambda]$ 是中心元;
+		\item 对任意 $\mu, \nu \in \mathcal{D}$ 皆有
+		\[ [\Gamma'_\mu] \star [\Gamma'_\nu] = \sum_{\lambda \in \mathcal{D}} g^\lambda_{\mu\nu} [\Gamma'_\lambda] \quad \text{(有限和)}. \]
+		换言之, $g^\lambda_{\mu\nu}$ 无非是注记 \ref{rem:convolution-concrete} 中的结构常数 $m(\mu, \nu; \lambda)$.
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	关于基的断言来自引理 \ref{prop:hk-coset-decomp}. 以下证明乘法交换. 考虑由矩阵转置 $\tau(\gamma) = {}^t \gamma$ 确定的映射 $\tau: \Delta' \to \Delta'$. 显然 $\tau$ 是定义 \ref{def:anti-involution} 所谓的反对合, 而且 $\tau(\Gamma') = \Gamma'$. 因为 $\tau\twomatrix{h}{}{}{k} = \twomatrix{h}{}{}{k}$, 引理 \ref{prop:hk-coset-decomp} 的分解确保 $\tau$ 固定 $\Delta'$ 的每个 $\Gamma'$-双陪集不变, 定理 \ref{prop:Hecke-comm-criterion} 遂蕴涵 $\EuScript{H}(\Delta' \sslash \Gamma')$ 交换. 上一道练习也可用来推导交换性.
+	
+	性质 (i) 是例 \ref{eg:coset-normalizer} 的直接结论. 要点在于证明 (ii). 我们用 \eqref{eqn:structure-const-2} 来确定 $[\Gamma'_\mu] \star [\Gamma'_\nu]$: 作陪集分解并取定代表元
+	\[ \Gamma'_\mu = \bigsqcup_{a \in A}^n a \Gamma', \quad \Gamma'_\nu = \bigsqcup_{b \in B} b \Gamma'. \]
+	设 $\lambda = (h,k) \in \mathcal{D}$. 定义
+	\[ \delta := \twobigmatrix{h}{}{}{k}, \quad M := \frac{L_\text{std}}{\delta L_\text{std}} \simeq \frac{\Z}{h\Z} \oplus \frac{\Z}{k\Z}. \]
+	给定如上资料, 考虑映射
+	\begin{align*}
+		\Theta: \left\{ (a,b) \in A \times B: \delta \Gamma' = ab\Gamma' \right\} & \longrightarrow \left\{ M^\dagger \subset M: \Z\text{-子模}, \;
+			\begin{array}{l}
+				\mathsf{type}(M^\dagger) = \nu \\
+				\mathsf{type}(M/M^\dagger) = \mu 
+			\end{array}	\right\} \\
+		(a,b) & \longmapsto M^\dagger := \frac{a L_\text{std}}{\delta L_\text{std}} \subset M.
+	\end{align*}
+	观察到左边有 $m(\mu, \nu; \lambda)$ 个元素, 右边则有 $g^\lambda_{\mu\nu}$ 个元素. 问题归结为证 $\Theta$ 为双射.
+
+	映射 $\Theta$ 良定: 左式也等于 $\{(a,b) : \delta L_\text{std} = ab L_\text{std} \}$, 而 $b L_\text{std} \subset L_\text{std}$ 导致 $\delta L_\text{std} \subset a L_\text{std}$. 由 $a \in \Gamma'_\mu$ 和引理 \ref{prop:hk-coset-decomp} 可见 $\mathsf{type}(M/M^\dagger) = \mathsf{type}\left( aL_\text{std}, L_\text{std} \right) = \mu$. 同理, $b \in \Gamma'_\nu$ 导致
+	\[ \frac{a L_\text{std}}{\delta L_\text{std}} = \frac{a L_\text{std}}{ab L_\text{std}} \xrightarrow[\sim]{a^{-1}} \frac{L_\text{std}}{b L_\text{std}} \xmapsto{\mathsf{type}} \nu, \]
+	于是确实有 $\mathsf{type}(M^\dagger) = \nu$.
+	
+	映射 $\Theta$ 为单: 既然 $\delta$ 给定, 从 $M^\dagger$ 可以确定 $a L_\text{std}$, 它满足 $\delta L_{\text{std}} \subset a L_{\text{std}} \subset L_{\text{std}}$, 从而确定陪集 $a \Gamma'$ 和 $a \in A$. 接着由 $b\Gamma' = a^{-1} \delta \Gamma'$ 确定 $b \in B$.
+	
+	映射 $\Theta$ 为满: 属于右式之 $M^\dagger$ 可以写作 $\frac{L}{\delta L_\text{std}}$, 这里 $L \subset L_{\text{std}}$. 存在陪集 $a\Gamma' \subset \Delta'$ 使得 $L = a L_\text{std}$; 任选代表元 $a$, 于是
+	\[ M^\dagger = \frac{a L_\text{std}}{\delta L_\text{std}} \xrightarrow[\sim]{a^{-1}} \frac{L_\text{std}}{a^{-1}\delta L_\text{std}} \stackrel{\exists b}{=} \frac{L_\text{std}}{b L_\text{std}}, \quad b\Gamma' \subset \Delta' \quad \text{(用 \eqref{eqn:std-inclusion})}. \]
+	那么 $\mathsf{type}(M^\dagger)=\nu$ 导致 $b\Gamma' \subset \Gamma'_\nu$. 另一方面 $M/M^\dagger \simeq \frac{L_\text{std}}{a L_\text{std}}$, 相应地 $\mathsf{type}(M/M^\dagger)=\mu$ 就导致 $a \Gamma' \subset \Gamma'_\mu$. 适当选取代表元以要求 $(a,b) \in A \times B$. 于是 $\Theta(a,b)=M^\dagger$. 满性证毕.
+\end{proof}
+
+\begin{remark}
+	直接从线性代数的定义 \eqref{eqn:Hall-constant} 起步, 不考虑双陪集也可以在以 $\mathcal{D}$ 为基的自由 $\Z$-模 上定义以 $g^\lambda_{\mu\nu}$ 为结构常数的代数结构, 称为 \emph{Hall 代数}; 相应的结合律等性质都可以在线性代数框架中证明. Hall 代数具有丰富的组合学和几何内涵, 这方面的经典文献是 \cite[II.2]{Mac15}; Hall 代数与双陪集代数的联系见诸 \cite[V]{Mac15}.
+\end{remark}
+
+\begin{proposition}\label{prop:coprime-multiplicativity-1}
+	设 $(h,k), (h',k') \in \mathcal{D}$ 满足 $\mathrm{gcd}(k,k')=1$, 则 $[\Gamma'_{h,k}] \star [\Gamma'_{h',k'}] = [\Gamma'_{hh',kk'}]$.
+\end{proposition}
+\begin{proof}
+	对一切 $\Z$-模 $M$ 和 $a \in \Z$, 定义子模 $M[a] := \{x \in M: ax = 0 \}$. 基于定理 \ref{prop:Hall-Hecke}, 欲证断言化为以下的线性代数陈述: 设有限生成挠 $\Z$-模 $M$ 具有子模 $M^\dagger$ 使得
+	\[ \mathsf{type}(M^\dagger) = (h',k'), \quad \mathsf{type}(M/M^\dagger) = (h,k), \quad \mathrm{gcd}(k,k')=1, \]
+	那么
+	\[ M = M[k] \oplus M[k'],  \quad \text{而且}\; M^\dagger = M[k']. \]
+	由此可见 $M[k] \simeq M/M^\dagger \simeq \Z/h\Z \oplus \Z/k\Z$, 故
+	\[ M \simeq \Z/h\Z \oplus \Z/h'\Z \oplus \Z/k\Z \oplus \Z/k'\Z \simeq \Z/hh'\Z \oplus \Z/kk', \]
+	特别地 $\mathsf{type}(M) = (hh', kk')$.
+
+	此线性代数陈述也容易证明, 见 \cite[注记 6.7.10]{Li1}. 简述如下: 关于 $M$ 的条件蕴涵 $M = M[kk']$. 用 $\gcd(k,k') = 1$ 取 $a,b \in \Z$ 使 $ak + bk' = 1$. 兹断言任何 $x \in M$ 都能唯一表作 $x = u + v$, 其中 $u \in M[k]$ 而 $v \in M[k']$.
+	\begin{compactitem}
+		\item 存在性: $x = ak x + bk'x$; 显然 $k'x \in M[k]$ 而 $kx \in M[k']$.
+		\item 唯一性: $x \in M[k] \cap M[k']$ 蕴涵 $x = ak x + bk'x = 0$. 
+	\end{compactitem}
+	最后, $M^\dagger = M^\dagger[k'] \subset M[k']$; 反过来说, 任何 $x \in M[k']$ 都能写作 $x = akx + bk'x = akx$, 它在 $M/M^\dagger \simeq \Z/h\Z \oplus \Z/k\Z$ 中的像必为零, 故 $x \in M^\dagger$. 明所欲证.
+\end{proof}
+
+鉴于命题 \ref{prop:coprime-multiplicativity-1}, 对 $\EuScript{H}(\Delta' \sslash \Gamma')$ 结构的研究可以化约到 $(p^d, p^e) \in \mathcal{D}$ 对应的双陪集情形, 其中 $p$ 是某个选定的素数, $d \leq e$. 基于定理 \ref{prop:Hall-Hecke} (i), 我们可以进一步聚焦于 $(1, p^e)$ 情形.
+
+\begin{proposition}\label{prop:prime-coset-mult-1}
+	设 $e \in \Z_{\geq 1}$. 那么
+	\[ \left[ \Gamma'_{1,p} \right] \star \left[ \Gamma'_{1, p^e} \right] = \left[ \Gamma'_{1, p^e} \right] \star \left[ \Gamma'_{1,p} \right] =
+	\begin{cases}
+		\left[ \Gamma'_{1,p^{e+1}} \right] + p \left[ \Gamma'_{p, p^e} \right], & e > 1 \\
+		\left[ \Gamma'_{1,p^{e+1}} \right] + (p+1) \left[ \Gamma'_{p, p^e} \right], & e = 1.
+	\end{cases}\]
+\end{proposition}
+\begin{proof}
+	乘法交换性缘于定理 \ref{prop:Hall-Hecke}. 其余仍运用定理 \ref{prop:Hall-Hecke} (ii) 的线性代数诠释. 考虑有限生成挠 $\Z$-模的短正合列
+	\[ 0 \to M^\dagger \to M \to M^\ddagger \to 0, \quad M^\dagger \simeq \frac{\Z}{p^e \Z}, \; M^\ddagger \simeq \frac{\Z}{p\Z}. \]
+	于是 $|M| = p^{e+1}$. 基于有限生成挠 $\Z$-模的分类, $\mathsf{type}(M)$ 仅存 $(1, p^{e+1})$ 和 $(p,p^e)$ 两种可能.
+	\begin{compactitem}
+		\item 若 $M \simeq \frac{\Z}{p^{e+1}\Z}$, 那么它恰有一个同构于 $\Z/p^e \Z$ 的子群, 即 $pM$.
+		\item 若 $M \simeq \frac{\Z}{p\Z} \oplus \frac{\Z}{p^e \Z}$ 而 $e > 1$, 那么其中同构于 $\Z/p^e \Z$ 的子群必由某个 $p^e$-阶元 $(x,y)$ 生成, 其中 $y \in (\Z/p^e \Z)^\times$; 代以适当的互素于 $p$ 的倍数后, 可将生成元化作 $(x, 1)$ 之形. 这样的生成元是唯一的, 于是所考虑的子群和 $x \in \Z/p\Z$ 一一对应, 共有 $p$ 个.
+		\item 若 $e = 1$ 而 $M \simeq \Z/p\Z \oplus \Z/p\Z$, 那么 $M$ 中同构于 $\Z/p\Z$ 的子群无非是 $\F_p^2$ 的一维子空间, 恰有 $\frac{p^2 - 1}{p - 1} = p + 1$ 个.
+	\end{compactitem}
+	回忆 \eqref{eqn:Hall-constant} 可知以上分类给出 $\left[ \Gamma'_{1,p} \right] \star \left[ \Gamma'_{1, p^e} \right]$ 的系数.
+\end{proof}
+
+接着过渡到 $\EuScript{H}(\Delta \sslash \Gamma)$ 情形, 这一步是容易的.
+\begin{theorem}\label{prop:Hecke-without-prime}
+	幺半群 $\Delta' \supset \Delta$ 和群 $\Gamma' \supset \Gamma$ 符合定理 \ref{prop:Hecke-isom-criterion} 的条件. 作为推论, 包含映射诱导
+	\[ \Gamma \backslash \Delta / \Gamma \rightiso \Gamma' \backslash \Delta' /\Gamma', \quad \EuScript{H}(\Delta \sslash \Gamma) \rightiso \EuScript{H}(\Delta' \sslash \Gamma'), \]
+	而且 $\Delta = \bigsqcup_{(h,k) \in \mathcal{D}} \Gamma \twomatrix{h}{}{}{k} \Gamma$.
+\end{theorem}
+\begin{proof}
+	我们首先断言 $\Delta = \bigcup_{(h,k) \in \mathcal{D}} \Gamma \twomatrix{h}{}{}{k} \Gamma$. 对任何 $\alpha \in \Delta$, 存在 $\gamma_1, \gamma_2 \in \Gamma'$ 和唯一的 $(h,k) \in \mathcal{D}$ 使得 $\alpha = \gamma_1 \twomatrix{h}{}{}{k} \gamma_2$. 比较两边行列式符号可知 $\det \gamma_1 = \det \gamma_2$. 若两者同为 $1$ 则 $\alpha \in \Gamma \twomatrix{h}{}{}{k} \Gamma$, 否则两者同为 $-1$, 这时仍有
+	\[ \gamma_1 \twobigmatrix{h}{}{}{k} \gamma_2 = \gamma_1 \twobigmatrix{1}{}{}{-1} \twobigmatrix{h}{}{}{k} \twobigmatrix{1}{}{}{-1} \gamma_2\; \in \Gamma \twobigmatrix{h}{}{}{k} \Gamma.\]
+	断言得证. 下面验证定理 \ref{prop:Hecke-isom-criterion} 的性质 (i)---(iii).	对于 (i): $\Delta' = \Gamma' \Delta$, 要点在于证明 $\subset$. 若 $\delta \in \Delta'$ 满足 $\det\delta > 0$ 则 $\delta \in \Delta$; 否则取 $\gamma = \twomatrix{1}{}{}{-1} \in \Gamma'$ 使得 $\delta = \gamma \cdot (\gamma^{-1} \delta) \in \Gamma' \cdot \Delta$.
+
+	现在验证 (ii): 当 $\alpha \in \Delta$ 时 $\Gamma' \alpha \Gamma' = \Gamma' \alpha \Gamma$. 要点仍在 $\subset$. 基于证明伊始的断言, 不妨假设 $\alpha = \twomatrix{h}{}{}{k}$, 其中 $(h,k) \in \mathcal{D}$. 设 $\gamma_1, \gamma_2 \in \Gamma'$. 若 $\det \gamma_2 = 1$ 则 $\gamma_1 \twomatrix{h}{}{}{k} \gamma_2 \in \Gamma' \alpha \Gamma$; 若 $\det \gamma_2 = -1$ 则仍有
+	\[ \gamma_1 \twobigmatrix{h}{}{}{k} \gamma_2 = \gamma_1 \twobigmatrix{1}{}{}{-1} \twobigmatrix{h}{}{}{k} \twobigmatrix{1}{}{}{-1} \gamma_2 \; \in \Gamma' \twobigmatrix{h}{}{}{k} \Gamma. \]
+	
+	最后验证 (iii): 当 $\alpha \in \Delta$ 时 $\Gamma' \alpha \cap \Delta = \Gamma \alpha$. 考虑两边行列式的符号即可.
+\end{proof}
+
+综合命题 \ref{prop:coprime-multiplicativity-1} 和命题 \ref{prop:prime-coset-mult-1}, 我们总结出 $\EuScript{H}(\Delta \sslash \Gamma)$ 作为交换 $\CC$-代数 (甚至是 $\Z$-代数) 由形如 $[\Gamma_{p,p}]$ 和 $[\Gamma_{1,p}]$ 的元素生成, 其中 $p$ 取遍所有素数. 进一步还能说明上述生成元是代数无关的.
+
+\section{特征形式初探}\label{sec:eigenform-full-level}
+考虑模群 $\Gamma(1) = \SL(2, \Z)$. 取定权 $k \in \Z$, 让 $\EuScript{H}\left(\Mat_2(\Z) \cap \GL(2, \Q)^+ \sslash \Gamma(1) \right)$ 作用在 $M_k(1)$ 及 $S_k(1)$ 上, 得到 $\End_{\CC}(M_k(1))$ 的交换子 $\CC$-代数 $\mathbb{T}$. 因为 $[\Gamma_{d,d}]$ 的作用无非是 $f \mapsto d^{k-2} f$ (练习 \ref{ex:central-action-easy}), 有限维 $\CC$-代数 $\mathbb{T}$ 实际由以下算子生成:
+\[ T_p: f \mapsto f\left[ \Gamma_{1,p} \right], \quad p\; \text{取遍素数}. \]
+
+\begin{lemma}
+	对一切素数 $p$, 算子 $T_p$ 相对于 Petersson 内积皆自伴. 作为推论, $T_p$ 的特征值都是实数, 而且 $\mathbb{T}$ 在 $M_k(1)$ 和 $S_k(1)$ 上的作用可以同步对角化.
+\end{lemma}
+\begin{proof}
+	注意到 $\Delta$ 对 $\gamma \mapsto \gamma' := \det(\gamma) \gamma^{-1}$ 保持不变. 按照命题 \ref{prop:delta-prime}, $[\Gamma\twomatrix{1}{}{}{p}\Gamma]$ 相对于 Petersson 内积的伴随由 $[\Gamma\twomatrix{p}{}{}{1}\Gamma]$ 给出. 基于引理 \ref{prop:hk-coset-decomp} 和
+	\[ \frac{L_\text{std}}{\twomatrix{p}{}{}{1} L_\text{std}} \simeq \Z/p\Z \simeq \frac{L_\text{std}}{\twomatrix{1}{}{}{p} L_\text{std}} \]
+	立见 $\Gamma' \twomatrix{p}{}{}{1} \Gamma' = \Gamma' \twomatrix{1}{}{}{p} \Gamma'$. 定理 \ref{prop:Hecke-without-prime} 遂给出 $\Gamma \twomatrix{p}{}{}{1} \Gamma = \Gamma \twomatrix{1}{}{}{p} \Gamma$. 由此见得 $T_p$ 自伴.
+\end{proof}
+
+\index{Hecke 特征形式 (Hecke eigenform)}
+根据自伴算子的谱定理, 交换算子族 $\{ T_p \}_{p: \text{素数}}$ 可以同步对角化. 所有 $T_p$ 的公共特征向量称为 \emph{Hecke 特征形式}, 空间 $M_k(1)$ 和 $S_k(1)$ 分解为 Hecke 特征形式的正交直和.
+
+为了厘清 $T_p$ 对 Fourier 系数的影响, 有必要描述 $\Gamma \twomatrix{1}{}{}{p} \Gamma$ 的陪集分解.
+\begin{lemma}
+	设 $p$ 为素数, 那么
+	\[ \Gamma \twobigmatrix{1}{}{}{p} \Gamma = \bigsqcup_b \Gamma \twobigmatrix{1}{b}{}{p} \sqcup \Gamma \twobigmatrix{p}{1}{}{1}, \]
+	其中 $b$ 遍历 $\F_p$ 在 $\Z$ 中的一族代表元.
+\end{lemma}
+\begin{proof}
+	取转置将问题化为证
+	\[ \Gamma \twobigmatrix{1}{}{}{p} \Gamma = \bigsqcup_b \twobigmatrix{1}{}{b}{p}  \Gamma \sqcup \twobigmatrix{p}{}{1}{1} \Gamma. \]
+	根据 \S\ref{sec:Hecke-full-level} 的理论,
+	\begin{align*}
+		\Gamma \twomatrix{1}{}{}{p} \Gamma \big/ \Gamma & \xrightarrow{1:1} \left\{ \Z\text{-子模}\; L \subset \Z^2 : (\Z^2 : L) = p \right\}, \\
+		\alpha\Gamma & \longmapsto \alpha \Z^2.
+	\end{align*}
+	然而 $L \mapsto L/p\Z^2 \subset \F_p^2$ 给出从右式到 $\PP^1(\F_p)$ 的双射, 此处
+	\[ \PP^1(\F_p) := \left\{ \F_p^2 \; \text{中的直线} \right\} = \left\{ (1:\bar{b}) : \bar{b} \in \F_p \right\} \sqcup \{ (0:1) \}. \]
+	若 $b \in \Z$ 是 $\bar{b}$ 的代表元, 那么 $\twomatrix{1}{}{b}{p} \Z^2$ 在 $\Z^2 / p\Z^2$ 中的像无非是 $\F_p (1, \bar{b})$, 即 $(1:\bar{b})$. 另一方面, $\twomatrix{p}{}{1}{1}$ 的像则给出 $(0:1)$. 如是得到所求分解.
+\end{proof}
+
+以此分解计算 $T_p$ 对 $f = \sum_{n \geq 0} a_n(f) q^n \in M_k(1)$ 的作用, 立即得到
+\begin{align*}
+	T_p(f)(\tau) & = \left( \sum_b f \twomatrix{1}{b}{}{p} + f \twomatrix{p}{1}{}{1} \right)(\tau) \\
+	& = \sum_{n \geq 0} \left( a_n(f) \exp\left(\frac{2\pi in\tau}{p}\right) \cdot \frac{1}{p} \sum_b \exp\left(\frac{2\pi inb}{p}\right) \right) + p^{k-1} f(p\tau) \\
+	& = \sum_{\substack{n \geq 0 \\ p \mid n}} a_n(f) q^{n/p} + p^{k-1} \sum_{n \geq 0} a_n(f) q^{np}.
+\end{align*}
+
+一切整理成下述结果.
+\begin{proposition}
+	设 $f \in M_k(1)$, 那么对所有 $n \in \Z_{\geq 0}$ 皆有 $a_n(T_p f) = a_{np}(f) + p^{k-1} a_{n/p}(f)$, 其中规定 $p \nmid n \implies a_{n/p}(f) = 0$.
+\end{proposition}
+
+以下说明除了 $k = 0$ 的平凡情形, 任何 Hecke 特征形式 $f$ 都能从 $a_1(f)$ 唯一确定. 满足 $a_1(f) = 1$ 的 Hecke 特征形式称为\emph{正规化 Hecke 特征形式}.
+\begin{proposition}\label{prop:normalized-Hecke-1}
+	设 $f \in M_k(1)$ 是 Hecke 特征形式, $k \neq 0$. 若 $a_1(f) = 0$ 则 $f = 0$.
+\end{proposition}
+\begin{proof}
+	兹断言 $n \geq 1$ 时 $a_n(f) = 0$. 办法是对 $n$ 作递归: 若 $n > 1$, 取素因子 $p \mid n$ 则有 $a_n(f) = a_{n/p}(T_p f) - p^{k-1} a_{n/p^2}(f) = 0$. 因此 $f$ 必为常值函数.
+\end{proof}
+
+对于级为 $\Gamma_1(N)$ 的一般情形 ($N \in \Z_{\geq 1}$), 推论 \ref{prop:Hecke-Fourier-eigenvalue} 将给出更透彻的论证.
+
+\begin{example}\label{eg:full-level-eigenform-1}
+	取 $k = 12$. 考虑定义 \ref{def:Delta} 的模判别式 $\Delta = \sum_{n \geq 1} \tau(n) q^n$. 推论 \ref{prop:Delta-Eisenstein} 断言 $S_{12}(\Gamma) = \CC \Delta$, 因此 $\Delta$ 自动是 Hecke 特征形式. 它是正规化的. 由此可以推出 Fourier 系数 $\tau(n)$ 的诸多性质, 在 \S\ref{sec:congruence-Hecke-2} 将有进一步讨论.
+\end{example}
+
+\begin{example}
+	设 $k > 2$ 为偶数, 那么 Eisenstein 级数 $\mathcal{G}_k$ 是正规化 Hecke 特征形式: 它对 $T_p$ 的特征值是 $\sigma_{k-1}(p) = 1 + p^{k-1}$. 留意到 $a_0(T_p f) = (1 + p^{k-1}) a_0(f)$ 对所有 $f$ 成立, 而且 $\sigma_{k-1}(1) = 1$, 故一切归结为初等数论的命题
+	\[ \left( 1 + p^{k-1} \right) \sigma_{k-1}(n) = \sigma_{k-1}(p) \sigma_{k-1}(n) = \begin{cases}
+		\sigma_{k-1}(pn) + p^{k-1} \sigma_{k-1}(n/p), & p \mid n \\
+		\sigma_{k-1}(pn), & p \nmid n,
+	\end{cases}\]
+	其中 $n \geq 1$. 此问题容易化约到 $n = p^e$ 情形来直接验证, 细节留给读者消遣.
+\end{example}
+
+\begin{exercise}
+	仍然设 $k > 2$ 为偶数. 证明若 $f \in M_k(1)$ 不是尖点形式, 那么 $f$ 是 Hecke 特征形式当且仅当 $f \in \CC \mathcal{G}_k$.
+	
+	\begin{hint}
+		基于命题 \ref{prop:normalized-Hecke-1}, 不妨设 $a_1(f) = 1$. 考察 $a_0(f)$ 可知这样的 Hecke 特征形式 $f$ 对所有素数 $p$ 皆满足 $T_p(f) = (1 + p^{k-1}) f$, 因此 $h := f - \mathcal{G}_k \in M_k(1)$ 是满足 $a_1(h) = 0$ 的 Hecke 特征形式, 它必为 $0$.
+	\end{hint}
+\end{exercise}
+
+Hecke 特征形式最重要的性质在于它们的 Fourier 系数具有某种乘性结构; \S\ref{sec:j-invariant} 对特例 $\Delta$ 已有惊鸿一瞥. 此结构又折射到称作 $L$-函数的解析对象之上, 给出其 Euler 乘积. 我们将在 \S\ref{sec:congruence-Hecke-2} 予以考察. \index{Euler chengji}

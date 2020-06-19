@@ -1,0 +1,111 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8
+
+% 以 XeLaTeX 编译
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\documentclass[
+%	draftmark = false,
+%	colors = false,
+	CJKthechapter = false,
+	coverpage = coverpage.tex,
+%	coverpage = coverpage.pdf,
+	fontsetup = font-setup-open.tex,
+	titlesetup = titles-setup.tex
+]{AJbook}
+
+\usepackage{tikz-cd}	% 使用 TikZ 绘图
+\usetikzlibrary{matrix, positioning, backgrounds, shapes.arrows, arrows, patterns, calc}	% 导入所需的 TikZ 库
+\usepackage{tkz-euclide}	% 导入 tkz-euclide 用于封面绘制等.
+
+\usepackage{pgfplots}	% 使用 PGF 描绘函数图形
+\pgfplotsset{compat=newest}
+
+\usepackage{stmaryrd} \SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}	% 避免警告 (stmryd 不含粗体故)
+
+\usepackage{myarrows}				% 使用自定义的可伸缩箭头
+\usepackage{mycommand}				% 引入自定义的惯用的命令
+
+% 生成索引: 选用 xindy
+\usepackage[xindy, splitindex]{imakeidx}
+\makeindex[columns=2, program=truexindy, intoc=true, options=-M texindy -I xelatex -C utf8, title={名词索引暨英译}]	% 名词索引
+\makeindex[columns=3, program=truexindy, intoc=true, options=-M numeric-sort -M latex -M latex-loc-fmts -M makeindex -I xelatex -C utf8, name=sym1, title={符号索引}]	% 符号索引
+
+\usepackage[unicode, bookmarksnumbered]{hyperref}	% 启动超链接和 PDF 文档信息所需
+% 设置 PDF 文件信息
+\hypersetup{
+	pdfauthor = {李文威 (Wen-Wei Li)},
+	pdftitle = {模形式初步},
+	pdfkeywords = {Modular forms},
+	CJKbookmarks=true} % 避免 Improper alphabetic constant 问题
+
+% Modular forms
+\newcommand{\modact}[1]{\;\ensuremath{\big|_{#1} \;}}
+\newcommand{\twomatrix}[4]{ \ensuremath{\bigl(\begin{smallmatrix} #1 & #2 \\ #3 & #4 \end{smallmatrix}\bigr)} }
+\newcommand{\twobigmatrix}[4]{ \ensuremath{\begin{pmatrix} #1 & #2 \\ #3 & #4 \end{pmatrix}} }
+\newcommand{\sumprime}{\sideset{}{'}\sum}
+\newcommand{\Div}{\operatorname{Div}}
+\newcommand{\Jac}{\operatorname{Jac}}
+\newcommand{\HkT}{\ensuremath{\mathbb{T}}}
+\newcommand{\Mat}{\operatorname{M}}
+\newcommand{\charfcn}{\symbf{1}}	% The characteristic function 1
+\newcommand{\innerp}[2]{\ensuremath{\left( #1 \middle| #2 \right)}}	% Inner product
+\newcommand{\innerPet}[2]{\innerp{#1}{#2}_{\mathrm{Pet}}}	% Petersson inner product
+\newcommand{\bomega}{\symbf{\omega}}	% Boldface omega, for sheaves of differentials
+
+% 用 bibLaTeX 引入书目库
+\addbibresource{Modulform.bib}
+
+% 公式和图片按节编号
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+%\renewcommand{\theequation}{\thesection--\arabic{equation}}
+
+\begin{document}
+	\frontmatter	% 制作封面和目录.
+	
+	\mainmatter	% 正文开始
+	\include{intro}
+	\include{chap1}
+	\include{chap2}
+	\include{chap3}
+	\include{chap4}
+	\include{chap5}
+	\include{chap6}
+	\include{chap7}
+	\include{chap8}
+	\include{chap9}
+	\include{chap10}
+	
+	\appendix
+	\include{app1}
+	\include{app2}
+	\include{app3}
+
+	\backmatter
+
+	% 使用 bibLaTeX 制作书目
+	\printbibliography[heading=bibintoc]
+	
+	% 制作索引: 先是符号索引, 继而是名词索引暨英译
+	{\footnotesize
+	\printindex[sym1]
+	\indexprologue{中文术语按汉语拼音排序.}
+	\printindex
+%	如有需要, 加入表格和图片索引
+%	\cleardoublepage
+% 	\phantomsection
+%	\addcontentsline{toc}{chapter}{\listfigurename}
+%	\listoffigures
+%	\cleardoublepage
+% 	\phantomsection
+%	\addcontentsline{toc}{chapter}{\listtablename}
+%	\listoftables
+	}
+
+\end{document}

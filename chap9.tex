@@ -1,0 +1,1037 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter{上同调观模形式}
+本章将对模形式给出基于几何或拓扑的诠释. 在 $\Gamma$ 充分小的前提下 (假设 \ref{hyp:torsion-free}), 第一步是对所有 $k \in \Z$ 将 $M_k(\Gamma)$ (或 $S_{k+2}(\Gamma)$) 诠释为 $X(\Gamma)$ 上某个线丛 $\bomega_\Gamma^{\otimes k}$ (或 $\Omega_{X(\Gamma)} \otimes \bomega_\Gamma^{\otimes k}$) 的截面空间. 第二步, 让 $\SL(2,\R)$ 线性地右作用于 $V = \CC e_1 \oplus \CC e_2$, 见 \eqref{eqn:e1e2-action}; 我们以 $\Sym^k V$ 对 $\Gamma$ 的商定义 $Y(\Gamma)$ 上的局部系统 ${}^k V_\Gamma$, 并确立 $\CC$-线性同构
+\begin{equation*}
+	\mathrm{ES}: S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \rightiso \Hm^1\left( X(\Gamma), j_* {}^k V_\Gamma \right),
+\end{equation*}
+其中 $\overline{S_{k+2}(\Gamma)} := \left\{\overline{f}: f \in S_{k+2}(\Gamma) \right\}$, 详见约定 \ref{conv:S-conj}, 而 $j: Y(\Gamma) \hookrightarrow X(\Gamma)$ 是开嵌入. 同构和两边的复共轭运算交换.
+
+以上同构称为 Eichler--志村同构, 它是模形式算术理论的基石之一. 同构右端是拓扑学的标准对象, 它也能反映 Hecke 算子, 还能借由 $\ell$-进平展上同调等工具移植到代数几何框架下; 一旦为 $Y(\Gamma)$ 及其紧化 $X(\Gamma)$ 确立了良好的算术模型, 便能赋予 $\Hm^1$ 相互交换的 Hecke 算子和 Galois 群作用, 模形式理论自此汇入算术几何的洪流.
+
+本章采取的是复解析观点, 从相交上同调的 Hodge 分解抽象地理解 Eichler--志村同构, 将其诠释为 Hodge 理论中某个谱序列的退化, 参见注记 \ref{rem:Hodge-structure}. 当 $k=0$ 时 ${}^k V_\Gamma$ 变为常值层 $\CC$, 以上分解化为 $\Hm^1(X(\Gamma); \CC)$ 的 Hodge 分解. 实践中经常将 $\Hm^1(X(\Gamma), j_* {}^k V_\Gamma)$ 改写为抛物上同调 $\Hm^1_{\mathrm{para}}(\Gamma, \Sym^k V)$, 后者纯然是代数的对象, 借此可以对任何余有限 Fuchs 群 $\Gamma$ 具体地定义同构 $\mathrm{ES}$.
+
+本章对模形式的诠释借鉴于 \cite{Del71}. 对 Eichler--志村同构的处理借鉴了 \cite{BN81}. 本章虽不预设 Hodge 理论的背景, 仍不免需要复几何, 层论与同调代数的一些常识, 请读者参考附录 B 和 \S\ref{sec:group-cohomology}.
+
+本章经常采取几何中的习惯, 不加说明地等同 Riemann 曲面上的向量丛 $E$ 及其截面层 $V \mapsto \Gamma(V, E)$.
+
+\section{模形式作为全纯截面}\label{sec:cplx-viewpoint}
+设 $\Gamma \subset \SL(2,\R)$ 是余有限 Fuchs 群. 为了便利从 $\mathcal{H}$ 到 $Y(\Gamma) := \Gamma \backslash \mathcal{H}$ 的过渡, 今后须对 $\Gamma$ 作若干假设. 如果
+\[ \forall \gamma \in \Gamma, \; \forall n \in \Z_{\geq 1}, \; \gamma^n = 1 \implies \gamma = 1, \]
+则称 $\Gamma$ 是\emph{无挠}的. 由命题 \ref{prop:stabilizer-finite-cyclic} 可知无挠等价于 $-1 \notin \Gamma$ 而且 $\overline{\Gamma}$ 无椭圆元素. 此外, 请回忆正则尖点的概念 (定义 \ref{def:regular-cusp}). \index{Fuchs-qun!无挠 (torsion-free)}
+
+\begin{hypothesis}\label{hyp:torsion-free}
+	如未另外说明, 我们要求余有限 Fuchs 群 $\Gamma$ 无挠, 而且 $\Gamma$ 的所有尖点皆正则.
+\end{hypothesis}
+
+\begin{example}\label{eg:torsion-free}
+	当 $N \geq 3$ (或 $N \geq 4$) 时, $\Gamma(N)$ (或 $\Gamma_1(N)$) 无挠, 见例 \ref{eg:Gamma1-neat} 和练习 \ref{exo:Gamma-neat}. 此外, 练习 \ref{exo:regular-cusp} 还蕴涵 $N \geq 3$ (或 $N \geq 5$) 时 $\Gamma(N)$ (或 $\Gamma_1(N)$) 的所有尖点都正则. 综之, 假设 \ref{hyp:torsion-free} 对``足够深''的 $\Gamma(N)$ 或 $\Gamma_1(N)$ 总是成立. 对于一般的 $\Gamma$, 借由称为 Selberg 引理的结果, 总能取到满足假设 \ref{hyp:torsion-free} 的子群 $\Gamma' \subset \Gamma$; 详见 \S\ref{sec:parabolic-cohomology} 的讨论.
+\end{example}
+
+重拾 \S\ref{sec:cplx-tori} 的符号体系. 主角是 $\CC$ 中``标架化''的格, 亦即 $\R$-线性同构 $\alpha: \R^2 \rightiso \CC$, 使得 $(1,0)$, $(0,1)$ 的像是 $\CC$ 的负向基; 相应的格是 $\Lambda := \alpha(\Z^2)$. 群 $\CC^\times \times \GL(2,\R)^+$ 透过
+\[ \alpha \xmapsto{(z,\gamma)} z \circ \alpha \circ {}^t \gamma, \quad (z, \gamma) \in \CC^\times \times \GL(2,\R)^+ \]
+左作用在这些资料构成的空间 $\mathcal{L}^\Box$ 上. 引理 \ref{prop:upper-half-moduli} 给出同构 $\CC^\times \backslash \mathcal{L}^\Box \simeq \mathcal{H}$.
+
+\begin{convention}\label{conv:omega-dz}
+	对于复环面 $\CC/\Lambda$, 命 $\bomega_{\CC/\Lambda} := \Gamma\left( \CC/\Lambda, \Omega_{\CC/\Lambda} \right)$, 这是一维 $\CC$-向量空间. 记 $\CC$ 的标准坐标为 $z$, 则 $\bomega_{\CC/\Lambda} = \CC \dd z$. 另外定义反全纯微分形式张成的空间 $\overline{\bomega_{\CC/\Lambda}} := \CC \overline{\dd z}$, 其元素无非是 $\bomega_{\CC/\Lambda}$ 中微分形式的复共轭; 见 \S\ref{sec:Riemann-basics}.
+\end{convention}
+
+留意到 $T_{0, \mathrm{hol}}^*(\CC/\Lambda) = \bomega_{\CC/\Lambda}$. 作为实二维流形, $\CC/\Lambda$ 在 $0$ 点的余切空间 $T^*_0 (\CC/\Lambda)$ 复化成
+\begin{equation}\label{eqn:torus-Hodge-decomp}\begin{tikzcd}[row sep=tiny]
+		\bomega_{\CC/\Lambda} \oplus \overline{\bomega_{\CC/\Lambda}} \arrow[equal, r] & T^*_0(\CC/\Lambda) \dotimes{\R} \CC \arrow[r, "\sim"] & \Hom_{\Z}(\Lambda, \CC) =: V_\Lambda \\
+		x \dd z + y \overline{\dd z} \arrow[mapsto, rr] \arrow[phantom, u, "\in" description, sloped] & & \left( \lambda \mapsto x \lambda + y \overline{\lambda} \right), \arrow[phantom, u, "\in" description, sloped]
+\end{tikzcd}\end{equation}
+其中 $\lambda \in \Lambda$ 而 $x, y \in \CC$, 所有映射都是 $\CC$-线性的. 进一步设 $\Lambda$ 来自 $\alpha \in \mathcal{L}^\Box$. 精确到复环面的同构即 $\CC^\times$ 作用, 可以设想随着 $\alpha \in \mathcal{L}^\Box$ 给出的格 $\Lambda$ 变动, 空间 $\bomega_{\CC/\Lambda}$ 将全纯地变化, 从而组成 $\CC^\times \backslash \mathcal{L}^\Box \simeq \mathcal{H}$ 上的全纯线丛, 记作 $\bomega$.
+
+此事不难说清. 若 $\CC^\times \backslash \mathcal{L}^\Box$ 的元素对应到 $\tau \in \mathcal{H}$, 则它由形如 $\alpha(x,y) = x\tau + y$ 的 $\alpha: \R^2 \rightiso \CC$ 代表, 相应的格是 $\Lambda_\tau := \Z\tau \oplus \Z$. 当 $\tau$ 变动, $\dd z$ 在每个 $\bomega_{\CC/\Lambda_\tau}$ 中都是基, 从而给出线丛的平凡化
+\begin{align*}
+	\mathrm{triv}: \mathcal{O}_{\mathcal{H}} & \rightiso \bomega \\
+	1 & \mapsto \dd z.
+\end{align*}
+
+\begin{convention}
+	设 $\Sigma$ 是 $\GL(2, \R)^+$ 的子群, 而 $\mathcal{H}$ 上的向量丛 $E$ 有左 $\Sigma$-作用, 亦即交换图表:
+	\[\begin{tikzcd}
+		\Sigma \times E \arrow[r, "\text{群作用}" inner sep=0.7em] \arrow[d, "{(\identity, \cdots)}"'] & E \arrow[d, "\cdots"] \\
+		\Sigma \times \mathcal{H} \arrow[r, "\text{群作用}"' inner sep=0.7em] & \mathcal{H}
+	\end{tikzcd} \]
+	记 $E$ 在 $\tau$ 上的纤维为 $E_\tau$. 对所有开集 $U$ 和 $s \in \Gamma(U, E)$, 命 $s \cdot \sigma \in \Gamma(\sigma^{-1}U, E)$ 为对 $\sigma \in \Sigma$ 的拉回, 即
+	\begin{equation}\label{eqn:right-action-model}
+		(s \cdot \sigma)(\tau) = \left( s(\sigma\tau) \in E_{\sigma\tau} \; \text{用 $\sigma^{-1}$ 搬回 $E_\tau$ 的像} \right), \quad \tau \in \sigma^{-1} U.
+	\end{equation}
+	于是 $s \cdot (\sigma\sigma') = (s \sigma) \sigma'$. 对于循 \eqref{eqn:right-action-model} 的方式定义在各种截面上的右作用, 本章一律记作 $s \xmapsto{\sigma} s \cdot \sigma$.
+\end{convention}
+
+以下讨论几种特例, 皆取 $\Sigma := \GL(2, \R)^+$.
+\begin{enumerate}
+	\item 取 $E$ 为平凡线丛, 它显然带有源自 $\mathcal{H}$ 的 $\GL(2,\R)^+$ 左作用, 在 $\Gamma(\mathcal{H}, \mathcal{O}_{\mathcal{H}})$ 上诱导的右作用无非是拉回 $f(\tau) \xmapsto{\gamma} f(\gamma\tau)$.
+	\item 典范线丛 $\Omega_{\mathcal{H}}$ 同样有源自 $\mathcal{H}$ 的 $\GL(2,\R)^+$ 左作用, 在 $\Gamma(\mathcal{H}, \Omega_{\mathcal{H}})$ 上诱导的右作用是微分形式的拉回 $\eta \xmapsto{\gamma} \gamma^* \eta$.
+	\item 考察 $E = \bomega$ 情形: 让 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2, \R)^+$ 按以下方式联系 $\bomega$ 的纤维:
+	\begin{equation}\label{eqn:omega-transport}\begin{tikzcd}[row sep=small]
+		\bomega_{\CC/\Lambda_{\gamma\tau}} & \bomega_{\CC/\Lambda_\tau} \arrow[l, "\sim"'] \\
+		(\det\gamma)^{-1} \cdot (c\tau + d) \dd z & \dd z \arrow[mapsto, l]
+	\end{tikzcd}\end{equation}
+	上式中 $(c\tau + d)$ 无非是自守因子 $j(\gamma, \tau)$. 由 $j(\gamma\gamma', \tau) = j(\gamma, \gamma'\tau) j(\gamma', \tau)$ (引理 \ref{prop:automorphy-cocycle}) 可知这构成 $\GL(2, \R)^+$ 在线丛 $\bomega$ 上的左作用, 它``提升''了 $\GL(2,\R)^+$ 在 $\mathcal{H}$ 上的线性分式变换作用.
+
+	由 \eqref{eqn:omega-transport} 立见 $\mathrm{triv}$ 对 $\GL(2,\R)^+$ 作用非等变.
+
+	\item 最后, 取 $E$ 为 $\bomega$ 的对偶线丛 $\bomega^{\otimes (-1)}$, 赋予它 $\GL(2, \R)^+$ 的左作用:
+	\begin{equation}\label{eqn:omega-dual-transport}\begin{tikzcd}[row sep=small]
+		\bomega_{\CC/\Lambda_{\gamma\tau}}^{\otimes (-1)} & \bomega_{\CC/\Lambda_\tau}^{\otimes (-1)} \arrow[l, "\sim"'] \\
+		(c\tau + d)^{-1} (\dd z)^{\otimes (-1)} & (\dd z)^{\otimes (-1)}. \arrow[mapsto, l]
+	\end{tikzcd}\end{equation}
+\end{enumerate}
+
+假若要求 $\gamma \in \SL(2, \Z)$, 那么 \eqref{eqn:omega-transport} 有自然的``模诠释'': 它可借由同构
+\begin{equation}\begin{tikzcd}[row sep=small]
+	\CC/\Lambda_{\gamma\tau} \arrow[r, "c\tau + d", "\sim"'] & \CC / \Z(a\tau + b) \oplus \Z(c\tau + d) & \CC/\Lambda_\tau \arrow[equal, l] \\
+	\bomega_{\CC/\Lambda_{\gamma\tau}} & \bomega_{\CC / \Z(a\tau + b) \oplus \Z(c\tau + d)} \arrow[l, "{(c\tau + d)^*}"' inner sep=0.7em, "\sim"] \arrow[equal, r] & \bomega_{\CC/\Lambda_\tau}
+\end{tikzcd}\end{equation}
+来实现, 而按表示论的术语, $\gamma$ 在 $\bomega^{-1}$ 上的作用是它的``逆步''.
+
+对任意 $k \in \Z$, 因为 $\mathrm{triv}: \mathcal{O}_{\mathcal{H}} \rightiso \bomega$ 的两边都是带 $\GL(2,\R)^+$ 作用的线丛, 对之可作 $k$ 次张量幂. 若 $f \in \Gamma(\mathcal{H}, \mathcal{O}_{\mathcal{H}})$, 回忆上古定义 \ref{def:bar-action}, 则 $f(\tau) (\dd z)^{\otimes k} \in \Gamma(\mathcal{H}, \bomega)$ 在 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2,\R)^+$ 右作用下的像 $(f \dd z^{\otimes k}) \cdot \gamma$ 在 $\tau$ 的取值不外乎
+\begin{multline}\label{eqn:dz-equivariance}
+	f(\gamma\tau) \cdot \left( \dd z \in \bomega_{\CC/\Lambda_{\gamma\tau}} \;\text{对 \eqref{eqn:omega-transport} 的逆像}\right)^{\otimes k} \\
+	= (\det\gamma)^k (c\tau + d)^{-k} f(\gamma\tau) (\dd z)^{\otimes k} = (\det\gamma)^{k/2} \left( f \modact{k} \gamma \right)(\tau) \; (\dd z)^{\otimes k}.
+\end{multline}
+
+等式 \eqref{eqn:dz-equivariance} 已隐现模形式的身影. 下一步是降到 $Y(\Gamma) = \Gamma \backslash \mathcal{H}$. 记商映射为 $\mathcal{H} \xrightarrow{\pi} Y(\Gamma)$. 一般而言, 对于 $\mathcal{H}$ 上带有左 $\Gamma$-作用的向量丛 $E$, 对 $E \to \mathcal{H}$ 两边同时取商, 得到
+\[ E^\flat := E/\Gamma \to Y(\Gamma); \]
+称 $E^\flat$ 为 $E$ 对 $\Gamma$ 的商或曰``下降''. 由于 $\Gamma$ 无挠, 取商过程在几何上毫无困难: 可以验证 $E^\flat$ 是 $Y(\Gamma)$ 上的向量丛, $\rank E = \rank E^\flat$, 而且对于任意开集 $V \subset Y(\Gamma)$ 皆有
+\begin{equation}\label{eqn:quotient-bundle-section}
+	\Gamma(V, E^\flat) = \Gamma\left(\pi^{-1} V, E\right)^{\Gamma\text{-不变}}.
+\end{equation}
+类似地, 带 $\Gamma$-作用的层同样可以从 $\mathcal{H}$ 下降到 $Y(\Gamma)$, 使得其截面满足 \eqref{eqn:quotient-bundle-section}.
+
+现在取 $E$ 为 $\bomega$, 它下降为 $Y(\Gamma)$ 上的线丛 $\bomega_\Gamma$. 另一方面, 线丛 $\Omega_{\mathcal{H}}$ 也带 $\GL(2,\R)^+$ 作用, $\dd\tau$ 是其处处非零的截面; 它下降到 $Y(\Gamma)$ 的产物自然是 $\Omega_{Y(\Gamma)}$.
+\index[sym1]{omega-Gamma@$\bomega, \bomega_\Gamma$}
+
+\begin{proposition}[小平--Spencer 同构]\label{prop:Kodaira-Spencer-0}
+	映射 $\dd\tau \mapsto (\dd z)^{\otimes 2}$ 给出 $\mathcal{H}$ 上线丛的同构 $\mathrm{KS}: \Omega_{\mathcal{H}} \rightiso \bomega^{\otimes 2}$, 满足
+	\[ (\det\gamma)^{-1} \mathrm{KS}(s) \gamma = \mathrm{KS}(s \gamma), \quad \gamma \in \GL(2, \R)^+; \]
+	特别地, $\mathrm{KS}$ 对 $\SL(2, \R)$ 作用等变. 对 $\Gamma$ 取商给出 $Y(\Gamma)$ 上线丛的同构 $\mathrm{KS}: \Omega_{Y(\Gamma)} \rightiso \bomega_\Gamma^{\otimes 2}$.
+\end{proposition}
+\begin{proof}
+	比较 $\dd\tau$ 的等变性 (引理 \ref{prop:fractional-transform-d}) 和 $\dd z$ 的等变性 \eqref{eqn:dz-equivariance} 即足.
+\end{proof}
+
+关于小平--Spencer 映射的完整理论可参考 \cite[\S 8.4]{LZ} 的综述.
+
+\begin{definition}\label{def:omega-extension}
+	将 $Y(\Gamma)$ 上的线丛 $\bomega_\Gamma$ 按以下方式延拓到 $X(\Gamma)$, 产物仍记为 $\bomega_\Gamma$: 考虑 $t = \alpha\infty \in \mathcal{C}_\Gamma$, 其中 $\alpha \in \SL(2,\R)$; 取满足引理 \ref{prop:glueing-holomorphy-cusp} 条件的 $\Gamma_t$-不变开邻域 $U \ni t$; 我们要求
+	\begin{compactitem}
+		\item $\Gamma(U, \bomega_\Gamma) := \CC (\dd z \cdot \alpha^{-1})|_{U \smallsetminus \{t\}}$,
+		\item $1 \mapsto \dd z \cdot \alpha^{-1}$ 给出平凡化 $\mathcal{O}_U \rightiso \bomega_\Gamma|_U$.
+	\end{compactitem}
+\end{definition}
+
+留意到 $\dd z \cdot \alpha^{-1}$ 在 $t = \alpha\infty$ 附近的性状相当于 $\dd z$ 在 $\infty$ 附近的性状. 利用 \S\ref{sec:X-charts} 的结果, 可以验证这些定义和一切选取无关, 并且使 $\bomega_\Gamma$ 成为 $X(\Gamma)$ 上的线丛. 这里便不纠缠细节了.
+
+\begin{proposition}\label{prop:Kodaira-Spencer}
+	命题 \ref{prop:Kodaira-Spencer-0} 的态射 $\mathrm{KS}$ 延拓为 $X(\Gamma)$ 上线丛的态射 $\mathrm{KS}: \Omega_{X(\Gamma)} \to \bomega_\Gamma^{\otimes 2}$: 它在 $Y(\Gamma)$ 上是同构, 在每个尖点 $c \in X(\Gamma) \smallsetminus Y(\Gamma)$ 处都恰有 $1$ 阶零点.
+\end{proposition}
+\begin{proof}
+	不失一般性, 只论 $\infty$ 代表的尖点. 设
+	\[ \overline{\Gamma}_t = \twobigmatrix{1}{h\Z}{}{1}, \quad h \in \R_{>0}. \]
+	回忆到 $X(\Gamma)$ 在 $\infty$ 附近的坐标由 $q = e^{2\pi i\tau/h}$ 给出, $q(\infty) = 0$. 命题 \ref{prop:Kodaira-Spencer-0} 的态射在 $\infty$ 附近遂写作
+	\[ \mathrm{KS}: \dd\tau = \frac{h \dd q}{2\pi i q}  \mapsto (\dd z)^{\otimes 2}; \]
+	左边在 $q = 0$ 有 $1$ 阶极点, 右边是 $\bomega_\Gamma$ 在 $\infty$ 附近的平凡化截面.
+\end{proof}
+
+倘若读者熟悉代数几何的语言, 则不难将上述结果改写为 $X(\Gamma)$ 上的同构 $\Omega_{X(\Gamma)} \rightiso \bomega_\Gamma^{\otimes 2}(-\sum \text{尖点})$, 或等价的 $\Omega_{X(\Gamma)}(\sum \text{尖点}) \rightiso \bomega_\Gamma^{\otimes 2}$.
+
+\begin{theorem}\label{prop:modular-vs-omega}
+	在假设 \ref{hyp:torsion-free} 下, 对于所有 $k \in \Z$, 我们有 $\CC$-向量空间的自然同构
+	\[\begin{tikzcd}[row sep=small]
+		f(\tau) \arrow[mapsto, r] \arrow[phantom, d, "\in" description, sloped] & f(\tau) (\dd z)^{\otimes k} \arrow[phantom, d, "\in" description, sloped] \\
+		M_k(\Gamma) \arrow[r, "\sim"] & \Gamma\left(X(\Gamma), \bomega_\Gamma^{\otimes k} \right) \\
+		S_k(\Gamma) \arrow[r, "\sim"] \arrow[phantom, u, "\subset" description, sloped] & \Gamma\left(X(\Gamma), \bomega_\Gamma^{\otimes k}\left( -\sum \text{尖点}\right) \right) \arrow[phantom, u, "\subset" description, sloped]
+	\end{tikzcd}\]
+	和
+	\[\begin{tikzcd}[row sep=small]
+		S_{k+2}(\Gamma) \arrow[r, "\sim"] & \Gamma\left(X(\Gamma), \Omega_{X(\Gamma)} \otimes \bomega_\Gamma^{\otimes k} \right) \\
+		f \arrow[phantom, u, "\in" description, sloped] \arrow[mapsto, r] & f(\tau) \cdot \mathrm{KS}^{-1} \left((\dd z)^{\otimes 2}\right) (\dd z)^{\otimes k} \arrow[phantom, u, "\in" description, sloped] .
+	\end{tikzcd}\]
+\end{theorem}
+\begin{proof}
+	与定义 \ref{def:modular-form-gen} 对勘. 根据 \eqref{eqn:dz-equivariance}, 容许在尖点处亚纯的模形式等同于 $\bomega_\Gamma^{\otimes k}$ 的截面, 后者同样容许在 $X(\Gamma) \smallsetminus Y(\Gamma)$ 亚纯. 对于由 $c = \alpha\infty \in \mathcal{C}_\Gamma$ 代表之尖点, 基于定义 \ref{def:omega-extension} 可知 $F := f (\dd z)^{\otimes k}$ 在 $c$ 处全纯等价于 $F$ 在 $\alpha\infty$ 附近被 $(\dd z \cdot \alpha^{-1})^{\otimes k}$ 整除, 这又等价于 $F \cdot \alpha$ 在 $\infty$ 附近被 $(\dd z)^{\otimes k}$ 整除, 但 \eqref{eqn:dz-equivariance} 表明
+	\[ F \cdot \alpha = f \modact{k} \alpha \cdot (\dd z)^{\otimes k}, \]
+	于是一切等价于 $f \modact{k} \alpha$ 在 $\infty$ 处全纯. 消没性质的描述也类似, 但假设 \ref{hyp:torsion-free} 中的正则尖点条件将起作用, 请读者寻思. 这就确立了关于 $M_k(\Gamma)$ 和 $S_k(\Gamma)$ 的同构.
+	
+	关于 $S_{k+2}(\Gamma)$ 的同构是上述情形和命题 \ref{prop:Kodaira-Spencer} 的直接应用: 留意到 $\Omega_{X(\Gamma)}$ 的局部截面 $\mathrm{KS}^{-1} \left((\dd z)^{\otimes 2}\right)$ 在尖点处是一阶极点, 正与 $f$ 的零点抵消.
+\end{proof}
+
+这些结果与第四章类似, 但由于该章寻求的是明确公式, 而且未加假设 \ref{hyp:torsion-free}, 技术上遂增添不少麻烦.
+
+\section{若干局部系统}\label{sec:Shimura-locsys} \index{jubuxitong}
+本节延续 \S\ref{sec:cplx-viewpoint} 的观点和符号, 依旧要求 $\Gamma$ 满足假设 \ref{hyp:torsion-free}. 包含映射 $j: Y(\Gamma) \hookrightarrow X(\Gamma)$ 是 Riemann 曲面的开嵌入. 记尖点集为 $\Sigma := X(\Gamma) \smallsetminus Y(\Gamma)$. 令 $\pi: \mathcal{H}^* \to X(\Gamma)$ 为商映射.
+
+以下从 \eqref{eqn:torus-Hodge-decomp} 的分解 $\bomega_{\CC/\Lambda} \oplus \overline{\bomega_{\CC/\Lambda}} \rightiso V_\Lambda$ 切入, 但是要求 $\Lambda = \Lambda_\tau$, 其中 $\tau \in \mathcal{H}$. 对之定义向量空间
+\[ V_\tau := (\Lambda_\tau \otimes \CC)^\vee, \quad V_\tau^\vee := \Lambda_\tau \otimes \CC; \]
+当然, 它们可以定义在 $\R$, 甚且是 $\Z$ 上. 资料 $V := (V_\tau)_\tau$ 及其对偶 $V^\vee := (V_\tau^\vee)_\tau$ 都构成 $\mathcal{H}$ 上的秩 $2$ \emph{局部系统}: 当 $\tau$ 变动, $V_\tau$ 和 $V_\tau^\vee$ 随之俱转. 注意到 $V^\vee$ 可以平凡化, 由以下截面 $\check{e}_1, \check{e}_2$ 确定
+\[ \check{e}_1(\tau) := 1 \in \Lambda_\tau, \quad \check{e}_2(\tau) = -\tau \in \Lambda_\tau, \quad \tau \in \mathcal{H}; \]
+取对偶基 $e_1(\tau), e_2(\tau) \in V_\tau$ 便给出 $V$ 的平凡化截面 $e_1, e_2$. 留意到 $\{ 1, -\tau \}$ 是 $\CC$ 的负向 $\R$-基.
+
+接着将 $\GL(2, \R)^+$ 在 $\mathcal{H}$ 上的作用提升到 $V$ 上: 设 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2, \R)^+$, 在基上定义从纤维之间的过渡:
+\begin{equation}\label{eqn:V-fiber-transport}\begin{aligned}
+	V_\tau & \longrightarrow V_{\gamma\tau} \\
+	e_1(\tau) & \mapsto (\det\gamma)^{-1} \left( d e_1(\gamma\tau) - b e_2(\gamma\tau) \right) \\
+	e_2(\tau) & \mapsto (\det\gamma)^{-1} \left( -c e_1(\gamma\tau) + a e_2(\gamma\tau) \right);
+\end{aligned}\end{equation}
+或者说, 相对于基 $e_1, e_2$, 它由矩阵 ${}^t \gamma^{-1}$ 的矩阵左乘给出, 故此为 $\GL(2, \R)^+$ 的左作用.
+
+当 $\gamma \in \SL(2, \Z)$ 时, 作用 \eqref{eqn:V-fiber-transport} 和 \eqref{eqn:omega-transport} 一样具有模诠释: 根据 \S\ref{sec:cplx-tori} 的讨论, $\mathcal{H}$ 分类的几何对象是复环面 $E = \CC/\Lambda$ 配上 $\alpha: \Z^2 \rightiso \Lambda = \Hm_1(E; \Z)$, 精确到同构; $\gamma = \twomatrix{a}{b}{c}{d} \in \SL(2, \Z)$ 的作用保持 $E$, 变 $\alpha$ 为 $\alpha \circ {}^t \gamma$. 记
+\begin{align*}
+	\check{e}_1 & := \alpha(0, 1) & \check{e}'_1 & := \alpha \circ {}^t \gamma (0, 1) =  d\check{e}_1 - c\check{e}_2 \\
+	\check{e}_2 & := -\alpha(1, 0) & \check{e}'_2 & := - \alpha \circ {}^t \gamma (1, 0) = -b\check{e}_1 + a\check{e}_2 .
+\end{align*}
+取转置可知它们在 $\Hom(\Lambda, \Z)$ 中的对偶基服从于
+\[ e_1 = d e'_1 - b e'_2, \quad e_2 = -c e'_1 + a e'_2. \]
+当 $\Lambda = \Lambda_\tau$ 时, $e_i = e_i(\tau)$ 而 $e'_i$ 透过 $\gamma$ 等同于 $e_i(\gamma\tau)$; 因为 $\det\gamma = 1$, 一切回归 \eqref{eqn:V-fiber-transport}.
+
+对 $i = 1, 2$, 将 $e_i$ 视同向量丛 $V \otimes_{\CC} \mathcal{O}_{\mathcal{H}}$ 的整体截面; 特别地, 它们使 $V \dotimes{\CC} \mathcal{O}_{\mathcal{H}} \simeq \mathcal{O}_{\mathcal{H}}^{\oplus 2}$ 成为平凡向量丛. 对 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2, \R)^+$ 按 \eqref{eqn:right-action-model} 定义 $V \otimes_{\CC} \mathcal{O}_{\mathcal{H}}$ 的整体截面 $e_i \cdot \gamma$, 具体计算表明
+\begin{equation}\label{eqn:e1e2-action}\begin{aligned}
+	e_1 \cdot \gamma & = ae_1 + be_2, \\
+	e_2 \cdot \gamma & = ce_1 + de_2;
+\end{aligned}\end{equation}
+或者说, 相对于基 $e_1, e_2$, 它由 $\gamma$ 的矩阵右乘给出.
+
+\begin{lemma}\label{prop:e1e2}
+	对所有 $\tau \in \mathcal{H}$, 映射 \eqref{eqn:torus-Hodge-decomp} 对 $\Lambda_\tau$ 用 $e_1, e_2$ 表作
+	\[ \dd z \mapsto e_1 - \tau e_2, \quad \overline{\dd z} \mapsto e_1 - \overline{\tau} e_2. \]
+	进一步, 我们有 $\mathcal{H}$ 上向量丛的 $\GL(2, \R)^+$-等变短正合列
+	\begin{equation}\label{eqn:Hodge-omega-0}\begin{tikzcd}[row sep=tiny]
+		0 \arrow[r] & \bomega \arrow[r] & V \dotimes{\CC} \mathcal{O}_{\mathcal{H}} \arrow[r, "q"] & \bomega^{\otimes (-1)} \arrow[r] & 0 \\
+		& \dd z \arrow[mapsto, r] & e_1 - \tau e_2 & & \\
+		& & s e_1 + t e_2 \arrow[mapsto, r] & (\tau s + t) (\dd z)^{\otimes (-1)} & (s, t \in \CC).
+	\end{tikzcd}\end{equation}
+\end{lemma}
+\begin{proof}
+	关于映射 \eqref{eqn:torus-Hodge-decomp} 的表法从 $e_i, \check{e}_j$ 的定义看是明白的. 至于 \eqref{eqn:Hodge-omega-0}, 正合性在纤维上考察亦属自明, 以下证其等变. 取定 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2, \R)^+$. 我们考察 $V \otimes_{\CC} \mathcal{O}_{\mathcal{H}}$ 的整体截面: 对于第一段映射, 由 \eqref{eqn:e1e2-action} 知
+	\begin{multline*}
+		(e_1 - \tau e_2) \cdot \gamma = \left( a - \frac{a\tau + b}{c\tau + d} \cdot c \right) e_1 + \left(b - \frac{a\tau + b}{c\tau + d} \cdot d \right)e_2 \\
+		= (c\tau + d)^{-1} (ad - bc) (e_1 - \tau e_2),
+	\end{multline*}
+	这正是 \eqref{eqn:dz-equivariance} (取 $k=1$) 描述的 $\dd z \cdot \gamma$ 之像. 第二段映射 $q$ 的处理办法类似, 我们有
+	\begin{multline*}
+		(s e_1 + t e_2) \cdot \gamma = (as + ct) e_1 + (bs + dt) e_2 \\
+		\xmapsto{q} \left( (a\tau + b) s + (c\tau + d)t \right) (\dd z)^{\otimes (-1)} = (c\tau + d) (\gamma\tau s + t) (\dd z)^{\otimes (-1)} ;
+	\end{multline*}
+	然而根据 \eqref{eqn:omega-dual-transport} 的规定, 这正是 $q(s e_1 + t e_2) \cdot \gamma = \left((\tau s + t) (\dd z)^{\otimes (-1)} \right) \cdot \gamma$.
+\end{proof}
+
+\begin{remark}\label{rem:V-locsys}
+	引理 \ref{prop:e1e2} 以显式说明对于 $\Lambda = \Lambda_\tau$, 映射 \eqref{eqn:torus-Hodge-decomp} 的 $\bomega$ 部分对 $\tau$ 全纯, $\overline{\bomega}$ 部分反全纯. 相对地, 等变短正合列 \eqref{eqn:Hodge-omega-0} 只涉及全纯的对象. 对 $V$ 上的 $\Gamma$ 作用同样可取商, 得到 $Y(\Gamma)$ 上的秩 $2$ 局部系统 $V_\Gamma$. 因而 \eqref{eqn:Hodge-omega-0} 诱导向量丛的短正合列
+	\begin{equation}\label{eqn:Hodge-omega-1}
+		0 \to \bomega_\Gamma \to V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)} \to \bomega_\Gamma^{\otimes (-1)} \to 0 \quad \text{(在 $Y(\Gamma)$ 上)}.
+	\end{equation}
+	这些短正合列是 \emph{Hodge 结构变异}的初步例子; \eqref{eqn:Hodge-omega-2} 将把此列延拓到 $X(\Gamma)$ 上. 和 \eqref{eqn:Hodge-omega-1} 类似的结构还可以从代数几何观点研究, 视角是考虑一般交换环或概形上的椭圆曲线, 以其代数 de Rham 上同调替代 $V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)}$; 见 \cite[A1.2]{Ka73} 的介绍.
+\end{remark}
+
+\begin{definition}\label{def:locsys-V} \index[sym1]{kVGamma@${}^k V_\Gamma$}
+	选定 $k \in \Z_{\geq 0}$, 以对称幂定义 $Y(\Gamma)$ 上的局部系统
+	\[ {}^k V_\Gamma := \Sym^k V_\Gamma, \quad \Sym^0 V_\Gamma := \CC, \quad \Sym^1 V_\Gamma = V_\Gamma; \]
+	因为对称幂是一种逐纤维的操作, 它们也可以等同于 $\Sym^k V$ 对 $\Gamma$ 取商的产物.
+\end{definition}
+
+依据商的定义, 以下应该是自明的.
+\begin{proposition}\label{prop:V-pullback}
+	设 $\Gamma' \subset \Gamma$ 为子群, $(\Gamma:\Gamma')$ 有限. 记 $p: Y(\Gamma') \to Y(\Gamma)$ 为商映射, 则有自然同构 $p^*\left({}^k V_{\Gamma}\right) \rightiso {}^k V_{\Gamma'}$.
+\end{proposition}
+
+关于对称幂的代数理论可见 \cite[\S 7.6]{Li1}. 因为 $Y(\Gamma)$ 复一维, 复几何中称为全纯 Poincaré 引理的常识给出层的短正合列
+\[ 0 \to \CC \to \mathcal{O}_{Y(\Gamma)} \xrightarrow{\dd} \mathcal{O}_{Y(\Gamma)} \to 0, \]
+由此又导出短正合列
+\begin{equation}\label{eqn:dR-Y}
+	0 \to {}^k V_\Gamma \to {}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)} \xrightarrow{\identity \otimes \dd} {}^k V_\Gamma \dotimes{\CC} \Omega_{Y(\Gamma)} \to 0;
+\end{equation}
+故 $\Hm^\bullet\left( Y(\Gamma), {}^k V_\Gamma\right)$ 可用以下复形的超上同调 $\mathbf{H}^\bullet(Y(\Gamma), \cdot)$ 来计算
+\[ {}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)} \xrightarrow{\identity \otimes \dd} {}^k V_\Gamma \dotimes{\CC} \Omega_{Y(\Gamma)} \quad \text{(次数: $0, 1$)}, \]
+其中最有趣的是中间上同调 $\Hm^1$. 当 $Y(\Gamma)$ 紧时, Hodge 理论是处理这种问题的有力工具. 我们关心的自然是一般情形. 延拓 ${}^k V_\Gamma$ 为 $X(\Gamma)$ 上的层 \index[sym1]{jkVGamma@$j_* {}^k V_\Gamma$}
+\[ j_*\left( {}^k V_\Gamma \ \right): \text{开集}\; W \mapsto \Gamma\left( W \smallsetminus \Sigma, {}^k V_\Gamma \right). \]
+它在 $Y(\Gamma)$ 上等于 ${}^k V_\Gamma$, 在任何 $y \in Y(\Gamma)$ 处的茎可用引理 \ref{prop:e1e2} 的符号表作 $\bigoplus_{a+b=k} \CC e_1^a e_2^b$. 对于尖点 $x \in \Sigma$, 取 $t = \alpha\infty \in \pi^{-1}(x)$ 和充分小的开邻域 $U \ni t$. 拓扑上 $U \smallsetminus \{t\}$ 同胚于圆盘挖掉原点, $\pi_1(U \smallsetminus \{t\}) = \Gamma_t$. 不失一般性先假定 $t = \infty$, 那么存在唯一的 $h > 0$ 使得
+\[ \Gamma_\infty = \twobigmatrix{1}{h\Z}{}{1}. \]
+
+任何 ${}^k V_\Gamma$ 的截面 $s$ 局部上都取常值, 但是由于局部系统 $V_\Gamma$ 定义为 $V$ 对 $\Gamma$ 的商, 随着我们正向绕尖点一圈, 纤维被 $\twomatrix{1}{h}{}{1}$ 在 $V$ 上的作用相应地搬动: 根据 \eqref{eqn:e1e2-action}, 此作用 (称为\emph{单值变换}) 表作 \index{danzhibianhuan@单值变换 (monodromy transformation)}
+\[ e_1 \mapsto e_1 + he_2, \qquad e_2 \mapsto e_2, \]
+在对称幂上则给出
+\[ e_1^a e_2^b \mapsto \sum_{r=0}^a \binom{a}{r} h^r e_1^{a-r} e_2^{b+r}, \quad a, b \in \Z_{\geq 0}, \; a + b = k; \]
+由此易推得
+\[ j_* \left( {}^k V_\Gamma\right)_{\pi(\infty)} = \CC e_2^k, \quad \text{继而} \quad j_* \left( {}^k V_\Gamma\right)_{\pi(\alpha\infty)} = \CC (e_2 \cdot \alpha^{-1})^k. \]
+这些等式也可以透过将 ${}^k V_\Gamma$ 视为 $\Sym^k V$ 对 $\Gamma$ 的商, 用 \eqref{eqn:quotient-bundle-section} 推导. 注意到 $j_*({}^0 V_\Gamma)$ 是 $X(\Gamma)$ 上的常值层 $\CC$: 它的单值变换是 $\identity$.
+
+依照几何视角, 自然的问题是寻求以类似 \eqref{eqn:dR-Y} 的手段计算 $\Hm^1\left( X(\Gamma), j_* {}^k V_\Gamma\right)$. 这是下节的任务. 单值变换为幂幺变换这一性质将起到关键的作用.
+
+\section{上同调与滤过}\label{sec:Shimura-filtration}
+沿续 \S\ref{sec:Shimura-locsys} 的讨论和符号. 选定 $k \in \Z_{\geq 0}$. 第一步是将正合列 \eqref{eqn:dR-Y} 延拓到 $X(\Gamma)$. 今后简记
+\[ \mathcal{O} := \mathcal{O}_{X(\Gamma)}. \]
+
+\begin{definition-proposition}\label{def:Sym-extension}
+	按以下方式定义 $j_* ( {}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)})$ 的子层 $\mathcal{O}({}^k V_\Gamma)$, 使得
+	\begin{compactenum}[(i)]
+		\item 它是秩 $k + 1$ 的局部自由 $\mathcal{O}$-模, 因此对应到 $X(\Gamma)$ 上的秩 $k+1$ 向量丛;
+		\item 它限制在 $Y(\Gamma)$ 上等于 ${}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)}$;
+		\item 它包含 $j_* {}^k V_\Gamma$ 作为子层.
+	\end{compactenum}
+
+	首先对 $X(\Gamma)$ 指定坐标开集 $W$ 和相应的 $\alpha \in \SL(2,\R)$: 记商映射 $\mathcal{H}^* \to X(\Gamma)$ 为 $\pi$.
+	\begin{compactitem}
+		\item 设 $W$ 是 $Y(\Gamma)$ 上的坐标开集, 如引理 \ref{prop:glueing-holomorphy}, 对之取 $\alpha := 1$, 这时存在开集 $U \subset \mathcal{H}$ 使得 $\pi: U \rightiso W$;
+		\item 设 $W$ 是 $X(\Gamma)$ 上包含尖点 $x$ 的坐标开集, 如引理 \ref{prop:glueing-holomorphy-cusp}; 取 $\alpha$ 使得 $x = \pi(\alpha\infty)$, 这时存在含 $\alpha\infty$ 的开集 $U \subset \mathcal{H}^*$, 使得 $\pi$ 诱导 $\Gamma_{\alpha\infty} \backslash U \rightiso W$.
+	\end{compactitem}
+	命
+	\begin{gather*}
+		u := (e_1 - \tau e_2) \cdot \alpha^{-1}, \quad v := e_2 \cdot \alpha^{-1} \quad (\tau \in U \smallsetminus \Sigma), \\
+		u, v \in \Gamma\left(U, j_* (\Sym^k V) \dotimes{\CC} \mathcal{O}_{\mathcal{H}} \right),
+	\end{gather*}
+	其中 $e_1, e_2$ 视为 $V$ 的局部截面, 那么在含尖点情形 $u, v$ 对 $\Gamma_{\alpha\infty}$ 不变, 故下降为 ${}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)}$ 在 $W$ 上的截面. 命
+	\[ \Gamma\left( W, \mathcal{O}({}^k V_\Gamma)\right) := \bigoplus_{a=0}^k \Gamma(W, \mathcal{O}) u^a v^{k-a}. \]
+\end{definition-proposition}
+\begin{proof}
+	关键在于尖点. 适当取共轭后不妨设 $x = \pi(\infty)$. 取 $\alpha = 1$. 由于 $\Gamma_\infty$ 由形如 $\twomatrix{1}{h}{}{1}$ 的元素生成, 从 \eqref{eqn:e1e2-action} 易见 $u, v$ 对 $\Gamma_\infty$ 不变. 此外, $\SL(2, \R)$ 中保持 $\infty$ 的矩阵必可写成 $\twomatrix{a}{b}{}{a^{-1}}$, 公式 \eqref{eqn:e1e2-action} 说明它映 $u$ 为 $au$, 映 $v$ 为 $a^{-1}v$. 因此以上定义也无关 $\alpha$ 的选取. 这就粘合为所求的层.
+
+	显然 $\mathcal{O}({}^k V_\Gamma)$ 限制在 $Y(\Gamma)$ 上等于 ${}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)}$. 上节最末业已说明在尖点附近有 $\Gamma\left(W, j_* {}^k V_\Gamma \right) = \CC v^k$, 故 $j_* {}^k V_\Gamma$ 是 $\mathcal{O}({}^k V_\Gamma)$ 的子层.
+\end{proof}
+
+根据定义--命题 \ref{def:Sym-extension} 对 $\mathcal{O}({}^k V_\Gamma)$ 的局部描述, 立即导出以下结论.
+\begin{itemize}
+	\item 对称代数 $\Sym V = \bigoplus_{a \geq 0} \Sym^a V$ 上的乘法自然地给出 $\bigoplus_{a \geq 0} j_* ( {}^a V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)} )$ 上的分次乘法结构, 此乘法可以限制到子层 $\bigoplus_{a \geq 0} \mathcal{O}({}^a V_\Gamma)$ 上, 给出
+	\[ \mathcal{O}({}^a V_\Gamma) \dotimes{\mathcal{O}} \mathcal{O}({}^b V_\Gamma) \to \mathcal{O}({}^{a+b} V_\Gamma), \quad \mathcal{O}({}^0 V_\Gamma) = \mathcal{O}. \]
+	\item 构作 $\mathcal{O}(V_\Gamma)$ 在层论意义下的对称 $\mathcal{O}$-代数 $\Sym \mathcal{O}(V_\Gamma)$. 上述乘法诱导
+	\begin{equation}\label{eqn:Sym-algebra}
+		\Sym \mathcal{O}(V_\Gamma) \rightiso \bigoplus_{a \geq 0} \mathcal{O}({}^a V_\Gamma) \quad \text{(作为 $\mathcal{O}$-代数)}.
+	\end{equation}
+	\item 将 $\mathcal{O}(V_\Gamma)$ 等同于对应的秩 $2$ 向量丛, 则 \eqref{eqn:Hodge-omega-1} 可以延拓为 $X(\Gamma)$ 上的短正合列
+	\begin{equation}\label{eqn:Hodge-omega-2}
+		0 \to \bomega_\Gamma \to \mathcal{O}(V_\Gamma) \to \bomega_\Gamma^{-1} \to 0,
+	\end{equation}
+	这是因为根据 \eqref{eqn:Hodge-omega-0}, 在尖点 $\pi(\alpha\infty)$ 附近 $\bomega_\Gamma$ 的生成截面 $\dd z \cdot \alpha^{-1}$ 映为 $u$, 而 $v$ 则映为 $(\dd z)^{\otimes (-1)} \cdot \alpha^{-1}$.
+	
+	于是 $\bomega_\Gamma^{\otimes h}$ 嵌入 $\mathcal{O}({}^h V_\Gamma)$, 继而乘法结构诱导自然映射
+	\begin{equation}\label{eqn:Hodge-omega-3}
+		\bomega_\Gamma^{\otimes h} \dotimes{\mathcal{O}} \mathcal{O}({}^k V_\Gamma) \to \mathcal{O}({}^{h + k} V_\Gamma), \quad h, k \geq 0.
+	\end{equation}
+\end{itemize}
+
+回忆到 $\Sigma$ 表尖点集. 记 $\Omega_{X(\Gamma)}(\Sigma)$ 为 $j_* \Omega_{Y(\Gamma)}$ 的如下子层:
+\[ \Omega_{X(\Gamma)}(\Sigma): W \mapsto \left\{ \omega: W\; \text{上的亚纯微分}, \; \divisor(\omega) + \sum_{x \in \Sigma} x \geq 0 \right\}. \]
+在每个尖点附近取坐标 $q$, 那么 $\Omega_{X(\Gamma)}(\Sigma)$ 在该尖点附近由 $\frac{\dd q}{q}$ 生成. 在任何尖点 $\pi(\alpha\infty)$ 的坐标邻域上, $\dd \tau \cdot \alpha^{-1}$ 是 $\Omega_{X(\Gamma)}(\Sigma)$ 的局部截面: 见命题 \ref{prop:Kodaira-Spencer} 的证明.
+
+\begin{definition}\label{def:Sym-filtration}
+	在 $\mathcal{O}({}^k V_\Gamma)$ 上定义滤过
+	\begin{gather*}
+		\mathcal{O}({}^k V_\Gamma) = \mathcal{F}^0 \supset \cdots \supset \mathcal{F}^k \supset \{0\}, \\
+		\mathcal{F}^h := \bomega_\Gamma^{\otimes h} \dotimes{\mathcal{O}} \mathcal{O}({}^{k-h} V_\Gamma) \;\; \text{对 \eqref{eqn:Hodge-omega-3} 的像}.
+	\end{gather*}
+	换言之, 取 $u, v$ 如定义--命题 \ref{def:Sym-extension}, 则 $\mathcal{F}^h$ 在每一点 $x \in X(\Gamma)$ 处的茎可表成
+	\[ (\mathcal{F}^h)_x = \bigoplus_{j=h}^k \mathcal{O}_x u^j v^{k-j}. \]
+	另外, 定义 $\mathcal{O}({}^k V_\Gamma)$ 上的\emph{联络}为层的下述 $\CC$-线性映射
+	\begin{align*}
+		\nabla: \mathcal{O}({}^k V_\Gamma) & \to \mathcal{O}({}^k V_\Gamma) \dotimes{\mathcal{O}} \Omega_{X(\Gamma)}(\Sigma) \\
+		f u^a v^b & \mapsto u^a v^b \otimes \dd f + f a u^{a-1} v^b (-e_2 \cdot \alpha^{-1}) \otimes (\dd \tau \cdot \alpha^{-1}) \\
+		& \quad = u^a v^b \otimes \dd f - f a u^{a-1} v^{b+1} \otimes (\dd \tau \cdot \alpha^{-1})
+	\end{align*}
+	其中 $f$ 是 $\mathcal{O}$ 的任意局部截面, 而 $\alpha$ 如定义--命题 \ref{def:Sym-extension}.
+\end{definition}
+请留意: $\mathcal{O}({}^k V_\Gamma)$ 的截面也是 $j_*( {}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)} )$ 的截面, 而 $j_*(\identity \otimes \dd)$ 限制到 $\mathcal{O}({}^k V_\Gamma)$ 上正等于 $\nabla$, 映 $e_1, e_2$ 为 $0$. 所以 $\nabla$ 延拓了 \eqref{eqn:dR-Y} 中的 $\identity \otimes \dd$.
+
+定义导致 $\nabla$ 对 $\mathcal{O}({}^\bullet V_\Gamma)$ 的乘法服从 Leibniz 律. 它还蕴涵
+\begin{equation}\label{eqn:connection-property}
+	\nabla(fs) = s \otimes \dd f + f \nabla(s), \quad f: \mathcal{O} \text{ 的局部截面}.
+\end{equation}
+这是向量丛上联络的标准性质, 但 $\nabla$ 的状况略有不同: 鉴于 $\Omega_{X(\Gamma)}(\Sigma)$ 的定义, 它实际给出带\emph{对数奇点}的联络.
+
+\begin{proposition}\label{prop:nabla-transversality}
+	联络 $\nabla: \mathcal{O}({}^k V_\Gamma) \to \mathcal{O}({}^k V_\Gamma) \otimes \Omega_{X(\Gamma)}(\Sigma)$ 满足
+	\begin{compactenum}[(i)]
+		\item $\Ker(\nabla) = j_* \left( {}^k V_\Gamma \right)$;
+		\item (\emph{Griffiths 横截性}) 对每个 $1 \leq h \leq k$ 皆有 $\nabla \mathcal{F}^h \subset \mathcal{F}^{h-1} \otimes \Omega_{X(\Gamma)}(\Sigma)$.
+	\end{compactenum}
+\end{proposition}
+\begin{proof}
+	注意到 $\mathcal{O}({}^k V_\Gamma)$ 的截面也是 $j_*({}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)})$ 的截面, 而 $\nabla$ 是 $j_*(\identity \otimes \dd)$ 的限制. 但 $\identity \otimes \dd$ 的核显然是 ${}^k V_\Gamma$, 故 (i) 得证. 断言 (ii) 是局部问题. 用定义 \ref{def:Sym-filtration} 直接验证.
+\end{proof}
+
+现在固定 $k \geq 0$. 命题 \ref{prop:nabla-transversality} 表明 $j_* {}^k V_\Gamma$ (视为层的复形, 集中于零次项) 拟同构于
+\[ \Omega^\bullet := \left[ \underset{0}{\mathcal{O}\left( {}^k V_\Gamma\right)} \xrightarrow{\nabla} \underset{1}{\Image(\nabla)} \right] \quad \text{(下标表次数)}, \]
+其中 $\Image(\nabla)$ 是 $\nabla$ 在层论意义下的像. 对 $\Omega^\bullet$ 定义如下滤过
+\begin{gather*}
+	\Omega^\bullet = \mathfrak{F}^0 \supset \cdots \supset \mathfrak{F}^{k+1} \supset 0 \\
+	\mathfrak{F}^h := \left[ \mathcal{F}^h \xrightarrow{\nabla} \left( \mathcal{F}^{h-1} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)}(\Sigma)\right) \cap \Image(\nabla) \right],
+\end{gather*}
+在此约定 $\mathcal{F}^{-1} := \mathcal{O}({}^k V_\Gamma)$, $\mathcal{F}^{k+1} := \{0\}$. 根据专业常识, 超上同调带相应的滤过
+\begin{equation}\label{eqn:spectral-filtration}
+	F^h \mathbf{H}^i \left( X(\Gamma), \Omega^\bullet \right) := \Image\left[ \mathbf{H}^i(X(\Gamma), \mathfrak{F}^h) \to \mathbf{H}^i(X(\Gamma), \Omega^\bullet) \right]
+\end{equation}
+和谱序列 (见 \cite[\S 8.1]{LZ} 和相关参考文献)
+\begin{equation}\label{eqn:spectral-sequence}\begin{gathered}
+	\begin{tikzcd}[column sep=tiny]
+		E^{p, q}_1 \arrow[equal, d] \arrow[phantom, r, "\Longrightarrow" description] & \mathbf{H}^{p+q}\left( X(\Gamma), \Omega^\bullet \right) \\
+		\mathbf{H}^{p+q}\left( X(\Gamma), \mathfrak{F}^p/\mathfrak{F}^{p+1} \right) &  \Hm^{p+q}\left( X(\Gamma), \; j_* {}^k V_\Gamma \right) \arrow[u, "\simeq"]
+	\end{tikzcd} \\
+	E^{p, q}_\infty = \dfrac{F^p \mathbf{H}^{p+q}(X(\Gamma), \Omega^\bullet)}{F^{p+1} \mathbf{H}^{p+q}(X(\Gamma), \Omega^\bullet)}.
+\end{gathered}\end{equation}
+
+\begin{lemma}\label{prop:nabla-image-computation}
+	取局部资料 $u, v, \alpha$ 如定义--命题 \ref{def:Sym-extension}, 则有
+	\[ \Image(\nabla) = \left( \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \right) \oplus \bigoplus_{j=0}^{k-1} \mathcal{O} u^j v^{k-j} \otimes \Omega_{X(\Gamma)}(\Sigma). \]
+\end{lemma}
+\begin{proof}
+	在任一点 $x \in X(\Gamma)$ 的开邻域上, 考虑 $\mathcal{O}$ 的局部截面 $f_0, \ldots, f_k$, 定义--命题 \ref{def:Sym-extension} 中关于 $\nabla$ 的公式给出
+	\begin{equation}\label{eqn:Shimura-grading-computation-aux}
+		\nabla\left( \sum_{j=0}^k f_j u^j v^{k-j} \right) = u^k \otimes \dd f_k + \sum_{j=0}^{k-1} u^j v^{k-j} \otimes \left( \dd f_j - (j+1) f_{j+1} \dd\tau \cdot \alpha^{-1}\right).
+	\end{equation}
+	于是见得欲证断言的 $\subset$ 部分. 现在证明 $\supset$. 断言右式的局部截面可以表作
+	\[ s := u^k \otimes \xi_k + \sum_{j = 0}^{k-1} u^i v^{k-j} \otimes \xi_j, \]
+	其中 $\xi_k$ 和 $\xi_0, \ldots, \xi_{k-1}$ 分别是 $\Omega_{X(\Gamma)}$ 和 $\Omega_{X(\Gamma)}(\Sigma)$ 的局部截面. 今将在 $x$ 的充分小的开邻域上构造 $\mathcal{O}$ 的局部截面 $f_k, \ldots, f_0$ 使得 $\nabla \left( \sum_{j=0}^k f_j u^j v^{k-j}\right) = s$.
+
+	全纯 Poincaré 引理说明 $\dd \mathcal{O} = \Omega_{X(\Gamma)}$. 在 $x \in Y(\Gamma)$ 情形可取 $\alpha = 1$, 适当缩小 $x$ 的邻域, 逐步反解出 $\mathcal{O}$ 的局部截面 $f_k, \ldots, f_0$, 使得
+	\[ \dd \xi_k = f_k, \quad \xi_j = \dd f_j - (j+1) f_{j+1} \dd\tau, \quad j = k-1, \ldots, 0. \]
+	如此给出所求等式. 接着考虑 $x \in \Sigma$ 的情形. 不失一般性可设坐标开集中含唯一尖点 $x = \pi(\infty)$, 取 $\alpha = 1$. 在以上反解过程中, 对 $j = k-1, \ldots, 0$ 之每一步, 求出的 $f_{j+1}$ 都可以适当地平移 (不改变 $\dd f_{j+1}$) 以确保 $\Res_x \left( \xi_j + (j+1) f_{j+1} \dd\tau \right) = 0$, 从而仍可用全纯 Poincaré 引理反解 $\mathcal{O}$ 的截面 $f_j$.
+\end{proof}
+
+\begin{proposition}\label{prop:Shimura-grading-computation}
+	存在自然同构
+	\[ E^{p,q}_1 \simeq \begin{cases}
+		\Hm^q\left(X(\Gamma), \bomega_\Gamma^{\otimes(-k)}\right), & p = 0 \\
+		\Hm^{k + q}\left(X(\Gamma), \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \right), & p = k + 1, \\
+		\{0\}, & \text{其它情形}.
+	\end{cases}\]
+\end{proposition}
+\begin{proof}
+	关键是确定 $\mathfrak{F}^p/\mathfrak{F}^{p+1}$. 运用 \eqref{eqn:Sym-algebra} 和 \eqref{eqn:Hodge-omega-2} 立得
+	\[ \mathcal{F}^0/\mathcal{F}^1 \simeq \dfrac{\Sym^k \mathcal{O}\left(V_\Gamma\right)}{\text{含 $\bomega_\Gamma$ 的部分}} \simeq \bomega_\Gamma^{\otimes(-k)}; \]
+	亦见 \cite[推论 7.6.7]{Li1}. 这导致 $\mathfrak{F}^0/\mathfrak{F}^1$ 同构于复形 $\left[ \bomega_\Gamma^{\otimes (-k)} \to 0 \right]$, 从而给出 $E_1^{0,q}$ 的描述.
+
+	其次, 引理 \ref{prop:nabla-image-computation} 给出
+	\[ \left( \mathcal{F}^k \dotimes{\mathcal{O}} \Omega_{X(\Gamma)}(\Sigma) \right) \cap \Image(\nabla) = \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)}. \]
+	这导致 $\mathfrak{F}^{k+1}$ 同构于 $\left[0 \to \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \right]$, 从而确定了 $E_1^{k+1, q}$.
+
+	最后对 $p \notin \{0, k+1\}$ 情形证明 $\mathfrak{F}^p/\mathfrak{F}^{p+1}$ 零调, 由之可得 $E_1^{p, q} = 0$. 同样以引理 \ref{prop:nabla-image-computation} 在局部截面的层次作计算. 我们有交换图表
+	\[\begin{tikzcd}[column sep=small]
+		\dfrac{\mathcal{F}^p}{\mathcal{F}^{p+1}} \arrow[d, "{\nabla \bmod\; \cdots}"'] & \mathcal{O} u^p v^{k-p} \arrow[l, "\sim"' inner sep=0.5em] \arrow[d, "\simeq"] & f u^p v^{k-p} \arrow[mapsto, d] \arrow[phantom, l, "\ni" description, sloped] \\
+		\dfrac{\left( \mathcal{F}^{p-1} \otimes \Omega_{X(\Gamma)}(\Sigma)\right) \cap \Image(\nabla)}{\left( \mathcal{F}^p \otimes \Omega_{X(\Gamma)}(\Sigma)\right) \cap \Image(\nabla)} & \mathcal{O} u^{p-1} v^{k-p+1} \otimes \Omega_{X(\Gamma)}(\Sigma) \arrow[l, "\sim" inner sep=0.5em] & f u^{p-1} v^{k-p+1} \otimes \left( \dd\tau \cdot \alpha^{-1} \right) \arrow[phantom, l, "\ni" description, sloped] 
+	\end{tikzcd}\]
+	横向箭头的定义是自明的, 故两列皆零调, 而左列无非是 $\mathfrak{F}^p/\mathfrak{F}^{p+1}$.
+\end{proof}
+
+\begin{theorem}\label{prop:H1-filtration}
+	对于 \eqref{eqn:spectral-filtration} 中的滤过, 记 $F^h := F^h \mathbf{H}^1(X(\Gamma), \Omega^\bullet)$. 谱序列 \eqref{eqn:spectral-sequence} 在 $E_1$ 页退化, 而滤过 $F^\bullet$ 满足
+	\begin{gather*}
+		F^0/F^1 = \Hm^1\left(X(\Gamma), \bomega_\Gamma^{\otimes (-k)}\right), \\
+		F^1 = \cdots = F^{k+1} = \Hm^0\left( X(\Gamma), \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \right).
+	\end{gather*}
+	当 $k \neq 0$ 时, 对所有 $i \neq 1$ 皆有 $\Hm^i\left(X(\Gamma), j_* {}^k V_\Gamma\right) = \{0\}$.
+\end{theorem}
+\begin{proof}
+	谱序列在 $E_1$ 页退化相当于说 $\dd_1^{p, q}: E^{p,q}_1 \to E^{p+1, q}_1$ 对一切 $(p, q) \in \Z^2$ 均为 $0$. 先处理 $k > 0$ 情形. 既然第四章已证明负权模形式必为零, 定理 \ref{prop:modular-vs-omega} 蕴涵 $\Hm^0 \left(X(\Gamma), \bomega_\Gamma^{\otimes (-k)}\right) \simeq M_{-k}(\Gamma) = \{0\}$. 又由 Serre 对偶定理 \ref{prop:Serre-duality} 知 $\Hm^q \left(X(\Gamma), \bomega_\Gamma^{\otimes (-k)}\right) \simeq \Hm^{1-q}\left( X(\Gamma), \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)}\right)^\vee$ 在 $q \notin \{0, 1\}$ 时也为零. 综之, $q \neq 0$ 蕴涵 $E_1^{0,q} = \{0\}$.	同理,
+	\[ E_1^{k+1, q} \simeq \Hm^{k+q}\left( X(\Gamma), \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)}  \right) \simeq \Hm^{1 - k - q}\left( X(\Gamma), \bomega_\Gamma^{\otimes (-k)}  \right)^\vee \]
+	在 $k+q \neq 0$ 时亦为零. 综上, 唯一可能非零的 $E_1$ 项是 $E_1^{0,1}$ 和 $E_1^{k+1, -k}$, 这就说明 $k > 0$ 时谱序列退化, 而且 $E_1^{p,q} \neq 0 \implies p + q = 1$ 导致 $\Hm^i(X(\Gamma), j_* {}^k V_\Gamma)$ 在 $i \neq 1$ 时为零.
+	
+	对于 $k = 0$ 情形, 仅须说明 $\dd_1^{0, 0} = 0$. 正合列
+	\[ 0 \to \Gamma(X(\Gamma), \CC) \to \underbracket{\Gamma(X(\Gamma), \mathcal{O})}_{E_1^{0, 0}} \xrightarrow{\dd = \dd_1^{0, 0}} \underbracket{\Gamma(X(\Gamma), \Omega_{X(\Gamma)})}_{E_1^{1, 0}} \]
+	的前两项不外 $\CC \xrightarrow{\identity} \CC$ (命题 \ref{prop:holomorphic-const}), 故 $\dd_1^{0, 0} = 0$, 谱序列仍退化.
+
+	谱序列退化导致 $E_1^{p,q} = E_\infty^{p,q}$, 诱导滤过因而满足 $F^p/F^{p+1} = E_\infty^{p, 1-p} = E_1^{p, 1 - p}$. 代入命题 \ref{prop:Shimura-grading-computation} 便给出关于 $F^\bullet$ 的断言.
+\end{proof}
+
+\begin{remark}\label{rem:H1-filtration-lowest}
+	定理 \ref{prop:H1-filtration} 描述的嵌入
+	\[ \Hm^0\left(X(\Gamma), \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \right) \rightiso F^{k+1} \subset \mathbf{H}^1\left(X(\Gamma), \Omega^\bullet \right) \simeq \Hm^1\left(X(\Gamma), j_* {}^k V_\Gamma \right) \]
+	等于
+	\[ \Hm^0\left( X(\Gamma), \Omega_{X(\Gamma)} \dotimes{\mathcal{O}} \bomega_\Gamma^{\otimes k} \right) \hookrightarrow \Hm^0\left( X(\Gamma), \Image(\nabla) \right) \xrightarrow{\delta} \Hm^1 \left(X(\Gamma), j_* {}^k V_\Gamma \right), \]
+	其中 $\delta$ 是短正合列 $0 \to j_*({}^k V_\Gamma) \to \mathcal{O}({}^k V_\Gamma) \xrightarrow{\nabla} \Image(\nabla) \to 0$ 诱导的长正合列中的连接映射. 细说如下.
+
+	假定读者接受同调代数的语言. 所求的嵌入实则等于借道于图表 (复形次数皆为 $0, 1$)
+	\[\begin{tikzcd}[column sep=small]
+		\mathfrak{F}^{k+1} \arrow[equal, r] & \left[ 0 \to \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \right] \arrow[d, "\text{引理 \ref{prop:nabla-image-computation}}"' inner sep=0.5em] & \left[ j_* {}^k V_\Gamma \to 0 \right] \arrow[d, "\text{拟同构}" inner sep=0.5em] \\
+		\left[ 0 \to \mathcal{O}({}^k V_\Gamma) \right] \arrow[r, "\nabla"' inner sep=0.5em] & \left[ 0 \to \Image\nabla \right] \arrow[r] & \left[ \mathcal{O}({}^k V_\Gamma) \to \Image\nabla \right]
+	\end{tikzcd}\]
+	在导出范畴中先取 $\mathrm{R}\Gamma(X(\Gamma), \cdot)$ 再按
+	\begin{tikzpicture}[yscale=0.3, xscale=0.4]
+		\draw[->] (-0.5, 0) -- (0, 0) -- (0, -1) -- (1, -1) -- (1, 0);
+	\end{tikzpicture}
+	合成的产物; 第二行来自映射锥. 所求的关系因而化约为同调常识.
+\end{remark}
+
+\begin{corollary}\label{prop:ES-dimension}
+	对一切 $k \in \Z_{\geq 0}$ 皆有
+	\[ \dim_{\CC} \Hm^1\left(X(\Gamma), j_* ({}^k V_\Gamma)\right) = 2 \dim_{\CC} \Gamma\left(X(\Gamma), \Omega_{X(\Gamma)} \dotimes{\mathcal{O}} \bomega_\Gamma^{\otimes k} \right). \]
+\end{corollary}
+\begin{proof}
+	定理 \ref{prop:H1-filtration} 给出有限维 $\CC$-向量空间的短正合列
+	\[ 0 \to \Gamma\left( X(\Gamma), \Omega_{X(\Gamma)} \dotimes{\mathcal{O}} \bomega_\Gamma^{\otimes k} \right) \to \Hm^1\left(X(\Gamma), j_* ({}^k V_\Gamma)\right) \to \Hm^1\left(X(\Gamma), \bomega_\Gamma^{\otimes (-k)} \right) \to 0. \]
+	根据 Serre 对偶定理 \ref{prop:Serre-duality}, 首尾两项互为对偶.
+\end{proof}
+
+\section{Eichler--志村同构}
+沿用 \S\ref{sec:Shimura-filtration} 的符号; 特别地, 假设 \ref{hyp:torsion-free} 仍然有效, 而 $k \in \Z_{\geq 0}$ 选定.
+
+\begin{convention}
+	设 $W$ 是 $x = \pi(\alpha\infty) \in \Sigma$ 在 $X(\Gamma)$ 中的开邻域, 那么存在 $\alpha\infty$ 的开邻域 $U$ 使得 $W \supset \pi(U)$, 并且 $\alpha^{-1} U = \{\tau \in \mathcal{H}: \Im(\tau) > c \}$, 其中 $c \gg 0$. 对于 $f \in C^\infty(W \smallsetminus \Sigma)$, 如果存在如上的 $U$, 使得对所有 $a, b \geq 0$ 都存在 $m = m(a,b)$, 使得当 $\Im(\tau) \to +\infty$ 时
+	\[ \left( \frac{\partial}{\partial\tau} \right)^a \left( \frac{\partial}{\partial\overline{\tau}} \right)^b \left[ \tau \mapsto f(\alpha \tau) \right] \ll |\tau|^m, \]
+	则称 $f$ 在 $x$ 附近\emph{缓增}; 此性质只和尖点 $x$ 有关.
+\end{convention}
+
+其次定义
+\[ \mathcal{E}: W \mapsto \left\{ f \in C^\infty(W \smallsetminus \Sigma) : f\; \text{在每一个}\; x \in W \cap \Sigma\; \text{附近缓增} \right\}. \]
+用 $\mathcal{C}$ 表示 $X(\Gamma)$ 上的层 $W \mapsto C^\infty(W)$, 其 $Y(\Gamma)$ 版本记为 $\mathcal{C}_{Y(\Gamma)}$. 从定义立见 $\mathcal{E}$ 是 $\mathcal{C}$-代数, 从而也是 $\mathcal{O}$-代数 (或改取反全纯函数层 $\overline{\mathcal{O}}$, 变为 $\overline{\mathcal{O}}$-代数); 并且
+\[ \mathcal{E}|_{Y(\Gamma)} = \mathcal{C}_{Y(\Gamma)}, \quad \mathcal{E} \subset j_* \mathcal{C}_{Y(\Gamma)}. \]
+和 $\bomega_\Gamma$ 类似, 复环面的反全纯微分形式 $\dd z$ 也给出 $X(\Gamma)$ 上的层 $\overline{\bomega_\Gamma}$: 这是秩 $1$ 的局部自由 $\overline{\mathcal{O}}$-模, 对之仍可取任意次的张量幂. 命
+\begin{gather*}
+	\mathcal{E}({}^k V_\Gamma) := \mathcal{E} \dotimes{\mathcal{O}} \mathcal{O}({}^k V_\Gamma), \\
+	\mathcal{E}(\bomega_\Gamma^{\otimes a}) := \mathcal{E} \dotimes{\mathcal{O}} \bomega_\Gamma^{\otimes a}, \quad \mathcal{E}(\overline{\bomega}_\Gamma^{\otimes a}) := \mathcal{E} \dotimes{\overline{\mathcal{O}}} \overline{\bomega_\Gamma}^{\otimes a} \quad (a \in \Z_{\geq 0}).
+\end{gather*}
+
+\begin{lemma}\label{prop:E-Sym-decomp}
+	我们有分解 $\mathcal{E}({}^k V_\Gamma) = \bigoplus_{a+b=k} \mathcal{E}(\bomega_\Gamma^{\otimes a}) \cdot \mathcal{E}(\overline{\bomega_\Gamma}^{\otimes b})$.
+\end{lemma}
+\begin{proof}
+	取 $k=1$, 因为一般情形可用 \eqref{eqn:Sym-algebra} 对 $\mathcal{O}({}^k V_\Gamma)$ 给出的乘法结构处理.
+
+	只须操心尖点附近的情形, 不失一般性在定义--命题 \ref{def:Sym-extension} 中取 $x = \pi(\infty)$ 而 $\alpha = 1$。 按构造, $\mathcal{E}(V_\Gamma)$ 的局部截面唯一地表成 $u, v$ 的 $\mathcal{E}$-线性组合. 将 $\dd z$, $\overline{\dd z}$ 等同于它们在 $\mathcal{E}(V_\Gamma)$ 中的像. 由于
+	\begin{align*}
+		u & = \dd z \\
+		v & = (-2i\Im(\tau))^{-1} \left( \dd z - \overline{\dd z} \right),
+	\end{align*}
+	此变换及其逆的系数都是 $\mathcal{E}$ 中的 $\Gamma_\infty$-不变函数, 所以局部截面也能唯一地表成 $\dd z, \overline{\dd z}$ 的 $\mathcal{E}$-线性组合.
+\end{proof}
+
+类似手法可定义 $X(\Gamma)$ 上在尖点附近缓增的 $C^\infty$ 微分形式代数
+\[ \bigwedge^\bullet \mathcal{E} = \bigoplus_{h \geq 0} \mathcal{E}^h ; \]
+它带有熟悉的外积 $\wedge$, 每个 $\mathcal{E}^h$ 都是 $\mathcal{E} = \mathcal{E}^0$ 乘法下的模, $\mathcal{E}^h = \bigwedge^h \mathcal{E}^1$ 而 $h > 2$ 时 $\mathcal{E}^h = 0$ (因为 $X(\Gamma)$ 是实二维流形). 同样用张量积构造
+\begin{equation}\label{prop:Eh-Sym-decomp}\begin{aligned}
+	\mathcal{E}^h \left({}^k V_\Gamma\right) & := \mathcal{E}^h \dotimes{\mathcal{E}} \mathcal{E}\left( {}^k V_\Gamma \right) \\
+	& = \bigoplus_{a+b=k} \mathcal{E}^h \dotimes{\mathcal{E}} \mathcal{E}(\bomega_\Gamma^{\otimes a}) \cdot \mathcal{E}(\overline{\bomega_\Gamma}^{\otimes b}) \quad \because\;\text{引理 \ref{prop:E-Sym-decomp}}.
+\end{aligned}\end{equation}
+
+\begin{definition}\label{def:E-nabla}
+	定义\emph{联络}
+	\[ \nabla_{\mathcal{E}}: \mathcal{E}^h\left({}^k V_\Gamma\right) \to \mathcal{E}^{h+1}\left( {}^k V_\Gamma \right), \quad h \geq 0; \]
+	它由以下性质刻画: 局部上取 $u, v, \alpha$ 如定义--命题 \ref{def:Sym-extension},
+	\begin{compactitem}
+		\item 对所有满足 $a + b = k$ 的 $a, b \in \Z_{\geq 0}^2$皆有
+		\[ \nabla_{\mathcal{E}}(u^a v^b) = - \left(au^{a-1} v^{b+1}\right) \left(\dd\tau \cdot \alpha^{-1}\right); \]
+		\item $\nabla_{\mathcal{E}} (f s) = \dd f \wedge s + (-1)^a f \nabla_{\mathcal{E}} s$, 其中 $f$ 是 $\mathcal{E}^a$ 的局部截面.
+	\end{compactitem}
+\end{definition}
+
+联络的非零部分显然只有 $\mathcal{E}(\cdots) \xrightarrow{\nabla_{\mathcal{E}}} \mathcal{E}^1(\cdots) \xrightarrow{\nabla_{\mathcal{E}}} \mathcal{E}^2(\cdots)$.
+
+\begin{lemma}\label{prop:E-nabla}
+	态射 $\mathcal{O}({}^k V_\Gamma) \to \mathcal{E}({}^k V_\Gamma)$ 为单, 由此得出嵌入 $j_*({}^k V_\Gamma) \hookrightarrow \mathcal{E}({}^k V_\Gamma)$, 而且
+	\begin{enumerate}[(i)]
+		\item $\nabla_{\mathcal{E}}$ 限制在 $\mathcal{O}({}^k V_\Gamma)$ 上等于定义 \ref{def:Sym-filtration} 中的 $\nabla$;
+		\item $\nabla_{\mathcal{E}} \circ \nabla_{\mathcal{E}}: \mathcal{E}({}^k V_\Gamma) \to \mathcal{E}^2({}^k V_\Gamma)$ 为零映射.
+		\item $j_*({}^k V_\Gamma) = \Ker\left[ \mathcal{E}({}^k V_\Gamma) \xrightarrow{\nabla_{\mathcal{E}}} \mathcal{E}^1({}^k V_\Gamma) \right]$.
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	因为 $\mathcal{O}({}^k V_\Gamma)$ 是局部自由 $\mathcal{O}$-模, 将 $\mathcal{O} \hookrightarrow \mathcal{E}$ 对之作张量积仍得到单态射
+	\[ \mathcal{O}({}^k V_\Gamma) = \mathcal{O} \dotimes{\mathcal{O}} \mathcal{O}({}^k V_\Gamma) \hookrightarrow \mathcal{E} \dotimes{\mathcal{O}} \mathcal{O}({}^k V_\Gamma). \]
+	关于 $\nabla_{\mathcal{E}}$ 和 $\nabla$ 的相容性是定义的直接结论, 证得 (i).
+
+	按定义 \ref{def:E-nabla} 的公式直接对局部截面验证 $\nabla_{\mathcal{E}} \circ \nabla_{\mathcal{E}} = 0$, (ii) 得证.
+
+	对于 (iii), 论证和命题 \ref{prop:nabla-transversality} 相同: 观察到 $\mathcal{E}({}^k V_\Gamma)$ 的截面也是 $j_* ({}^k V_\Gamma \dotimes{\CC} \mathcal{C}_{Y(\Gamma)})$ 的截面, 而 $\nabla_{\mathcal{E}}$ 等于 $j_*(\identity \otimes \dd)$ 的限制. 然而 $j_*(\identity \otimes \dd)$ 的核显然是 $j_* ({}^k V_\Gamma)$, 故 (iii) 得证.
+\end{proof}
+
+\begin{definition}
+	在 $V := \CC e_1 \oplus \CC e_2$ 上定义反称非退化双线性型
+	\[ B^1\left( xe_1 + ye_2, \; ze_1 + we_2 \right) := -\det\twobigmatrix{x}{y}{z}{w}. \]
+	将之延拓到 $\Sym^k V$: 对于 $u_i, v_j \in V$, 可以良定义
+	\[ B^k\left( u_1 \cdots u_k, \l v_1 \cdots v_k \right) = \frac{1}{k!} \sum_{\sigma \in \mathfrak{S}_k} \prod_{i=1}^k B^1\left( u_i, v_{\sigma(i)} \right), \]
+	其中 $\mathfrak{S}_k$ 代表置换群. 对 $k=0$ 情形约定 $B^0(s, t) = st$, 其中 $s, t \in \CC$. 相对于 $\GL(2, \R)^+$ 在 $V$ 上的右作用 \eqref{eqn:e1e2-action}, 二次型 $B^k$ 对 $\Sym^k V$ 带有的诱导作用满足 $B^k(\gamma x, \gamma y) = (\det \gamma)^k B^k(x, y)$ (检验 $k = 1$ 情形即足). 特别地, $B^k$ 是 $\SL(2, \R)$-不变的.
+\end{definition}
+
+注意: $\Sym^k V$ 作为 $\SL(2)$ 的表示不可约, 所以精确到伸缩, 其上的不变双线性型是唯一的.
+
+基于 $\Gamma$-不变性, 二次型 $B^k: \Sym^k V \dotimes{\CC} \Sym^k V \to \CC$ 在 $X(\Gamma)$ 上诱导 $\mathcal{E}$-双线性型:
+\[ B^k: \mathcal{E}({}^k V_\Gamma) \times \mathcal{E}({}^k V_\Gamma) \to \mathcal{E}. \]
+上述构造都可以定义在 $\R$ 上. 特别地, 它们都和复共轭交换.
+
+\begin{lemma}
+	对所有 $k \in \Z_{\geq 0}$,
+	\begin{compactenum}[(i)]
+		\item $B^k(y, x) = (-1)^k B^k(x, y)$ 对 $\mathcal{E}({}^k V_\Gamma)$ 的所有局部截面 $x, y$ 成立;
+		\item 引理 \ref{prop:E-Sym-decomp} 的直和分解对 Hermite 型 $(x, y) \mapsto B^k(x, \overline{y})$ 正交, 而且对于直和项 $\mathcal{E}(\bomega_\Gamma^{\otimes a}) \cdot \mathcal{E}(\overline{\bomega_\Gamma}^{\otimes b})$, 其上的 Hermite 型
+		\[ \innerp{x}{y} := i^{a-b} B^k(x, \overline{y}) \]
+		是正定的: $\innerp{x}{x} \geq 0$ 对所有局部截面 $x$ 成立, 而且等号成立当且仅当 $x = 0$.
+	\end{compactenum}
+\end{lemma}
+\begin{proof}
+	断言 (i) 化约到 $k = 1$ 情形, 在 $V$ 上验证.
+	
+	对于 (ii), 考虑 $\mathcal{E}(\bomega_\Gamma)$ 的标准局部截面 $\dd z \cdot \alpha^{-1}$, 它对应到 $\mathcal{E}({}^k V_\Gamma)$ 的局部截面 $u = (e_1 - \tau e_2) \cdot \alpha^{-1}$, 其中 $\alpha$ 取法如定义--命题 \ref{def:Sym-extension}. 直接计算可见当 $a + b = k = c + d$ 时,
+	\begin{equation}\label{eqn:Bk-computation}
+		i^{a-b} B^k \left(u^a \overline{u}^b, \; \overline{u^c \overline{u}^d}\right) = \begin{cases}
+			0, & a \neq c \\
+			{\binom{k}{a}}^{-1} \left( 2\Im(\alpha^{-1}\tau)\right)^k, & a = c.
+		\end{cases}
+	\end{equation}
+	事实上, 以 $\SL(2,\R)$-不变性可简化到 $\alpha = 1$ 情形. 举例明之, 当 $a = k = 1$ 时我们有 $B^1\left(u, \overline{u}\right) = B^1(e_1 - \tau e_2, e_1 - \overline{\tau} e_2)$, 它按定义即是 $-\det\twomatrix{1}{-\tau}{1}{-\overline{\tau}} = -2i \Im(\tau)$.
+\end{proof}
+
+进一步让系数带微分形式, 对 $i, j \in \Z_{\geq 0}$ 定义双线性型
+\begin{equation}\label{eqn:Bkij} \begin{aligned}
+	B^k_{i,j}: \mathcal{E}^i({}^k V_\Gamma) \times \mathcal{E}^j({}^k V_\Gamma) & \longrightarrow \mathcal{E}^{i+j} \\
+	\left( \alpha \otimes s, \; \beta \otimes t\right) & \longmapsto B^k(s, t) (\alpha \wedge \beta),
+\end{aligned}\end{equation}
+其中 $\alpha, \beta$ (或 $s, t$) 分别是 $\mathcal{E}^i, \mathcal{E}^j$ (或 $\mathcal{O}({}^k V_\Gamma)$) 的局部截面. 一切仍是定义在 $\R$ 上的, 而 $B^k_{0,0} = B^k$.
+
+\begin{lemma}\label{prop:Bkij-property}
+	对于 $\mathcal{E}^i({}^k V_\Gamma)$ (或 $\mathcal{E}^j({}^k V_\Gamma)$) 的局部截面 $\xi$ (或 $\eta$), 我们有
+	\begin{align*}
+		B^k_{i,j}(\xi, \eta) & = (-1)^{ij + k} B^k_{i,j}(\eta, \xi), \\
+		\dd B^k_{i,j}(\xi, \eta) & = B^k_{i+1, j}(\nabla_{\mathcal{E}} \xi, \eta) + (-1)^i B^k_{i, j+1}(\xi, \nabla_{\mathcal{E}}\eta).
+	\end{align*}
+\end{lemma}
+\begin{proof}
+	例行计算.
+\end{proof}
+
+回忆全纯情形的联络 $\nabla$ 和引理 \ref{prop:nabla-image-computation}, \ref{prop:E-nabla}: 我们有
+\[ \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \subset \Image(\nabla) \subset \Image(\nabla_{\mathcal{E}}); \]
+根据定理 \ref{prop:modular-vs-omega} 遂有嵌入
+\begin{align*}
+	S_{k+2}(\Gamma) & \rightiso \Hm^0\left(X(\Gamma), \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)}\right) \hookrightarrow \Hm^0(X(\Gamma), \Image \nabla_{\mathcal{E}}) \\
+	f & \mapsto f(\tau) \underbracket{\mathrm{KS}^{-1}\left((\dd z)^{\otimes 2}\right)}_{\in \Omega_{X(\Gamma)}(\Sigma)} (\dd z)^{\otimes k} =: \varphi.
+\end{align*}
+
+\begin{convention}\label{conv:S-conj}
+	定义 $\overline{S_{k+2}(\Gamma)} := \left\{ \overline{f}: f \in S_{k+2}(\CC) \right\}$, 此函数空间是 $\CC$-向量空间. 它亦可按以下方式抽象地视同 $S_{k+2}(\Gamma)$ 的复共轭: 用 $z \mapsto \overline{z}$ 给出的同构 $\CC \to \CC$ 构造 (右) $\CC$-向量空间 $S_{k+2}(\Gamma) \dotimes{\CC} \CC$, 则有 $\CC$-线性同构
+	\begin{align*}
+		S_{k+2}(\Gamma) \dotimes{\CC} \CC & \rightiso \overline{S_{k+2}(\Gamma)} \\
+		f \otimes z & \mapsto z \cdot \overline{f} \qquad (z \in \CC)
+	\end{align*}
+\end{convention}
+
+既然 $\nabla_{\mathcal{E}}$ 是定义在 $\R$ 上的, 取复共轭后仍有嵌入
+\begin{align*}
+	\overline{S_{k+2}(\Gamma)} & \hookrightarrow \Hm^0(X(\Gamma), \Image \nabla_{\mathcal{E}}) \\
+	\overline{f} & \mapsto \overline{f}(\tau) \overline{\mathrm{KS}^{-1}\left((\dd z)^{\otimes 2}\right) (\dd z)^{\otimes k}}, \quad f \in S_{k+2}(\Gamma).
+\end{align*}
+
+\begin{lemma}\label{prop:Eichler-Shimura-indep}
+	上述映射给出嵌入
+	\[ \iota: S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \hookrightarrow \Hm^0\left(X(\Gamma), \Image\nabla_{\mathcal{E}}\right) \subset \Hm^0\left(X(\Gamma), \mathcal{E}^1({}^k V_\Gamma)\right). \]
+\end{lemma}
+\begin{proof}
+	已知 $\iota$ 限制在 $S_{k+2}(\Gamma)$ 和 $\overline{S_{k+2}(\Gamma)}$ 上皆单. 相对于 \eqref{prop:Eh-Sym-decomp} 的分解, 先前公式说明 $S_{k+2}(\Gamma)$ 和 $\overline{S_{k+2}(\Gamma)}$ 分别取值在直和项 $\mathcal{E}^1 \dotimes{\mathcal{E}} \mathcal{E}(\bomega_\Gamma^{\otimes k})$ 和 $\mathcal{E}^1 \dotimes{\mathcal{E}} \mathcal{E}(\overline{\bomega_\Gamma}^{\otimes k})$ 中, 故线性无关.
+\end{proof}
+
+\begin{theorem}\label{prop:Eichler-Shimura-polarization}
+	定义在 $\Image(\iota)$ 上的双线性型
+	\[ \mathcal{B}^k(\varphi, \psi) := \frac{1}{\mes Y(\Gamma)} \int_{X(\Gamma)} B^k_{1,1}(\varphi, \psi) \]
+	是良定的. 它满足 $\mathcal{B}^k(\psi, \varphi) = (-1)^{k+1} \mathcal{B}^k(\varphi, \psi)$, 在 $\iota(S_{k+2}(\Gamma))$ 和 $\iota(\overline{S_{k+2}(\Gamma)})$ 上恒为零.
+	
+	以 $\innerPet{f}{g}$ 表 Petersson 内积 (定义--定理 \ref{def:Petersson}), 设 $\iota(f, 0) = \varphi$ 而 $\iota(0, \overline{g}) = \psi$, 则
+	\begin{gather*}
+		i^{k+1} \mathcal{B}^k(\varphi, \psi) = 2^{k+1} \innerPet{f}{g}.
+	\end{gather*}
+	作为推论, $\mathcal{B}^k$ 是 $\Image(\iota)$ 上的非退化双线性型.
+\end{theorem}
+\begin{proof}
+	性质 $\mathcal{B}^k(\psi, \varphi) = (-1)^{k+1} \mathcal{B}^k(\varphi, \psi)$ 来自引理 \ref{prop:Bkij-property}. 假设 $\varphi$, $\psi$ 分别来自 $f \in S_{k+2}(\Gamma)$ 和 $\overline{g} \in \overline{S_{k+2}(\Gamma)}$. 将微分形式 $B^k_{1,1}(\varphi, \psi)$ 限制到 $Y(\Gamma)$, 再拉回 $\mathcal{H}$. 根据 \eqref{eqn:Bk-computation} 和 \eqref{eqn:Bkij} (取 $\alpha = 1$), 并回顾命题 \ref{prop:Kodaira-Spencer-0} 对 $\mathrm{KS}$ 的定义, 如是拉回表为
+	\begin{multline*}\
+		f(\tau) \overline{g(\tau)} \cdot B^k \left(\dd z^{\otimes k}, \overline{\dd z}^{\otimes k}\right) \cdot \mathrm{KS}^{-1}\left((\dd z)^{\otimes 2}\right) \wedge \overline{\mathrm{KS}^{-1} \left((\dd z)^{\otimes 2}\right)} \\
+		= f(\tau) \overline{g(\tau)} \cdot i^{-k} (2\Im(\tau))^k \dd \tau \wedge \overline{\dd \tau} = (-2i)^k \Im(\tau)^k f(\tau) \overline{g(\tau)} \cdot \dd \tau \wedge \overline{\dd \tau} \\
+		= (-2i)^{k+1} f(\tau) \overline{g(\tau)} y^{k+2} \frac{\dd x \wedge \dd y}{y^2}, \qquad x := \Re(\tau), \; y := \Im(\tau).
+	\end{multline*}
+	上式在 $\Gamma$ 的基本区域上作积分, 便是 $B^k_{1,1}(\varphi, \psi)$ 在 $X(\Gamma)$ 或其稠密开子集 $Y(\Gamma)$ 上的积分值. 代入 Petersson 内积的定义立得关于 $\mathcal{B}^k$ 的公式, 收敛性不成问题.
+	
+	假若 $\varphi, \psi$ 都来自 $S_{k+2}(\Gamma)$ (或都来自 $\overline{S_{k+2}(\Gamma)}$), 则在以上操作中微分形式 $B^k_{1,1}(\varphi, \psi)$ 将是 $\dd\tau \wedge \dd\tau$ (或 $\overline{\dd\tau} \wedge \overline{\dd \tau}$) 的倍数, 因而恒为零. 又因为 $\innerPet{\cdot}{\cdot}$ 非退化, 故 $\mathcal{B}^k$ 也非退化.
+\end{proof}
+
+即将触及 Eichler--志村同构的核心陈述. 短正合列
+\[ 0 \to j_* \left({}^k V_\Gamma \right) \to \mathcal{E}\left( {}^k V_\Gamma\right) \xrightarrow{\nabla} \Image \nabla_{\mathcal{E}} \to 0. \]
+给出长正合列中的连接映射 $\Hm^0 \left(X(\Gamma), \Image \nabla_{\mathcal{E}}\right) \to \Hm^1 \left(X(\Gamma), j_* {}^k V_\Gamma \right)$, 记之为 $\delta$.
+
+\begin{definition}
+	应用引理 \ref{prop:Eichler-Shimura-indep} 中的映射 $\iota$, 以复合定义 $\CC$-线性映射
+	\[ \mathrm{ES}: S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \xrightarrow{\iota} \Hm^0\left( X(\Gamma), \Image \nabla_{\mathcal{E}} \right) \xrightarrow{\delta} \Hm^1\left(X(\Gamma),  j_* {}^k V_\Gamma\right). \]
+\end{definition}
+
+基于注记 \ref{rem:H1-filtration-lowest} 的观察, 上式在 $S_{k+2}(\Gamma)$ 部分的限制是定理 \ref{prop:H1-filtration} 中的嵌入 $F_{k+1} \subset \Hm^1\left(X(\Gamma), j_* {}^k V_\Gamma\right)$.
+
+另外, 在 $S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)}$ 上可定义共轭 $\overline{(f, \overline{g})} := (g, \overline{f})$. 对于任意 $\Phi = (f, \overline{g}) \in S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)}$, 容易验证 $\overline{z \Phi} = \overline{z} \cdot \overline{\Phi}$, 其中 $z \in \CC$. 在 $\CC$-向量空间上指定这样的复共轭作用等价于指定其 $\R$-结构. 又由于 $\delta$ 是定义在 $\R$ 上的, 从 $\iota$ 的公式可见
+\begin{equation*}
+	\mathrm{ES}(\overline{\Phi}) = \overline{\mathrm{ES}(\Phi)};
+\end{equation*}
+这相当于说 $\mathrm{ES}$ 也是定义在 $\R$ 上的映射.
+
+\begin{theorem}[Eichler--志村五郎]\label{prop:Eichler-Shimura} \index{Eichler--志村同构 (Eichler--Shimura isomorphism)}
+	在本节的假设下, 我们有与复共轭交换的 $\CC$-线性同构
+	\[ \mathrm{ES}: S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \rightiso \Hm^1\left(X(\Gamma),  j_* {}^k V_\Gamma \right). \]
+\end{theorem}
+
+我们在 \S\ref{sec:parabolic-cohomology} 将用群的上同调改写右式, 并进一步放宽定理夹带的假设 \ref{hyp:torsion-free}. 以下论证踵武 \cite[(5.2) Theorem]{BN81}.
+\begin{proof}
+	推论 \ref{prop:ES-dimension} 蕴涵映射 $\mathrm{ES}$ 两边同维数, 故证其为单射即足. 基于正合列
+	\[ \Hm^0\left(X(\Gamma), \mathcal{E}\left({}^k V_\Gamma\right) \right) \xrightarrow{\nabla_{\mathcal{E}}} \Hm^0\left(X(\Gamma), \Image \nabla_{\mathcal{E}} \right) \xrightarrow{\delta} \Hm^1\left(X(\Gamma), j_* {}^k V_\Gamma \right), \]
+	我们有 $\Ker(\mathrm{ES}) = \iota^{-1}(\Image \nabla_{\mathcal{E}})$. 既知 $\iota$ 单 (引理 \ref{prop:Eichler-Shimura-indep}), 为了证 $\Ker(\mathrm{ES}) = \{0\}$, 仅须对所有 $h \in \Gamma\left(X(\Gamma), \mathcal{E}\left({}^k V_\Gamma\right) \right)$ 确立
+	\[ \nabla_{\mathcal{E}} h \in \iota\left( S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)}\right) \implies \nabla_{\mathcal{E}} h = 0. \]
+
+	对任何 $f \in S_{k+2}(\Gamma)$ 和 $\varphi := \iota(f, 0)$, 引理 \ref{prop:E-nabla} (ii) 蕴涵 $\nabla_{\mathcal{E}} \varphi = 0$, 故引理 \ref{prop:Bkij-property} 给出
+	\[ B^k_{1,1}(\nabla_{\mathcal{E}} h, \varphi) = \dd B^k_{0,1}(h, \varphi) \; \in \Gamma\left(X(\Gamma), \mathcal{E}^2\right); \]
+	定理 \ref{prop:Eichler-Shimura-polarization} 已蕴涵左式的积分收敛, 故右式亦然. 一旦承认
+	\begin{equation}\label{eqn:E-Stokes}
+		\int_{X(\Gamma)} \dd B^k_{0,1}(h, \varphi) = 0,
+	\end{equation}
+	则定理 \ref{prop:Eichler-Shimura-polarization} 中的双线性型满足 $\mathcal{B}^k(\nabla_{\mathcal{E}} h, \varphi) = 0$. 因为 $B^k_{1,1}$ 和 $\nabla_{\mathcal{E}}$ 都是定义在 $\R$ 上的对象, 代入 $\overline{h}$ 并取复共轭可知对任何 $\overline{g} \in \overline{S_{k+2}(\Gamma)}$ 和 $\psi := \iota(0, \overline{g})$, 仍有 $\mathcal{B}^k(\nabla_{\mathcal{E}} h, \psi) = 0$. 定理 \ref{prop:Eichler-Shimura-polarization} 遂蕴涵 $\nabla_{\mathcal{E}} h = 0$.
+
+	最后来证明 \eqref{eqn:E-Stokes}. 所积形式在尖点处无定义, 不宜按直觉应用 Stokes 定理. 我们改对每个尖点 $x \in \Sigma$ 在局部坐标 $q$ 下挖去充分小的开圆盘 $\{q \in \CC: |q| < \epsilon \}$, 如此得到子集 $X_\epsilon \subset X(\Gamma)$. 所求积分遂表作
+	\[ \lim_{\epsilon \to 0+} \int_{X_\epsilon} \dd B^k_{0,1}(h, \varphi) \xlongequal{\text{Stokes 定理}} \lim_{\epsilon \to 0+} \int_{\partial X_\epsilon} B^k_{0,1}(h, \varphi). \]
+	为了简化符号, 以下只论尖点 $\pi(\infty)$ 附近情形, 并假设 $\Gamma_\infty = \twomatrix{1}{\Z}{}{1}$. 精确到无关 $\epsilon$ 的常数倍, 最后的积分改写作
+	\[ \int_0^1 f(x+iy) \; B^k\left(h(x + iy), \dd z^{\otimes k} \right) \dd x, \quad y := \frac{-1}{2\pi} \log \epsilon \gg 0. \]
+	因为 $h$ 缓增而 $f$ 在 $y \to +\infty$ 时指数递减, 积分在 $\epsilon \to 0+$ 时趋近于 $0$. 明所欲证.
+\end{proof}
+
+\begin{remark}\label{rem:Petersson-Poincare}
+	依据微分拓扑学的寻常套路, 精确到一个可显式表达的正实数, 由 $\Sym^k V$ 上的双线性型 $B^k$ 决定的 Poincaré 对偶性
+	\begin{equation*}
+		\Hm^1\left(X(\Gamma), j_* {}^k V_\Gamma\right) \times \Hm^1\left(X(\Gamma), j_* {}^k V_\Gamma\right) \xrightarrow{B^k \; \circ \; (\cup\text{-积})} \Hm^2\left(X(\Gamma), \CC  \right) \xrightarrow{\text{迹映射}} \CC
+	\end{equation*}
+	透过 $\delta$ 拉回为定理 \ref{prop:Eichler-Shimura-polarization} 中的 $\mathcal{B}^k$, 从而透过 $\mathrm{ES}$ 拉回为 $(-2i)^{k+1}$ 乘以 $S_{k+2}(\Gamma) \times \overline{S_{k+2}(\Gamma)}$ 上的 $\CC$-双线性型
+	\[ \left( (f_1, \overline{g_1}), (f_2, \overline{g_2})\right) \mapsto \innerPet{f_1}{g_2} + (-1)^{k+1} \innerPet{f_2}{g_1}; \]
+	这是 Petersson 的一种几何诠释. 见 \cite[(5.2) Theorem, (ii)]{BN81}.
+\end{remark}
+
+\begin{remark}\label{rem:Hodge-structure}\index{Hodge 结构 (Hodge structure)}
+	一般说来, 对于有限维 $\R$-向量空间 $H$, 其复化 $H_{\CC} := H \dotimes{\R} \CC$ 上带有自然的复共轭运算 $v \otimes z \mapsto v \otimes {\bar{z}}$; 或者反过来说, $H_{\CC}$ 上的复共轭确定其 $\R$-结构 $H$. 若存在 $n \in \Z$ 及分解
+	\[ H_{\CC} = \bigoplus_{\substack{p, q \in \Z \\ p + q = n}} H^{p, q}, \quad H^{q, p} = \overline{H^{p, q}}, \]
+	则称此分解为 $H$ 上的权 $n$ \emph{纯 Hodge 结构}. 进一步, 若实二次型 $Q: H \times H \to \R$ 复化到 $H_{\CC}$ 上满足
+	\begin{compactitem}
+		\item $Q(x,y) = (-1)^n Q(y, x)$,
+		\item 当 $p' \neq n - p$ 时 $Q(H^{p,q}, H^{p', q'}) = 0$,
+		\item 当 $x \in H^{p,q} \smallsetminus \{0\}$ 时 $i^{p-q} Q(x, \overline{x}) > 0$,
+	\end{compactitem}
+	则称 $Q$ 为纯 Hodge 结构 $H$ 的\emph{极化}. Hodge 结构之间有自然的态射和同构等概念. 先前已提及空间 $\Hm^1\left( X(\Gamma), j_* {}^k V_\Gamma \right)$ 具有 $\R$-结构; 定理 \ref{prop:Eichler-Shimura-polarization}, \ref{prop:Eichler-Shimura} 赋予它权 $k+1$ 的纯 Hodge 结构和极化. 对应的直和分解中仅有 $H^{k+1, 0} := \mathrm{ES}\left( S_{k+2}(\Gamma)\right)$ 和 $H^{0, k+1} := \mathrm{ES}\left( \overline{S_{k+2}(\Gamma)}\right)$ 两项.
+
+	光滑射影复代数簇的上同调都带有自然的纯 Hodge 结构. 这里的情况稍异, 因为 $k > 0$ 时 $j_* {}^k V_\Gamma$ 并非一般采用的常值层 $\CC$, 它甚至不是局部系统, 但相应的上同调仍有良好的性质. 我们将在 \S\ref{sec:parabolic-cohomology} 继续探讨此问题.
+\end{remark}
+
+\section{抛物上同调}\label{sec:parabolic-cohomology}
+本节前半部设 $X$ 是紧 Riemann 曲面, $\Sigma \subset X$ 是有限子集, 于是有包含映射
+\[\begin{tikzcd}
+	\Sigma \arrow[hookrightarrow, r, "i", "\text{闭}"'] & X \arrow[hookleftarrow, r, "j", "\text{开}"'] & Y := X \smallsetminus \Sigma .
+\end{tikzcd}\]
+典型例子是 $X = X(\Gamma)$, $\Sigma$ 为尖点集而 $Y = Y(\Gamma)$ 的情形, 其中 $\Gamma$ 是余有限 Fuchs 群.
+
+令 $M$ 为 $Y$ 上的局部常值层. 请考虑导出范畴里的 $\mathrm{R} j_* M$, 其上同调层满足 $\mathrm{R}^{<0} j_* M = \{0\}$, $\mathrm{R}^0 j_* M = j_* M$, 以及当 $k \geq 1$ 时
+\[ \left( \mathrm{R}^k j_* M \right)_x = \begin{cases}\
+	\Hm^k(W, j_* M), & x \in \Sigma, \quad W \ni x: \text{充分小的坐标邻域} \\
+	\{0\}, & x \notin \Sigma;
+\end{cases} \]
+另一方面, 按零延拓给出子层
+\[ j_! M \subset j_* M, \quad \left(j_! M\right)_x = \begin{cases}
+	\{0\}, & x \in \Sigma \\
+	M, & x \notin \Sigma.
+\end{cases}\]
+用层论语言定义紧支集上同调为 $\Hm_c^\bullet(Y, M) := \Hm^\bullet(X, j_! M)$, 不过左式实则与紧化 $Y \hookrightarrow X$ 的选取无关. 将层等同于仅有零次项的复形. 在 $X$ 的导出范畴里操作, $j_* M \simeq \tau_{\leq 0} \mathrm{R} j_* M$, 故有态射 $j_! M \to j_* M \to \mathrm{R} j_* M$. 将此扩展为三角间的态射:
+\begin{equation}\label{eqn:two-triangles} \begin{tikzcd}
+	j_! M \arrow[d] \arrow[r] & \mathrm{R} j_* M \arrow[equal, d] \arrow[r] & D \arrow[dashed, d, "\exists"] \arrow[r, "+1"] & \cdots \\
+	j_* M \arrow[r] & \mathrm{R} j_* M \arrow[r] & C \arrow[r, "+1"] & \cdots
+\end{tikzcd}\end{equation}
+
+\begin{lemma}\label{prop:two-triangles}
+	对于图表 \eqref{eqn:two-triangles}, 我们有
+	\[  \Hm^d D = \begin{cases}
+		i_* i^* j_* M , & d=0 \\
+		\mathrm{R}^1 j_* M, & d=1 \\
+%		0, & d \neq 0, 1
+		\end{cases}, \quad
+		\Hm^d C = \begin{cases}
+		0, & d=0 \\
+		\mathrm{R}^1 j_* M, & d=1 \\
+%		0, & d \neq 1;
+	\end{cases} \]
+	而 $\Hm^1 D \to \Hm^1 C$ 在这些同构下等同于 $\identity$. 进一步, $D \to C$ 诱导同构 $\mathbf{H}^1(X, D) \rightiso \mathbf{H}^1(X, C)$.
+\end{lemma}
+\begin{proof}
+	从 \eqref{eqn:two-triangles} 得到行正合的交换图表
+	\[\begin{tikzcd}[row sep=small, column sep=small]
+		0 \arrow[r] & j_! M \arrow[r] \arrow[d] & j_* M \arrow[r] \arrow[equal, d] & \Hm^0 D \arrow[d] \arrow[r] & 0 \arrow[r] & \mathrm{R}^1 j_* M \arrow[r] \arrow[equal, d] & \Hm^1 D \arrow[d] \arrow[r] & 0 \\
+		0 \arrow[r] & j_* M \arrow[r, "\identity"] & j_* M \arrow[r] & \Hm^0 C \arrow[r] & 0 \arrow[r] & \mathrm{R}^1 j_* M \arrow[r] & \Hm^1 C \arrow[r] & 0
+	\end{tikzcd}\]
+	由此容易得到关于 $\Hm^\bullet C$ 和 $\Hm^\bullet D$ 的断言.
+	
+	上一步连同 $\Hm^1(X, i_*(\cdot)) = \Hm^1(\Sigma, \cdot) = 0$ 蕴涵 $p+q=1$ 时 $\Hm^q(X, \Hm^p D) \to \Hm^q(X, \Hm^p C)$ 总是同构. 应用超上同调的谱序列 $E_2^{p, q} = \Hm^q(X, \Hm^p(\cdot)) \Rightarrow \mathbf{H}^{p+q}(X, \cdot)$ 即可导出 $\mathbf{H}^1(X, D) \to \mathbf{H}^1(X, C)$ 是同构.
+\end{proof}
+
+现在我们可以在 $Y$ 上描述 $\Hm^\bullet(X, j_* M)$.
+
+\begin{proposition}\label{prop:parabolic-cohomology}
+	存在自然同构
+	\begin{gather*}
+		\Hm^0(X, j_* M) = \Hm^0(Y, M), \quad \Hm^2(X, j_* M) \simeq \Hm_c^2(Y, M), \\
+		\Hm^1(X, j_* M) \simeq \Image\left[ \Hm^1_c(Y, M) \to \Hm^1(Y, M) \right] .
+	\end{gather*}
+\end{proposition}
+\begin{proof}
+	关于 $\Hm^0$ 的断言直接源于 $j_*$ 定义. 对于 $\Hm^2$, 由对 $j_! M$ 的描述可得层的短正合列 $0 \to j_! M \to j_* M \to i_* N \to 0$, 其中 $N := i^* j_* M$ 是零维空间 $\Sigma$ 上的层, 由此得到长正合列
+	\[ \underbracket{\Hm^1(\Sigma, N)}_{= 0} \to \Hm_c^2(Y, M) \to \Hm^2(X, j_* M) \to \underbracket{\Hm^2(\Sigma, N)}_{= 0}. \]
+
+	对于 $\Hm^1$, Leray 谱序列给出自然同构 $\mathbf{H}^\bullet(X, \mathrm{R} j_* M) \rightiso \Hm^\bullet(Y, M)$. 留意 $\Hm^1(X, i_* N) = \Hm^1(\Sigma, N) = 0$. 对 \eqref{eqn:two-triangles} 取 $\mathrm{R}\Gamma(X, \cdot)$, 应用引理 \ref{prop:two-triangles} 以得到行正合交换图表
+	\[\begin{tikzcd}[column sep=small]
+		& \Hm^1_c(Y, M) \arrow[r] \arrow[d] & \Hm^1(Y, M) \arrow[r, "\partial_D" inner sep=0.2cm] \arrow[equal, d] & \Hm^1(X, D) \arrow[d, "\simeq"] \\
+		0 \arrow [r] & \Hm^1(X, j_* M) \arrow[r] & \Hm^1(Y, M) \arrow[r, "\partial_C"' inner sep=0.2cm] & \Hm^1(X, C) ,
+	\end{tikzcd}\]
+	于是 $\Hm^1(X, j_* M) \rightiso \Ker(\partial_C) = \Ker(\partial_D) = \Image\left[ \Hm^1_c(Y, M) \to \Hm^1(Y, M) \right]$, 此同构不依赖 $C, D$ 的选取.
+\end{proof}
+
+重点是 $M$ 为局部系统的情形, 例如 ${}^k V_\Gamma$. 这时以 $j_* M$ 为系数的上同调群也有类似 Poincaré 对偶的性质: 应用 $Y$ 上的 Poincaré 对偶定理和以上描述, 我们得到自然同构 $\Hm^i(X, j_* (M^\vee)) \rightiso \Hm^{2-i}(X, j_* M)^\vee$, 其中 $i = 0, 1, 2$.
+
+\index{xiangjiaoshangtongdiao@相交上同调 (intersection cohomology)}
+依据拓扑的见地, $\Hm^\bullet(X, j_* M)$ 其实是 $Y$ 上局部系统 $M$ 定出的\emph{相交上同调}, 见 \cite[\S 5.4]{Di04}; 精确到平移, 涉及的系数即相交复形 $j_{!*} M$ 恰是 $j_* M = \tau_{\leq 0} \mathrm{R} j_* M$, 参见 \cite[Exercise 5.2.11]{Di04}. 高维情形是复杂的, 然而对 Riemann 曲面 $X$, 一切有如上的初等构造. 一个深刻的定理是射影簇的相交上同调带有自然的 Hodge 结构和 Poincaré 对偶. 定理 \ref{prop:Eichler-Shimura} 可以视为一个简单而非平凡的例证. 我们引入以下方便的符号.
+
+\begin{convention}\label{conv:H1-tilde} \index[sym1]{H1tilde@$\widetilde{\Hm}^1$}
+	设 $X$ 为紧 Riemann 曲面, $\Sigma \subset X$ 为有限子集而 $Y := X \smallsetminus \Sigma$. 引入一族函子
+	\[ \widetilde{\Hm}^\bullet(Y, \cdot) := \Image\left[ \Hm^\bullet_c(Y, \cdot) \to \Hm^\bullet(Y, \cdot) \right]: \cate{Shv}(Y) \to \cate{Ab}; \]
+	记包含映射 $Y(\Gamma) \hookrightarrow X(\Gamma)$ 为 $j$, 则命题 \ref{prop:parabolic-cohomology} 给出典范同构 $\widetilde{\Hm}^1(Y, \cdot) \simeq \Hm^1(X, j_*(\cdot))$. 
+\end{convention}
+
+以下回到 $X = X(\Gamma)$ 而 $\Sigma$ 为尖点集的情形. 我们需要群上同调的语言, 详见 \S\ref{sec:group-cohomology}.
+
+\begin{definition}\label{def:parabolic-cohomology} \index{paowushangtongdiao@抛物上同调 (parabolic cohomology)}
+	设 $\Gamma$ 为余有限 Fuchs 群. 称形如 $\Gamma_\eta$, 其中 $\eta \in \mathcal{C}_\Gamma$ 的子群称为 $\Gamma$ 的\emph{抛物子群}. 设 $E$ 为 $\Gamma$-模, 相应的\emph{抛物上同调}或 \emph{Eichler 上同调}定为
+	\[ \Hm^n_{\mathrm{para}}(\Gamma, E) := \bigcap_{\substack{\Gamma_0 \subset \Gamma \\ \text{抛物子群}}} \Ker\left[ \Hm^n(\Gamma, E) \to \Hm^n(\Gamma_0, E) \right], \quad n \in \Z_{\geq 0}. \]
+\end{definition}
+
+对于 $\Gamma$-模 $E$ (定义 \ref{def:G-module}), 构作 $\mathcal{H}$ 上对应的常值层, 仍记为 $E$; 按 \eqref{eqn:right-action-model} 的约定, $\Gamma$ 右作用在 $E$ 的截面上: 设 $U \subset \mathcal{H}$ 为开集,
+\begin{align*}
+	\Gamma\left(U, E\right) & \xrightarrow{\cdot \gamma} \Gamma\left(\gamma^{-1} U, E\right) \\
+	(v \in E) & \mapsto \gamma^{-1} v.
+\end{align*}
+因为 $\mathcal{H}$ 可缩, 所有带 $\Gamma$-右作用的局部常值层都来自这样的 $E$.
+
+\begin{proposition}\label{prop:parabolic-vs-intersection}
+	设 $\Gamma$ 为无挠余有限 Fuchs 群, $E$ 是 $\Gamma$-模. 对 $E$ 取商得到 $Y(\Gamma)$ 上的局部常值层, 记为 $M$, 则存在自然同构 $\Hm^1_{\mathrm{para}}(\Gamma, E) \simeq \widetilde{\Hm}^1(Y(\Gamma), M)$.
+\end{proposition}
+\begin{proof}
+	依旧对 \eqref{eqn:two-triangles} 的第二行取 $\mathrm{R}\Gamma(X(\Gamma), \cdot)$, 并应用引理 \ref{prop:two-triangles} 以得到交换图表, 其第一行正合:
+	\begin{equation*}\begin{tikzcd}
+		0 \arrow [r] & \Hm^1(X(\Gamma), j_* M) \arrow[r] & \Hm^1(X(\Gamma), \mathrm{R}j_* M) \arrow[d, "\simeq"'] \arrow[r] & \Hm^0(X(\Gamma), \mathrm{R}^1 j_* M) \arrow[d, "\simeq"] \\
+		& & \Hm^1(Y(\Gamma), M) \arrow[r, "{\partial = (\partial_x)_x}"] & \bigoplus_{x \in \Sigma} \left(\mathrm{R}^1 j_* M\right)_x
+	\end{tikzcd}\end{equation*}
+	
+	对于尖点 $x = \pi(\alpha \infty)$, 在先前对 $(\mathrm{R}^1 j_* M)_x$ 的刻画中, 坐标邻域 $W$ 可取作 $\{\alpha\tau: \Im(\tau) > c \}$, 其中 $c \gg 0$. 对之有交换图表
+	\[\begin{tikzcd}
+		\{\alpha\tau: \Im(\tau) > c \} \arrow[d, "\text{商}"'] \arrow[hookrightarrow, r] & \mathcal{H} \arrow[d, "\text{商}"] \\
+		W \smallsetminus \{x\} \arrow[hookrightarrow, r] & Y(\Gamma)
+	\end{tikzcd}\]
+	根据无挠条件, 垂直箭头分别给出 $\Gamma_{\alpha\tau}$ 和 $\Gamma$ 作用下的主丛 (回忆引理 \ref{prop:glueing-holomorphy-cusp} 和相关讨论). 拉回 $\Hm^1(Y(\Gamma), M) \to \Hm^1(W \smallsetminus \{x\}, M)$ 给出 $\partial_x$; 又由于第一行的空间皆可缩, $\partial_x$ 等同于自然同态
+	\[ \Hm^1(\Gamma, E) \to \Hm^1(\Gamma_0, E); \]
+	这是拓扑学熟知的结果, 可见 \cite[Chapter II, V]{AM04} 或 \cite[\S 8\textsuperscript{bis}.2]{Mc01} 关于 Cartan--Leray 谱序列的讨论.
+
+	让 $x \in \Sigma$ 变动, 如此可得 $\partial: \Hm^1(Y(\Gamma), M) \to \Hm^1(X(\Gamma), \mathrm{R}^1 j_* M)$ 的核等同于所有 $\Hm^1(\Gamma, M) \to \Hm^1(\Gamma_\eta, M)$ 的核之交, 其中 $\eta$ 遍历 $\mathcal{C}_\Gamma$.
+\end{proof}
+
+现在代入 \S\ref{sec:Shimura-locsys} 的场景. 要求 $\Gamma$ 服从于假设 \ref{hyp:torsion-free}, 取具有标准基 $e_1, e_2$ 的 $2$ 维向量空间 $V := \CC e_1 \oplus \CC e_2$, 赋予由矩阵左乘 $(\gamma, v) \mapsto {}^t \gamma^{-1} v$ 确定的左 $\GL(2, \R)^+$-作用; 这使得 $V$ 成为 $\Gamma$-模. 透过取逆在 $V$ 上导出的右 $\Gamma$-作用无非是 \eqref{eqn:e1e2-action}. 设 $k \in \Z_{\geq 0}$, 从对称幂 $\Gamma$-表示 $\Sym^k V$ 得到的局部系统无非是 ${}^k V_\Gamma$.
+
+顺带一提, 根据表示理论的基本知识, 由 $(\gamma, v) \mapsto {}^t \gamma^{-1} v$ 给出的 $2$ 维 $\SL(2, \R)$-表示同构于``标准''的 $2$ 维 $\SL(2, \R)$-表示 $(\gamma, v) \mapsto \gamma v$, 考虑对称幂亦然.
+
+基于命题 \ref{prop:parabolic-vs-intersection}, 此时定理 \ref{prop:Eichler-Shimura} 遂改述为同构
+\[ \mathrm{ES}_\Gamma: S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \rightiso \Hm^1_{\mathrm{para}}\left(\Gamma, \Sym^k V\right). \]
+上式两端对所有余有限 Fuchs 群 $\Gamma$ 都有定义, 我们将循此推广 Eichler--志村同构. 
+
+\begin{lemma}\label{prop:parabolic-cohomology-descent}
+	设 $\Gamma$ 和 $E$ 如定义 \ref{def:parabolic-cohomology}, 而 $\Gamma' \lhd \Gamma$ 满足 $(\Gamma : \Gamma')$ 有限. 对于所有 $h \in \Z_{\geq 0}$, 此时 $\Hm^n_{\mathrm{para}}(\Gamma', E)$ 对 $\Gamma/\Gamma'$ 作用封闭, 自然态射 $\Hm^n(\Gamma, E) \to \Hm^n(\Gamma', E)$ 诱导 $\Hm^n_{\mathrm{para}}(\Gamma, E) \simeq \Hm^n_{\mathrm{para}}(\Gamma', E)^{\Gamma/\Gamma'}$.
+\end{lemma}
+\begin{proof}
+	命题 \ref{prop:common-cusps} 蕴涵 $\mathcal{C}_\Gamma = \mathcal{C}_{\Gamma'}$, 故 $\Gamma'$ 的抛物子群皆形如 $\Gamma' \cap \Gamma_0$, 其中 $\Gamma_0$ 遍历 $\Gamma$ 的抛物子群.
+
+	对任何抛物子群 $\Gamma_0 \subset \Gamma$ 和 $\gamma \in \Gamma$, 我们有自然的交换图表 (请寻思 $n = 0$ 的特例):
+	\[\begin{tikzcd}
+		\Hm^n(\Gamma', E) \arrow[r] \arrow[d, "\gamma"'] & \Hm^n(\Gamma' \cap \Gamma_0, E) \arrow[d, "\gamma"] \\
+		\Hm^n(\Gamma', E) \arrow[r] & \Hm^n(\Gamma' \cap \gamma\Gamma_0 \gamma^{-1}, E)
+	\end{tikzcd}\]
+	而 $\gamma \Gamma_0 \gamma^{-1}$ 仍是 $\Gamma$ 的抛物子群. 变动 $\Gamma_0$ 可见 $\Hm^n_{\mathrm{para}}(\Gamma', E)$ 对 $\Gamma/\Gamma'$ 作用封闭.
+	
+	关于同构的断言来自以下交换图表 (同样寻思特例 $n = 0$)
+	\[\begin{tikzcd}[column sep=small]
+		\Hm^n(\Gamma, E) \arrow[r, "\sim"] \arrow[d] & \Hm^n(\Gamma', E)^{\Gamma/\Gamma'} \arrow[hookrightarrow, r] & \Hm^n(\Gamma', E) \arrow[d] \\
+		\displaystyle\bigoplus_{\Gamma_0: \text{抛物子群}} \Hm^n(\Gamma_0, E) \arrow[hookrightarrow, rr] & & \displaystyle\bigoplus_{\Gamma_0: \text{抛物子群}} \Hm^n(\Gamma' \cap \Gamma_0, E)
+	\end{tikzcd}\]
+	图中的水平同构和嵌入是注记 \ref{rem:HS-sequence-degenerate} 分别应用于 $\Gamma' \lhd \Gamma$ 和 $\Gamma' \cap \Gamma_0 \lhd \Gamma \cap \Gamma_0$ 的结果. 比较左右两列的核即足.
+\end{proof}
+
+既然 $\Sym^k V$ 可定义在 $\R$ 上, $\Hm^1_{\mathrm{para}}(\Gamma, \Sym^k V)$ 带有自然的复共轭运算.
+
+\begin{theorem}\label{prop:Eichler-Shimura-gen}
+	对所有余有限 Fuchs 群 $\Gamma$ 都有 $\CC$-向量空间的自然同构
+	\[ \mathrm{ES}_\Gamma: S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \rightiso \Hm^1_{\mathrm{para}}\left(\Gamma, \Sym^k V\right), \]
+	和复共轭相交换. 此族同构由以下性质刻画:
+	\begin{itemize}
+		\item 当 $\Gamma$ 服从假设 \ref{hyp:torsion-free} 时, $\mathrm{ES}$ 即定理 \ref{prop:Eichler-Shimura} 与命题 \ref{prop:parabolic-vs-intersection} 中的同构的合成;
+		\item 对于任何满足 $(\Gamma : \Gamma')$ 有限的正规子群 $\Gamma'$, 下图交换:
+		\[\begin{tikzcd}
+			S_{k+2}(\Gamma') \oplus \overline{S_{k+2}(\Gamma')} \arrow[r, "{\mathrm{ES}_{\Gamma'}}"] & \Hm^1_{\mathrm{para}}(\Gamma', \Sym^k V) \\
+			S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \arrow[r, "{\mathrm{ES}_\Gamma}"'] \arrow[hookrightarrow, u] & \Hm^1_{\mathrm{para}}(\Gamma, \Sym^k V) \arrow[hookrightarrow, u]
+		\end{tikzcd}\]
+		其中 $\Hm^1_{\mathrm{para}}(\Gamma, \cdot) \to \Hm^1_{\mathrm{para}}(\Gamma', \cdot)$ 是对 $\Gamma' \hookrightarrow \Gamma$ 的拉回, 又称限制映射, $S_{k+2}(\cdots)$ 之间的包含关系则见注记 \ref{rem:common-cusps}.
+	\end{itemize}
+\end{theorem}
+\begin{proof}
+	引理 \ref{prop:parabolic-cohomology-descent} 给出 $\Hm^1_{\mathrm{para}}(\Gamma, \Sym^k V) \simeq \Hm^1_{\mathrm{para}}(\Gamma', \Sym^k V)^{\Gamma/\Gamma'}$. 与此平行, 对于左作用 $f \mapsto f \modact{k} \gamma^{-1}$ 也有 $S_{k+2}(\Gamma) = S_{k+2}(\Gamma')^{\Gamma/\Gamma'}$. 对于满足假设 \ref{hyp:torsion-free} 的 $\Gamma$, 例行的验证指明 $\mathrm{ES}_\Gamma$ 和 $\mathrm{ES}_{\Gamma'}$ 对此是兼容的, 此时断言中的图表也自动交换.
+	
+	一般情形依赖于一则群论事实: 对任何 $\Gamma$ 都存在 $\Gamma' \lhd \Gamma$ 使得 $(\Gamma : \Gamma')$ 有限, 而且 $\Gamma'$ 满足假设 \ref{hyp:torsion-free}. 论证梗概如下.
+	\begin{enumerate}
+		\item 首先, 可以取到如上的 $\Gamma' \lhd \Gamma$ 使得 $\Gamma'$ 无挠. 这一事实称为 Selberg 引理, 初等证明见 \cite{Al87}.
+		\item 设 $\Gamma$ 无挠. 进一步还可以取到如上的 $\Gamma' \lhd \Gamma$ 使得所有尖点皆正则: 根据定义 \ref{def:regular-cusp}, 这相当于说 $\Gamma'$ 不包含特征值皆为 $-1$ 的抛物元, 上引文献 pp.270--271 的论证实际给出足够小的 $\Gamma'$ 来排除这种可能.
+	\end{enumerate}
+
+	这样一来便能以交换图表来唯一地定义 $\mathrm{ES}_\Gamma$. 明所欲证.
+\end{proof}
+
+由于 $S_{k+2}(\Gamma)$ 和抛物上同调的定义都是初等的, 透过几何工具和 Selberg 引理来建立定理 \ref{prop:Eichler-Shimura-gen} 的同构未免有些迂回. 考虑到 Eichler--志村同构对于 $L$-函数特殊值, 有理结构等应用, 实际也有必要以显式写下 $\mathrm{ES}$ 的像. 这般公式是经典的结果, 读者可参考 \cite{Ve61, Shi71} 等文献.
+
+\begin{exercise}\label{exo:torsion-free-suffices}
+	在本章的论证中, 假设 \ref{hyp:torsion-free} 中关于正则尖点的条件仅用于等同 $S_{k+2}(\Gamma)$ 与 $\Gamma\left(X(\Gamma), \Omega_{X(\Gamma)} \dotimes{\mathcal{O}} \bomega_\Gamma^{\otimes k}\right)$. 试以定理 \ref{prop:Eichler-Shimura-gen} 的证明技巧说明: 只要假设 $\Gamma$ 无挠, 仍有自然同构
+	\[ \mathrm{ES}: S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \rightiso \widetilde{\Hm}^1\left(Y(\Gamma), {}^k V_\Gamma \right). \]
+\end{exercise}
+
+\section{上同调观 Hecke 算子}\label{sec:Hecke-via-cohomology}
+取可公度的余有限 Fuchs 群 $\Gamma, \Gamma' \subset \SL(2, \R)$. 代入 \S\ref{sec:modular-form-vs-Hecke-algebra} 的体系: 设 $\gamma \in \widetilde{\Gamma} = \widetilde{\Gamma'}$ (见约定 \ref{conv:Gamma-tilde}). 对权为 $h \in \Z$ 的模形式定义 Hecke 算子
+\begin{align*}
+	M_h(\Gamma) & \to M_h(\Gamma') \\
+	f & \mapsto f [\Gamma \gamma \Gamma'],
+\end{align*}
+它限制为 $S_h(\Gamma) \to S_h(\Gamma')$. 定义子群 $\Gamma_1, \Gamma_2$ 为
+\[\begin{tikzcd}
+	\Gamma \arrow[phantom, d, "\supset" sloped] & & \Gamma' \arrow[phantom, d, "\supset" sloped] \\
+	\Gamma_1 := \Gamma \cap \gamma \Gamma' \gamma^{-1} \arrow[rr, "\sim", "x \mapsto \gamma^{-1}x\gamma"'] & & \gamma^{-1}\Gamma\gamma \cap \Gamma' =: \Gamma_2
+\end{tikzcd}\]
+得到相应的分解 \eqref{eqn:Hecke-op-decomp}
+\[ [\Gamma\gamma\Gamma'] = [\Gamma \cdot 1 \cdot \Gamma_1] \star [\Gamma_1 \gamma \Gamma_2] \star [\Gamma_2 \cdot 1 \cdot \Gamma'], \]
+于是 $[\Gamma\gamma\Gamma']$ 在模形式上的右作用也相应地拆作三段.
+
+今起只论权 $h = k + 2$ 的情形, 其中 $k \in \Z_{\geq 0}$. 视角切换到上同调. 为了避免叠的语言, 今起仍要求 $\Gamma$ 和 $\Gamma'$ 都满足假设 \ref{hyp:torsion-free}, 或者至少要求它们无挠 (练习 \ref{exo:torsion-free-suffices}). 我们将定义三段自然的线性映射
+\begin{equation}\label{eqn:Hecke-cohomology-3step}
+	\widetilde{\Hm}^1\left( Y(\Gamma), {}^k V_\Gamma \right) \to \widetilde{\Hm}^1\left(Y(\Gamma_1), {}^k V_{\Gamma_1} \right) \xrightarrow[\sim]{\gamma^*} \widetilde{\Hm}^1\left(Y(\Gamma_2), {}^k V_{\Gamma_2} \right) \to \widetilde{\Hm}^1\left(Y(\Gamma'), {}^k V_{\Gamma'} \right),
+\end{equation}
+细说如下. 开嵌入 $Y(\cdot) \hookrightarrow X(\cdot)$ 一律记为 $j$; 以 $p_1: X(\Gamma_1) \to X(\Gamma)$ 和 $p_2: X(\Gamma_2) \to X(\Gamma')$ 记自明的商态射.
+
+\begin{itemize}
+	\item 因为 $p_1$ 是紧 Riemann 曲面之间的有限分歧复叠, 拓扑学常识确保 $p_1^*$ 诱导 $\widetilde{\Hm}^1(Y(\Gamma), \cdot) \to \widetilde{\Hm}^1(Y(\Gamma_1), p_1^*(\cdot))$. 此外命题 \ref{prop:V-pullback} 给出 $p_1^* {}^k V_{\Gamma} \simeq {}^k V_{\Gamma_1}$, 是为第一段.
+
+	\item 将局部系统 ${}^k V_{\Gamma_i}$ 视为竖在 $Y(\Gamma_i)$ 上的空间 (细节无关宏旨), 如是则有交换图表
+	\begin{equation}\label{eqn:corr-diagram}\begin{tikzcd}[row sep=small]
+		{}^k V_{\Gamma_2} \arrow[d] \arrow[r] & {}^k V_{\Gamma_1} \arrow[d] \\
+		Y(\Gamma_2) \arrow[r, "\psi"', "\sim"] \arrow[d] & Y(\Gamma_1) \arrow[d] \\
+		Y(\Gamma') & Y(\Gamma)
+	\end{tikzcd} \qquad \psi: \Gamma_2 \tau \mapsto \Gamma_1 \gamma \tau, \end{equation}
+	第一行是对 \eqref{eqn:V-fiber-transport} 律定的映射 $V_\tau \to V_{\gamma\tau}$ 取 $\Sym^k$ 的产物; 等价的看法是 $\cate{Shv}(Y(\Gamma_2))$ 中的 $\psi^* \left( {}^k V_{\Gamma_1} \right) \rightiso {}^k V_{\Gamma_2}$. 它诱导 $\gamma^*: \widetilde{\Hm}^1\left(Y(\Gamma_1), {}^k V_{\Gamma_1} \right) \rightiso \widetilde{\Hm}^1\left(Y(\Gamma_2), {}^k V_{\Gamma_2} \right)$.
+	
+	\item 映射 $\widetilde{\Hm}^1\left(Y(\Gamma_2), {}^k V_{\Gamma_2} \right) \to \widetilde{\Hm}^1\left(X(\Gamma'), j_* {}^k V_{\Gamma'} \right)$ 来自 $p_2^* \left( {}^k V_{\Gamma'} \right) \simeq {}^k V_{\Gamma_2}$ (命题 \ref{prop:V-pullback}) 和有限态射 $p_2$ 诱导的迹映射
+	\[ \widetilde{\Hm}^1(Y(\Gamma_2), p_2^*(\cdots)) \to \widetilde{\Hm}^1(Y(\Gamma'), \cdots). \]
+	迹映射的简单定义是对 $\Gamma_2 \backslash \Gamma'$ 加总.
+%	记 $\pi: \mathcal{H}^* \to X(\Gamma')$ 为商映射, $\mathcal{V} := j_* {}^k V_{\Gamma'}$. 对所有开集 $W \subset X(\Gamma')$, 取 $\Gamma'$-不变开子集 $U := \pi^{-1}(W) \cap \mathcal{H}$, 那么
+%	\[\begin{tikzcd}[row sep=small, column sep=small]
+%		& s \arrow[mapsto, r] \arrow[d, phantom, "\in" description, sloped] & \sum_{\gamma \in \Gamma_2 \backslash \Gamma'} s \cdot \gamma \arrow[d, phantom, "\in" description, sloped] \\
+%		& \Gamma\left( U, \Sym^k V \right)^{\Gamma_2 \text{-不变}} \arrow[r] & \Gamma\left( U, \Sym^k V \right)^{\Gamma' \text{-不变}} \\
+%		\Gamma\left(W, (p_2)_* p_2^* \mathcal{V} \right) \arrow[equal, r] & \Gamma\left( p_2^{-1} W, j_* {}^k V_{\Gamma_2} \right) \arrow[phantom, u, "\subset" description, sloped] \arrow[r, "\text{迹映射}"' inner sep=0.7em] & \Gamma\left(W, \mathcal{V} \right) \arrow[phantom, u, "\subset" description, sloped] .
+%	\end{tikzcd}\]
+\end{itemize}
+
+%顺带留意到若记 $q_2 := p_1 \psi$, 则 \eqref{eqn:corr-diagram} 诱导的同构可改写为 $q_2^* \; {}^k V_\Gamma \simeq \psi^* p_1^* \; {}^k V_\Gamma \rightiso p_2^* \; {}^k V_{\Gamma'}$. 对 $q_2$ 也能作迹映射, 故 \eqref{eqn:Hecke-cohomology-3step} 重整为
+%\[\begin{tikzcd}[column sep=small]
+%	\widetilde{\Hm}^1\left( Y(\Gamma), {}^k V_\Gamma \right) \arrow[r, "\text{拉回}" inner sep=0.8em] & \widetilde{\Hm}^1\left(Y(\Gamma_1), p_1^* \; {}^k V_\Gamma \right) \arrow[r, "\sim"] & \widetilde{\Hm}^1\left(Y(\Gamma_2), p_2^* \; {}^k V_{\Gamma'} \right) \arrow[r, "\text{迹映射}" inner sep=0.8em] & \widetilde{\Hm}^1\left(Y(\Gamma'), {}^k V_{\Gamma'} \right).
+%\end{tikzcd}\]
+
+\begin{definition}
+	对于 $\Gamma$, $\Gamma'$ 和 $\gamma$ 如上, 定义映射 $T(\Gamma\gamma\Gamma')$ 为 \eqref{eqn:Hecke-cohomology-3step} 的合成; 其中三段映射都定义在 $\R$ 上, 换言之它们和复共轭运算交换, 故 $T(\Gamma\gamma\Gamma')$ 亦然.
+\end{definition}
+
+任意复线性映射 $\phi: U \to V$ 也给出复共轭空间之间的线性映射, 记为 $\overline{\phi}: \overline{U} \to \overline{V}$.
+
+\begin{proposition}\label{prop:Hecke-cohomology}
+	透过 Eichler--志村同构 (定理 \ref{prop:Eichler-Shimura}), Hecke 算子 $f \mapsto f[\Gamma \gamma \Gamma']$ 和 $T(\Gamma\gamma\Gamma')$ 兼容. 更具体地说, 下图交换:
+	\[\begin{tikzcd}
+		S_{k+2}(\Gamma) \oplus \overline{S_{k+2}(\Gamma)} \arrow[d, "{\mathrm{ES}}"'] \arrow[r, "{[\Gamma\gamma\Gamma'] \oplus \overline{[\Gamma\gamma\Gamma']}}" inner sep=1.5em] & S_{k+2}(\Gamma') \oplus \overline{S_{k+2}(\Gamma')} \arrow[d, "\mathrm{ES}"] \\
+		\widetilde{\Hm}^1 \left(Y(\Gamma), {}^k V_\Gamma\right) \arrow[r, "{T(\Gamma\gamma\Gamma')}"' inner sep=0.7em] & \widetilde{\Hm}^1 \left(Y(\Gamma'), {}^k V_{\Gamma'} \right) .
+	\end{tikzcd}\]
+\end{proposition}
+\begin{proof}
+	图中所有映射皆和复共轭交换, 故问题归结为证下图交换
+	\[\begin{tikzcd}
+		S_{k+2}(\Gamma) \arrow[d, "{\mathrm{ES}}"'] \arrow[r, "{[\Gamma\gamma\Gamma']}"] & S_{k+2}(\Gamma') \arrow[d, "\mathrm{ES}"] \\
+		\widetilde{\Hm}^1 \left(Y(\Gamma), {}^k V_\Gamma\right) \arrow[r, "{T(\Gamma\gamma\Gamma')}"' inner sep=0.7em] & \widetilde{\Hm}^1 \left(Y(\Gamma'), {}^k V_{\Gamma'} \right) .
+	\end{tikzcd}\]
+
+	映射 $\mathrm{ES}|_{S_{k+2}(\Gamma)}$ 的定义分为两步.
+	\begin{itemize}
+		\item 其一是注记 \ref{rem:H1-filtration-lowest} 描述的自然嵌入
+		\[ \Hm^0\left(X(\Gamma), \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \right) \hookrightarrow \Hm^1\left(X(\Gamma), j_* {}^k V_\Gamma \right). \]
+		相关构造归根结柢皆由 $\mathcal{H}$ 下降而得. 我们在前几节小心翼翼地阐明了 $\mathcal{H}$ 上的相关构造都是 $\GL(2,\R)^+$ 等变的.
+		\item 其二是由 $\mathrm{KS}: \Omega_{X(\Gamma)} \to \bomega_\Gamma^{\otimes 2}$ (命题 \ref{prop:Kodaira-Spencer}) 搭配定理 \ref{prop:modular-vs-omega} 给出之同构
+		\[ \Hm^0 \left(X(\Gamma), \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)}\right) \rightiso S_{k+2}(\Gamma) \subset \Hm^0 \left(X(\Gamma), \bomega_\Gamma^{\otimes (k+2)}\right). \]
+		映射 $\mathrm{KS}$ 同样源自 $\mathcal{H}$ 上的版本 $\Omega_{\mathcal{H}} \to \bomega^{\otimes 2}$, 后者不是 $\GL(2, \R)^+$ 等变的: 命题 \ref{prop:Kodaira-Spencer-0} 表明须将 $\GL(2, \R)^+$ 在 $\bomega^{\otimes 2}$ 截面上的右作用乘上 $\det^{-1}$.	作为推论, \eqref{eqn:Hecke-cohomology-3step} 中由 $\gamma$ 给出的操作也以同样方式反映在 $S_{k+2}(\Gamma) \hookrightarrow \Hm^0 \left(X(\Gamma), \bomega_\Gamma^{\otimes (k+2)}\right)$ 上, 但是要补上一个 $\det^{-1}$ 的因子.
+	\end{itemize}
+
+	现在对 $\bomega^{\otimes (k+2)}$ 的整体截面考察上述作用. 根据 \eqref{eqn:dz-equivariance}, $f (\dd z)^{\otimes (k+2)} \in \Gamma(\mathcal{H}, \bomega^{\otimes (k+2)})$ 被 $\gamma \in \GL(2,\R)^+$ 右作用后等于
+	\begin{equation*}
+		(\det\gamma)^{-1} \left( f (\dd z)^{\otimes (k+2)} \right) \cdot \gamma = (\det\gamma)^{k/2} (f \modact{k+2} \gamma) (\dd z)^{\otimes (k + 2)} \xlongequal{\text{\eqref{eqn:f-right-action}}} (f \gamma) (\dd z)^{\otimes (k+2)},
+	\end{equation*}
+	这是承接 Hecke 算子理论 \S\ref{sec:modular-form-vs-Hecke-algebra} 的关键.
+
+	现在开始证明 $[\Gamma\gamma\Gamma']$ 和 $T(\Gamma\gamma\Gamma')$ 的兼容性. 两个映射各自拆成三段, 如本节开头所述, 问题进一步化约到 Hecke 算子的三种特例:
+	\begin{center}\begin{tabular}{|c|c|c|} \hline
+		算子 & 条件 & $\widetilde{\Hm}^1$ 层面的对应物 \\ \hline
+		$[\Gamma \cdot \Gamma_1]$ & $\Gamma_1 \subset \Gamma$ & 拉回 $\widetilde{\Hm}^1 \left(Y(\Gamma), {}^k V_\Gamma \right) \to \widetilde{\Hm}^1\left( Y(\Gamma_1), {}^k V_{\Gamma_1}\right)$ \\ \hline
+		$[\Gamma_1 \gamma \Gamma_2]$ & $\Gamma_2 = \gamma^{-1} \Gamma_1 \gamma$ & $\gamma^*: \widetilde{\Hm}^1\left(Y(\Gamma_1), {}^k V_{\Gamma_1} \right) \rightiso \widetilde{\Hm}^1\left(Y(\Gamma_2), {}^k V_{\Gamma_2} \right)$ \\ \hline
+		$[\Gamma_2 \cdot \Gamma']$ & $\Gamma_2 \subset \Gamma'$ & 迹映射 $\widetilde{\Hm}^1\left(Y(\Gamma_2), {}^k V_{\Gamma_2} \right) \to \widetilde{\Hm}^1\left(Y(\Gamma'), {}^k V_{\Gamma'} \right)$ \\ \hline
+	\end{tabular}\end{center}
+	只须说明第一列和第三列透过 $\mathrm{ES}$ 相兼容. 我们运用先前关于 $\GL(2, \R)^+$ 等变性的讨论. 拉回情形最为明显. 同构 $\gamma^*$ 与 $[\Gamma_1 \gamma \Gamma_2] = [\Gamma_1 \gamma]$ 的兼容性同样归结为前述讨论. 至于迹映射, 考虑到它在 $\widetilde{\Hm}^1$ 上是对 $\Gamma_2 \backslash \Gamma'$ 加总给出的, 并且回忆 \S\ref{sec:modular-form-vs-Hecke-algebra} 最后对 $[\Gamma_2 \cdot \Gamma']$ 的相应描述, 相关验证无非例行公事.
+\end{proof}
+
+\begin{remark}\label{rem:Hecke-cohomology-deg}
+	设 $\Gamma = \Gamma'$ 而 $\gamma\Gamma\gamma^{-1} = \Gamma$, 这时 $T(\Gamma\gamma\Gamma)$ 退化为由 $\gamma$ 作用给出的自然图表
+	\[\begin{tikzcd}
+		{}^k V_\Gamma \arrow[d] \arrow[r] & {}^k V_\Gamma \arrow[d] \\
+		Y(\Gamma) \arrow[r, "{\Gamma\tau \mapsto \Gamma\gamma\tau}" inner sep=0.7em] & Y(\Gamma)
+	\end{tikzcd}\]
+	所诱导的自同构 $\widetilde{\Hm}^1(Y(\Gamma), {}^k V_\Gamma) \rightiso \widetilde{\Hm}^1(Y(\Gamma), {}^k V_\Gamma)$.
+\end{remark}
+
+\begin{remark}
+	对于一般的余有限 Fuchs 群 $\Gamma, \Gamma'$, 只要愿意采取叠的语言, 仍能为 Hecke 算子给出与命题 \ref{prop:Hecke-cohomology} 类似的上同调诠释. 技术包袱较少的进路则是用抛物上同调 (定理 \ref{prop:Eichler-Shimura-gen}), 此时 $[\Gamma \gamma \Gamma'] \oplus \overline{[\Gamma\gamma\Gamma']}$ 可以等同于合成
+	\[ \Hm^1_{\mathrm{para}}(\Gamma, \Sym^k V) \xrightarrow{\text{限制}} \Hm^1_{\mathrm{para}}(\Gamma_1, \Sym^k V) \xrightarrow[\sim]{\gamma^*} \Hm^1_{\mathrm{para}}(\Gamma_2, \Sym^k V) \xrightarrow{\text{余限制}} \Hm^1_{\mathrm{para}}(\Gamma', \Sym^k V), \]
+	其中的``限制''映射无非是群上同调对 $\Gamma_1 \hookrightarrow \Gamma$ 的拉回, $\gamma^*$ 是自明的结构搬运, 而``余限制''是群上同调理论的一种特殊操作. 它们都作用在 $\Hm^1_{\mathrm{para}}$ 上. Hecke 算子的这一诠释可以和 Eicher--志村同构一道证明, 感兴趣的读者可参考 \cite[\S 5.2]{Ve61}.
+\end{remark}
+
+最后讨论 $k = 0$ 的情形, 亦即 $[\Gamma\gamma\Gamma']: S_2(\Gamma) \to S_2(\Gamma')$. 先前的局部系统全部简化为常值层 $\CC$, 这时单值化变换是平凡的: $j_* \CC = \CC$. Eichler--志村同构简化为 Hodge 分解
+\[ \Gamma\left(X(\Gamma), \Omega_{X(\Gamma)}\right) \oplus \overline{\Gamma\left(X(\Gamma), \Omega_{X(\Gamma)}\right)} \simeq \Hm^1\left(X(\Gamma); \CC\right). \]
+
+仍然设 $k = 0$ 并且取 $\Gamma_1 := \Gamma \cap \gamma \Gamma' \gamma^{-1}$. 考虑映射
+\[\begin{tikzcd}
+	X(\Gamma) & X(\Gamma_1) \arrow[l, "p_1"'] \arrow[r, "q_2"] & X(\Gamma')
+\end{tikzcd} : \qquad \begin{tikzcd}
+	\Gamma \tau & \Gamma_1 \tau \arrow[mapsto, l] \arrow[mapsto, r] & \Gamma' \gamma^{-1}\tau
+\end{tikzcd}\]
+其中 $p_1, q_2$ 都是紧 Riemann 曲面的非常值态射; $q_2$ 可由先前定义的同构来表述为合成
+\[\begin{tikzcd}[row sep=tiny]
+	X(\Gamma_1) \arrow[r, "{\psi^{-1}}", "\sim"'] & X(\Gamma_2) \arrow[r, "p_2"] & X(\Gamma') \\
+	\Gamma_1 \tau \arrow[mapsto, r] & \Gamma_2 \gamma^{-1} \tau \arrow[mapsto, r] & \Gamma' \tau.
+\end{tikzcd}\]
+
+上同调函子的系数 $\CC$ 可换为交换环 $A$; 保险起见, 我们还要求 $A$ 是整体同调维数 $\mathrm{gl.dim}(A)$ 有限的 Noether 环. 于是有自然映射
+\[ \Hm^1\left(X(\Gamma); A \right) \xrightarrow{p_1^*} \Hm^1\left(X(\Gamma_1); A \right) \xrightarrow{(q_2)_*} \Hm^1\left(X(\Gamma'); A \right); \]
+其中 $p_1^*$ 是上同调对 $p_1$ 的拉回, $(q_2)_*$ 是对 $q_2$ 的前推 (借 Poincaré 对偶定理定义为 $q_2^*$ 的转置). 命题 \ref{prop:Hecke-cohomology} 中的算子 $T(\Gamma\gamma\Gamma')$ 简化为 $(q_2)_* p_1^*$ 在 $A = \CC$ 的情形; 接着取 $A = \Z$, 从 $\Hm^\bullet(\cdot; \CC) = \Hm^\bullet(\cdot; \Z) \otimes \CC$ 可见 $T(\Gamma\gamma\Gamma')$ 实际是``定义在 $\Z$ 上''的.
+
+拉---推构造是几何中极常见的手法. 不妨将 $X(\Gamma_1) \xrightarrow{(p_1, q_2)} X(\Gamma) \times X(\Gamma')$ 设想为某个多值函数 $C: X(\Gamma) \dashrightarrow X(\Gamma')$ 的图形, $C(x) = \{q_2(y): y \in (p_1)^{-1}(x) \}$, 称之为\emph{对应}. 以上用来实现 $[\Gamma\gamma\Gamma']$ 的对应称为 \emph{Hecke 对应}. \index{Hecke 对应 (Hecke correspondence)}
+
+\begin{exercise}
+	对于任何 $\gamma \in \widetilde{\Gamma}$, Hecke 算子 $[\Gamma\gamma\Gamma]: S_2(\Gamma) \to S_2(\Gamma)$ 的特征值都是次数 $\leq 2g$ 的代数整数, 其中 $g = g(X(\Gamma))$ 为亏格.
+
+	\begin{hint}
+		考虑算子 $(q_2)_* p_1^* \in \End_{\CC}\left(\Hm^1(X(\Gamma); \CC) \right)$ 即可; 如上所见, 它保持 $\Hm^1(X(\Gamma); \Z)$.
+	\end{hint}
+\end{exercise}
+
+我们将在推论 \ref{prop:algebraic-eigenvalue} 从模空间观点探究 $\Gamma = \Gamma_1(N)$ 的情形, $k$ 可任取.

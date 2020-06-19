@@ -1,0 +1,1012 @@
+% LaTeX source for book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+\chapter{同余子群的 Hecke 算子}
+给定正整数 $N$, 我们将定义作用在 $M_k(\Gamma_1(N))$ 上的两类 Hecke 算子 $T_p$ 和 $\lrangle{d}$, 其中 $p$ 取遍素数而 $d$ 取遍与 $N$ 互素的整数, $\lrangle{d}$ 只依赖 $d$ 在 $(\Z/N\Z)^\times$ 中的像; 我们也称 $\lrangle{d}$ 为菱形算子. 一般习惯在 $\gcd(d, N) > 1$ 时规定 $\lrangle{d} = 0$. 所有算子 $T_p$ 和 $\lrangle{d}$ 生成的代数 $\HkT_1(N)$ 称为 Hecke 代数, 这是本章的主角.
+
+借由将双陪集运算翻译为简单的线性代数, \S\ref{sec:congruence-Hecke-alg} 将完全确定 $\HkT_1(N)$ 的结构; 尤其紧要的是交换性, 由此就能够
+\begin{compactitem}
+	\item 对任意 $n \in \Z_{\geq 1}$ 定义算子 $T_n$,
+	\item 探讨 $M_k(\Gamma_1(N))$ 和 $S_k(\Gamma_1(N))$ 在 $\HkT_1(N)$ 作用下的共同特征向量.
+\end{compactitem}
+如是就引向正规化 Hecke 特征形式的概念 (定义 \ref{def:normalized-eigenform}). 对于正规化 Hecke 特征形式 $f = \sum_{n \geq 1} a_n(f) q^n \in S_k(\Gamma_1(N))$, 我们将说明 $T_n(f) = a_n(f) f$. 对 $f$ 可以定义 $\chi_f: \Z \to \CC$ 使得 $\lrangle{d} f = \chi_f(d) f$. 进一步, 暂且不论收敛性, 那么让 Hecke 代数中形式的无穷乘积展开
+\[ \sum_{n \geq 1} T_n n^{-s} = \prod_{p: \text{素数}} \left( 1 - T_p p^{-s} + \lrangle{p} p^{k-1-2s} \right)^{-1}, \quad s \in \CC \]
+作用在 $f$ 上, 立刻导出相应的 Euler 乘积
+\[ \sum_{n \geq 1} a_n(f) n^{-s} = \prod_{p: \text{素数}} \left( 1 - a_p(f) p^{-s} + \chi_f(p) p^{k-1-2s} \right)^{-1}. \]
+这就表明了这类模形式 $f$ 的 Fourier 系数蕴藏深刻的结构, 它反映在无穷级数 $L(s,f) := \sum_{n \geq 1} a_n(f) n^{-s}$ 上, 称为 $f$ 的 $L$-函数.
+
+这一结果固然优美, 但显然面临两个问题:
+\begin{compactitem}
+	\item 当 $s$ 在什么范围内能确保级数 $\sum_{n \geq 1} a_n(f) n^{-s}$ 及其 Euler 乘积收敛? 其解析性状如何? 这些是第七章的主题.
+	\item 在 $S_k(\Gamma_1(N))$ 中是否存在充分多的正规化 Hecke 特征形式? 当 $N > 1$ 时此问题颇为棘手. 有反例说明 $p \mid N$ 时 $T_p$ 不可对角化, 见练习 \ref{exo:non-semisimple-Tp}, 故 $S_k(\Gamma_1(N))$ 不可能由 Hecke 特征形式张成. 出路至少有两条: 或者是限缩 Hecke 算子, 或者是在一个合适的子空间上寻求对角化. 对于后一进路, 根本的工具来自 Atkin 和 Lehner \cite{AL70}, 以及李文卿的后继工作 \cite{Li75}. 他们定义了称作新形式的一类正规化 Hecke 特征形式, 并说明它们在某种意义下仍能给出 $S_k(\Gamma_1(N))$ (推论 \ref{prop:newform-basis}).
+\end{compactitem}
+
+在著名的 Langlands 纲领中, 许多算术或几何对象在解析世界中的化身或者是新形式, 或者是它们的高秩推广或相应的自守表示. 本章将涉及较长的论证和一定程度的技巧, 所需的工夫和新形式的地位终归是相称的.
+
+\section{菱形算子和 \texorpdfstring{$T_p$}{Tp} 算子}\label{sec:diamond-operators}
+我们考虑 Hecke 在同余子群的模形式上的作用. 沿用 \S\ref{sec:modular-form-vs-Hecke-algebra} 的一般框架, 这就相当于取例 \ref{eg:cong-Hecke} 的资料 $\Delta := \GL(2, \Q)^+$ 和 $\mathcal{X} := \left\{\text{同余子群} \right\}$.
+
+我们关注两类重要的同余子群 $\Gamma_0(N)$ 和 $\Gamma_1(N)$. 令 $N \in \Z_{\geq 1}$, 记 $\text{red}: \SL(2,\Z) \to \SL(2, \Z/N\Z)$ 为 $\bmod\; N$ 同态. 我们有
+\[ \text{red}^{-1}\twobigmatrix{*}{*}{}{*} =: \Gamma_0(N) \rhd \Gamma_1(N) := \text{red}^{-1}\twobigmatrix{1}{*}{}{1}. \]
+命题 \ref{prop:reduction-surjective} 表明 $\text{red}$ 满, 因此导出两个满射
+\[\begin{tikzcd}[row sep=small]
+	\SL(2,\Z) \arrow[twoheadrightarrow, r, "\text{red}"] & \SL(2, \Z/N\Z) & \\
+	\Gamma_0(N) \arrow[phantom, u, "\subset" description, sloped] \arrow[twoheadrightarrow, r] & \twomatrix{*}{*}{}{*} \arrow[phantom, u, "\subset" description, sloped] \arrow[twoheadrightarrow, r] & (\Z/N\Z)^\times \\
+	\twomatrix{a}{b}{c}{d} \arrow[mapsto, r] \arrow[phantom, u, "\in" description, sloped] & \twomatrix{\bar{a}}{\bar{b}}{}{\bar{d}} \arrow[phantom, u, "\in" description, sloped] \arrow[mapsto, r] & \bar{d} \arrow[phantom, u, "\in" description, sloped]
+\end{tikzcd}\]
+这就表明 $\twomatrix{a}{b}{c}{d} \mapsto \bar{d} := d \bmod N$ 给出群同构
+\[ \Gamma_0(N)/\Gamma_1(N) \rightiso (\Z/N\Z)^\times, \]
+故 $\GL(2,\Q)^+$ 在 $M$ 上的作用限制为 $(\Z/N\Z)^\times \simeq \Gamma_0(N)/\Gamma_1(N)$ 在 $M^{\Gamma_1(N)} = M_k(\Gamma_1(N))$ 上的作用, 方式为透过酉算子
+\[ f \stackrel{\delta}{\longmapsto} f \modact{k} \delta = j(\delta,\tau)^{-k} f(\delta\tau), \quad f \in M_k(\Gamma_1(N)). \]
+而且 $f \modact{k}\delta$ 只依赖于 $\delta = \twomatrix{a}{b}{c}{d}$ 中的 $d \bmod N$.
+
+\begin{definition}\label{def:diamond-operator}\index{lingxingsuanzi@菱形算子 (diamond operator)} \index[sym1]{<d>@$\lrangle{d}$}
+	上述 $(\Z/N\Z)^\times$ 作用给出的 Hecke 算子称为 $M_k(\Gamma_1(N))$ 上的\emph{菱形算子}, 记为
+	\[ \lrangle{d} f := f \modact{k} \delta, \quad \delta \in \Gamma_0(N), \; \delta \equiv \twomatrix{*}{*}{}{d} \pmod{N}. \]
+	方便起见, 我们也经常将 $\lrangle{d}$ 的定义按 $d \;\text{不可逆} \implies \lrangle{d} := 0$ 延拓到整个 $\Z/N\Z$ 上, 然后进一步拉回到 $\Z$ 上; 乘性 $\lrangle{d_1 d_2} = \lrangle{d_1} \lrangle{d_2}$ 对所有 $d_1, d_2 \in \Z$ 仍成立.
+\end{definition}
+易见 $\lrangle{dd'} = \lrangle{d} \lrangle{d'}$, $\lrangle{1} = \identity$. 又由于 $\Gamma_1(N) \lhd \Gamma_0(N)$, 对于 $\delta = \twomatrix{a}{b}{c}{d} \in \Gamma_0(N)$, 按双陪集作用的定义 (见例 \ref{eg:normalizer-action}), 立得
+\[ \lrangle{d} f = f[\Gamma_1(N)\delta\Gamma_1(N)], \quad \delta = \twomatrix{a}{b}{c}{d} \in \Gamma_0(N). \]
+
+依据 \S\ref{sec:modular-form-vs-Hecke-algebra} 的理论, 在菱形算子作用下 $\CC$-向量空间 $M_k(\Gamma_1(N))$ 构成 $(\Z/N\Z)^\times$ 的有限维表示, 限制在不变子空间 $S_k(\Gamma_1(N))$ 上则对 $\innerPet{\cdot}{\cdot}$ 成为酉表示. 根据有限交换群的表示理论, 它们遂具备正交分解
+\begin{equation}\label{eqn:M_k-chi-decomp}\begin{aligned}
+	M_k(\Gamma_1(N)) & = \bigoplus_\chi M_k(\Gamma_1(N), \chi), \\
+	S_k(\Gamma_1(N)) & = \bigoplus_\chi S_k(\Gamma_1(N), \chi), \\
+\end{aligned}\end{equation}
+其中 $\chi$ 取遍所有同态 $(\Z/N\Z)^\times \to \CC^\times$ 而 \footnote{对于 $f \in M_k(\Gamma_1(N), \chi)$, 同态 $\chi$ 也称为 $f$ 的 Nebentypus (德文), 或可直译为 $f$ 的``旁类''. }
+\begin{align*}
+	M_k(\Gamma_1(N), \chi) & := \left\{f: \forall d \in (\Z/N\Z)^\times, \; \lrangle{d}f = \chi(d)f \right\}, \\
+	S_k(\Gamma_1(N), \chi) & := M_k(\Gamma_1(N), \chi) \cap S_k(\Gamma_1(N), \chi).
+\end{align*}
+为了节约笔墨, 律定 $N=1$ 时 $(\Z/N\Z)^\times = \{1\}$, 对之令 $\lrangle{1} := \identity$; 此时 \eqref{eqn:M_k-chi-decomp} 退化为同义反复.
+
+\begin{exercise}
+	说明 $M_k(\Gamma_1(N), 1) = M_k(\Gamma_0(N))$ 和 $S_k(\Gamma_1(N), 1) = S_k(\Gamma_0(N))$; 此处以 $1$ 代表平凡同态 $(\Z/N\Z)^\times \to \{1\} \subset \CC^\times$.
+\end{exercise}
+
+紧接着考察另一类 Hecke 算子.
+
+\begin{definition}\index[sym1]{$T_p$}
+	取 $p$ 为素数, 定义算子
+	\begin{align*}
+		T_p: M_k(\Gamma_1(N)) & \longrightarrow M_k(\Gamma_1(N)) \\
+		f & \longmapsto f \left[ \Gamma_1(N) \twomatrix{1}{}{}{p} \Gamma_1(N) \right].
+	\end{align*}
+\end{definition}
+
+我们先来说明 $T_p$ 和菱形算子交换. 以下将运用 \S\ref{sec:congruence-Hecke-alg} 中一些关于双陪集分解的定理, 无循环论证之虞.
+\begin{lemma}\label{prop:diamond-T_p-comm}
+	令 $p$ 为任意素数, $N \in \Z_{\geq 1}$. 取 $\Gamma := \Gamma_1(N)$, $\alpha := \twomatrix{1}{}{}{p}$, 并且设 $\gamma = \twomatrix{a}{b}{c}{d} \in \Gamma_0(N)$ 满足 $\gcd(d,N)=1$, 则在 $\EuScript{H}(\GL(2,\Q)^+ \sslash \Gamma)$ 中
+	\[ [\Gamma\alpha\Gamma] \star [\Gamma \gamma \Gamma] = [\Gamma \alpha\gamma \Gamma] = [\Gamma \gamma\alpha \Gamma] = [\Gamma \gamma \Gamma] \star [\Gamma\alpha\Gamma]; \]
+	作为推论, $T_p \lrangle{d} = \lrangle{d} T_p$.
+\end{lemma}
+\begin{proof}
+	因为 $\Gamma \lhd \Gamma_0(N)$, 断言第一部分的首末两个等式无非是例 \ref{eg:coset-normalizer} 的应用. 我们来说明中间等式 $[\Gamma \alpha\gamma \Gamma] = [\Gamma \gamma\alpha \Gamma]$. 由于 $\gamma^{-1} \Gamma\gamma = \Gamma$, 命 $\alpha' := \gamma\alpha\gamma^{-1}$ 则 $\Gamma \gamma\alpha \Gamma = \Gamma \alpha' \gamma\Gamma = (\Gamma \alpha' \Gamma) \gamma$; 另一方面 $\Gamma \alpha\gamma \Gamma = (\Gamma \alpha \Gamma) \gamma$, 问题归结为证 $\Gamma\alpha'\Gamma = \Gamma\alpha\Gamma$. 为此我们需要以下性质:
+	\begin{equation}\label{eqn:diamond-T_p-comm-aux}
+		(\beta \in \Mat_2(\Z)) \wedge \left( \det\beta = p \right) \wedge \left( \beta \equiv \twobigmatrix{1}{*}{}{p} \pmod N \right) \implies \Gamma \beta \Gamma = \Gamma \alpha\Gamma.
+	\end{equation}
+	其论证如下: 根据定理 \ref{prop:Hecke-level-without-prime}, 存在正整数 $h \mid k$ 使得 $\beta \in \Gamma_0(N) \twomatrix{h}{}{}{k} \Gamma_0(N)$; 因为 $hk = \det\beta =p$. 唯一可能是 $(h,k) = (1,p)$. 另一方面, $\alpha, \beta$ 都属于幺半群
+	\[ \Delta_1(N) := \left\{ \delta \in \GL(2,\Q)^+ \cap \Mat_2(\Z) : \delta \equiv \twomatrix{1}{*}{}{*} \pmod{N} \right\}. \]
+	既然 $\alpha$ 和 $\beta$ 在同一个 $\Gamma_0(N)$-双陪集中, 定理 \ref{prop:Gamma_1-Gamma_0} 蕴涵它们自动属于同一个 $\Gamma$-双陪集, \eqref{eqn:diamond-T_p-comm-aux} 于焉确立.
+	
+	不难检验 $\det \alpha' = p$ 而 $\alpha' \equiv \twomatrix{1}{*}{}{p} \pmod{N}$, 性质 \eqref{eqn:diamond-T_p-comm-aux} 施于 $\beta := \alpha'$ 遂给出断言的第一部分. 将这些算子作用在 $M_k(\Gamma_1(N))$ 上, 便看出 $T_p \lrangle{d} = \lrangle{d} T_p$.
+\end{proof}
+
+以下令 $\alpha := \twomatrix{1}{}{}{p}$. 根据定义--定理 \ref{def:Hecke-action}, 计算 $T_p$ 的关键是以显式分解 $\Gamma_1(N)\alpha\Gamma_1(N)$.
+
+\begin{lemma}\label{prop:T_p-coset-decomp}
+	记 $\Gamma := \Gamma_1(N)$ 和 $\Gamma' := \Gamma \cap \alpha^{-1}\Gamma\alpha$, 则
+	\[ \Gamma' = \left\{ \begin{array}{rl}
+		\gamma \in \SL(2,\Z) : & \gamma \equiv \twomatrix{1}{*}{}{1} \pmod N \\
+		& \gamma \equiv \twomatrix{*}{}{*}{*} \pmod p
+	\end{array}\right\}. \]
+	而且 $\Gamma' \backslash \Gamma$ 在 $\Gamma$ 中有一族代表元 $A$ 如下:
+	\begin{align*}
+		p \mid N & \implies A := \left\{ \twobigmatrix{1}{b}{}{1} : 0 \leq b < p \right\}, \\
+		p \nmid N & \implies A := \left\{ \twobigmatrix{1}{b}{}{1} : 0 \leq b < p \right\} \sqcup \left\{ \twobigmatrix{mp}{n}{N}{1} \right \}.
+	\end{align*}
+	上述之 $b$ 只要遍历 $\F_p := \Z/p\Z$ 在 $\Z$ 中的任一族代表元即可, 而在第二种情形中, $m, n$ 可取作任意满足 $mp - nN = 1$ 的整数对.
+\end{lemma}
+\begin{proof}
+	设 $\gamma \in \SL(2, \Z)$. 由矩阵恒等式
+	\[ \alpha^{-1} \twobigmatrix{a}{b}{c}{d} \alpha = \twobigmatrix{1}{}{}{p^{-1}} \twobigmatrix{a}{b}{c}{d} \twobigmatrix{1}{}{}{p} = \twobigmatrix{a}{bp}{cp^{-1}}{d} \]
+	不难验证
+	\begin{equation}\label{eqn:Gamma1Np}
+		\gamma \in \Gamma' \iff \gamma \equiv \twobigmatrix{1}{*}{}{1} \pmod{N} \; \wedge \; \gamma \equiv \twobigmatrix{*}{}{*}{*} \pmod{p},
+	\end{equation}
+	亦即 $\Gamma' = \Gamma_1(N) \cap {}^t \Gamma_0(p)$. 现在考虑 $\bmod \;p$ 导出之群同态
+	\[ \text{red}: \Gamma \to \SL(2, \F_p). \]
+	命 $B^- := \twomatrix{*}{}{*}{*} \subset \SL(2, \F_p)$ 使得 $\text{red}^{-1}(B^-) = \Gamma'$, 从而 $\text{red}$ 诱导出双射
+	\begin{equation}\label{eqn:T_p-coset-decomp}
+		\Gamma' \backslash \Gamma \rightiso (B^- \cap \Image(\text{red})) \big\backslash \Image(\text{red}).
+	\end{equation}
+	\begin{enumerate}
+		\item 设 $p \mid N$. 这时易见 $\Image(\text{red}) = \left\{ \twomatrix{1}{\bar{b}}{}{1} : \bar{b} \in \F_p \right\}$, 它和 $B^-$ 之交为 $\{1\}$, 其元素在 $\Gamma$ 中的逆像可取为 $\twomatrix{1}{b}{}{1}$, 其中 $b \in \Z$ 遍历 $\F_p$ 的一族代表元.
+		\item 设 $p \nmid N$. 中国剩余定理给出环同构 $\Z/pN\Z \rightiso \F_p \times \Z/N\Z$, 继而
+		\[\begin{tikzcd}
+			\SL(2,\Z) \arrow[twoheadrightarrow, r, "{\bmod pN}"] \arrow[twoheadrightarrow, start anchor=south, end anchor=west, bend right, rd, "{(\bmod p,\; \bmod N)}"'] & \SL(2, \Z/pN\Z) \arrow[d, "{(\bmod p,\; \bmod N)}", "\simeq"'] & \\
+			& \SL(2, \F_p) \times \SL(2, \Z/N\Z) & \SL(2, \F_p) \times \twomatrix{1}{*}{}{1} \arrow[phantom, l, "\supset" sloped]
+		\end{tikzcd}\]
+		由之立见 $\Image(\text{red}) = \SL(2,\F_p)$. 关于 $B^- \backslash \SL(2,\F_p)$ 的描述无非是线性代数: 考量域 $\F_p$ 上的射影直线
+		\[ \PP^1(\F_p) := \left( \F_p^2 \smallsetminus \{0\}\right) \big/ (x,y) \sim (\lambda x, \lambda y), \quad \lambda \in \F_p^\times. \]
+		二阶方阵对行向量的右乘诱导出 $\SL(2, \F_p)$ 对 $\PP^1(\F_p)$ 的右作用. 易见有双射
+		\begin{align*}
+			B^- \backslash \SL(2, \F_p) & \longrightiso \PP^1(\F_p) \\
+			B^- \bar{\gamma} & \longmapsto (1:0)\bar{\gamma}.
+		\end{align*}
+		对于 $(1:\bar{b}) \in \PP^1(\F_p)$, 它在 $B^- \backslash \SL(2,\F_p)$ 中的对应元素来自 $\twomatrix{1}{b}{}{1} \in \Gamma$, 其中 $b \in \Z$ 是 $\bar{b}$ 的任意代表元. 对于 $(0:1) \in \PP^1(\F_p)$, 它在 $B^- \backslash \SL(2, \F_p)$ 中的对应元素可由任何形如 $\twomatrix{}{*}{*}{*}$ 的元素代表; 后者在 $\Gamma$ 中的逆像不妨就取作 $\twomatrix{mp}{n}{N}{1}$ 之形, 唯一要求是 $(m,n) \in \Z^2$ 满足 $mp - nN = 1$.
+	\end{enumerate}
+	代回 \eqref{eqn:T_p-coset-decomp} 立得所求的代表元.
+\end{proof}
+
+以下记 $A \subset \Gamma_1(N)$ 为引理 \ref{prop:T_p-coset-decomp} 所给出的一个代表元集. 引理 \ref{prop:double-coset-decomp} 遂给出 $\Gamma_1(N) \twomatrix{1}{}{}{p} \Gamma_1(N) = \bigsqcup_{a \in A} \Gamma_1(N) \twomatrix{1}{}{}{p} a$.
+
+\begin{proposition}\label{prop:T_p}
+	对所有 $f \in M_k(\Gamma_1(N))$,
+	\begin{equation*} T_p f = \begin{cases}
+		\displaystyle\sum_{b=0}^{p-1} f \twomatrix{1}{b}{}{p} = p^{\frac{k}{2}-1}\sum_{b=0}^{p-1} f \modact{k} \twomatrix{1}{b}{}{p}, & p \mid N, \\
+		\displaystyle\sum_{b=0}^{p-1} f \twomatrix{1}{b}{}{p}  + p^{k-1} (\lrangle{p}f)(p\tau), & p \nmid N ;
+	\end{cases}\end{equation*}
+	实际上, 和式中让 $b$ 遍历 $\F_p$ 在 $\Z$ 中的任一族代表元即可.
+\end{proposition}
+
+留意: 按照定义 \ref{def:diamond-operator} 在 $\gcd(d, N) \neq 1$ 时对 $\lrangle{d}$ 的约定, 关于 $T_p$ 的公式其实能兼并为一条.
+\begin{proof}
+	依定义 $T_p f = \sum_{a \in A} f \twomatrix{1}{}{}{p} a$, 对 $f$ 的右作用按 \eqref{eqn:f-right-action} 定义. 当 $p \mid N$ 时
+	\[ \twomatrix{1}{}{}{p} A = \left\{ \twomatrix{1}{b}{}{p} : b \in \Z \;\text{遍历} \; \F_p \; \text{的一族代表元} \right\}, \]
+	故原式得证. 以下设 $p \nmid N$, 此时 $A$ 多出一个元素 $\twomatrix{mp}{n}{N}{1}$, 满足 $mp - nN = 1$. 显然
+	\[ \twobigmatrix{1}{}{}{p} \twobigmatrix{mp}{n}{N}{1} = \twobigmatrix{mp}{n}{Np}{p} = \twobigmatrix{m}{n}{N}{p} \twobigmatrix{p}{}{}{1}; \]
+	而 $\twomatrix{m}{n}{N}{p} \in \Gamma_0(N)$ 的右下角元素 $p$ 与 $N$ 互素, 它对 $f$ 的右作用无非是 $\lrangle{p}$. 综之
+	\begin{align*}
+		f \twomatrix{1}{}{}{p}\twomatrix{mp}{n}{N}{1} & = \left( f \twomatrix{m}{n}{N}{p} \right) \twomatrix{p}{}{}{1} =  (\lrangle{p} f) \twomatrix{p}{}{}{1} \\
+		& = p^{\frac{k}{2} - 1} (\lrangle{p} f) \modact{k} \twomatrix{p}{}{}{1}: \; \tau \mapsto p^{k-1} \cdot \left(\lrangle{p}f \right)(p\tau).
+	\end{align*}
+	明所欲证.
+\end{proof}
+
+下一步是讨论 $T_p$ 对 Fourier 系数的影响. 由于 $\twomatrix{1}{1}{}{1} \in \Gamma_1(N)$, 任何 $f \in M_k(\Gamma_1(N))$ 都有 Fourier 展开
+\[ f(\tau) = \sum_{n \geq 0} a_n(f) q^n, \quad q = e^{2\pi i\tau}. \]
+鉴于分解 \eqref{eqn:M_k-chi-decomp}, 我们只消考虑给定的 $\chi: (\Z/N\Z)^\times \to \CC^\times$ 及 $f \in M_k(\Gamma_1(N), \chi)$. 方便起见, 今后将 $\chi$ 按 $0$ 延拓到整个 $\Z/N\Z$ 上.
+
+\begin{theorem}\label{prop:Hecke-Fourier-0}
+	令 $p$ 为任意素数, $N \in \Z_{\geq 1}$. 算子 $T_p$ 保持 $M_k(\Gamma_1(N), \chi)$ 和 $S_k(\Gamma_1(N), \chi)$ 不变. 若
+	\[ f = \sum_{n\geq 0} a_n(f) q^n \in M_k(\Gamma_1(N)), \]
+	并且约定 $p \nmid n \implies a_{n/p}(\cdots) := 0$, 则
+	\[ a_n(T_p f) = \begin{cases}
+		a_{np}(f), & p \mid N \\
+		a_{np}(f) + p^{k-1} a_{n/p} \left(\lrangle{p} f \right), & p \nmid N.
+	\end{cases}\]
+	若进一步设 $f \in M_k(\Gamma_1(N), \chi)$, 则有
+	\[ a_n(T_p f) = a_{np}(f) + p^{k-1} \chi(p) a_{n/p}(f). \]
+\end{theorem}
+
+回忆到我们将 $\chi$ 和 $\lrangle{\cdot}$ 皆用零延拓到整个 $\Z/N\Z$ 上.
+\begin{proof}
+	由引理 \ref{prop:diamond-T_p-comm} 知 $T_p$ 保持 $\lrangle{p}$ 的特征子空间 $M_k(\Gamma_1(N), \chi)$ 和 $S_k(\Gamma_1(N), \chi)$ 不变. 对所有 $b \in \Z$ 皆有
+	\begin{align*}
+		p^{\frac{k}{2} - 1} f \modact{k} \twomatrix{1}{b}{}{p} & = p^{k-1} (0 \cdot \tau + p)^{-k} f\left( \dfrac{\tau + b}{p} \right) \\
+		& = \frac{1}{p} \sum_{n \geq 0} a_n(f) \exp\left( 2\pi in \cdot \dfrac{\tau + b}{p} \right).
+	\end{align*}
+	由于
+	\[ \sum_{b=0}^{p-1} \exp\left(\dfrac{2\pi inb}{p}\right) = \begin{cases}
+		0, & p \nmid n \\
+		p, & p \mid n,
+	\end{cases}\]
+	交换求和顺序可得
+	\begin{multline*}
+		\sum_{b=0}^{p-1} p^{\frac{k}{2} - 1} f \modact{k} \twomatrix{1}{b}{}{p} = \sum_{b=0}^{p-1} \frac{1}{p} \sum_{n \geq 0} a_n(f) \exp\left( 2\pi in \cdot \dfrac{\tau + b}{p} \right) \\
+		= \frac{1}{p} \sum_{n \geq 0} a_n(f) \exp\left( 2\pi in \cdot \frac{\tau}{p} \right) \sum_{b=0}^{p-1} \exp\left(\dfrac{2\pi inb}{p}\right) = \sum_{n \geq 0} a_{np}(f) q^n.
+	\end{multline*}
+	根据命题 \ref{prop:T_p}, 若 $p \mid N$ 则上式即 $T_p f$. 当 $p \nmid N$ 时, $T_p f$ 还外加一项
+	\[ p^{k-1} \cdot (\lrangle{p}f)(p\tau) = p^{k-1} \sum_{n \geq 0} a_n\left( \lrangle{p} f \right) q^{np}, \]
+	而且当 $f \in M_k(\Gamma_1(N),\chi)$ 时 $\lrangle{p} f = \chi(p) f$.
+\end{proof}
+
+接着将目光转向 $S_k(\Gamma_1(N))$ 上的 Petersson 内积. 根据命题 \ref{prop:delta-prime}, 对任何 $\delta \in \GL(2,\Q)^+$ 恒有
+\[ \innerPet{f_1 [\Gamma_1(N) \delta \Gamma_1(N)]}{f_2} = \innerPet{f_1}{f_2 [\Gamma_1(N) \delta' \Gamma_1(N) ]}, \quad f_1, f_2 \in S_k(\Gamma_1(N)). \]
+
+\begin{theorem}\label{prop:Hecke-adjoint-0}
+	设素数 $p \nmid N$, 考虑算子 $T_p$ 和 $\lrangle{d}$ 在 $S_k(\Gamma_1(N))$ 上的限制.
+	\begin{compactenum}[(i)]
+		\item 当 $\gcd(d,N)=1$ 时, 算子 $\lrangle{d}$ 的伴随算子是 $\lrangle{d}^{-1}$;
+		\item 算子 $T_p$ 的伴随算子是 $\lrangle{p}^{-1} T_p$.
+	\end{compactenum}
+	作为推论, 所有 $T_p$ (要求 $p \nmid N$) 和菱形算子都是 $S_k(\Gamma_1(N))$ 上的正规算子; 换言之, 它们和各自的伴随算子相交换.
+\end{theorem}
+\begin{proof}
+	断言 (i) 的内涵无非是说 $\lrangle{d}$ 是酉算子. 至于 (ii), 命题 \ref{prop:delta-prime} 告诉我们 $T_p$ 的伴随由 $[\Gamma_1(N) \twomatrix{p}{}{}{1} \Gamma_1(N)]$ 给出. 引理 \ref{prop:Hecke-adjoint-aux} (取 $e=1$) 将说明存在 $d' \in \Z$ 使得 $pd' \equiv 1 \pmod N$ 而且
+	\[ f \left[\Gamma_1(N) \twomatrix{p}{}{}{1} \Gamma_1(N)\right] = \lrangle{d'}(T_p(f)), \quad f \in M_k(\Gamma_1(N)); \]
+	如此便说明 $T_p$ 的伴随算子是 $\lrangle{d'} T_p = \lrangle{p}^{-1} T_p$.
+	
+	最后, $\lrangle{d}$ 及 $\lrangle{d}^{-1}$ 当然可交换; 而引理 \ref{prop:diamond-T_p-comm} 蕴涵 $T_p$ 和 $\lrangle{p}$ 交换, 因而是正规算子.
+\end{proof}
+
+\begin{lemma}\label{prop:Hecke-adjoint-aux}
+	设 $N \in \Z_{\geq 1}$, 素数 $p \nmid N$ 而 $e \in \Z_{\geq 0}$, 则存在 $\gamma = \twomatrix{*}{*}{*}{d'} \in \Gamma_0(N)$ 使得 $p^e d' \equiv 1 \pmod N$ 而且
+	\begin{align*}
+	\left[\Gamma_1(N) \twomatrix{p^e}{}{}{1} \Gamma_1(N)\right] & = \left[\Gamma_1(N) \twomatrix{1}{}{}{p^e} \gamma \Gamma_1(N)\right]  \\
+	& = \left[\Gamma_1(N) \twomatrix{1}{}{}{p^e} \Gamma_1(N)\right] \star [\Gamma_1(N) \gamma \Gamma_1(N)].
+	\end{align*}
+\end{lemma}
+\begin{proof}
+	以中国剩余定理取 $d \in \Z$ 使得
+	\[ d \equiv \begin{cases} 1 \pmod N \\ 0 \pmod{p^e} \end{cases} \]
+	继而取 $a,b \in \Z$ 使 $ad-bN=1$. 于是乎 $a \equiv d \equiv 1 \pmod{N}$ 而
+	\[ \underbracket{\twobigmatrix{a}{b}{N}{d}}_{\in \Gamma_1(N)} \twobigmatrix{p^e}{}{}{1} = \twobigmatrix{1}{}{}{p^e} \underbracket{\twobigmatrix{ap^e}{b}{N}{d p^{-e}}}_{\in \Gamma_0(N)}. \]
+	取 $\gamma := \twomatrix{ap^e}{b}{N}{d p^{-e}} \in \Gamma_0(N)$. 根据例 \ref{eg:coset-normalizer} 之公式,
+	\begin{align*}
+	\left[ \Gamma_1(N) \twomatrix{p^e}{}{}{1} \Gamma_1(N) \right] & = \left[\Gamma_1(N) \twomatrix{1}{}{}{p^e} \gamma \Gamma_1(N) \right] \\
+	& = \left[ \Gamma_1(N) \twomatrix{1}{}{}{p^e} \Gamma_1(N) \right] \star [\Gamma_1(N) \gamma \Gamma_1(N)].
+	\end{align*}
+	断言中的 $d'$ 取作 $dp^{-e}$ 即所求.
+\end{proof}
+
+更一般的 Hecke 算子 $T_n$ 留待 \S\ref{sec:congruence-Hecke-2} 定义. 我们有必要先对双陪集结构作更深入的探讨.
+
+\section{双陪集结构}\label{sec:congruence-Hecke-alg}
+本节依然取定 $N \in \Z_{\geq 1}$. 考虑以下两类 (群 $\subset$ 幺半群):
+\[\begin{tikzcd}[row sep=0pt, column sep=small]
+	\Gamma_0(N) \arrow[phantom, r, "\subset" sloped] & \Delta_0(N) \arrow[phantom, r, ":=" sloped] & \left\{ \gamma \in \GL(2,\Q)^+ \cap \Mat_2(\Z) : \gamma \equiv \twobigmatrix{(\Z/N\Z)^\times}{*}{}{*} \pmod N \right\}, \\
+	\Gamma_1(N) \arrow[phantom, r, "\subset" sloped] & \Delta_1(N) \arrow[phantom, r, ":=" sloped] & \left\{ \gamma \in \GL(2,\Q)^+ \cap \Mat_2(\Z) : \gamma \equiv \twobigmatrix{1}{*}{}{*} \pmod N \right\}.
+\end{tikzcd}\]
+
+定义相应的 $\CC$-代数 \index[sym1]{H0(N)@$\EuScript{H}_0(N), \EuScript{H}_1(N)$}
+\begin{gather*}
+	\EuScript{H}_0(N) := \EuScript{H}(\Delta_0(N) \sslash \Gamma_0(N)), \quad
+	\EuScript{H}_1(N) := \EuScript{H}(\Delta_1(N) \sslash \Gamma_1(N)).
+\end{gather*}
+
+本节的首要目标是研究这些代数的结构. 当 $N=1$ 时一切化约到 \S\ref{sec:Hecke-full-level}, 而一般情形的理路相近. 且从 $\Gamma_0(N)$ 和 $\Delta_0(N)$ 起步. 在上述定义中除却 $\det > 0$ 的条件以定义
+\begin{align*}
+	\Delta'_0(N) & := \left\{\gamma \in \GL(2,\Q) \cap \Mat_2(\Z) : \gamma \equiv \twobigmatrix{(\Z/N\Z)^\times}{*}{}{*} \pmod N \right\}, \\
+	\Gamma'_0(N) & := \left\{ \gamma \in \GL(2,\Z) : \gamma \equiv \twobigmatrix{*}{*}{}{*} \pmod N \right\},
+\end{align*}
+于是 $\Gamma'_0(N) \subset \Delta'_0(N)$. 对 $\Gamma_1(N)$ 和 $\Delta_1(N)$ 也可如法炮制, 以下略而不论.
+
+策略和 \S\ref{sec:Hecke-full-level} 一样分成两步:
+\begin{inparaenum}[(1)]
+	\item 将 $\Delta'_0(N)$ 和 $\Gamma'_0(N)$ 的情形化约到 $\Z$-模或曰``线性代数'';
+	\item 建立 $\EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N))$ 和 $\EuScript{H}_0(N)$ 的关系.
+\end{inparaenum}
+相关技术是 \S\ref{sec:Hecke-full-level} 的简单延伸, 差别在于这里必须引进某种\emph{级结构}. 我们从建立线性代数的框架入手. \index{jijiegou}
+
+设 $V$ 是二维 $\Q$-向量空间. 在 \S\ref{sec:Hecke-full-level} 定义的格集 $\mathsf{Latt}$ 具有带 $\Gamma_0(N)$-级结构的版本 \index[sym1]{Latt0N@$\mathsf{Latt}_0(N)$}
+\[ \mathsf{Latt}_0(N) := \left\{ \begin{array}{ll}
+	\mathbb{L} = (L, B): & L \in \mathsf{Latt}, \\
+	& B \subset L/NL: \Z\text{-子模}, \quad B \simeq \Z/N\Z
+\end{array}\right\}. \]
+
+群 $\GL(V)$ 在 $\mathsf{Latt}_0(N)$ 上仍有左作用: $\gamma \in \GL(V)$ 映 $L$ 为 $\gamma L$, 映 $B$ 为 $\gamma B \subset \gamma L/\gamma NL = \gamma L/N\gamma L$. 如果 $v \in L$ 的陪集生成 $B$, 自然就写作 $B = \lrangle{v+NL}$.
+
+\begin{lemma}\label{prop:type-N-1}
+	群 $\GL(V)$ 在 $\mathsf{Latt}_0(N)$ 上的作用是传递的.
+\end{lemma}
+\begin{proof}
+	给定 $(L,B) \in \mathsf{Latt}_0(N)$, 兹断言存在 $L$ 的 $\Z$-基 $e_1, e_2$ 使得 $B = \lrangle{e_1 + NL}$; 这相当于说可用 $\GL(V)$ 将 $(L,B)$ 化到标准形, 从而导致传递性. 对 $L$ 的任意 $\Z$-基 $e_1, e_2$, 子模 $B \subset L/NL \simeq (\Z/N\Z)^2$ 总由某个 $\bar{v} \in (\Z/N\Z)^2_{\text{prim}}$ 生成 (相关定义见 \S\ref{sec:Eisenstein-congruence-subgroup}, 特别是引理 \ref{prop:Eisenstein-orbit-aux3}). 存在 $v \in \Z^2_\text{prim}$ 映至 $\bar{v}$, 而且 $\SL(2,\Z)$ 在 $\Z^2_\text{prim}$ 上的作用传递 (引理 \ref{prop:Eisenstein-orbit-aux2}), 故以 $\SL(2,\Z)$ 适当调整 $e_1, e_2$ 总能假设 $v=e_1$. 证毕.
+\end{proof}
+
+宜比较此与定义 \ref{def:level-structure-tori} 之异同.
+
+接下来考虑 $\mathsf{Latt}_0(N)$ 的任两个元素 $\mathbb{L} = (L,B)$ 和 $\mathbb{L}' = (L',B')$ (以下沿用此记法), 若 $L \subset L'$ 则有诱导同态 $L/NL \to L'/NL'$; 它可以限制在子模 $B$ 上. 引进符号
+\begin{gather*}
+	\mathbb{L} \subset \mathbb{L}' \stackrel{\text{定义}}{\iff} L \subset L', \; \text{而且诱导同态下}\; B \rightiso B'.
+\end{gather*}
+沿 \S\ref{sec:Hecke-full-level} 思路, 不妨视此为带级结构的格之``修改''. 这些资料构成集合
+\begin{gather*}
+	\mathsf{Hecke}_0(N) := \left\{ (\mathbb{L}, \mathbb{L}') \in \mathsf{Latt}_0(N)^2: \mathbb{L} \subset \mathbb{L}' \right\}
+\end{gather*}
+同样地, $\GL(V)$ 按 $\gamma(\mathbb{L}, \mathbb{L}') = (\gamma \mathbb{L}, \gamma \mathbb{L}')$ 作用于 $\mathsf{Hecke}_0(N)$, 视为这些资料间的同构. 命
+\begin{equation}\label{eqn:D-hk-level}
+	\mathcal{D}(N) := \left\{ (h,k) \in \Z_{\geq 1}^2 : h \mid k \; \wedge \; \gcd(h,N)=1 \right\}
+\end{equation} \index[sym1]{DNhk@$\mathcal{D}(N)$}
+以下陈述将涉及定义 \ref{def:type} 引进的映射 $\mathsf{type}$.
+
+\begin{lemma}\label{prop:type-N-2}
+	对任何 $(\mathbb{L}, \mathbb{L}') \in \mathsf{Hecke}_0(N)$,
+	\begin{equation}\label{eqn:hk-coset} \begin{array}{cll}
+		\exists (h,k) \in \mathcal{D}(N), \; \exists e_1, e_2 \in L', & L' = \Z e_1 \oplus \Z e_2, & B' = \lrangle{e_1 + NL'} , \\
+		& L = \Z he_1 \oplus \Z ke_2, & B = \lrangle{\Z he_1 + NL}.
+	\end{array}\end{equation}
+	资料 $\mathsf{type}(\mathbb{L}, \mathbb{L}') := (h,k)$ 仅依赖 $(\mathbb{L}, \mathbb{L}')$ 的 $\GL(V)$-轨道, 由下式唯一地刻画
+	\begin{equation}\label{eqn:coset-hk-determination}
+		L/L' \simeq \Z/h\Z \oplus \Z/k\Z, \quad
+		\text{亦即}\quad \mathsf{type}(L/L') = (h,k).
+	\end{equation}
+
+	进一步, $\mathsf{type}: \GL(V) \backslash \mathsf{Hecke}_0(N) \to \mathcal{D}(N)$ 是双射.
+\end{lemma}
+
+请读者先尝试验证 \eqref{eqn:hk-coset} 给出的 $(L, B)$ 和 $(L', B')$ 确实构成 $\mathsf{Hecke}_0(N)$ 的元素, 关键是 $\gcd(h,N) = 1$.
+
+\begin{proof}
+	分别记 $L'_0$, $L_0$ 为 $B'$, $B$ 在 $L'$, $L$ 中的原像. 因为 $|B| = N = |B'|$, 自然同态 $B \to B'$ 是同构等价于满, 后者又等价于说 $L'_0 = L_0 + NL'$. 对 $L' \supset L_0$ 应用有限生成 $\Z$-模的结构定理可得正整数 $u \mid v$ 和 $L'$ 的基 $e_1, e_2$ 使得 $L_0 = \Z ue_1 \oplus \Z ve_2$. 再次运用结构定理和以下事实
+	\begin{align*}
+		L'/L'_0 & = \dfrac{L'}{L_0 + NL'} \simeq \dfrac{L'/L_0}{(L_0 + NL')/L_0} = \dfrac{L'/L_0}{N(L'/L_0)} \\
+		& \simeq \dfrac{\Z/u\Z}{N(\Z/u\Z)} \oplus \dfrac{\Z/v\Z}{N(\Z/v\Z)} \\
+		& \simeq \dfrac{\Z}{\gcd(u,N)\Z} \oplus \dfrac{\Z}{\gcd(v,N)\Z} \simeq \Z/N\Z, \qquad \gcd(u,N) \mid \gcd(v,N)
+	\end{align*}
+	可知 $\gcd(u,N)=1$ 而 $N \mid v$; 于是 $(h,k) := (u, v/N) \in \mathcal{D}(N)$. 暂记 $A := L'/L_0 \simeq \Z/u\Z \oplus \Z/v\Z$, 简单的 $\Z$-模论证 (练习 \ref{exo:coprime-subgroup}) 导致:
+	\begin{compactitem}
+		\item 子模 $B := L'_0/L_0 \subset A$ 满足 $|A/B| = N$, 这样的子模仅有 $\Z/u\Z \oplus N\Z/v\Z$ 一种; 取原像遂得 $L'_0 = \Z e_1 \oplus \Z Ne_2$.
+		\item 子模 $C := L/L_0 \subset A$ 满足 $|C| = N$, 这样的子模仅有 $\frac{v}{N}\Z/v\Z$ 一种; 取原像遂得 $L = \Z ue_1 \oplus \Z \frac{v}{N} e_2$.
+	\end{compactitem}
+	这就同时确立了 \eqref{eqn:hk-coset} 和 \eqref{eqn:coset-hk-determination}, 后者也蕴涵 $(h,k)$ 仅依赖于 $\GL(V)$-轨道.
+	
+	给定 $(h,k) \in \mathcal{D}(N)$ 和 $V$ 的基 $e_1, e_2$, 由 \eqref{eqn:hk-coset} 描述的 $(\mathbb{L}, \mathbb{L}')$ 落在 $\mathsf{Hecke}_0(N)$ 中. 这说明 $\mathsf{type}$ 是满射. 进一步, $\mathsf{Hecke}_0(N)$ 中对应到相同 $(h,k)$ 的元素也落在同一个 $\GL(V)$ 轨道上, 道理无非是以 $\GL(V)$ 搬运 \eqref{eqn:hk-coset} 中的 $e_1, e_2$. 这说明 $\mathsf{type}$ 是单射.
+\end{proof}
+
+\begin{exercise}\label{exo:coprime-subgroup}
+	设 $(u,v) \in \Z^2_{\geq 1}$ 满足 $u \mid v$, $\gcd(u, N) = 1$ 以及 $N \mid v$. 命 $A := \Z/u\Z \oplus \Z/v\Z$. 证明
+	\begin{itemize}
+		\item $A$ 有唯一的 $\Z$-子模 $B$ 使得 $|A/B| = N$, 由 $B = \Z/u\Z \oplus N\Z/v\Z$ 给出;
+		\item $A$ 有唯一的 $\Z$-子模 $C$ 使得 $|C| = N$, 由 $C = \frac{v}{N}\Z/v\Z$ 给出.
+	\end{itemize}
+	\begin{hint}
+		对于 $B$, 注意到任何 $x \in \Z/u\Z$ 在 $A/B$ 中的像 $\bar{x}$ 都满足 $u\bar{x} = N\bar{x} = 0$, 故 $\bar{x} = 0$; 所以问题化约到 $u = 1$ 亦即 $A = \Z/v\Z$ 的简单情形. 对于 $C$, 它在坐标投影 $A \twoheadrightarrow \Z/u\Z$ 下的像其阶数是 $u$ 和 $N$ 的公因子, 故像为平凡; 问题仍化约到 $A = \Z/v\Z$ 的情形.
+	\end{hint}
+\end{exercise}
+
+循 \S\ref{sec:Hecke-full-level} 的惯例, 今起取标准之 $V = \Q^2$. 回忆到 $L_{\text{std}} := \Z^2$. 进一步取 \index[sym1]{LLstd@$\mathbb{L}_{\text{std}}$}
+\[ \mathbb{L}_{\text{std}} := \left( L_{\text{std}}, B_{\text{std}} \right) \in \mathsf{Hecke}_0(N), \quad B_{\text{std}} := \lrangle{(1,0) + NL_{\text{std}}}. \]
+
+读者容易验证: 对于任意 $\gamma \in \GL(2,\Q)$,
+\begin{equation}\label{eqn:std-inclusion-1}
+	\gamma \mathbb{L}_{\text{std}} \subset \mathbb{L}_{\text{std}} \iff \gamma \in \Delta'_0(N), \qquad \gamma \mathbb{L}_{\text{std}} = \mathbb{L}_{\text{std}} \iff \gamma \in \Gamma'_0(N).
+\end{equation}
+
+基于引理 \ref{prop:type-N-1}, \ref{prop:type-N-2} 和上述观察, \S\ref{sec:Hecke-full-level} 的论证全体照搬, 给出双射
+\[\begin{tikzcd}[row sep=small]
+	\Gamma'_0(N) \backslash \Delta'_0(N) / \Gamma'_0(N) \arrow[r, "1:1"] & \GL(2,\Q) \backslash \mathsf{Hecke}_0(N) \arrow[r, "1:1", "\mathsf{type}"'] & \mathcal{D}(N) \\
+	\Gamma'_0(N) \alpha \Gamma'_0(N) \arrow[phantom, u, "\in" description, sloped] \arrow[mapsto, r] & \GL(2,\Q) \cdot (\alpha \mathbb{L}_{\text{std}}, \mathbb{L}_{\text{std}}) \arrow[phantom, u, "\in" description, sloped] &
+\end{tikzcd}\]
+并且注意到对于 $(h,k) \in \mathcal{D}(N)$, 含 $\alpha = \twomatrix{h}{}{}{k}$ 的双陪集在合成映射下的像无非是 $(h,k)$: 这是 \eqref{eqn:coset-hk-determination} 的直接应用. 由之即刻导出双陪集分解
+\begin{equation}\label{eqn:hk-coset-decomp-level}\begin{gathered}
+	\Delta'_0(N) = \bigsqcup_{\lambda = (h,k) \in \mathcal{D}(N)} \Gamma'_\lambda(N), \\
+	\Gamma'_\lambda(N) = \Gamma'_{h,k}(N) := \Gamma'_0(N) \twobigmatrix{h}{}{}{k} \Gamma'_0(N).
+\end{gathered}\end{equation}
+
+下一步是描绘 $\EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N))$. 我们运用以下构造. 令 $\lambda \in \mathcal{D}(N)$, 任选 $(\mathbb{L}, \mathbb{L}') \in \mathsf{Hecke}_0(N)$ 使得 $\mathsf{type}(\mathbb{L}, \mathbb{L}') = \lambda$. 根据引理 \ref{prop:type-N-2}, 它精确到 $\GL(2,\Q)$ (亦即坐标变换) 是唯一的, 选法不影响后续论证. 相应地取
+\[ M := L'/L \simeq \Z/h\Z \oplus \Z/k\Z, \quad \text{若}\; \lambda = (h,k). \]
+对任何子模 $M^\dagger \subset M$, 记 $L^\dagger \subset L'$ 为其原像. 这些资料自动赋予 $L^\dagger$ 如下的级结构.
+
+\begin{lemma}\label{prop:canonical-level-structure}
+	给定 $\mathbb{L}, \mathbb{L}'$, $M^\dagger \subset M$ 及其原像 $L^\dagger \subset L'$ 如上, 存在唯一的子模 $B^\dagger \subset L^\dagger /NL^\dagger$ 使得
+	\begin{inparaenum}[(i)]
+		\item $B^\dagger \simeq \Z/N\Z$, 而且
+		\item $\mathbb{L}^\dagger := (L^\dagger, B^\dagger)$ 服从于 $\mathbb{L} \subset \mathbb{L}^\dagger \subset \mathbb{L}'$.
+	\end{inparaenum}
+\end{lemma}
+\begin{proof}
+	由 $L \subset L^\dagger \subset L'$ 诱导出同态
+	\[ L/NL \xrightarrow{\phi} L^\dagger/NL^\dagger \xrightarrow{\psi} L'/NL'. \]
+	按 $\mathsf{Hecke}_0(N)$ 的定义, 所求之 $B^\dagger$ 如存在则必等于 $\phi(B)$. 注意到
+	\[\begin{tikzcd}
+		B \arrow[twoheadrightarrow, r, "\phi"'] \arrow[rr, bend left, "\psi\phi", "\sim"'] & \phi(B) \arrow[r, "\psi"'] & \psi\phi(B) = B'.
+	\end{tikzcd}\]
+	由此立见 $\phi: B \to \phi(B)$ 和 $\psi: \phi(B) \to B'$ 都是同构, 故可取 $B^\dagger := \phi(B) \simeq \Z/N\Z$; 于是 $\mathbb{L}^\dagger \in \mathsf{Latt}_0(N)$.
+\end{proof}
+
+选定 $\lambda \in \mathcal{D}(N)$ 和 $(\mathbb{L}, \mathbb{L}') \in \mathsf{Hecke}_0(N)$ 如上. 对一切 $\mu, \nu \in \mathcal{D}(N)$ 定义 \eqref{eqn:Hall-constant} 中的非负整数 $g^\lambda_{\mu\nu}$, 它在此也将扮演结构常数的角色.
+
+\begin{theorem}\label{prop:Hall-Hecke-level}
+	代数 $\EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N))$ 是交换的, 以 $\left\{ \left[ \Gamma'_\lambda(N) \right] \right\}_{ \lambda \in \mathcal{D}(N)}$ 为一组基. 进一步
+	\begin{enumerate}[(i)]
+		\item 若 $\lambda = (d,d) \in \mathcal{D}(N)$, 则 $[\Gamma'_\lambda(N)]$ 是中心元;
+		\item 对任意 $\mu, \nu \in \mathcal{D}(N)$ 皆有
+		\[ [\Gamma'_\mu(N)] \star [\Gamma'_\nu(N)] = \sum_{\lambda \in \mathcal{D}(N)} g^\lambda_{\mu\nu} [\Gamma'_\lambda(N)] \quad \text{(有限和)}. \]
+	\end{enumerate}
+\end{theorem}
+\begin{proof}
+	关于基的断言来自 \eqref{eqn:hk-coset-decomp-level}. 乘法交换性则有赖反对合的技巧 (定理 \ref{prop:Hecke-comm-criterion}): 考虑
+	\[ \tau: \twobigmatrix{a}{b}{c}{d} \longmapsto \twobigmatrix{a}{c/N}{bN}{d}. \]
+	即是; 注意到 $\tau(x) = \twomatrix{1}{}{}{N} \cdot {}^t x \cdot \twomatrix{1}{}{}{N}^{-1}$. 剩下论证留给读者.
+
+	性质 (i) 是例 \ref{eg:coset-normalizer} 的直接结论. 要点在于证明 (ii). 我们用 \eqref{eqn:structure-const-2} 来确定 $[\Gamma'_\mu(N)] \star [\Gamma'_\nu(N)]$: 作陪集分解并取定代表元集 $A, B \subset \Delta'_0(N)$, 使得
+	\[ \Gamma'_\mu(N) = \bigsqcup_{a \in A} a \Gamma'_0(N), \quad \Gamma'_\nu(N) = \bigsqcup_{b \in B} b \Gamma'_0(N). \]
+	设 $\lambda = (h,k) \in \mathcal{D}(N)$. 取
+	\begin{gather*}
+		\delta := \twobigmatrix{h}{}{}{k}, \qquad
+		\begin{array}{rl}
+			\mathbb{L}' & = (L',B') := \mathbb{L}_{\text{std}} = (L_{\text{std}}, B_{\text{std}}) \\
+			\mathbb{L} & = (L,B) := \delta\mathbb{L}_{\text{std}} = (\delta L_{\text{std}}, \delta B_{\text{std}}).
+		\end{array}
+	\end{gather*}
+	从 $(\mathbb{L}, \mathbb{L}')$ 和 $M := \frac{L_{\mathrm{std}}}{\delta L_{\mathrm{std}}} = \Z/h\Z \oplus \Z/k\Z$ 出发, 可以谈论引理 \ref{prop:canonical-level-structure} 之前述及的资料 $M^\dagger \subset M$ 和相应的 $L^\dagger \subset L' := L_{\text{std}}$. 考虑映射
+	\begin{align*}
+		\left\{ (a,b) \in A \times B: \delta \Gamma'_0(N) = ab\Gamma'_0(N) \right\} & \stackrel{\Theta}{\longrightarrow} \left\{
+		\begin{array}{r|l}
+			\text{子模}\; M^\dagger \subset M & \mathsf{type}(M^\dagger) = \nu \\
+			& \mathsf{type}(M/M^\dagger) = \mu
+		\end{array}\right\} \\
+		(a,b) & \longmapsto
+			\left[
+				M^\dagger := \dfrac{a L_{\text{std}}}{\delta L_{\text{std}}} \subset \dfrac{L_{\text{std}}}{\delta L_{\text{std}}} = M
+			\right]
+	\end{align*}
+	左式等于 $\left\{(a,b) : \delta \mathbb{L}_{\text{std}} = ab \mathbb{L}_{\text{std}} \right\}$. 基于 $g^\lambda_{\mu\nu}$ 的定义 \eqref{eqn:Hall-constant}, 问题归结为证 $\Theta$ 是双射.
+	
+	先来说明映射 $\Theta$ 良定: 首先, 右式中 $M^\dagger$ 在 $L_{\text{std}}$ 中的原像是 $L^\dagger = a L_{\text{std}}$. 由于 $a\mathbb{L}_{\text{std}}, b \mathbb{L}_{\text{std}} \subset \mathbb{L}_{\text{std}}$, 我们得到
+	\begin{equation}\label{eqn:delta-ab-bound}
+		\delta \mathbb{L}_{\text{std}} = ab\mathbb{L}_{\text{std}} \subset a \mathbb{L}_{\text{std}} \subset \mathbb{L}_{\text{std}}.
+	\end{equation}
+
+	其次, 从 $a \in \Gamma'_\mu(N)$ 和 $b \in \Gamma'_\nu(N)$ 按 \eqref{eqn:coset-hk-determination} 推得
+	\begin{gather*}
+		\dfrac{M}{M^\dagger} \simeq \dfrac{L_{\text{std}}}{aL_{\text{std}}} \xmapsto{\mathsf{type}} \mu, \\
+		M^\dagger = \frac{a L_{\text{std}}}{\delta L_{\text{std}}} = \frac{a L_{\text{std}}}{ab L_{\text{std}}} \xrightarrow[\sim]{a^{-1}} \frac{L_{\text{std}}}{b L_{\text{std}}} \xmapsto{\mathsf{type}} \nu.
+	\end{gather*}
+
+	映射 $\Theta$ 为单: 首先作一点观察. 给定属于右式之 $M^\dagger$ 和相应的 $L^\dagger$, 引理 \ref{prop:canonical-level-structure} 表明有唯一的 $B^\dagger$ 使得 $\mathbb{L}^\dagger := (L^\dagger, B^\dagger) \in \mathsf{Latt}_0(N)$ 并且 $\delta\mathbb{L}_{\text{std}} \subset \mathbb{L}^\dagger \subset \mathbb{L}_{\text{std}}$. 事实上, 如果 $M^\dagger = \Theta(a,b)$, 上述唯一性连同 \eqref{eqn:delta-ab-bound} 即刻给出 $\mathbb{L}^\dagger = a\mathbb{L}_{\text{std}}$.
+	
+	按上述观察, $M^\dagger$ 唯一确定了 $\mathbb{L}^\dagger = a\mathbb{L}_{\text{std}} \subset \mathbb{L}_{\text{std}}$, 从而确定陪集 $a \Gamma'_0(N)$, 继而确定 $a \in A$. 接着再由 $b\Gamma'_0(N) = a^{-1} \delta \Gamma'_0(N)$ 确定 $b \in B$. 单性于是确立.
+
+	映射 $\Theta$ 为满: 仍用引理 \ref{prop:canonical-level-structure}, 右式之 $M^\dagger$ 唯一确定了 $\mathbb{L}^\dagger \in \mathsf{Latt}_0(N)$ 使得 $\delta \mathbb{L}_{\text{std}} \subset \mathbb{L}^\dagger \subset \mathbb{L}_{\text{std}}$. 故存在陪集 $a\Gamma'_0(N) \subset \Delta'_0(N)$ 使得 $\mathbb{L}^\dagger = a\mathbb{L}_{\text{std}}$; 选取代表元 $a$. 进一步, $\GL(2,\Q)$ 在 $\mathsf{Latt}_0(N)$ 上的作用传递故
+	\[ \delta\mathbb{L}_{\text{std}} \subset a\mathbb{L}_{\text{std}} \implies \exists b, \; b\mathbb{L}_{\text{std}} = a^{-1}\delta \mathbb{L}_{\text{std}} \subset \mathbb{L}_{\text{std}}, \]
+	因之 \eqref{eqn:std-inclusion-1} 蕴涵 $b\Gamma'_0(N) \subset \Delta'_0(N)$, 起作用的只是这个陪集. 和先前一样的推导给出
+	\[ \nu = \mathsf{type}(M^\dagger) = \mathsf{type}\left(\frac{L_{\text{std}}}{bL_{\text{std}}}\right), \quad \mu = \mathsf{type}(M/M^\dagger) = \mathsf{type}\left(\frac{L_{\text{std}}}{aL_{\text{std}}}\right), \]
+	于是 $a\Gamma'_0(N) \subset \Gamma'_\mu(N)$, $b\Gamma'_0(N) \subset \Gamma'_\nu(N)$. 适当选取陪集代表元以确保 $(a,b) \in A \times B$. 那么 $\Theta(a,b) = M^\dagger$. 满性证毕.
+\end{proof}
+
+一句话, 除了将 $\lambda, \mu, \nu$ 限制在 $\mathcal{D}(N) \subset \mathcal{D}$ 上, $\EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N))$ 具有和定理 \ref{prop:Hall-Hecke} 中的 $\EuScript{H}(\Delta' \sslash \Gamma')$ 一样的基和结构常数 $g^\lambda_{\mu\nu}$. 在 \S\ref{sec:Hecke-full-level} 中推导的结构定理可以轻松移植到 $\EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N))$ 上.
+
+\begin{proposition}\label{prop:prime-coset-mult}
+	交换 $\CC$-代数 $\EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N))$ 服从于以下性质.
+	\begin{enumerate}[(i)]
+		\item 设 $(h,k), (h',k') \in \mathcal{D}(N)$ 满足 $\gcd(k,k')=1$, 则 $[\Gamma'_{h,k}(N)] \star [\Gamma'_{h',k'}(N)] = [\Gamma'_{hh',kk'}(N)]$.
+		\item 设 $p$ 为素数而 $e \in \Z_{\geq 1}$, 那么
+		\begin{equation*}
+		\left[ \Gamma'_{1,p}(N) \right] \star \left[ \Gamma'_{1, p^e}(N) \right]
+		= \begin{cases}
+			\left[ \Gamma'_{1,p^{e+1}}(N) \right], & p \mid N \\
+			\left[ \Gamma'_{1,p^{e+1}}(N) \right] + p \left[ \Gamma'_{p, p^e}(N) \right], & e > 1, \; p \nmid N \\
+			\left[ \Gamma'_{1,p^{e+1}}(N) \right] + (p+1) \left[ \Gamma'_{p, p^e}(N) \right], & e = 1, \; p \nmid N.
+		\end{cases}\end{equation*}
+	\end{enumerate}
+\end{proposition}
+\begin{proof}
+	乘法交换性源自定理 \ref{prop:Hall-Hecke-level}. 应用定理 \ref{prop:Hall-Hecke-level}, 断言 (i) 转译如下: 令 $\mu = (h,k)$, $\nu = (h',k')$, 那么对任意 $\lambda \in \mathcal{D}(N)$,
+	\[ g^\lambda_{\mu\nu} \neq 0 \iff \lambda = (hh', kk'), \quad \text{此时}\; g^\lambda_{\mu\nu} = 1. \]
+	对于 $N=1$ 即命题 \ref{prop:coprime-multiplicativity-1} 情形也可如是翻译. 断言 (i) 因之化约到命题 \ref{prop:coprime-multiplicativity-1}.
+
+	断言 (ii) 可以按相同手法翻译为关于结构常数 $g^\lambda_{\mu\nu}$ 的等式, 然后化约到命题 \ref{prop:prime-coset-mult-1}. 注意到 $p \mid N$ 时 $(p,p^e) \notin \mathcal{D}(N)$ 不计, 这是 (ii) 和命题 \ref{prop:prime-coset-mult-1} 的唯一差别.
+\end{proof}
+
+考虑到定理 \ref{prop:Hall-Hecke-level} (i), 命题 \ref{prop:prime-coset-mult} 完全描述了 $\EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N))$ 的乘法结构.
+
+现在转向起初关心的代数 $\EuScript{H}_0(N)$ 和 $\EuScript{H}_1(N)$, 技术依然和 \S\ref{sec:Hecke-full-level} 平行. 从 $\EuScript{H}_0(N)$ 入手. 简记
+\begin{equation}\label{eqn:Gamma_hk-N}
+	\Gamma_{h,k}(N) := \Gamma_0(N) \twomatrix{h}{}{}{k} \Gamma_0(N), \quad (h,k) \in \mathcal{D}(N).
+\end{equation}
+\begin{theorem}\label{prop:Hecke-level-without-prime}
+	幺半群 $\Delta'_0(N) \supset \Delta_0(N)$ 和群 $\Gamma'_0(N) \supset \Gamma_0(N)$ 符合定理 \ref{prop:Hecke-isom-criterion} 的条件. 作为推论, $\Delta_0(N) \hookrightarrow \Delta'_0(N)$ 诱导双射
+	\[ \Gamma_0(N) \backslash \Delta_0(N) / \Gamma_0(N) \rightiso \Gamma'_0(N) \backslash \Delta'_0(N) /\Gamma'_0(N), \]
+	而这又进一步诱导交换代数的同构
+	\begin{align*}
+		\EuScript{H}_0(N) & \stackrel{\sim}{\longrightarrow} \EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N)) \\
+		\left[\Gamma'_{h,k}\right] & \longmapsto \left[\Gamma_{h,k}\right], \quad (h,k) \in \mathcal{D}(N). 
+	\end{align*}
+	此外, $\Delta_0(N) = \bigsqcup_{(h,k) \in \mathcal{D}(N)} \Gamma_{h,k}(N)$.
+\end{theorem}
+\begin{proof}
+	首先建立 $\Delta_0(N) = \bigcup_{(h,k) \in \mathcal{D}(N)} \Gamma_{h,k}(N)$. 所需论证基于 \eqref{eqn:hk-coset-decomp-level} 的分解, 和定理 \ref{prop:Hecke-without-prime} 的相应部分全然类似, 论证可以一字不易地照搬.
+\end{proof}
+
+\begin{exercise}
+	若正整数 $h \mid k$ 满足 $\gcd(hk,N)=1$, 则 $\twomatrix{h}{}{}{k}$ 和 $\twomatrix{k}{}{}{h}$ 同属一个 $\Gamma_0(N)$ 的双陪集.
+	
+	\begin{hint} 计算相应的 $\mathsf{type}$. \end{hint}
+\end{exercise}
+
+\begin{theorem}\label{prop:Gamma_1-Gamma_0}
+	暂且令 $\Delta := \Delta_1(N)$, $\Delta' := \Delta_0(N)$ 和 $\Gamma := \Gamma_1(N)$, $\Gamma' := \Gamma_0(N)$, 则这些资料满足定理 \ref{prop:Hecke-isom-criterion} 的所有条件. 作为推论, 存在交换 $\CC$-代数之间的同构
+	\begin{align*}
+		\EuScript{H}_1(N) & \rightiso \EuScript{H}_0(N) \\
+		[\Gamma_1(N) \gamma \Gamma_1(N)] & \mapsto [\Gamma_0(N) \gamma \Gamma_0(N)], \quad \gamma \in \Delta_1(N).
+	\end{align*}
+	此外, 对所有 $\gamma \in \Delta_1(N)$ 皆有
+	\[ f[\Gamma_0(N) \gamma \Gamma_0(N)] = f[\Gamma_1(N)\gamma \Gamma_1(N)], \quad f \in M_k(\Gamma_0(N)) \subset M_k(\Gamma_1(N)). \]
+\end{theorem}
+\begin{proof}
+	断言中作为推论的部分不外是定理 \ref{prop:Hecke-isom-criterion} 的应用. 定理 \ref{prop:Hecke-isom-criterion} 的条件 (i), (iii) 是容易验证的, 谨留给读者. 以下着眼于 (ii): 兹断言当 $\alpha \in \Delta_1(N)$ 时
+	\begin{gather}\label{eqn:Gamma_1-Gamma_0}
+		\Gamma_0(N) \alpha \Gamma_0(N) = \Gamma_0(N) \alpha \Gamma_1(N).
+	\end{gather}
+	第一步是验证性质 \eqref{eqn:Gamma_1-Gamma_0} 对 $\alpha := \twomatrix{h}{}{}{k} \in \Delta_0(N)$ 成立, 其中 $(h,k) \in \mathcal{D}(N)$. 观察到存在 $\Gamma_0(N)$ 的子集 $A$ 使得
+	\begin{compactitem}
+		\item $A \to \Gamma_0(N)/\Gamma_1(N)$ 为满射,
+		\item 对所有 $\gamma \in A$ 皆有 $\alpha\gamma\alpha^{-1} \in \Gamma_0(N)$.
+	\end{compactitem}
+	诚然, 将 $A$ 的元素表成 $\twomatrix{a}{b}{c}{d} \in \SL(2,\Z)$, 其中 $N \mid c$, 那么第一条说 $a \bmod N$ 遍历 $(\Z/N\Z)^\times$, 第二条则是说 $\frac{k}{h} \mid b$; 从命题 \ref{prop:reduction-surjective} 可知这般之 $A$ 确实存在. 由此知
+	\begin{equation*}
+		\Gamma_0(N) \alpha \Gamma_0(N) = \bigcup_{\gamma \in A} \Gamma_0(N) \alpha\gamma \Gamma_1(N) = \bigcup_{\gamma \in A} \Gamma_0(N) \alpha\gamma\alpha^{-1} \alpha \Gamma_1(N) = \Gamma_0(N) \alpha \Gamma_1(N).
+	\end{equation*}
+	接着对任意 $\alpha \in \Delta_1(N) \subset \Delta_0(N)$ 验证 \eqref{eqn:Gamma_1-Gamma_0}. 根据定理 \ref{prop:Hecke-level-without-prime} 和上一步, 存在 $(h,k) \in \mathcal{D}(N)$ 使
+	\[ \Gamma_0(N) \alpha \Gamma_1(N) \subset \Gamma_0(N) \alpha \Gamma_0(N) = \Gamma_0(N) \twomatrix{h}{}{}{k} \Gamma_0(N) = \Gamma_0(N) \twomatrix{h}{}{}{k} \Gamma_1(N). \]
+	相异双陪集无交故 $\Gamma_0(N) \alpha \Gamma_1(N) = \Gamma_0(N) \twomatrix{h}{}{}{k} \Gamma_1(N)$, 上式处处是等号, \eqref{eqn:Gamma_1-Gamma_0} 得证.
+\end{proof}
+
+至此已经能扼要地描述交换代数 $\EuScript{H}_0(N) \simeq \EuScript{H}_1(N)$ 的结构. 根据定理 \ref{prop:Hecke-level-without-prime} 和 \eqref{eqn:Gamma_hk-N} 的记号, $\EuScript{H}_0(N)$ 作为向量空间有一组基 $\left\{ [\Gamma_{h,k}(N)] : (h,k) \in \mathcal{D}(N) \right\}$. 应用定理 \ref{prop:Hall-Hecke-level} (i) 进一步分解
+\[ [\Gamma_{h,k}(N)] = [\Gamma_{h,h}(N)] \star \left[\Gamma_{1, p_1^{e_1}}(N)\right] \star \cdots \star \left[\Gamma_{1, p_n^{e_n}}(N) \right], \quad \frac{k}{h} = \prod_{i=1}^n p_i^{e_i}: \; \text{素因子分解}. \]
+类似地, $[\Gamma_{h,h}(N)]$ 也可以按 $h$ 的素因子分解来拆解. 关于 $\EuScript{H}_0(N)$ 的研究归结为对每个素数 $p$ 确定由形如 $\left[ \Gamma_{p^f, p^{f+e}}(N) \right] = \left[ \Gamma_{p, p}(N) \right]^f \star \left[ \Gamma_{1, p^e}(N) \right]$ 的算子张成的子代数. 命题 \ref{prop:prime-coset-mult} 又递归地将 $\left[ \Gamma_{1, p^e}(N) \right]$ 表作 $\left[ \Gamma_{p, p}(N) \right]$ 和 $\left[ \Gamma_{1, p}(N) \right]$ 的多项式.
+
+可以证明, 以上给出的生成元 $\left[ \Gamma_{p, p}(N) \right]$ 和 $\left[ \Gamma_{1, p} \right]$ (前者限于 $p \nmid N$) 甚且是``自由''的. 由于本书不需要相关结果, 细节留作练习.
+
+\begin{exercise}
+	按上述理路, 证明 $\CC$-代数 $\EuScript{H}_0(N)$ 同构于具有无穷多个自由变元的多项式代数, 变元集对应到
+	\[ \left\{ \left[\Gamma_{p,p}(N)\right] : p \;\text{素数}\; \nmid N \right\} \sqcup \left\{ \left[\Gamma_{1,p}(N)\right] : p \;\text{为素数} \right\}. \]
+	以上对乘法的描述实际仅涉及非负整数, 所有陈述中都可以 $\Z$ 代 $\CC$, 故 $\EuScript{H}_0(N)$ 及此同构还能定义在 $\Z$ 上.
+\end{exercise}
+
+\section{一般的 \texorpdfstring{$T_n$}{Tn} 算子和特征形式}\label{sec:congruence-Hecke-2}
+
+符号和先前相同, 仍然取定 $N \in \Z_{\geq 1}$.
+
+\begin{definition}[Hecke 代数]\label{def:T_n} \index{Hecke 代数 (Hecke algebra)} \index[sym1]{T1(N)@$\HkT_1(N)$}
+	定义 $\HkT_1(N)$ 为所有 $T_p$ 和 $\lrangle{d}$ 在 $\End_{\CC}\left(M_k(\Gamma_1(N))\right)$ 中生成的算子代数, 其中 $p$ 取遍素数而 $d$ 取遍 $(\Z/N\Z)^\times$.
+\end{definition}
+
+本书主要从复变函数论视角定义 $M_k(\Gamma_1(N))$, 这是 $\CC$-向量空间, 而且稍后还须考量相对于 Petersson 内积的伴随算子, 所以 $\HkT_1(N)$ 就相应地取为 $\CC$-代数. 但整结构对于数论应用至关紧要: $N = 1$ 的具体例子见练习 \ref{exo:M(1)-integral}.
+
+出于智识上的兴趣, 我们首先将 $\HkT_1(N)$ 诠释为 $\EuScript{H}\left( \Delta_0(N) \sslash \Gamma_1(N) \right)$ 在 $M_k(\Gamma_1(N))$ 上的作用, 但后续论证所需的只是 $\HkT_1(N)$ 的交换性, 即命题 \ref{prop:T1-commutative} 的后半段. 回忆到 \S\ref{sec:congruence-Hecke-alg} 定义的子代数 $\EuScript{H}_1(N)$ 由以下两族元素共同生成.
+\begin{center}\begin{tabular}{c|c|c}
+	元素 & $p$ 的条件 & 在 $M_k(\Gamma_1(N))$ 上的作用 \\ \hline
+	$\left[\Gamma_1(N) \twomatrix{p}{}{}{p} \Gamma_1(N)\right]$ & 素数, $p \nmid N$ & $f \mapsto p^{k-2} f$ (练习 \ref{ex:central-action-easy}) \\
+	$\left[\Gamma_1(N) \twomatrix{1}{}{}{p} \Gamma_1(N)\right]$ & 素数 & $T_p$
+\end{tabular}\end{center}
+ 
+\begin{proposition}\label{prop:T1-commutative}
+	代数 $\EuScript{H}(\Delta_0(N) \sslash \Gamma_1(N))$ 由子集 $\EuScript{H}_1(N)$ 与 $\left\{ [\Gamma_1(N)\gamma\Gamma_1(N)] : \gamma \in \Gamma_0(N) \right\}$ 生成, 其乘法交换.
+\end{proposition}
+
+形如 $[\Gamma_1(N)\gamma\Gamma_1(N)]$ 的元素按菱形算子作用, 故命题蕴涵 $\EuScript{H}(\Delta_0(N) \sslash \Gamma_1(N))$ 在 $M_k(\Gamma_1(N))$ 在 $M_k(\Gamma_1(N))$ 上的作用确实给出 $\HkT_1(N)$, 而且 $\HkT_1(N)$ 交换.
+
+\begin{proof}
+	回忆到 $\Delta_1(N) \subset \Delta_0(N)$, 所以 $\EuScript{H}_1(N)$ 确实为子代数. 因为对任何 $t \in (\Z/N\Z)^\times$ 都存在 $\gamma \in \Gamma_0(N)$ 使得 $\gamma \;\bmod{N} = \twomatrix{t}{}{}{t^{-1}}$, 从 $\Delta_0(N)$ 和 $\Delta_1(N)$ 的定义立见
+	\[ \Delta_1(N) \Gamma_0(N) = \Delta_0(N) = \Gamma_0(N) \Delta_1(N). \]
+
+	对于任意 $\alpha \in \Delta_1(N)$ 和 $\gamma \in \Gamma_0(N)$, 例 \ref{eg:coset-normalizer} 说明
+	\begin{align*}
+		\left[ \Gamma_1(N) \alpha \gamma \Gamma_1(N) \right] & = \left[ \Gamma_1(N)\alpha\Gamma_1(N) \right] \star \left[ \Gamma_1(N)\gamma\Gamma_1(N) \right], \\
+		\left[ \Gamma_1(N) \gamma \alpha \Gamma_1(N) \right] & = \left[ \Gamma_1(N)\gamma\Gamma_1(N) \right] \star \left[ \Gamma_1(N)\alpha\Gamma_1(N) \right].
+	\end{align*}
+	兹断言上两式相等, 亦即 $\left[ \Gamma_1(N)\alpha\Gamma_1(N) \right]$ 和 $\left[ \Gamma_1(N)\gamma\Gamma_1(N) \right]$ 对乘法交换. 基于 $\EuScript{H}_1(N)$ 已知的结构, 不妨设 $\alpha = \twomatrix{1}{}{}{p}$ 或 $\twomatrix{p}{}{}{p}$, 其中 $p$ 是素数. 后一情形是简单的; 至于 $\alpha = \twomatrix{1}{}{}{p}$ 情形则已经由引理 \ref{prop:diamond-T_p-comm} 料理.
+	
+	最后, 已知 $\EuScript{H}_1(N)$ 交换. 形如 $[\Gamma_1(N)\gamma\Gamma_1(N)]$ 的元素 (在此 $\gamma \in \Gamma_0(N)$) 彼此也交换: 这是例 \ref{eg:coset-normalizer} 和 $\Gamma_0(N)/\Gamma_1(N) \simeq (\Z/N\Z)^\times$ 交换的直接结论. 综之, $\EuScript{H}(\Delta_0(N) \sslash \Gamma_1(N))$ 交换.
+\end{proof}
+
+\begin{definition}\label{def:T-general} \index[sym1]{$T_n$}
+	置 $T_1 := \identity_{M_k(\Gamma_1(N))}$. 对所有素数 $p$ 递归地定义算子
+	\[ T_{p^{e+1}} := T_p T_{p^e} - p^{k-1} \lrangle{p} T_{p^{e-1}}, \quad e \geq 1. \]
+	对一般的 $n \in \Z_{\geq 1}$, 作素因子分解 $n = \prod_{i=1}^n p_i^{e_i}$ 以定义
+	\[ T_n := \prod_{i=1}^n T_{p_i^{e_i}}. \]
+\end{definition}
+
+先前已说明所有 $T_p$ 和所有 $\lrangle{d}$ 对乘法两两交换, 连乘积因而良定, 无关相乘顺序, 进一步, $\gcd(n,m)=1 \implies T_n T_m = T_{nm}$. 这些算子都是 $\HkT_1(N)$ 的元素.
+
+为了加深对 $T_n$ 的了解, 我们将其编入一个生成函数. 首先引进 Dirichlet 级数的概念, 这是形如 $\sum_{n \geq 1} a_n n^{-s}$ 的无穷级数. 在解析理论中一般要求 $s \in \CC$ 和 $a_1, a_2, \ldots \in \CC$, 使得当 $\Re(s) \gg 0$ 限制在紧集上时级数正规收敛. 本节形式地考虑 Dirichlet 级数, 不论 $s$ 的值和收敛性, 仅将 $n^{-s}$ 当作满足 $(n_1 n_2)^{-s} = n_1^{-s} n_2^{-s}$ ($n_1, n_2 \in \Z_{\geq 1}$) 的符号, 并容许 $a_n$ 取值在给定的交换环里.
+\begin{proposition}[Hecke 算子的 Euler 乘积]\label{prop:Hecke-Euler} \index{Euler chengji}
+	考虑系数在 $\HkT_1(N)$ 的形式 Dirichlet 级数, 那么
+	\[ \sum_{n \geq 1} T_n n^{-s} = \prod_{p: \text{素数}} \left( 1 - T_p p^{-s} + \lrangle{p} p^{k-1-2s}  \right)^{-1}. \]
+\end{proposition}
+\begin{proof}
+	由于 $\gcd(n,m)=1 \implies T_{nm} = T_n T_m$, 我们有 $\sum_{n=1}^\infty T_n n^{-s} = \prod_{p: \text{素数}} \left( \sum_{e=0}^\infty T_{p^e} p^{-es} \right)$, 问题化为对素数 $p$ 证
+	\[ \sum_{e=0}^\infty T_{p^e} p^{-es} = \left( 1 - T_p p^{-s} + \lrangle{p} p^{k-1-2s}  \right)^{-1}. \]
+	引入形式变元 $X$ 替代 $p^{-s}$, 上式归结为形式幂级数环 $\HkT_1(N)\llbracket X \rrbracket$ 中的等式
+	\[ \left( 1 - T_p X + \lrangle{p} p^{k-1} X^2 \right) \cdot \sum_{e=0}^\infty T_{p^e} X^e = 1; \]
+	显然左边的常数项是 $1$, 现对 $e \in \Z_{\geq 0}$ 考察 $X^{e+1}$ 在左边的系数, 问题化为证
+	\[ T_{p^{e+1}} - T_p T_{p^e} + \lrangle{p} p^{k-1} T_{p^{e-1}} = 0, \]
+	这就回到了 $T_{p^e}$ 的递归定义.
+\end{proof}
+
+\begin{exercise}
+	尝试严谨地定义上述的形式 Dirichlet 级数及无穷乘积.
+\end{exercise}
+
+\begin{proposition}\label{prop:Hecke-adjoint}
+	当 $\gcd(n, N) = 1$ 时, $T_n$ 在 $S_k(\Gamma_1(N))$ 上的限制相对于 Petersson 内积是正规算子, 其伴随算子也来自 $\HkT_1(N)$.
+\end{proposition}
+\begin{proof}
+	因为 $\HkT_1(N)$ 交换, 仅须处理 $n=p^e$ 的情形, 其中 $p$ 为素数, $p \nmid N$. 根据 $T_{p^e}$ 的递归定义和 $\lrangle{p}^* = \lrangle{p}^{-1}$ (定理 \ref{prop:Hecke-adjoint-0}), 问题进一步化约到 $n=p$ 情形, 剩下是定理 \ref{prop:Hecke-adjoint-0} 的内容.
+\end{proof}
+
+\begin{definition}\label{def:eigenform} \index{Hecke 特征形式 (Hecke eigenform)}
+	若 $f \in M_k(\Gamma_1(N))$ 是 Hecke 代数 $\HkT_1(N)$ 中所有算子共同的特征向量, 则称 $f$ 是 \emph{Hecke 特征形式}.
+\end{definition}
+
+以下定理是定理 \ref{prop:Hecke-Fourier-0} 的推广; Hecke 特征形式的用处由之得到部分的说明.
+
+\begin{theorem}\label{prop:Hecke-Fourier}
+	设 $f = \sum_{n \geq 0} a_n(f) q^n \in M_k(\Gamma_1(N))$, 其中 $q = e^{2\pi i\tau}$. 对一切 $n \in \Z_{\geq 1}$ 和 $m \in \Z_{\geq 0}$ 皆有
+	\begin{align*}
+		a_m(T_n f) & = \sum_{d \mid \gcd(n,m)} d^{k-1} a_{nm/d^2}\left( \lrangle{d}f \right) \\
+		& = \sum_{d \mid \gcd(n,m)} \chi(d) d^{k-1} a_{nm/d^2}(f), \quad \text{如果}\; f \in M_k(\Gamma_1(N), \chi),
+	\end{align*}
+	此处 $\chi$ 是任意群同态 $(\Z/N\Z)^\times \to \CC^\times$, 按零延拓到 $\Z/N\Z$ 上. 特别地,
+	\[ a_1(T_n f) = a_n(f), \qquad a_0(T_n f) = \sum_{d \mid n} d^{k-1} a_0(\lrangle{d} f). \]
+\end{theorem}
+\begin{proof}
+	基于 \eqref{eqn:M_k-chi-decomp}, 不妨取定 $\chi$ 并且设 $f \in M_k(\Gamma_1(N), \chi)$; 定理 \ref{prop:Hecke-Fourier-0} 蕴涵 $M_k(\Gamma_1(N), \chi)$ 被所有 $\HkT_1(N)$ 的元素保持. 首先验证 $n=p^e$ 的情形, 其中 $p$ 为素数. 当 $e=1$ 时原式化约为定理 \ref{prop:Hecke-Fourier-0}, 而 $e=0$ 情形则是平凡的. 以下设 $e \geq 1$, 定理 \ref{prop:Hecke-Fourier-0} 配合递归论证给出
+	\begin{multline*}
+		a_m\left( T_{p^{e+1}} f \right) = a_m\left( T_p (T_{p^e} f)\right) - p^{k-1} a_m\left( \lrangle{p} T_{p^{e-1}} f \right) \\
+		= a_{mp}\left( T_{p^e} f \right) + \chi(p) p^{k-1} a_{m/p}\left( T_{p^e} f \right) - \chi(p) p^{k-1} a_m\left( T_{p^{e-1}}f \right) \\
+		= \sum_{d \mid \gcd(mp, p^e)} \chi(d) d^{k-1} a_{mp^{e+1}/d^2}(f) \hfill \\
+		+ \chi(p)p^{k-1} \sum_{d \mid \gcd(m/p, p^e)} \chi(d) d^{k-1} a_{mp^{e-1}/d^2}(f) \\
+		- \chi(p)p^{k-1} \sum_{d \mid \gcd(m, p^{e-1})} \chi(d) d^{k-1} a_{mp^{e-1}/d^2}(f);
+	\end{multline*}
+	一如既往, 这里约定一旦 $p \nmid m$, 则涉及 $m/p$ 的项一律视为 $0$. 以下来剖析最后一式的三项. 因为 $mp$ 和 $p^e$ 的公因子集合恰好是 $\{1\} \sqcup \{ pd : d \mid \gcd(m, p^{e-1}) \}$, 其第三项可以改写作
+	\[ - \sum_{\substack{d \mid \gcd(mp,p^e) \\ d > 1}} \chi(d) d^{k-1} a_{mp^{e+1}/d^2}(f), \]
+	正好消去第一项的 $d > 1$ 部分, 结果化为
+	\[ a_m\left( T_{p^{e+1}} f \right) = a_{mp^{e+1}}(f) + \chi(p)p^{k-1} \sum_{d \mid \gcd(m/p, p^e)} \chi(d) d^{k-1} a_{mp^{e-1}/d^2}(f). \]
+	同理, 当 $p \mid m$ 时 $m$ 和 $p^{e+1}$ 的公因子集合恰是 $\{1\} \sqcup \{ pd: d \mid \gcd(m/p, p^e) \}$, 第二项遂等于
+	\[ \sum_{\substack{d \mid \gcd(m, p^{e+1}) \\ d > 1}} \chi(d) d^{k-1} a_{mp^{e+1}/d^2}(f), \]
+	如是证出 $n = p^{e+1}$ 的情形. 最后设 $\gcd(n, n')=1$, 并且设原式对 $n,n'$ 皆成立, 那么
+	\begin{align*}
+		a_m \left( \underbracket{T_n (T_{n'} f}_{= T_{nn'} f} ) \right) & = \sum_{d \mid \gcd(m,n)} \chi(d) d^{k-1} a_{mn/d^2}(T_{n'} f) \\
+		& = \sum_{d \mid \gcd(m,n)} \; \sum_{d' \mid \gcd(mn/d^2, n')} \chi(dd') (dd')^{k-1} a_{mnn'/(dd')^2}(f).
+	\end{align*}
+	因为 $n,n'$ 互素故
+	\[\begin{tikzcd}[row sep=tiny]
+		\left\{ d : d \mid \gcd(m, n) \right\} \times \left\{ d': d' \mid \gcd(m,n') \right\} \arrow[leftrightarrow, r, "1:1"] & \left\{ c: c \mid \gcd(m, nn') \right\} \\
+		(d,d') \arrow[mapsto, r] & dd' ;
+	\end{tikzcd}\]
+	而当 $d \mid \gcd(m,n)$ 并且 $n, n'$ 互素时
+	\[ \left\{ d': d' \mid \gcd(m,n') \right\} = \left\{ d': d' \mid \gcd(mn/d^2, n') \right\}. \]
+	由此对一般的 $n$ 得出 $a_m(T_n f)$ 的表达式. 最后, 代入 $m=1$ (或 $m=0$), 则 $a_m(T_n f)$ 公式中的求和化简为 $a_n(f)$ (或 $\sum_{d \mid n} d^{k-1} a_0(\lrangle{d} f)$). 明所欲证.
+\end{proof}
+
+\begin{corollary}\label{prop:Hecke-Fourier-eigenvalue}
+	设 $f \in M_k(\Gamma_1(N))$ 是 Hecke 特征形式, 那么对所有 $n \in \Z_{\geq 1}$ 者
+	\[ a_n(f) = a_1(f) \cdot (T_n\; \text{的特征值}). \]
+\end{corollary}
+\begin{proof}
+	设 $T_n(f) = \lambda f$, 则定理 \ref{prop:Hecke-Fourier} 蕴涵 $a_1(f) \lambda = a_1(T_n f) = a_n(f)$.
+\end{proof}
+
+\begin{definition}\label{def:normalized-eigenform} \index{Hecke 特征形式 (Hecke eigenform)!正规化 (normalized)}
+	满足 $a_1(f)=1$ 的 Hecke 特征形式 $f$ 称为\emph{正规化 Hecke 特征形式}.
+\end{definition}
+
+对于 Hecke 特征形式 $f$, 尔后将在 \S\ref{sec:Hecke-revisited} 说明
+\begin{compactitem}
+	\item 若 $\sigma$ 是域 $\CC$ 的自同构, 那么 $\sum_{n \geq 1} \sigma(a_n(f)) q^n$ 也是 Hecke 特征形式 (推论 \ref{prop:Fourier-coeff-conjugate});
+	\item 若 $f$ 是正规化的, 则 $\{a_n(f)\}_{n \geq 1}$ 生成 $\Q$ 的有限扩张 $K_f$ (推论 \ref{prop:algebraic-eigenvalue}). 
+\end{compactitem}
+如是表明正规化 Hecke 特征形式不只是复变函数论的对象, 还具有深刻的算术意蕴. 以下说明一切有趣的 Hecke 特征形式都满足 $a_1(f) \neq 0$, 因此总能用伸缩予以正规化.
+
+\begin{lemma}\label{prop:normalized-abundance}
+	设 $f \in M_k(\Gamma_1(N)) \smallsetminus \{0\}$ 是 Hecke 特征形式, $a_1(f) = 0$, 则 $f$ 是常数函数而 $k = 0$.
+\end{lemma}
+\begin{proof}
+	推论 \ref{prop:Hecke-Fourier-eigenvalue} 蕴涵 $n \geq 1 \implies a_n(f) = 0$, 因此 $f(\tau) = a_0(f)$, 此时必有 $k = 0$.
+\end{proof}
+
+\begin{proposition}\label{prop:normalized-mult1}
+	设 $f, g \in S_k(\Gamma_1(N))$ 为 Hecke 特征形式. 如果它们对每个 $T_n$ 都有相同的特征值, 则 $f, g$ 成比例.
+\end{proposition}
+\begin{proof}
+	基于引理 \ref{prop:normalized-abundance}, 不妨设 $f,g$ 皆是正规化 Hecke 特征形式. 从推论 \ref{prop:Hecke-Fourier-eigenvalue} 可见 $f,g$ 有相同的 Fourier 系数, 此时 $f=g$.
+\end{proof}
+
+\begin{example}
+	取 $N = 1$, 从而 $\Gamma_1(N) = \SL(2,\Z)$, 相应的 Hecke 特征形式已在例 \ref{eg:full-level-eigenform-1} 讨论过. 这时每个 $T_n$ 对 $S_k(\SL(2,\Z))$ 的 Petersson 内积都自伴: 诚然, 一切归结为 $n = p$ 为素数的情形, 由于 $\lrangle{p} = \identity$, 自伴性归结为定理 \ref{prop:Hecke-adjoint-0}.
+\end{example}
+
+为了理解推论 \ref{prop:Hecke-Fourier-eigenvalue} 的深刻意涵, 以下假定 $f \in S_k(\Gamma_1(N), \chi)$ 是正规化 Hecke 特征形式. 权且不管收敛性, ``形式地''从 $\infty$ 处的 Fourier 系数构作 Dirichlet 级数
+\[ f = \sum_{n \geq 1} a_n(f) q^n \;\leadsto\; L(f,s) := \sum_{n \geq 1} a_n(f) n^{-s}. \]
+
+基于推论 \ref{prop:Hecke-Fourier-eigenvalue}, 我们愿意相信 $\sum_{n \geq 1} T_n n^{-s}$ 能``形式地''作用在 $f$ 上, 其特征值正是 $L(f,s)$; 而根据命题 \ref{prop:Hecke-Euler}, 这一特征值又``应当''等于
+\[ \prod_{p: \text{素数}} \left( 1 - a_p(f) p^{-s} + \chi(p) p^{k-1-2s} \right)^{-1}. \]
+于是我们得到 Dirichlet 级数 $L(s,f)$ 的 \emph{Euler 乘积}; 请参照熟知的 Riemann $\zeta$-函数情形 \eqref{eqn:zeta-Euler-prod}. 进一步, Hecke 算子的乘性蕴涵 Fourier 系数的乘性: 当 $\gcd(n,m)=1$ 时 $a_{nm}(f) = a_n(f) a_m(f)$.
+
+Euler 乘积也反过来证成 $\HkT_1(N)$ 的定义切合实用; 算子 $\lrangle{d}$ 和 $T_p$ 对于表述 $L(s,f)$ 的 Euler 乘积恰好足够.
+
+然而以上仅是形式的操作, 我们必须进一步了解从模形式 $f$ 构作 $L(f,s)$ 的相关机制, 例如它在 $\Re(s) \gg 0$ 时的收敛性, 及其解析延拓, 函数方程等等. 所需的分析学工具是 Fourier 变换的一种变体, 称为 \emph{Mellin 变换}; 这将是 \S\ref{sec:Mellin-Dirichlet} 的主题.
+
+\section{旧形式与新形式}\label{sec:oldform}
+取定权 $k \in \Z$. 设 $N', N \in \Z_{\geq 1}$ 满足 $N' \mid N$. 以下介绍一对映尖点形式为尖点形式的映射
+\[\begin{tikzcd}
+	M_k(\Gamma_1(N')) \arrow[r, bend left=15, "A_{N' \mid N}"] \arrow[r, bend right=15, "B_{N' \mid N}"'] & M_k(\Gamma_1(N)).
+\end{tikzcd}\]
+
+\begin{asparaenum}[(A)]
+	\item 显然的办法是应用 $\Gamma_1(N') \supset \Gamma_1(N)$ 以导出
+	\[ M_k(\Gamma_1(N')) \subset M_k(\Gamma_1(N)), \quad S_k(\Gamma_1(N')) \subset S_k(\Gamma_1(N)), \]
+	参看注记 \ref{rem:common-cusps}. 记此包含映射为 $A_{N' \mid N}$.
+	\item 另一套办法是取
+	\[ \nu = \nu_{N' \mid N} := \twobigmatrix{N/N'}{}{}{1} \; \in \GL(2,\Q)^+. \]
+	从等式
+	\[ \nu \twobigmatrix{a}{b}{Nc}{d} \nu^{-1} = \twobigmatrix{a}{bN/N'}{N'c}{d} \]
+	看出
+	\[ \nu \Gamma_1(N) \nu^{-1} \subset \Gamma_1(N'); \]
+	根据命题 \ref{prop:SL2-normalizer}, 这些群互可公度. 代入引理 \ref{prop:transport-conjugation}, 以下结果水到渠成.
+\end{asparaenum}
+
+\begin{proposition}\label{prop:oldform}
+	设 $k \in \Z$ 而 $N' \mid N$ 如上, 映射 $f \mapsto f \modact{k} \nu$ 给出记为 $B_{N' \mid N}$ 的嵌入:
+	\[\begin{tikzcd}[row sep=small]
+		f \arrow[r, mapsto, "B_{N' \mid N}"] \arrow[phantom, d, "\in" sloped] & f \modact{k} \nu \arrow[phantom, d, "\in" sloped] & \\
+		M_k(\Gamma_1(N')) \arrow[r, "\sim"] & M_k(\nu^{-1} \Gamma_1(N') \nu ) \arrow[hookrightarrow, r] & M_k(\Gamma_1(N)) \\
+		S_k(\Gamma_1(N')) \arrow[r, "\sim"] \arrow[phantom, u, "\subset" sloped] & S_k(\nu^{-1} \Gamma_1(N') \nu ) \arrow[hookrightarrow, r] \arrow[phantom, u, "\subset" sloped] & S_k(\Gamma_1(N)) \arrow[phantom, u, "\subset" sloped]
+	\end{tikzcd}\]
+\end{proposition}
+当 $N'' \mid N' \mid N$ 时, 这些映射有传递性
+\[ B_{N' \mid N} B_{N'' \mid N'} = B_{N'' \mid N}, \quad A_{N' \mid N} A_{N'' \mid N'} = A_{N'' \mid N}. \]
+
+今后焦点是尖点形式空间 $S_k(\Gamma_1(N))$.
+
+\begin{definition}\label{def:oldform}
+	\index{jiuxingshi@旧形式 (oldform)} \index[sym1]{Sk(N)old@$S_k(\Gamma_1(N))^{\mathrm{old}}, S_k(\Gamma_1(N))^{\mathrm{new}}$}
+	级 $N$ 的\emph{旧形式}空间 $S_k(\Gamma_1(N))^{\mathrm{old}}$ 定为 $S_k(\Gamma_1(N))$ 的子空间如下
+	\[ S_k(\Gamma_1(N))^{\mathrm{old}} := \sum_{\substack{N' \mid N \\ 1 \leq N' < N}} \left( A_{N' \mid N} \left( S_k(\Gamma_1(N')) \right) + B_{N' \mid N} \left( S_k(\Gamma_1(N')) \right) \right). \]
+	在 $S_k(\Gamma_1(N))$ 中定义相对于 Petersson 内积的正交补空间
+	\[ S_k(\Gamma_1(N))^{\mathrm{new}} := \left( S_k(\Gamma_1(N))^{\mathrm{old}} \right)^\perp. \]
+\end{definition}
+
+一则特例是 $S_k(\SL(2,\Z))^{\mathrm{old}} = \{0\}$ 而 $S_k(\SL(2,\Z))^{\mathrm{new}} = S_k(\SL(2,\Z))$, 一般情形则复杂得多. 李文卿 \cite{Li75} 的贡献之一是给出了 $S_k(\cdots)^{\mathrm{new}}$ 的代数定义, 不依赖 Petersson 内积, 并且推之于更广的级.
+
+笼统地说, $S_k(\Gamma_1(N))^{\mathrm{new}}$ 中的元素不源自更低的级, 而此空间在 Hecke 代数 $\HkT_1(N)$ 作用下有更好的性质. 这一思路肇源于 Atkin 和 Lehner 的工作 \cite{AL70}. 我们稍后将证明 $S_k(\Gamma_1(N))^\text{old}$ 和 $S_k(\Gamma_1(N))^\text{new}$ 在 Hecke 代数 $\HkT_1(N)$ 作用下不变. 定理 \ref{prop:Atkin-Lehner} 则会进一步证明 $\HkT_1(N)$ 限制在 $S_k(\Gamma_1(N))^{\mathrm{new}}$ 上可以同步对角化. 为此需要一些准备工作.
+
+首先, 基于 $A_{N'|N}$ 和 $B_{N'|N}$ 的传递性, 在 $S_k(\Gamma_1(N))^{\mathrm{old}}$ 定义中可以只对形如 $N' = N/p$ 的因子求和, 其中 $p$ 是 $N$ 的素因子; 今后简记
+\begin{gather*}
+	A_{p,N} := A_{N/p \mid N}, \quad B_{p,N} := B_{N/p \mid N}. \\
+	A_{p,N}f(\tau) = f(\tau), \quad B_{p,N}f(\tau) = p^{k/2} f(p\tau).
+\end{gather*}
+
+\begin{lemma}\label{prop:oldform-invariance}
+	设 $p$ 为素数, $p \mid N$, 定义 $A_{p, N}$ 和 $B_{p, N}$ 如上.
+	\begin{enumerate}[(i)]
+		\item 对任意与 $N$ 互素的整数 $d$ 皆有
+		\[ \lrangle{d} A_{p, N} = A_{p, N} \lrangle{d}, \quad \lrangle{d} B_{p, N} = B_{p, N} \lrangle{d}. \]
+		\item 设 $q$ 为素数, $q \neq p$, 则
+		\[ T_q A_{p, N} = A_{p, N} T_q, \quad T_q B_{p, N} = B_{p, N} T_q. \]
+		\item 我们有
+		\begin{equation*}\begin{aligned}
+			T_p A_{p, N} & = \begin{cases}
+				A_{p, N} T_p - p^{\frac{k}{2} - 1} B_{p, N} \lrangle{p}, & p^2 \nmid N \\
+				A_{p, N} T_p, & p^2 \mid N,
+			\end{cases} \\
+			T_p B_{p, N} & = p^{k/2} A_{p, N}.
+		\end{aligned}\end{equation*}
+	\end{enumerate}
+\end{lemma}
+\begin{proof}
+	命 $N' := N/p$, 相应地 $\nu = \nu_{N' \mid N} = \twomatrix{p}{}{}{1}$. 先处理 (i). 取 $\gamma \in \SL(2,\Z)$ 使得 $\gamma \equiv \twomatrix{*}{}{}{d} \pmod{N}$. 如此一来
+	\[ \gamma' := \nu^{-1}\gamma \nu \in \SL(2,\Z), \quad \gamma' \equiv \twobigmatrix{*}{*}{}{d} \pmod{N}. \]
+	无论在 $S_k(\Gamma_1(N))$ 或 $S_k(\Gamma_1(N'))$ 上, 菱形算子 $\lrangle{d}$ 都有 $f \mapsto f \modact{k} \gamma$ 和 $f \mapsto f \modact{k} \gamma'$ 两种实现方式.
+	
+	易见 $\lrangle{d}A_{p,N}$ 和 $A_{p,N} \lrangle{d}$ 都映 $f \in S_k(\Gamma_1(N'))$ 为 $f \modact{k} \gamma$. 另一方面, $B_{p,N} \lrangle{d}$ 映 $f$ 为 $f \modact{k} \gamma\nu = f \modact{k} \nu \gamma'$, 后者等于 $\lrangle{d} B_{p,N} f$. 如是证得 (i).
+	
+	接着令 $q$ 为素数, $N^\circ \in \{N, N'\}$. 回忆到 $q \mid N^\circ$ 时定义 \ref{def:diamond-operator} 将 $\lrangle{q}$ 诠释为 $S_k(\Gamma_1(N^\circ))$ 上的零算子. 命题 \ref{prop:T_p} 对任意 $f \in S_k(\Gamma_1(N^\circ))$ 给出
+	\begin{equation}\label{eqn:oldform-Tq}\begin{aligned}
+		T_q f & = q^{\frac{k}{2} - 1} \displaystyle\sum_b f \modact{k} \twomatrix{1}{b}{}{q} (\tau) + q^{k-1} (\lrangle{q}f)(q\tau), \quad (\tau \in \mathcal{H}) \\
+		& = q^{\frac{k}{2} - 1} \left( \sum_b f \modact{k} \twomatrix{1}{b}{}{q} + (\lrangle{q} f) \modact{k} \twomatrix{q}{}{}{1} \right),
+	\end{aligned}\end{equation}
+	其中 $b$ 遍历 $\F_q$ 在 $\Z$ 中的任一族代表元.
+	\begin{asparaenum}[(a)]
+		\item 设 $q \neq p$, 则 $q \mid N \iff q \mid N'$, 于是 $\lrangle{q}$ 在 $S_k(\Gamma_1(N))$ 和 $S_k(\Gamma_1(N'))$ 上的作用或者都是零, 或者按 (i) 满足 $\lrangle{q} A_{p,N} = A_{p,N} \lrangle{q}$. 因此 \eqref{eqn:oldform-Tq} 对 $N, N'$ 有相同的形式, 立得 $A_{p,N} T_q = T_q A_{p,N}$.
+		
+		类似地, 对于 $B_{p,N}$, 关键在于 $\nu \twomatrix{1}{b}{}{q} \nu^{-1} = \twomatrix{1}{pb}{}{q}$; 当 $b$ 遍历 $\F_q$ 在 $\Z$ 中的一族代表元时, $pb$ 亦然. 此外 (i) 给出 $\lrangle{q} B_{p,N} = B_{p,N} \lrangle{q}$. 代入 \eqref{eqn:oldform-Tq} 立见 $B_{p,N} T_q = T_q B_{p,N}$. 如是证得 (ii).
+
+		\item 现在取 $q = p$ 代入 \eqref{eqn:oldform-Tq}, 并且维持关于 $\lrangle{p}$ 的诠释. 对所有之 $f \in S_k(\Gamma_1(N'))$
+		\begin{align*}
+			A_{p,N} T_p f & = p^{\frac{k}{2} - 1} \left( \sum_b f \modact{k} \twomatrix{1}{b}{}{p} + B_{p,N} \lrangle{p} f \right) \\
+			T_p A_{p,N} f & = p^{\frac{k}{2} - 1} \left( \sum_b f \modact{k} \twomatrix{1}{b}{}{p} + (\lrangle{p} f) \modact{k} \twomatrix{p}{}{}{1} \right) \\
+			& = p^{\frac{k}{2} - 1} \sum_b f \modact{k} \twomatrix{1}{b}{}{p} \qquad (\because \; p \mid N).
+		\end{align*}
+		以上两式相减, 并且按定义 \ref{def:diamond-operator} 诠释 $\lrangle{p}$ 在 $S_k(\Gamma_1(N'))$ 上的作用, 遂给出 (iii) 的第一式. 至于 (iii) 的第二式则靠以下计算
+		\begin{multline*}
+			T_p B_{p,N} f = p^{\frac{k}{2} - 1} \sum_b f \modact{k} \nu \twomatrix{1}{b}{}{p} = p^{\frac{k}{2} - 1} \sum_b f \modact{k} \twomatrix{p}{}{}{p} \twomatrix{1}{b}{}{1} \\
+			= p^{\frac{k}{2} - 1} \sum_b f \modact{k} \twomatrix{1}{b}{}{1} = p^{\frac{k}{2} - 1} \sum_b f = p^{\frac{k}{2}} f = p^{\frac{k}{2}} A_{p,N}f.
+		\end{multline*}
+	\end{asparaenum}
+	明所欲证.
+\end{proof}
+
+为了获得本节的主定理, 我们引入以下算子.
+\begin{definition}\label{def:w_N} \index[sym1]{w_N@$w_N$}
+	命 $\alpha_N := \twobigmatrix{}{-1}{N}{} \in \GL(2,\Q)^+$. 由 $\alpha_N \twomatrix{a}{b}{cN}{d} \alpha_N^{-1} = \twomatrix{d}{-c}{-bN}{a}$ 得知
+	\[ \alpha_N \Gamma_1(N) \alpha_N^{-1} = \Gamma_1(N), \]
+	按引理 \ref{prop:transport-conjugation} 遂可定义算子 $w_N$ 如下
+	\[\begin{tikzcd}[row sep=small]
+		S_k(\Gamma_1(N)) \arrow[r, "w_N"] \arrow[phantom, d, "\subset" description, sloped] & S_k(\Gamma_1(N)) \arrow[phantom, d, "\subset" description, sloped] \\
+		M_k(\Gamma_1(N)) \arrow[r, "w_N"] & M_k(\Gamma_1(N)) \\
+		f \arrow[r, mapsto] \arrow[phantom, u, "\in" description, sloped] & f \modact{k} \alpha_N . \arrow[phantom, u, "\in" description, sloped]
+	\end{tikzcd}\]\
+\end{definition}
+
+由 $\alpha_N \Gamma_1(N) \alpha_N^{-1} = \Gamma_1(N)$ 知 $N^{\frac{k}{2} - 1} w_N$ 等于双陪集算子 $[\Gamma_1(N) \alpha_N \Gamma_1(N)] = [\Gamma_1(N) \alpha_N]$ 的作用 (例 \ref{eg:coset-normalizer}). 我们还会在 \S\ref{sec:L-cusp-form} 碰上算子 $w_N$ 的酉版本 $W_N$.
+
+\begin{lemma}\label{prop:involution-adjoint}
+	设 $T \in \HkT_1(N)$. 相对于 $S_k(\Gamma_1(N))$ 上的 Petersson 内积, $T$ 的伴随等于 $w_N T w_N^{-1}$.
+\end{lemma}
+\begin{proof}
+	考虑算子 $T_p, \lrangle{d} \in \HkT_1(N)$ 即足. 对于 $\lrangle{d}$, 以上对 $\alpha_N$ 共轭的描述直接导致 $w_N \lrangle{d} w_N^{-1} = \lrangle{d^{-1}}$, 正是 $\lrangle{d}$ 的伴随算子. 对于 $T_p$, 命题 \ref{prop:delta-prime} 蕴涵 $T_p$ 的伴随算子由 $\left[ \Gamma_1(N)\twomatrix{p}{}{}{1} \Gamma_1(N)\right]$ 给出. 因为 $\alpha_N \twomatrix{p}{}{}{1} \alpha_N^{-1} = \twomatrix{1}{}{}{p}$, 按照 \S\ref{sec:modular-form-vs-Hecke-algebra} 的语言并应用例 \ref{eg:coset-normalizer}, 可知 $T_p$ 的伴随算子由
+	\[ \left[ \Gamma_1(N) \alpha_N^{-1} \twomatrix{1}{}{}{p} \alpha_N \Gamma_1(N) \right] = \left[\Gamma_1(N)\alpha_N^{-1} \Gamma_1(N)\right] \star \left[ \Gamma_1(N) \twomatrix{1}{}{}{p} \Gamma_1(N) \right] \star \left[ \Gamma_1(N) \alpha_N \Gamma_1(N) \right] \]
+	在 $S_k(\Gamma_1(N))$ 上的右作用给出. 另一方面, 由例 \ref{eg:coset-normalizer} 可导出
+	\[ \left[\Gamma_1(N) \alpha_N^{-1} \Gamma_1(N)\right] \star \left[ \Gamma_1(N) \alpha_N \Gamma_1(N)\right] = 1 = \left[ \Gamma_1(N) \alpha_N \Gamma_1(N)\right] \star \left[\Gamma_1(N) \alpha_N^{-1} \Gamma_1(N)\right], \]
+	明所欲证. 
+\end{proof}
+
+\begin{proposition}\label{prop:newform-invariance}
+	子空间 $S_k(\Gamma_1(N))^{\mathrm{old}}$ 和 $S_k(\Gamma_1(N))^{\mathrm{new}}$ 在 $\HkT_1(N)$ 作用下不变.
+\end{proposition}
+\begin{proof}
+	已知 $\HkT_1(N)$ 由 $T_p$ 和 $\lrangle{d}$ 生成, 其中 $p$ 遍历素数而 $d \in (\Z/N\Z)^\times$, 于是引理 \ref{prop:oldform-invariance} 确保 $S_k(\Gamma_1(N))^\text{old}$ 对 $\HkT_1(N)$ 作用不变. 若能证明 $S_k(\Gamma_1(N))^\text{old}$ 在所有 $\HkT_1(N)$ 元素的伴随算子作用下不变, 则其正交补 $S_k(\Gamma_1(N))^\text{new}$ 对 $\HkT_1(N)$ 作用也不变.
+	
+	基于定理 \ref{prop:Hecke-adjoint-0} 对伴随算子的描述, $S_k(\Gamma_1(N))^\text{old}$ 在 $T_p$ (要求 $p \nmid N$) 和 $\lrangle{d}$ 的伴随算子作用下不变. 仅须再验证当 $p \mid N$ 时它对 $T_p$ 的伴随 $w_N T_p w_N^{-1}$ 仍不变 (引理 \ref{prop:involution-adjoint}). 问题化为证 $w_N$ 保持 $S_k(\Gamma_1(N))^{\text{old}}$, 这点可由简单的矩阵运算料理, 见练习 \ref{exo:wN-old}.
+\end{proof}
+
+\begin{exercise}\label{exo:wN-old}
+	设 $q \mid N$ 为素数. 说明矩阵等式
+	\[ \twobigmatrix{}{-1}{N}{} = \twobigmatrix{}{-1}{N/q}{} \twobigmatrix{q}{}{}{1}, \quad \twobigmatrix{q}{}{}{1} \twobigmatrix{}{-1}{N}{} = \twobigmatrix{}{-1}{N/q}{} \twobigmatrix{q}{}{}{q} \]
+	导致定义 \ref{def:w_N} 的算子 $w_N$ 满足
+	\[ w_N A_{q, N} = B_{q, N} w_{N/q}, \quad w_N B_{q, N} = A_{q, N} w_{N/q}. \]
+	作为推论, $w_N$ 保持 $S_k(\Gamma_1(N))^{\text{old}}$ 不变.
+\end{exercise}
+
+鉴于命题 \ref{prop:newform-invariance}, 自然的问题是研究 $S_k(\Gamma_1(N))^\text{new}$ 在 $\HkT_1(N)$ 作用下的特征向量. 以下概念至关紧要.
+
+\begin{definition}[新形式]\label{def:newform} \index{xinxingshi@新形式 (newform)}
+	落在 $S_k(\Gamma_1(N))^{\mathrm{new}}$ 中的正规化 Hecke 特征形式 (见定义 \ref{def:normalized-eigenform}) 称为 $S_k(\Gamma_1(N))$ 中的\emph{新形式}, 又称本原形式.
+\end{definition}
+
+不妨将新形式视为 $S_k(\Gamma_1(N))^{\mathrm{new}}$ 中的某种``原子''. 关键在于能否用新形式来分解 $S_k(\Gamma_1(N))^{\mathrm{new}}$, 并进一步分解 $S_k(\Gamma_1(N))$? 下节将给出肯定的回答.
+
+\begin{exercise}
+	设 $M \in \Z_{\geq 1}$ 不被素数 $p$ 整除, 而 $f \in S_k(\Gamma_1(M))$ 是正规化 Hecke 特征形式. 取 $N := p^e M$, $e \in \Z_{\geq 1}$, 命
+	\[ f_i(\tau) := f(p^i \tau), \quad i = 0, \ldots, e. \]
+	验证 $f_i \in S_k(\Gamma_1(N))$ 满足于 $i \geq 1 \implies T_p f_i = f_{i-1}$, 并且它们线性无关. 证明 $T_p$ 保持 $\CC f_0 \oplus \CC f_1$, 并且 $T_p$ 限制在此空间上给出的算子其特征多项式为 $X^2 - a_p(f) X + p^{k-1} \chi(p)$. 我们在 \S\ref{sec:Deligne-Shimura} 还会和这个多项式打照面.
+\end{exercise}
+
+\begin{exercise}\label{exo:non-semisimple-Tp}
+	承上题, 取 $e = 3$. 令 $V \subset S_k(\Gamma_1(N))$ 为 $f_0, \ldots, f_3$ 张成的空间, $W \subset V$ 为 $f_0, f_1$ 张成的子空间, $T_p$ 保持两者不变. 证明 $T_p$ 在 $V/W$ 上诱导的变换可以用矩阵 $\twomatrix{}{1}{}{}$ 表达. 这就导致 $T_p|_V$ 无法对角化.
+\end{exercise}
+
+\section{Atkin--Lehner 定理}\label{sec:AT}
+以下论证取自 \cite{Car99} 和 \cite[\S\S 5.6---5.7]{DS05}. 一些有限群表示理论的知识是必要的, 读者可参考任一本相关教材.
+
+取定权 $k \in \Z$ 和 $N \in \Z_{\geq 1}$. 对 $N$ 的任意素因子 $p$, 记
+\begin{gather*}
+	i_p := p^{-k/2} B_{p,N}: M_k(\Gamma_1(N/p)) \to M_k(\Gamma_1(N)), \\
+	(i_p f)(\tau) = f(p\tau), \qquad i_p\left( S_k(\Gamma_1(N/p)) \right) \subset S_k(\Gamma_1(N)).
+\end{gather*}
+它在 Fourier 系数上的作用也是明白的: 对每个 $f \in M_k(\Gamma_1(N))$ 和 $n \in \Z_{\geq 1}$,
+\[ a_n(i_p(f)) = \begin{cases} a_{n/p}(f), & p \mid n, \\ 0, & p \nmid n. \end{cases} \]
+
+\begin{theorem}\label{prop:oldform-decomp}
+	设 $f = \sum_{n \geq 1} a_n(f) q^n \in S_k(\Gamma_1(N))$. 若 $a_n(f)$ 在 $\gcd(n, N) = 1$ 时恒为 $0$, 则存在 $(f_p)_{p \mid N} \in \prod_{p \mid N} S_k(\Gamma_1(N/p))$, 其中 $p$ 遍历 $N$ 的素因子, 使得 $f = \sum_{p \mid N} i_p (f_p)$.
+\end{theorem}
+\begin{proof}
+	考虑同余子群
+	\begin{equation}\label{eqn:oldform-decomp-aux}
+		\Gamma^1(N) := \left\{ \gamma \in \SL(2,\Z) : \gamma \equiv \twobigmatrix{1}{}{*}{1} \pmod{N} \right\}
+		= \twobigmatrix{N}{}{}{1} \Gamma_1(N) \twobigmatrix{N^{-1}}{}{}{1}.
+	\end{equation}
+	引理 \ref{prop:transport-conjugation} 说明 $f \modact{k} \twomatrix{N^{-1}}{}{}{1} \in S_k(\Gamma^1(N))$. 留意到 $\Gamma^1(N) \cap \twomatrix{1}{*}{}{1} = \lrangle{\twomatrix{1}{N}{}{1}}$, 故任何 $\varphi \in M_k(\Gamma^1(N))$ 都有 Fourier 展开
+	\[ \varphi(\tau) = \sum_{n \geq 0} \alpha_n(\varphi) q_N^n, \quad q_N := e^{2\pi i\tau/N}. \]
+	对于特例 $\varphi := f \modact{k} \twomatrix{N^{-1}}{}{}{1}$, 展开具体写作
+	\[ \varphi(\tau) = N^{-k/2} f\left(\frac{\tau}{N} \right) = \sum_{n \geq 1} \alpha_n(\varphi) q_N^n, \quad \alpha_n(\varphi) := N^{-k/2} a_n(f). \]
+
+	原问题化为以下形式: 给定 $\varphi \in S_k(\Gamma^1(N))$, 满足 $\alpha_n(\varphi)$ 在 $\gcd(n, N) = 1$ 时为零, 则有分解
+	\begin{equation}\label{eqn:Atkin-Lehner-aux}
+		\varphi = \sum_{\substack{p: \text{素数} \\ p \mid N}} \varphi_p, \quad \varphi_p \in S_k(\Gamma^1(N/p)).
+	\end{equation}
+	诚然, 取 $\varphi := f \modact{k} \twomatrix{N^{-1}}{}{}{1}$ 如上, 则 \eqref{eqn:Atkin-Lehner-aux} 蕴涵
+	\begin{align*}
+		f & = \varphi \modact{k} \twomatrix{N}{}{}{1} \\
+		& = \sum_{\substack{p: \text{素数} \\ p \mid N}} \varphi_p \modact{k} \twomatrix{N/p}{}{}{1} \modact{k} \twomatrix{p}{}{}{1};
+	\end{align*}
+	施 \eqref{eqn:oldform-decomp-aux} 于 $N/p$, 我们有 $\varphi_p \modact{k} \twomatrix{N/p}{}{}{1} \in S_k(\Gamma_1(N/p))$; 而 $\modact{k} \twomatrix{p}{}{}{1}$ 无非是 $p^{k/2} i_p$, 这确实将问题化为 \eqref{eqn:Atkin-Lehner-aux}.
+	
+	作因数分解 $N = \prod_{i=1}^r p_i^{e_i}$. 有限群 $\SL(2,\Z/N\Z) = \prod_{i=1}^r \SL(2, \Z/p_i^{e_i}\Z)$ 在 $S_k(\Gamma(N))$ 上透过 $\modact{k}$ 右作用, 使 $S_k(\Gamma(N))$ 成为 $\SL(2, \Z/N\Z)$ 的有限维线性复表示. 对任意正因子 $d \mid N$, 考虑 $S_k(\Gamma(N))$ 上的``平均''算子
+	\[ \pi_d: \varphi \mapsto \frac{1}{d} \sum_{b \in \Z/d\Z} \varphi \modact{k} \twobigmatrix{1}{bN/d}{}{1}; \]
+	这里 $\Gamma(N) \lhd \SL(2,\Z)$ 导致 $\varphi \modact{k} \twomatrix{1}{bN/d}{}{1}$ 仍属于 $S_k(\Gamma(N))$. 容易看出
+	\[ \pi_d(\varphi) = \sum_{n \geq 1} \alpha_n(f) q_N^n \left( \frac{1}{d} \sum_{b \in \Z/d\Z} \exp\left( \frac{2\pi ibn}{d} \right) \right) = \sum_{\substack{d \geq 1 \\ d \mid n}} \alpha_n(\varphi) q_N^n. \]
+
+	定义 $S_k(\Gamma(N))$ 的线性自同态
+	\[ \pi(\varphi) = \varphi - \sum_i \pi_{p_i}(\varphi) + \sum_{i < j} \pi_{p_i p_j} (\varphi) - \sum_{i < j < k} \pi_{p_i p_j p_k}(\varphi) + \cdots ;\]
+	基于前述观察, \eqref{eqn:Atkin-Lehner-aux} 中关于 $\alpha_n(\varphi)$ 的条件可按容斥原理重述为
+	\[ \varphi \in S_k(\Gamma^1(N)) \subset S_k(\Gamma(N)), \quad \pi(\varphi) = 0. \]
+	观察到 $\pi$ 和 $\pi_d$ 的定义完全由 $\SL(\Z/N\Z)$ 在 $S_k(\Gamma(N))$ 上的线性作用描述. 现在将表示 $S_k(\Gamma(N))$ 分解为不可约子表示的直和 $\bigoplus_{j=1}^s S^{(j)}$. 对每个 $1 \leq j \leq s$, 可进一步分解
+	\[ S^{(j)} = \bigotimes_{i=1}^r V^{(j)}_i, \quad V^{(j)}_i: \SL(\Z/p_i^{e_i}\Z) \;\text{的不可约表示}. \]	
+	那么 $\pi|S^{(j)} = \bigotimes_{i=1}^r \left(1 - \pi_{p_i} \middle| V^{(j)}_i \right)$, 而线性代数中关于张量积的基本操作给出
+	\begin{equation*}\begin{gathered}
+		\Ker\left( \pi \right) = \bigoplus_{j=1}^s \Ker\left( \pi|S^{(j)} \right), \\
+		\Ker\left( \pi \middle| S^{(j)} \right) = \sum_{i=1}^r V^{(j)}_1 \otimes \cdots \otimes \Ker\left(1 - \pi_{p_i} \middle| V^{(j)}_i \right) \otimes \cdots V^{(j)}_r.
+	\end{gathered}\end{equation*}
+
+	我们欲将此分解限制到 $S_k(\Gamma(N))$ 的子空间 $S_k(\Gamma^1(N))$ 上. 这个子空间也能以表示论诠释, 即子群 $\twomatrix{1}{}{*}{1} \subset \SL(2, \Z/N\Z)$ 的不动子空间, 而该子群又分解为各个 $\twomatrix{1}{}{*}{1} \subset \SL(2, \Z/p_i^{e_i}\Z)$ 之直积; 相应地对每个 $V^{(j)}_i$ 得到不动子空间, 记为 $W^{(j)}_i$. 于是 $S^{(j)} \cap S_k(\Gamma^1(N)) = \bigotimes_{i=1}^r W^{(j)}_i$.
+	
+	同样运用线性代数的基本操作可知 \eqref{eqn:Atkin-Lehner-aux} 左式的 $\varphi$ 落在
+	\begin{multline*}
+		\Ker(\pi) \cap S_k(\Gamma^1(N)) = \bigoplus_{j = 1}^s \left( \Ker\left( \pi \middle| S^{(j)} \right) \cap \bigotimes_{i=1}^r W^{(j)}_i \right) \\
+		= \bigoplus_{j = 1}^s \sum_{i = 1}^r W^{(j)}_1 \otimes \cdots \otimes \Ker\left(1 - \pi_{p_i} \middle| W^{(j)}_i \right) \otimes \cdots \otimes W^{(j)}_r.
+	\end{multline*}
+	对所有 $1 \leq i \leq r$, 令
+	\[ H_i := \twobigmatrix{1}{p_i^{e_i - 1} + p_i^{e_i}\Z}{}{1} \in \SL(2, \Z/p_i^{e_i}\Z) \quad \text{生成的循环子群}. \]
+
+	固定 $(i, j)$. 根据 $\pi_{p_i}$ 的定义, 自同态 $\pi_{p_i}|V^{(j)}_i$ 无非是向 $V^{(j)}_i$ 的 $H_i$-不动子空间作标准投影 (即平均). 所以 $\Ker\left(1 - \pi_{p_i} \middle| W^{(j)}_i \right)$ 的元素对于 $H_i$ 连同 $\twomatrix{1}{}{*}{1}$ 生成的子群, 即 (见以下的引理 \ref{prop:Atkin-Lehner-aux})
+	\[ \left\{ \gamma \in \SL(2, \Z/p_i^{e_i}\Z) : \gamma \equiv \twobigmatrix{1}{}{*}{1} \pmod{p_i^{e_i - 1}} \right\} \]
+	之作用不变. 另一方面, 当 $h \neq i$, 来自 $W^{(j)}_h$ 的分量则对所有 $\twomatrix{1}{}{*}{1} \in \SL(2, \Z/p_h^{e_h}\Z)$ 不变. 合而观之, 可见子空间
+	\[ W^{(j)}_1 \otimes \cdots \otimes \Ker\left(1 - \pi_{p_i} \middle| W^{(j)}_i \right) \otimes \cdots \otimes W^{(j)}_r \]
+	包含于上述子群的直积作用下的不动子空间, 即 $S_k(\Gamma^1(N/p_i))$. 施此于 $\varphi \in \Ker(\pi) \cap S_k(\Gamma^1(N))$, 便给出对应于 \eqref{eqn:Atkin-Lehner-aux} 的分解 $\varphi = \sum_{i=1}^r \varphi_i$, 其中 $\varphi_i \in S_k(\Gamma^1(N/p_i))$.
+\end{proof}
+
+论证中用到一则群论性质, 补述如下.
+\begin{lemma}\label{prop:Atkin-Lehner-aux}
+	设 $p$ 为素数, $e \in \Z_{\geq 1}$, 考虑 $\SL(2, \Z/p^e \Z)$ 的子群 $\twomatrix{1}{}{*}{1}$ 和 $H := \lrangle{\twomatrix{1}{p^{e-1}}{}{1}}$, 那么
+	\[ \lrangle{ \; \twobigmatrix{1}{}{*}{1}, H } = \left\{ \gamma \in \SL(2, \Z/p^e\Z) : \gamma \equiv \twobigmatrix{1}{}{*}{1} \pmod{p^{e-1}} \right\}. \]
+\end{lemma}
+\begin{proof}
+	左式的子群记为 $K$. 包含关系 $\subset$ 属显然. 以下证 $\supset$. 考虑右式的任意元素 $\gamma = \twomatrix{a}{b}{c}{d}$. 以下将逐步说明双陪集 $K\gamma K$ 交 $K$, 从而导出 $\gamma \in K$.
+
+	第一步: 证明存在 $\gamma' = \twomatrix{a'}{b'}{c'}{d'} \in K\gamma K$ 使得 $d'$ 可逆. 设若 $p \mid d$, 那么 $ad-bc=1$ 确保 $p \nmid b$, 此时 $\gamma' := \twomatrix{1}{}{1}{1} \gamma$ 满足 $d' = b + d$ 可逆, 是为所求.
+
+	第二步: 在 $K\gamma K$ 中找出满足 $b'=c'=0$ 的项. 基于第一步可设 $d$ 可逆, 于是 $u := -b/d \in p^{e-1} \Z / p^e \Z$. 对 $\gamma$ 左乘 $\twomatrix{1}{u}{}{1} \in K$ 以消去 $b$, 保持 $c, d$ 不变. 同理, $v := -c/d$ 良定, 则右乘以 $\twomatrix{1}{}{v}{1} \in K$ 可消去 $c$, 保持 $b, d$ 不变.
+	
+	第三步: 现在知道 $K\gamma K$ 含有形如 $\twomatrix{a}{}{}{a^{-1}}$ 之元素, 其中 $a \in (\Z/p^e \Z)^\times$ 必然满足 $a \equiv 1 \pmod{p^{e-1}}$. 标准的矩阵等式
+	\[ \twobigmatrix{a}{}{}{a^{-1}} = \twobigmatrix{1}{a-1}{}{1} \twobigmatrix{1}{}{1}{1} \twobigmatrix{1}{a^{-1}-1}{}{1} \twobigmatrix{1}{}{-a}{1}, \]
+	说明左项属于 $K$, 明所欲证.
+\end{proof}
+
+以下开始涉及定义 \ref{def:newform} 的新形式.
+
+\begin{lemma}\label{prop:newform-nonzero-a1}
+	设 $f \in S_k(\Gamma_1(N))^{\mathrm{new}} \smallsetminus \{0\}$. 假设 $f$ 是所有 $T_n$ 共同的特征向量 (要求 $\gcd(n, N) = 1$), 则 $a_1(f) \neq 0$.
+\end{lemma}
+\begin{proof}
+	设 $\gcd(n, N) = 1$, 而 $T_n f = \lambda_n f$. 定理 \ref{prop:Hecke-Fourier} 给出 $a_n(f) = a_1(T_n f) = \lambda_n a_1(f)$. 假若 $a_1(f) = 0$, 则 $\gcd(n, N) = 1 \implies a_n(f) = 0$, 从而定理 \ref{prop:oldform-decomp} 蕴涵 $f \in S_k(\Gamma_1(N))^{\mathrm{old}}$, 这与 $S_k(\Gamma_1(N))^{\mathrm{new}} \cap  S_k(\Gamma_1(N))^{\mathrm{old}} = \{0\}$ 矛盾.
+\end{proof}
+
+\begin{proposition}[弱重数一性质]\label{prop:weak-mult1}
+	\index{chongshuyi@重数一 (multiplicity one)}
+	设 $f \in S_k(\Gamma_1(N))^{\mathrm{new}} \smallsetminus \{0\}$. 如果对所有 $d \in (\Z/N\Z)^\times$ 和所有正整数 $n$ 满足 $\gcd(n,N) = 1$ 者, $f$ 是 $\lrangle{d}$ 和 $T_n$ 作用下共同的特征向量, 那么 $f$ 和一个新形式成比例. 任何新形式完全由它对所有算子 $T_n$ (要求 $\gcd(n, N) = 1$) 的特征值确定.
+\end{proposition}
+\begin{proof}
+	鉴于引理 \ref{prop:newform-nonzero-a1}, 可以适当伸缩 $f$ 以假设 $a_1(f) = 1$. 我们断言对一切 $n \in \Z_{\geq 1}$ 皆有 $T_n f = a_n(f) f$; 由此立见 $f$ 是新形式. 定义 $g_n := T_n f - a_n(f) f \in S_k(\Gamma_1(N))^{\mathrm{new}}$; 此处用到命题 \ref{prop:newform-invariance}. 由于 $\HkT_1(N)$ 交换, 若 $g_n \neq 0$ 则 $g_n$ 仍是所有算子 $T_m$ (要求 $\gcd(m,N) = 1$) 共同的特征向量. 然而定理 \ref{prop:Hecke-Fourier} 蕴涵
+	\[ a_1(g_n) = a_1(T_n f) - a_n(f) a_1(f) = a_n(f) - a_n(f) = 0. \]
+	于是引理 \ref{prop:newform-nonzero-a1} 蕴涵 $g_n = 0$. 断言得证.
+	
+	最后, 设新形式 $f_1, f_2$ 对所有 $T_n$ 都有相同特征值 (要求 $\gcd(n, N) = 1$), 令 $h := f_1 - f_2 \in S_k(\Gamma_1(N))^{\mathrm{new}}$, 则 $a_1(h) = 0$; 根据引理 \ref{prop:newform-nonzero-a1} 必有 $h = 0$.
+\end{proof}
+
+\begin{theorem}[A.\ O.\ L.\ Atkin, J.\ Lehner (1970); 李文卿 (1975)]\label{prop:Atkin-Lehner} \index{Atkin--Lehner 定理}
+	取定 $N$, $k$ 如上, 则 $S_k(\Gamma_1(N))$ 中的新形式构成 $S_k(\Gamma_1(N))^{\mathrm{new}}$ 的一组基.
+\end{theorem}
+\begin{proof}
+	首先说明新形式在 $S_k(\Gamma_1(N))$ 中线性无关. 设若不然, 取尽可能小的正整数 $r$ 使得存在服从于以下线性关系的相异新形式 $f_1, \ldots, f_r \in S_k(\Gamma_1(N))^{\mathrm{new}}$:
+	\[ \sum_{i=1}^r c_i f_i = 0, \quad c_i \in \CC, c_i \neq 0. \]
+	
+	观察到 $r \geq 2$. 对任何 $n \in \Z_{\geq 1}$, 推论 \ref{prop:Hecke-Fourier-eigenvalue} 给出
+	\[ 0 = T_n\left( \sum_{i=1}^r c_i f_i \right) - a_n(f_1) \sum_{i=1}^r c_i f_i = \sum_{i=2}^r c_i \left( a_n(f_i) - a_n(f_1) \right) f_i. \]
+	这将导致 $a_n(f_i) = a_n(f_1)$ 对所有 $2 \leq i \leq r$ 成立, 否则 $f_1, \ldots, f_r$ 间将有非零项更少的非平凡线性关系. 因为 $n \geq 1$ 是任意的, 故 $f_1 = \cdots = f_r$, 矛盾.
+
+	其次说明新形式张成 $S_k(\Gamma_1(N))^{\mathrm{new}}$. 命题 \ref{prop:newform-invariance} 业已说明空间 $S_k(\Gamma_1(N))^{\mathrm{new}}$ 对 $\HkT_1(N)$ 的作用不变. 考虑相互交换的算子 $T_n$ (要求 $\gcd(n,N)=1$) 和 $\lrangle{d}$ (要求 $d \in (\Z/N\Z)^\times$); 线性代数中的谱定理和命题 \ref{prop:Hecke-adjoint} 确保它们在 $S_k(\Gamma_1(N))^{\mathrm{new}}$ 上的作用可以同步对角化. 若 $f \in S_k(\Gamma_1(N))^{\mathrm{new}} \smallsetminus \{0\}$ 是它们的任一个共同特征向量, 则命题 \ref{prop:weak-mult1} 表明 $f$ 和某个新形式成比例, 明所欲证.
+\end{proof}
+
+\begin{corollary}\label{prop:newform-basis}
+	复向量空间 $S_k(\Gamma_1(N))$ 由以下子集生成
+	\[ \mathcal{B}_k(N) := \bigcup_{N' \mid N} \bigcup_{d \mid \frac{N}{N'}} \left\{ f(d\tau): \; f \in S_k(\Gamma_1(N'))\; \text{是新形式} \right\}. \]
+\end{corollary}
+\begin{proof}
+	回忆分解 $S_k(\Gamma_1(N)) = S_k(\Gamma_1(N))^{\mathrm{new}} \oplus S_k(\Gamma_1(N))^{\mathrm{old}}$. 根据定理 \ref{prop:Atkin-Lehner}, $S_k(\Gamma_1(N))^{\mathrm{new}}$ 以 $\mathcal{B}_k(N)$ 中对应于 $N' = N$ 的新形式为基.
+	
+	对 $N$ 行递归可知当 $M \mid N$ 而 $M \neq N$ 时,
+	\begin{align*}
+		A_{M \mid N} \left( S_k(\Gamma_1(M)) \right) & = \sum_{N' \mid M} \sum_{d \mid \frac{M}{N'}} \left\{ f(d\tau) : f \in S_k(\Gamma_1(N')): \text{新形式}  \right\}, \\
+		B_{M \mid N} \left( S_k(\Gamma_1(M)) \right) & = \sum_{N' \mid M} \sum_{d \mid \frac{M}{N'}} \left\{ f\left( \frac{N}{M} \cdot d\tau \right) : f \in S_k(\Gamma_1(N')): \text{新形式}  \right\}.
+	\end{align*}
+	当 $M$ 变动, 上述空间之和无非是 $S_k(\Gamma_1(N))^{\mathrm{old}}$, 但它同时也是 $\mathcal{B}_k(N)$ 中 $N' \neq N$ 部分张成的子空间.
+\end{proof}
+
+\begin{remark}[强重数一性质]\label{rem:newform-mult1} \index{chongshuyi}
+	可以进一步证明 $\mathcal{B}_k(N)$ 给出 $S_k(\Gamma_1(N))$ 的一组基. 说明这点需要所谓``强重数一''性质: 粗略地说, 任选一个由素数构成的有限集 $S$, 可任意大, 那么一个新形式由它的所有 $T_p$-特征值刻画, 其中 $p$ 遍历不属于 $S$ 的素数; 见 \cite[Theorem 4.6.19]{Mi89}. 自守表示的进路或许更适于处理强重数一性质, 见 \cite{Del73, JS81-1}.
+\end{remark}
+
+\begin{exercise}
+	设 $g \in S_k(\Gamma_1(N))^{\mathrm{new}}$ 是 Hecke 特征形式, 而 $d \in \Z_{>1}$. 证明当 $\gcd(m, dN) = 1$ 时, $g(\tau)$ 和 $g(d\tau)$ 作为 $S_k(\Gamma_1(dN))^{\mathrm{old}}$ 的元素不成比例, 但是对 $T_m$ 有相同的特征值. 这说明弱重数一性质必须要求 $f \in S_k(\Gamma_1(N))^{\mathrm{new}}$.
+\end{exercise}

@@ -1,0 +1,128 @@
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+% 《模形式初步》自订封面页, 由主档引入.
+
+\setCJKfamilyfont{coverfont}{Noto Sans CJK SC Black}	% 设置书名字体
+\setCJKfamilyfont{cover-author-font}{Noto Sans CJK SC Medium}	% 设置作者字体
+
+\colorlet{geod}{cyan!50!gray}
+\colorlet{leftblock}{red!25!green!50!blue}
+\colorlet{rightblock}{-red!75}
+\colorlet{domain}{teal!80}
+
+\begin{titlepage}\begin{tikzpicture}[remember picture, overlay,
+	geod/.style={
+		color=geod, ultra thick
+	},
+	fdomain/.style={
+		color=domain,
+		line width=1.7pt,
+	}
+]
+
+	\coordinate (CIRCLE) at ([xshift=-1em, yshift=-14em] current page.north east);	% 圆心
+
+	\coordinate (TITLE-NE) at ([xshift=40em, yshift=35em] current page.south west);	% 书名区块, 东北角
+	\coordinate (TITLE-SE) at ([xshift=40em, yshift=15em] current page.south west);	% 书名区块, 东南角
+	\coordinate (TITLE-SE-W) at ([xshift=30em, yshift=15em] current page.south west);	% 书名区块, 东南角向西平移
+	\coordinate (TITLE-NE-W) at ([xshift=30em, yshift=35em] current page.south west);	% 书名区块, 东北角向西平移
+	\coordinate (TITLE-SW) at ([yshift=15em] current page.south west);	% 书名区块, 西南角
+	
+
+	\begin{scope}[shift=(CIRCLE)]
+		\def\x{10}
+		\def\a{180}
+		\tkzDefPoint(0,0){O}
+		\tkzDefPoint(-0.6*\x,0){L}
+		\tkzDefPoint(-0.7*\x,0){M}
+		\tkzDefPoint(-0.8*\x,0){N}
+		\tkzDefPoint(-\x,0){A}
+		
+		
+		\tkzFillCircle[color=geod!5](L,A)	% Bigger tangent circle
+		\tkzFillCircle[color=geod!10](M,A)	% Tangent circle
+		\tkzFillCircle[color=geod!20](N,A)	% % Smaller tangent circle
+		
+		\tkzDrawCircle[geod](O,A)
+		\tkzClipCircle(O,A)
+		
+		\tkzDefPoint(\a:\x){p1}
+		\tkzDefPoint(\a+30:\x){p2}
+		\tkzDefPoint(\a+75:\x){p4}
+		
+		\tkzDefPoint(\a+45:\x){q1}
+		\tkzDefPoint(\a+90:\x){q2}
+		\tkzDefPoint(\a+120:\x){q3}
+		
+		\tkzDefPoint(\a+300:\x){r5}
+
+	
+		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=p1 and p2](O,A)
+		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=p1 and p4](O,A)
+		\tkzDrawCircle[geod, opacity=0.3, orthogonal through=q1 and p1](O,A)
+		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=q1 and q2](O,A)
+		\tkzDrawCircle[geod, opacity=0.2, orthogonal through=q1 and q3](O,A)
+		\tkzDrawCircle[geod, opacity=0.2, orthogonal through=q2 and q3](O,A)
+		\tkzDrawCircle[geod, opacity=0.3, orthogonal through=p1 and r5](O,A)
+	\end{scope}
+	
+	\begin{scope}[shift=(CIRCLE)]
+		\path (-10cm, 0) arc[start angle=180, end angle=225, radius=10cm] node[sloped, midway, below, color=geod] {\small\sffamily \today};
+	\end{scope}
+
+	\fill[color=leftblock] (TITLE-NE) rectangle (TITLE-SW);
+	
+	\fill[color=rightblock] (TITLE-NE) rectangle (TITLE-SE-W);
+	\begin{scope}[shift=(TITLE-SW)]
+		\node[color=white, anchor=south west] at (1.8, 3.5) {\fontsize{45}{45}\CJKfamily{coverfont}模形式初步};
+		\node[color=white, anchor=south west] at (2, 1.5) {\fontsize{22}{22}\CJKfamily{cover-author-font}李文威 \quad 著};
+	\end{scope}
+
+	\begin{scope}
+		\coordinate (ORIG) at ([xshift=1em] TITLE-SE-W);	% 左半圆圆心
+		\coordinate (ORIG-N) at ([xshift=1em] TITLE-NE-W);	% 左半圆圆心对应的天花板.
+		
+		\clip (TITLE-SE-W) rectangle (TITLE-NE);	% 切除不用部分
+		\fill[pattern=north west lines, pattern color=domain] ([xshift=2.5em] ORIG) -- ([xshift=2.5em] ORIG-N) -- (TITLE-NE-W) -- (TITLE-SE-W) --cycle;	% 基本区域
+		\draw[fdomain, fill=rightblock] (ORIG) circle[radius=5em];	% 左半圆
+		\draw[fdomain] ([xshift=5em] ORIG) circle[radius=5em];	% 中半圆
+		\draw[fdomain] ([xshift=10em] ORIG) circle[radius=5em];	% 右半圆
+		\draw[fdomain] ([xshift=-5em] ORIG) circle[radius=5em];	% 最左半圆
+		\draw[fdomain] ([xshift=2.5em] ORIG) -- ([xshift=2.5em] ORIG-N);	% 竖线
+		\filldraw[fill=red, draw=domain] ([xshift=2.5em, yshift=4.33em] ORIG) circle[radius=4pt];	% 顶点填满
+		\node[color=domain!80!black] at ([yshift=6.5em, xshift=5.5em] ORIG) {$\rho := \frac{1 + \sqrt{-3}}{2}$};	% 顶点数学公式
+	\end{scope}
+\end{tikzpicture}
+
+\clearpage	% 进入内页
+\begin{center}
+	\Large{\sffamily\bfseries\thmheiti 网络版} \\ \vspace{2em}
+	\Large{\sffamily\bfseries\thmheiti 编译日期: \today} \\ \vspace{1em}
+%	版面: B5 (176×250mm) \\ \vspace{1em}
+	本书已由科学出版社出版 \\
+	(2020 年 6 月第 1 版) \\
+	\texttt{ISBN: 978-7-03-064531-9}
+\end{center}
+\vfill
+
+
+\begin{flushleft} \small
+	李文威 \\
+	个人主页: \href{https://www.wwli.asia}{www.wwli.asia} \\
+	(含勘误表等信息)
+\end{flushleft}
+\vspace{1.5em}
+\begin{tabular*}{\textwidth}{ccc}
+	\includegraphics{ccby.png}
+	& \begin{minipage}[b]{0.6\textwidth}
+		\small\sffamily
+		本作品采用知识共享 署名 4.0 国际 许可协议进行许可. 访问 \url{http://creativecommons.org/licenses/by/4.0/} 查看该许可协议.
+	\end{minipage}
+\end{tabular*}
+
+\cleardoublepage
+\end{titlepage}
