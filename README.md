@@ -16,7 +16,7 @@ We only need the standard packages and fonts, such as
 
 The author apologizes for these strange configurations of fonts. One may also try to modify these settings in the file font-setup-open.tex.
 
-Please make sure that all the relevant packages/programs are installed. For reference, the author made the compilation using Arch-based Linux distributions with TeX Live 2019; the packages **biber** and **texlive-science** are required.
+Please make sure that all the relevant packages/programs are installed. For reference, the author made the compilation using Arch-based Linux distributions with TeX Live 2020; the packages **biber** and **texlive-science** are required.
 
 ## Clone the files
 As a preparation for the compilation process, we will clone the files into `~/Modulform` in our home directory. In command line, type
@@ -29,7 +29,7 @@ All the source files are encoded in UTF-8, the de facto standard for storing mul
 
 ## Compile the TeX source
 
-Move to the directory
+Make sure that the necessary pacakges and fonts are installed and move to the directory we just cloned
 ```
 cd ~/Modulform
 ```
