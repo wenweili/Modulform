@@ -53,7 +53,17 @@ make clean
 The book is written in the **AJbook** class (AJbook.cls). The document class is originally designed for the book [Methods of Algebra, Volume 1](https://github.com/wenweili/AlJabr-1). Please refer to that page for further illustrations. 
 
 # The errata
-Not yet available.
+The errata is produced from **Errata-Modulform.tex**, which is based on the really simple document class file **AJerrata.cls** bundled with the **AJbook** class. Apart from the standard fonts bundled with TeX, it also depends on **Noto Serif CJK SC** and **Noto Sans CJK SC**; you can install them from [Noto CJK fonts](https://github.com/googlei18n/noto-cjk).
+
+To compile the errata, type
+```
+xelatex Errata-Modulform
+```
+or
+```
+make errata
+```
+in the same directory.
 
 # Feedback
 In case of problems of compilation, please kindly report to the author. Make sure that all the system requirements above are met, and provide detailed error messages. Other suggestions are also welcome.

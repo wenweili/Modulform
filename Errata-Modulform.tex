@@ -1,0 +1,88 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8
+
+% LaTeX source for the errata of the book ``模形式初步'' in Chinese
+% Copyright 2020  李文威 (Wen-Wei Li).
+% Permission is granted to copy, distribute and/or modify this
+% document under the terms of the Creative Commons
+% Attribution 4.0 International (CC BY 4.0)
+% http://creativecommons.org/licenses/by/4.0/
+
+% 《模形式初步》勘误表 / 李文威
+% 使用自定义的文档类 AJerrata.cls. 自动载入 xeCJK.
+
+\documentclass{AJerrata}
+
+\usepackage{unicode-math}
+
+\usepackage[unicode, colorlinks, psdextra, bookmarksnumbered,
+	pdfpagelabels=true,
+	pdfauthor={李文威 (Wen-Wei Li)},
+	pdftitle={模形式初步勘误},
+	pdfkeywords={}
+]{hyperref}
+
+\setmainfont[
+	BoldFont={texgyretermes-bold.otf},
+	ItalicFont={texgyretermes-italic.otf},
+	BoldItalicFont={texgyretermes-bolditalic.otf},
+	PunctuationSpace=2
+]{texgyretermes-regular.otf}
+
+\setsansfont[
+	BoldFont=FiraSans-Bold.otf,
+	ItalicFont=FiraSans-Italic.otf
+]{FiraSans-Regular.otf}
+
+\setCJKmainfont[
+	BoldFont=Noto Serif CJK SC Bold
+]{Noto Serif CJK SC}
+
+\setCJKsansfont[
+	BoldFont=Noto Sans CJK SC Bold
+]{Noto Sans CJK SC}
+
+\setCJKfamilyfont{emfont}[
+	BoldFont=FandolHei-Regular.otf
+]{FandolHei-Regular.otf}	% 强调用的字体
+
+\renewcommand{\em}{\bfseries\CJKfamily{emfont}} % 强调
+
+\setmathfont[
+	Extension = .otf,
+	math-style= TeX,
+]{texgyretermes-math}
+
+\usepackage{mathrsfs}
+\usepackage{stmaryrd} \SetSymbolFont{stmry}{bold}{U}{stmry}{m}{n}	% 避免警告 (stmryd 不含粗体故)
+% \usepackage{array}
+% \usepackage{tikz-cd}  % 使用 TikZ 绘图
+\usetikzlibrary{positioning, patterns, calc, matrix, shapes.arrows, shapes.symbols}
+
+\usepackage{myarrows}				% 使用自定义的可伸缩箭头
+\usepackage{mycommand}				% 引入自定义的惯用的命令
+
+\title{\bfseries 《模形式初步》勘误表}
+\author{李文威}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	以下页码和标号等信息参照科学出版社 2020 年 6 月出版之《模形式初步》, ISBN: 978-7-03-064531-9, 和网络版可能有异. 部分错误未见于网络版.
+	
+	\begin{Errata}
+		\item[(1.5.3)]
+		\Orig 在 $\Gamma$ 作用下不变
+		\Corr 在 $\gamma$ 作用下不变
+		\Thx{感谢冯煜阳指正}
+		
+		\item[(2.5.4) 上两行]
+		\Orig $J(-x, \tau) = J(x, \tau)$
+		\Corr $J(-x, \tau) = -J(x, \tau)$
+		\Thx{感谢冯煜阳指正}
+		
+		\item[定义 10.7.2 之下两行]
+		\Orig 同源等价
+		\Corr 同源等价类.
+	\end{Errata}
+\end{document}

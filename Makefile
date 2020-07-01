@@ -1,4 +1,5 @@
 MAINFILE=Modulform
+ERRATA=Errata-Modulform
 LATEXMK=latexmk
 
 default:
@@ -8,8 +9,11 @@ default:
 nosync:
 	# Generating $(MAINFILE).pdf
 	$(LATEXMK) -pdf -pdflatex="xelatex -shell-escape -interaction=nonstopmode %O %S" $(MAINFILE)
-	
-	
+
+errata:
+	# Generating $(ERRATA).pdf
+	$(LATEXMK) -pdf -pdflatex="xelatex -shell-escape -interaction=nonstopmode %O %S" $(ERRATA)
+
 clean:
 	# Cleaning...
 	@rm -f *.aux *.log *.idx *.ind *.thm *.toc *.blg *.bbl *.bcf *.out
