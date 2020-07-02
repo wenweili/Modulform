@@ -19,7 +19,7 @@ The author apologizes for these strange configurations of fonts. One may also tr
 Please make sure that all the relevant packages/programs are installed. For reference, the author made the compilation using Arch-based Linux distributions with TeX Live 2020; the packages **biber** and **texlive-science** are required.
 
 ## Clone the files
-As a preparation for the compilation process, we will clone the files into `~/Modulform` in our home directory. In command line, type
+Assume that [git](https://git-scm.com/) has been installed on your computer. As a preparation for the compilation process, we will clone the files into `~/Modulform` in our home directory. In command line, type
 ```
 cd ~
 git clone https://github.com/wenweili/Modulform
