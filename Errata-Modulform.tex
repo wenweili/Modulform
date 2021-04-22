@@ -62,6 +62,8 @@
 \usepackage{myarrows}				% 使用自定义的可伸缩箭头
 \usepackage{mycommand}				% 引入自定义的惯用的命令
 
+\newcommand{\bomega}{\symbf{\omega}}	% Boldface omega, for sheaves of differentials
+
 \title{\bfseries 《模形式初步》勘误表}
 \author{李文威}
 \date{\today}
@@ -145,13 +147,15 @@
 		\Corr 基于和引理 6.1.4 相同的论证, 说明 $\Gamma_1(N) \gamma\alpha\gamma^{-1} \Gamma_1(N) = \Gamma_1(N)\alpha\Gamma_1(N)$ 即可. 易见 $\gamma\alpha\gamma^{-1}$ 既属于 $\Delta_1(N)$, 又属于 $\alpha$ 的 $\Gamma_0(N)$-双陪集, 而命题 6.3.2 说明 \linebreak $\Gamma_1(N) \backslash \Delta_1(N) / \Gamma_1(N) \to \Gamma_0(N) \backslash \Delta_0(N) / \Gamma_0(N)$ 是双射, 于是 $\gamma\alpha\gamma^{-1}$ 和 $\alpha$ 确实属于相同的 $\Gamma_1(N)$-双陪集.
 		\Thx{感谢李时璋指正}
 		
-		\item[定义 9.1.6 条列第一项]
-		\Orig $\cdots := \mathbb{C} (\dd z \cdot \alpha^{-1}) |_{U \smallsetminus \{t\}},$
-		\Corr $\cdots := \mathcal{O}_U (\dd z \cdot \alpha^{-1}) |_{U \smallsetminus \{t\}}$, 截面的限制映射按自明方式定义;
-		
+		\item[定义 9.1.6 条列]
+		将条列的两项修正为:
+		\begin{itemize}
+			\item $\Gamma(V, \bomega_\Gamma) := \mathcal{O}_V (\dd z \cdot \alpha^{-1}) |_{V \smallsetminus \{t\}}$, 其中 $V := \pi(U)$, 截面的限制映射按自明方式定义;
+			\item $1 \mapsto \dd z \cdot \alpha^{-1}$ 给出平凡化 $\mathcal{O}_V \rightiso \bomega_\Gamma |_V$.
+		\end{itemize}
 		
 		\item[引理 9.2.1]
-		在引理陈述的最后, 亦即公式 (9.2.3) 之后补充一句 ``对 $\symbf{\omega}^{\otimes (-1)}$ 的群作用是按 (9.1.4) 定义的.''
+		在引理陈述的最后, 亦即公式 (9.2.3) 之后补充一句 ``对 $\bomega^{\otimes (-1)}$ 的群作用是按 (9.1.4) 定义的.''
 		\Thx{感谢李时璋指正}
 		
 		\item[(10.1.1)] 将图表中的
