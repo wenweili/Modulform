@@ -171,7 +171,7 @@
 		
 		\path (-0.5, 1.5) edge[-triangle 90, bend left] (1.3, 1.5);
 	\end{tikzpicture}\end{center}
-	如此这就描述了 $\mathcal{H}$ 中所有的测地线.
+	如此就描述了 $\mathcal{H}$ 中所有的测地线.
 \end{proof}
 注意到所有和虚数轴平行的测地线都趋近 $\infty$ 点. 两点的测地距离有明晰的公式如下.
 
@@ -870,7 +870,7 @@ Killing--Hopf 定理断言任何常曲率 $-1$ 的连通完备二维 Riemann 流
 \[ \alpha^*\left( f \dd\tau^{\otimes k/2} \right) = (f \circ \alpha) (\dd \alpha\tau)^{\otimes k/2} = (f \modact{k} \alpha) (\dd\tau)^{\otimes k/2}. \]
 这也连带解释了 $f \modact{k} \alpha$ 中因子 $(\det\alpha)^{k/2}$ 的角色. 作为推论,
 \begin{gather}\label{eqn:even-weight-equivalence}
-	\left[ \forall \gamma \in \Gamma, \; f\modact{k}\gamma = f \right] \iff \left[ \forall \gamma \in \Gamma, \; f \dd\tau^{\otimes k/2} \; \text{在}\; \Gamma\;\text{作用下不变}. \right]
+	\left[ \forall \gamma \in \Gamma, \; f\modact{k}\gamma = f \right] \iff \left[ \forall \gamma \in \Gamma, \; f \dd\tau^{\otimes k/2} \; \text{在}\; \gamma\;\text{作用下不变}. \right]
 \end{gather}
 
 当 $k$ 为偶数时, 关系 \eqref{eqn:even-weight-equivalence} 归结了定义 \ref{def:modular-form} 之 (i); 如果要以微分形式的语言料理 (ii), 并将整套定义用 $\Gamma \backslash \mathcal{H}$ 的几何来改写, 则须添入 $\Gamma$ 的尖点, 考虑紧化 $\Gamma \backslash \mathcal{H} \hookrightarrow \Gamma \backslash (\mathcal{H} \sqcup \Q^*)$ 并赋予两者合适的 Riemann 曲面结构. 这是 \S\ref{sec:dimension-formula-even} 的任务. 在此之前, 我们打算先在第二章考察模形式的若干实例.
@@ -973,7 +973,7 @@ Killing--Hopf 定理断言任何常曲率 $-1$ 的连通完备二维 Riemann 流
 	我们规定:
 	\begin{compactitem}
 		\item $D(x_0)$ 的\emph{边}为形如 $\delta D(x_0) \cap D(x_0)$ 而长度非零的测地线段 (容许无穷长), 其中 $\delta \in \overline{\Gamma} \smallsetminus \{1\}$;
-		\item 设 $\xi \in D(x_0)$, 若存在相异元 $\delta, \delta' \in \overline{\Gamma} \smallsetminus \{1\}$ 使得 $D(x_0) \cap \delta D(x_0) \cap \delta' \Delta(x_0) = \{\xi\}$, 则称 $\xi$ 是 $D(x_0)$ 的\emph{顶点};
+		\item 设 $\xi \in D(x_0)$, 若存在相异元 $\delta, \delta' \in \overline{\Gamma} \smallsetminus \{1\}$ 使得 $D(x_0) \cap \delta D(x_0) \cap \delta' D(x_0) = \{\xi\}$, 则称 $\xi$ 是 $D(x_0)$ 的\emph{顶点};
 		\item 将 $\partial D(x_0)$ 中所有极大测地线段的无穷远点添入 $D(x_0)$ (或 $\partial D(x_0)$), 得到的集合记为 $D(x_0)^*$ (或 $\partial D(x_0)^*$). 若 $c \in D(x_0)^*$ 是两边的共同端点, 则称 $c$ 为 $D(x_0)^*$ 的\emph{尖点}; 我们也称尖点为 $D(x_0)$ 或 $D(x_0)^*$ 的无穷远顶点.
 	\end{compactitem}
 \end{definition}

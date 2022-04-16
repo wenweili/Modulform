@@ -364,7 +364,7 @@
 \section{应用举隅}\label{sec:dimension-full}
 对任意 $N \in \Z_{\geq 1}$ 和 $k \in \Z$ 定义 $M_k(N) := M_k(\Gamma(N))$, $S_k(N) := S_k(\Gamma(N))$. 置 $X(N) := X(\Gamma(N))$.
 
-当 $N=1$ 时, 我们于 \S\ref{sec:Eisenstein-fulllevel} 业已造出相应的 Eisenstein 级数 $E_k \in M_k(1)$ (要求 $k \in 2\Z_{\geq 2}$), 并于 \S\ref{sec:j-invariant} 2.4 定义了模判别式 $\Delta \in S_{12}(1)$. 模曲线 $X(1)$ 的信息十分明白:
+当 $N=1$ 时, 我们于 \S\ref{sec:Eisenstein-fulllevel} 业已造出相应的 Eisenstein 级数 $E_k \in M_k(1)$ (要求 $k \in 2\Z_{\geq 2}$), 并于 \S\ref{sec:j-invariant} 定义了模判别式 $\Delta \in S_{12}(1)$. 模曲线 $X(1)$ 的信息十分明白:
 \[ g = 0, \quad 2g - 2 = -2, \quad \text{尖点代表元}: \infty; \]
 椭圆点代表元是 $i$ 和 $\rho = e^{2\pi i/6}$, 约定 \ref{conv:e} 定义的 $e(\cdot)$ 为
 \[ e(i) = 2, \quad e(\rho) = 3. \]
@@ -486,14 +486,14 @@
 \begin{exercise}\label{exo:M(1)-integral}
 	证明 $M(1)$ 具有一个分次子环 $M(1)_{\Z}$, 使得
 	\begin{compactitem}
-		\item 它是分次的, 亦即作为 $\Z$-模有直和分解 $M(1)_{\Z} = \bigoplus_k \left( M(1)_k \cap M(1)_{\Z} \right)$;
+		\item 它是分次的, 亦即作为 $\Z$-模有直和分解 $M(1)_{\Z} = \bigoplus_k \left( M_k(1) \cap M(1)_{\Z} \right)$;
 		\item $M(1)$ 作为 $\CC$-向量空间由 $M(1)_{\Z}$ 生成;
 		\item 所有属于 $M(1)_{\Z}$ 的模形式其 Fourier 系数都是整数.
 	\end{compactitem}
-	我们称这给出 $M(1)$ 的一个整结构. 进一步, 说明 $S(1)$ 也来自一个分次理想 $S(1)_{\Z} \subset M(1)_{\Z}$.
+	我们称这给出 $M(1)$ 的一个整结构. 进一步描述 $M(1)_{\Z}$ 的分次理想 $M(1)_{\Z} \cap S(1)$.
 	
 	\begin{hint}
-		取 $M(1)_{\Z} := \Z[E_4, E_6]$ 和 $S(1)_{\Z} = M(1)_{\Z} \cdot \Delta$. 对一般同余子群也有类似的整结构, 但需要更强有力的几何工具, 见 \S\ref{sec:geometric-modular-form}.
+		取 $M(1)_{\Z}$ 为所有 Fourier 系数均为整数的模形式给出的子环, 并应用前述定理\footnote{相关的整性问题可以参考 Serge Lang 的 \textit{Introduction to Modular Forms} (Grundlehren der mathematischen Wissenschaften, Volume 222), Chapter X, Theorems 4.2---4.4. 论证是初等的.}. 对一般同余子群也有类似的整结构, 但需要更强有力的几何工具, 见 \S\ref{sec:geometric-modular-form}.
 	\end{hint}
 \end{exercise}
 
@@ -528,7 +528,7 @@
 \end{exercise}
 
 \section{亚纯模形式的存在性}
-选定余有限 Fuchs 群 $\Gamma \subset \SL(2,\R)$. 本节的结论仅在定理 \ref{prop:dimension-formula-odd} 用到.
+选定余有限 Fuchs 群 $\Gamma \subset \SL(2,\R)$. 本节的结论仅在定理 \ref{prop:dimension-formula-odd} 用到. 所有 Riemann 曲面均默认为紧的.
 
 \begin{theorem}
 	设 $k \in \Z$. 存在权为 $2k$, 级为 $\Gamma$ 而且不恒为零的亚纯模形式.

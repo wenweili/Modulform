@@ -570,7 +570,7 @@ Hecke 算子是模形式理论的核心之一. 粗略地说, 它们是模形式�
 \begin{theorem}\label{prop:Hall-Hecke}
 	代数 $\EuScript{H}(\Delta' \sslash \Gamma')$ 是交换的, 以 $\left\{ \left[ \Gamma'_\lambda \right] \right\}_{ \lambda \in \mathcal{D}}$ 为一组基. 进一步
 	\begin{enumerate}[(i)]
-		\item 若 $\lambda = (d,d) \in \mathcal{D}$, 则 $[\Gamma'_\lambda]$ 是中心元;
+		\item 若 $\lambda = (d,d) \in \mathcal{D}$, 则对所有 $(h, k) \in \mathcal{D}$ 皆有 $[\Gamma'_{h,k}] \star [\Gamma'_\lambda] = [\Gamma'_{hd, kd}]$;
 		\item 对任意 $\mu, \nu \in \mathcal{D}$ 皆有
 		\[ [\Gamma'_\mu] \star [\Gamma'_\nu] = \sum_{\lambda \in \mathcal{D}} g^\lambda_{\mu\nu} [\Gamma'_\lambda] \quad \text{(有限和)}. \]
 		换言之, $g^\lambda_{\mu\nu}$ 无非是注记 \ref{rem:convolution-concrete} 中的结构常数 $m(\mu, \nu; \lambda)$.
@@ -580,7 +580,7 @@ Hecke 算子是模形式理论的核心之一. 粗略地说, 它们是模形式�
 	关于基的断言来自引理 \ref{prop:hk-coset-decomp}. 以下证明乘法交换. 考虑由矩阵转置 $\tau(\gamma) = {}^t \gamma$ 确定的映射 $\tau: \Delta' \to \Delta'$. 显然 $\tau$ 是定义 \ref{def:anti-involution} 所谓的反对合, 而且 $\tau(\Gamma') = \Gamma'$. 因为 $\tau\twomatrix{h}{}{}{k} = \twomatrix{h}{}{}{k}$, 引理 \ref{prop:hk-coset-decomp} 的分解确保 $\tau$ 固定 $\Delta'$ 的每个 $\Gamma'$-双陪集不变, 定理 \ref{prop:Hecke-comm-criterion} 遂蕴涵 $\EuScript{H}(\Delta' \sslash \Gamma')$ 交换. 上一道练习也可用来推导交换性.
 	
 	性质 (i) 是例 \ref{eg:coset-normalizer} 的直接结论. 要点在于证明 (ii). 我们用 \eqref{eqn:structure-const-2} 来确定 $[\Gamma'_\mu] \star [\Gamma'_\nu]$: 作陪集分解并取定代表元
-	\[ \Gamma'_\mu = \bigsqcup_{a \in A}^n a \Gamma', \quad \Gamma'_\nu = \bigsqcup_{b \in B} b \Gamma'. \]
+	\[ \Gamma'_\mu = \bigsqcup_{a \in A} a \Gamma', \quad \Gamma'_\nu = \bigsqcup_{b \in B} b \Gamma'. \]
 	设 $\lambda = (h,k) \in \mathcal{D}$. 定义
 	\[ \delta := \twobigmatrix{h}{}{}{k}, \quad M := \frac{L_\text{std}}{\delta L_\text{std}} \simeq \frac{\Z}{h\Z} \oplus \frac{\Z}{k\Z}. \]
 	给定如上资料, 考虑映射
@@ -618,7 +618,7 @@ Hecke 算子是模形式理论的核心之一. 粗略地说, 它们是模形式�
 	那么
 	\[ M = M[k] \oplus M[k'],  \quad \text{而且}\; M^\dagger = M[k']. \]
 	由此可见 $M[k] \simeq M/M^\dagger \simeq \Z/h\Z \oplus \Z/k\Z$, 故
-	\[ M \simeq \Z/h\Z \oplus \Z/h'\Z \oplus \Z/k\Z \oplus \Z/k'\Z \simeq \Z/hh'\Z \oplus \Z/kk', \]
+	\[ M \simeq \Z/h\Z \oplus \Z/h'\Z \oplus \Z/k\Z \oplus \Z/k'\Z \simeq \Z/hh'\Z \oplus \Z/kk' \Z , \]
 	特别地 $\mathsf{type}(M) = (hh', kk')$.
 
 	此线性代数陈述也容易证明, 见 \cite[注记 6.7.10]{Li1}. 简述如下: 关于 $M$ 的条件蕴涵 $M = M[kk']$. 用 $\gcd(k,k') = 1$ 取 $a,b \in \Z$ 使 $ak + bk' = 1$. 兹断言任何 $x \in M$ 都能唯一表作 $x = u + v$, 其中 $u \in M[k]$ 而 $v \in M[k']$.

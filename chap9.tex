@@ -125,8 +125,8 @@
 \begin{definition}\label{def:omega-extension}
 	将 $Y(\Gamma)$ 上的线丛 $\bomega_\Gamma$ 按以下方式延拓到 $X(\Gamma)$, 产物仍记为 $\bomega_\Gamma$: 考虑 $t = \alpha\infty \in \mathcal{C}_\Gamma$, 其中 $\alpha \in \SL(2,\R)$; 取满足引理 \ref{prop:glueing-holomorphy-cusp} 条件的 $\Gamma_t$-不变开邻域 $U \ni t$; 我们要求
 	\begin{compactitem}
-		\item $\Gamma(U, \bomega_\Gamma) := \CC (\dd z \cdot \alpha^{-1})|_{U \smallsetminus \{t\}}$,
-		\item $1 \mapsto \dd z \cdot \alpha^{-1}$ 给出平凡化 $\mathcal{O}_U \rightiso \bomega_\Gamma|_U$.
+		\item $\Gamma(V, \bomega_\Gamma) := \mathcal{O}_V (\dd z \cdot \alpha^{-1}) |_{U \smallsetminus \{t\}}$, 其中 $V := \pi(U)$, 截面的限制映射按自明方式定义;
+		\item $1 \mapsto \dd z \cdot \alpha^{-1}$ 给出平凡化 $\mathcal{O}_V \rightiso \bomega_\Gamma |_V$.
 	\end{compactitem}
 \end{definition}
 
@@ -210,6 +210,7 @@
 		& \dd z \arrow[mapsto, r] & e_1 - \tau e_2 & & \\
 		& & s e_1 + t e_2 \arrow[mapsto, r] & (\tau s + t) (\dd z)^{\otimes (-1)} & (s, t \in \CC).
 	\end{tikzcd}\end{equation}
+	对 $\bomega^{\otimes (-1)}$ 的群作用是按 \eqref{eqn:omega-dual-transport} 定义的.
 \end{lemma}
 \begin{proof}
 	关于映射 \eqref{eqn:torus-Hodge-decomp} 的表法从 $e_i, \check{e}_j$ 的定义看是明白的. 至于 \eqref{eqn:Hodge-omega-0}, 正合性在纤维上考察亦属自明, 以下证其等变. 取定 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2, \R)^+$. 我们考察 $V \otimes_{\CC} \mathcal{O}_{\mathcal{H}}$ 的整体截面: 对于第一段映射, 由 \eqref{eqn:e1e2-action} 知
@@ -699,7 +700,7 @@
 	\end{equation*}
 	透过 $\delta$ 拉回为定理 \ref{prop:Eichler-Shimura-polarization} 中的 $\mathcal{B}^k$, 从而透过 $\mathrm{ES}$ 拉回为 $(-2i)^{k+1}$ 乘以 $S_{k+2}(\Gamma) \times \overline{S_{k+2}(\Gamma)}$ 上的 $\CC$-双线性型
 	\[ \left( (f_1, \overline{g_1}), (f_2, \overline{g_2})\right) \mapsto \innerPet{f_1}{g_2} + (-1)^{k+1} \innerPet{f_2}{g_1}; \]
-	这是 Petersson 的一种几何诠释. 见 \cite[(5.2) Theorem, (ii)]{BN81}.
+	这是 Petersson 内积的一种几何诠释. 见 \cite[(5.2) Theorem, (ii)]{BN81}.
 \end{remark}
 
 \begin{remark}\label{rem:Hodge-structure}\index{Hodge 结构 (Hodge structure)}

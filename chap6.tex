@@ -395,7 +395,7 @@
 \begin{theorem}\label{prop:Hall-Hecke-level}
 	代数 $\EuScript{H}(\Delta'_0(N) \sslash \Gamma'_0(N))$ 是交换的, 以 $\left\{ \left[ \Gamma'_\lambda(N) \right] \right\}_{ \lambda \in \mathcal{D}(N)}$ 为一组基. 进一步
 	\begin{enumerate}[(i)]
-		\item 若 $\lambda = (d,d) \in \mathcal{D}(N)$, 则 $[\Gamma'_\lambda(N)]$ 是中心元;
+		\item 若 $\lambda = (d,d) \in \mathcal{D}(N)$, 则对所有 $(h, k) \in \mathcal{D}(N)$ 皆有 $[\Gamma'_{h,k}(N)] \star [\Gamma'_\lambda(N)] = [\Gamma'_{hd, kd}(N)]$;
 		\item 对任意 $\mu, \nu \in \mathcal{D}(N)$ 皆有
 		\[ [\Gamma'_\mu(N)] \star [\Gamma'_\nu(N)] = \sum_{\lambda \in \mathcal{D}(N)} g^\lambda_{\mu\nu} [\Gamma'_\lambda(N)] \quad \text{(有限和)}. \]
 	\end{enumerate}
@@ -551,12 +551,7 @@
 
 本书主要从复变函数论视角定义 $M_k(\Gamma_1(N))$, 这是 $\CC$-向量空间, 而且稍后还须考量相对于 Petersson 内积的伴随算子, 所以 $\HkT_1(N)$ 就相应地取为 $\CC$-代数. 但整结构对于数论应用至关紧要: $N = 1$ 的具体例子见练习 \ref{exo:M(1)-integral}.
 
-出于智识上的兴趣, 我们首先将 $\HkT_1(N)$ 诠释为 $\EuScript{H}\left( \Delta_0(N) \sslash \Gamma_1(N) \right)$ 在 $M_k(\Gamma_1(N))$ 上的作用, 但后续论证所需的只是 $\HkT_1(N)$ 的交换性, 即命题 \ref{prop:T1-commutative} 的后半段. 回忆到 \S\ref{sec:congruence-Hecke-alg} 定义的子代数 $\EuScript{H}_1(N)$ 由以下两族元素共同生成.
-\begin{center}\begin{tabular}{c|c|c}
-	元素 & $p$ 的条件 & 在 $M_k(\Gamma_1(N))$ 上的作用 \\ \hline
-	$\left[\Gamma_1(N) \twomatrix{p}{}{}{p} \Gamma_1(N)\right]$ & 素数, $p \nmid N$ & $f \mapsto p^{k-2} f$ (练习 \ref{ex:central-action-easy}) \\
-	$\left[\Gamma_1(N) \twomatrix{1}{}{}{p} \Gamma_1(N)\right]$ & 素数 & $T_p$
-\end{tabular}\end{center}
+出于智识上的兴趣, 我们首先将 $\HkT_1(N)$ 诠释为 $\EuScript{H}\left( \Delta_0(N) \sslash \Gamma_1(N) \right)$ 在 $M_k(\Gamma_1(N))$ 上的作用, 但后续论证所需的只是 $\HkT_1(N)$ 的交换性, 即命题 \ref{prop:T1-commutative} 的后半段.
  
 \begin{proposition}\label{prop:T1-commutative}
 	代数 $\EuScript{H}(\Delta_0(N) \sslash \Gamma_1(N))$ 由子集 $\EuScript{H}_1(N)$ 与 $\left\{ [\Gamma_1(N)\gamma\Gamma_1(N)] : \gamma \in \Gamma_0(N) \right\}$ 生成, 其乘法交换.
@@ -573,7 +568,7 @@
 		\left[ \Gamma_1(N) \alpha \gamma \Gamma_1(N) \right] & = \left[ \Gamma_1(N)\alpha\Gamma_1(N) \right] \star \left[ \Gamma_1(N)\gamma\Gamma_1(N) \right], \\
 		\left[ \Gamma_1(N) \gamma \alpha \Gamma_1(N) \right] & = \left[ \Gamma_1(N)\gamma\Gamma_1(N) \right] \star \left[ \Gamma_1(N)\alpha\Gamma_1(N) \right].
 	\end{align*}
-	兹断言上两式相等, 亦即 $\left[ \Gamma_1(N)\alpha\Gamma_1(N) \right]$ 和 $\left[ \Gamma_1(N)\gamma\Gamma_1(N) \right]$ 对乘法交换. 基于 $\EuScript{H}_1(N)$ 已知的结构, 不妨设 $\alpha = \twomatrix{1}{}{}{p}$ 或 $\twomatrix{p}{}{}{p}$, 其中 $p$ 是素数. 后一情形是简单的; 至于 $\alpha = \twomatrix{1}{}{}{p}$ 情形则已经由引理 \ref{prop:diamond-T_p-comm} 料理.
+	兹断言上两式相等, 亦即 $\left[ \Gamma_1(N)\alpha\Gamma_1(N) \right]$ 和 $\left[ \Gamma_1(N)\gamma\Gamma_1(N) \right]$ 对乘法交换. 基于和引理 \ref{prop:diamond-T_p-comm} 相同的论证, 说明 $\Gamma_1(N) \gamma\alpha\gamma^{-1} \Gamma_1(N) = \Gamma_1(N)\alpha\Gamma_1(N)$ 即可. 易见 $\gamma\alpha\gamma^{-1}$ 既属于 $\Delta_1(N)$, 又属于 $\alpha$ 的 $\Gamma_0(N)$-双陪集, 而定理 \ref{prop:Gamma_1-Gamma_0} 说明 $\Gamma_1(N) \backslash \Delta_1(N) / \Gamma_1(N) \to \Gamma_0(N) \backslash \Delta_0(N) / \Gamma_0(N)$ 是双射, 于是 $\gamma\alpha\gamma^{-1}$ 和 $\alpha$ 确实属于相同的 $\Gamma_1(N)$-双陪集.
 	
 	最后, 已知 $\EuScript{H}_1(N)$ 交换. 形如 $[\Gamma_1(N)\gamma\Gamma_1(N)]$ 的元素 (在此 $\gamma \in \Gamma_0(N)$) 彼此也交换: 这是例 \ref{eg:coset-normalizer} 和 $\Gamma_0(N)/\Gamma_1(N) \simeq (\Z/N\Z)^\times$ 交换的直接结论. 综之, $\EuScript{H}(\Delta_0(N) \sslash \Gamma_1(N))$ 交换.
 \end{proof}

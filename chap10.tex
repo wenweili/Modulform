@@ -43,7 +43,7 @@ Tate 曲线是从模空间的视角理解 Fourier 展开的钥匙. 本节就 Wei
 格 $\Lambda_\tau$ 仅依赖于陪集 $\tau + \Z$, 这就启发我们命 $q := \exp(2\pi i\tau)$, $0 < |q| < 1$, 并打量交换图表:
 \begin{equation}\begin{tikzcd}
 	z \arrow[mapsto, r] \arrow[phantom, d, "\in" description, sloped] & t := \exp(2\pi iz) \arrow[phantom, d, "\in" description, sloped] \\
-	\CC \arrow[twoheadrightarrow, d, "\text{商}"' inner sep=1em] \arrow[twoheadrightarrow, r, "\sim"] & \CC^\times \arrow[twoheadrightarrow, d, "\text{商}" inner sep=1em] \\
+	\CC \arrow[twoheadrightarrow, d, "\text{商}"' inner sep=1em] \arrow[twoheadrightarrow, r] & \CC^\times \arrow[twoheadrightarrow, d, "\text{商}" inner sep=1em] \\
 	\CC/\Lambda_\tau \arrow[r, "\sim"] & \CC^\times/q^{\Z} \\
 	2\pi i \dd z & \dfrac{\dd t}{t} \arrow[mapsto, l]
 \end{tikzcd}\end{equation}
@@ -594,7 +594,7 @@ Riemann 曲面 $Y_1(N, p)$ 具有模诠释如下. 命
 \begin{definition}\label{def:FV}
 	依据上述讨论, 对任意素数 $p \nmid N\ell$, 记几何 Frobenius 自同构 $\Frob_p^{-1} \in G_{\F_p}$ 在 $\mathcal{W}_{\ell, p}$ 上的作用为 $F \in \End_{\Q_\ell}(\mathcal{W}_{\ell, p})$, 称为 \emph{Frobenius 对应}.
 	
-	根据 $\ell$-进平展上同调的 Poincaré 对偶定理, 存在典范的非退化双线性型 $\lrangle{\cdot, \cdot}_\ell: \mathcal{W}_{\ell, p} \times \mathcal{W}_{\ell, p} \to \Q_\ell$, 满足 $\lrangle{x, y}_\ell = (-1)^{k+1} \lrangle{y, x}_\ell$. 对之定义 $F$ 的转置 $V \in \End_{\Q_\ell}(\mathcal{W}_{\ell, p})$, 它由等式 $\lrangle{Fx, y}_\ell = \lrangle{x, Vy}_\ell$ 刻画, 称为\emph{移位对应}\footnote{德文: die Verschiebung}.
+	根据 $\ell$-进平展上同调的 Poincaré 对偶定理, 存在典范的非退化双线性型 $\lrangle{\cdot, \cdot}_\ell: \mathcal{W}_{\ell, p} \times \mathcal{W}_{\ell, p} \to \Q_\ell(-k-1)$, 其中 $\Q_\ell(-k-1)$ 是所谓的 Tate 挠 (仅影响 Galois 作用), 满足 $\lrangle{x, y}_\ell = (-1)^{k+1} \lrangle{y, x}_\ell$. 对之定义 $F$ 的转置 $V \in \End_{\Q_\ell}(\mathcal{W}_{\ell, p})$, 它由等式 $\lrangle{Fx, y}_\ell = \lrangle{x, Vy}_\ell$ 刻画, 称为\emph{移位对应}\footnote{德文: die Verschiebung}.
 	
 	一旦选定 \eqref{eqn:specialization} 的资料, 这些自同态可以搬运到 $\mathcal{W}_{\ell, \Q}$ 上.
 \end{definition}
@@ -662,7 +662,7 @@ Riemann 曲面 $Y_1(N, p)$ 具有模诠释如下. 命
 		(T, f) & \longmapsto a_1(Tf) =: \psi_f(T).
 	\end{align*}
 	\begin{enumerate}[(i)]
-		\item 此双线性型诱导 $\HkT_{\CC}$-模的同构 $\HkT_{\CC} \rightiso S_{k+2}(\Gamma_1(N))^\vee$ 和 $S_{k+2}(\Gamma_1(N)) \to \HkT_{\CC}^\vee$;
+		\item 此双线性型诱导 $\HkT_{\CC}$-模的同构 $\HkT_{\CC} \rightiso S_{k+2}(\Gamma_1(N))^\vee$ 和 $S_{k+2}(\Gamma_1(N)) \rightiso \HkT_{\CC}^\vee$;
 		\item $f \in S_{k+2}(\Gamma_1(N))$ 是正规化 Hecke 特征形式当且仅当对应的 $\psi_f$ 是环同态.
 	\end{enumerate}
 \end{proposition}
@@ -797,9 +797,10 @@ Riemann 曲面 $Y_1(N, p)$ 具有模诠释如下. 命
 \begin{exercise}\label{exo:monic-squareroot}
 	设 $A$ 为交换环, $2$ 在 $A$ 中不是零除子. 证明对于任何首一多项式 $g \in A[X]$, 至多仅有一个首一多项式 $f \in A[X]$ 满足 $f^2 = g$.
 
-	\begin{hint}
-		令 $f = \sum_{k=0}^n a_k X^k$ ($a_n = 1$). 列式说明如何逐步从 $X^h$ 在 $g$ 中的系数读出 $a_{h-n}$, 其中 $n \leq h < 2n$.
-	\end{hint}
+%	提示有误导性
+%	\begin{hint}
+%		令 $f = \sum_{k=0}^n a_k X^k$ ($a_n = 1$). 列式说明如何逐步从 $X^h$ 在 $g$ 中的系数读出 $a_{h-n}$, 其中 $n \leq h < 2n$.
+%	\end{hint}
 \end{exercise}
 
 记 $G_{\Q}$ 在 $\mathcal{W}_{\ell, \Q}$ 上作用诱导的群同态为 $\check{\rho}_\ell: G_{\Q} \to \GL_{\HkT_\ell}\left(\mathcal{W}_{\ell, \Q}\right)$.
@@ -867,9 +868,9 @@ Riemann 曲面 $Y_1(N, p)$ 具有模诠释如下. 命
 \begin{remark}\label{rem:Galois-rep-wt2}
 	Galois 表示的构造对于权为 $2$ 的情形有如下简化, 详见 \cite[\S 9.5]{DS05} 或 \cite[\S 3]{Sai16}. 考虑模曲线的 Jacobi 簇 $J := \Jac(X_1(N))$; 因为 $X_1(N)$ 是定义在 $\Z[1/N]$ 上的光滑曲线, $J$ 也是 $\Z[1/N]$ 上的交换光滑群概形. 取 $J$ 的有理 Tate 模
 	\[ V_\ell(J) := \left( \varprojlim_{m \geq 1} J(\overline{\Q})[\ell^m] \right) \dotimes{\Z_\ell} \Q_\ell, \]
-	其中按同态 $J(\overline{\Q})[\ell^m] \xrightarrow{\ell \;\text{倍}} J(\overline{\Q})[\ell^{m-1}]$ 来取 $\varprojlim_m$. 每个 $J(\overline{\Q})[\ell^m]$ 都是 $\Z/\ell^m \Z$-模, 故 $V_\ell(J)$ 为 $\Z_\ell$-模, 其上继承来自 $J(\overline{\Q})$ 的 $G_{\Q}$-作用. Hecke 代数仍透过几何方式作用在 $V_\ell(J)$ 上, 与 $G_{\Q}$-作用交换; 记此表示为 $\rho_{J, \ell}$. 取
-	\[ V_{f, \lambda} := V_\ell(J) \dotimes{\HkT_\ell, \phi_f} K_{f, \lambda}, \]
-	可以证明其上携带的 $G_{\Q}$-表示 $\rho_{J, \ell} \dotimes{\HkT_\ell, \phi_f} K_{f, \lambda}$ 同构于 $\rho_{f, \lambda}$. 这根本上是缘于 $\Hm^1(X_1(N), \Q_\ell)$ 作为 Galois 表示对偶于 $V_\ell(J)$; 这是关于曲线及其 Jacobi 簇的一般现象.
+	其中按同态 $J(\overline{\Q})[\ell^m] \xrightarrow{\ell \;\text{倍}} J(\overline{\Q})[\ell^{m-1}]$ 来取 $\varprojlim_m$. 每个 $J(\overline{\Q})[\ell^m]$ 都是 $\Z/\ell^m \Z$-模, 故它们的 $\varprojlim_m$ 为 $\Z_\ell$-模, 其上继承来自 $J(\overline{\Q})$ 的 $G_{\Q}$-作用. Hecke 代数仍透过几何方式作用在 $V_\ell(J)$ 上, 与 $G_{\Q}$-作用交换; 记此表示为 $\rho_{J, \ell}$. 取
+	\[ V_{f, \lambda} := V_\ell(J) \dotimes{\HkT_\ell, \phi_{f, \lambda}} K_{f, \lambda}, \]
+	可以证明其上携带的 $G_{\Q}$-表示 $\rho_{J, \ell} \dotimes{\HkT_\ell, \phi_{f, \lambda}} K_{f, \lambda}$ 同构于 $\rho_{f, \lambda}$. 这根本上是缘于 $\Hm^1(X_1(N), \Q_\ell)$ 作为 Galois 表示对偶于 $V_\ell(J)$; 这是关于曲线及其 Jacobi 簇的一般现象.
 \end{remark}
 
 以下事实述而不证, 它牵涉到 $1$ 维 $\ell$-进 Galois 表示的知识和关于 $L$-函数的一些分析学技术.
@@ -879,15 +880,7 @@ Riemann 曲面 $Y_1(N, p)$ 具有模诠释如下. 命
 
 配合命题 \ref{prop:rep-character}, 可知 $\rho_{f, \lambda}$ 的同构类完全由每个 $\rho_{f, \lambda}(g)$ 的特征多项式确定. 结合 Chebotarev 定理 \ref{prop:Chebotarev}, 可知只要对一切素数 $p \nmid N\ell$ 确定 $\rho_{f, \lambda}(\Frob_p)$, 即可确定 $\rho_{f, \lambda}$ 的同构类.
 
-回忆推论 \ref{prop:newform-basis} 和 \ref{rem:newform-mult1}: $S_k(\Gamma(N))$ 有一组基由形如 $f^{\mathrm{old}} = f(d\tau)$ 的正规化 Hecke 特征形式组成, 其中 $f \in S_k(\Gamma_1(N'))$ 是定义 \ref{def:newform} 的新形式, 而 $dN' \mid N$. 以下结果表明 Galois 表示的构造可以归结到新形式的情形.
-
-\begin{proposition}
-	设 $f \in S_k(\Gamma_1(N'))$ 为新形式, 而 $f^{\mathrm{old}} = f(d\tau) \in S_k(\Gamma_1(N))$, 其中 $dN' \mid N$. 那么 $\rho_{f^{\mathrm{old}}, \lambda} \simeq \rho_{f, \lambda}$.
-\end{proposition}
-\begin{proof}
-	
-	鉴于以上讨论, 仅须说明 $\rho_{f^{\mathrm{old}}, \lambda}(\Frob_p)$ 和 $\rho_{f, \lambda}(\Frob_p)$ 对所有素数 $p \nmid N\ell$ 都有相同的特征多项式, 亦即 $f^{\mathrm{old}}$ 和 $f$ 对 $T_p, \lrangle{p}$ 有相同的特征值. 这是引理 \ref{prop:oldform-invariance} (ii) 的内容.
-\end{proof}
+今后主要考虑 $f$ 为新形式的情形.
 
 我们以关于定理 \ref{prop:Galois-rep} 的几点注记收尾.
 \begin{enumerate}
@@ -950,7 +943,7 @@ Riemann 曲面 $Y_1(N, p)$ 具有模诠释如下. 命
 %\end{tikzpicture}\end{center}
 %虚线箭头代表信息可以从对应的 Galois 表示读出. 综之, 模性的陈述中真正起作用的仅是 $E$ 的同源等价类.
 
-模性有一系列等价陈述, 其中一个几何版本如下: 存在 $\Q$-代数曲线的非常值态射 $\xi: X_0(N) \to E$. 这里用上了 $X_0(N)$ 可定义在 $\Q$ 上这一事实. 最小可能的 $N$ 是 $N_E$. 参照志村五郎的构造, 所求之 $\xi$ 无非是 Abel--Jacobi 映射 $\phi: X_0(N) \to J_0(N)$ 和商 $\tilde{\xi}: J_0(N) \twoheadrightarrow E$ 的合成; 注意到 $S_2(X_0(N))$ 非零蕴涵 $g(X_0(N)) > 0$, 故 $\phi$ 是闭嵌入.
+模性有一系列等价陈述, 其中一个几何版本如下: 存在 $\Q$-代数曲线的非常值态射 $\xi: X_0(N) \to E$. 这里用上了 $X_0(N)$ 可定义在 $\Q$ 上这一事实. 最小可能的 $N$ 是 $N_E$. 参照志村五郎的构造, 所求之 $\xi$ 无非是 Abel--Jacobi 映射 $\phi: X_0(N) \to J_0(N)$ (选定基点) 和商 $\tilde{\xi}: J_0(N) \twoheadrightarrow E$ 的合成; 注意到 $S_2(X_0(N))$ 非零蕴涵 $g(X_0(N)) > 0$, 故 $\phi$ 是闭嵌入.
 
 对于 $E$, $f$ 和 $\xi$ 的关联, 不妨再多说几句.
 \begin{enumerate}

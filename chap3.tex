@@ -717,10 +717,10 @@ Riemann 曲面无非是一维复流形, 按代数几何的观点也无妨称为`
 \end{gather*}
 
 \begin{proposition}
-	设 $B$ 为 $F$ 上的四元数代数, 那么 $q \in B$ 可逆当且仅当 $\mathrm{Nrd}(q) \in F^\times$, 这时 $q^{-1} = \mathrm{Nrd}(q)^{-1} q$. 特别地, $B$ 是可除代数的充要条件是 $\mathrm{Nrd}(q) = 0 \iff q = 0$.
+	设 $B$ 为 $F$ 上的四元数代数, 那么 $q \in B$ 可逆当且仅当 $\mathrm{Nrd}(q) \in F^\times$, 这时 $q^{-1} = \mathrm{Nrd}(q)^{-1} \overline{q}$. 特别地, $B$ 是可除代数的充要条件是 $\mathrm{Nrd}(q) = 0 \iff q = 0$.
 \end{proposition}
 \begin{proof}
-	从 $qq^{-1} = 1$ 可得 $\mathrm{Nrd}(q) \mathrm{Nrd}(q^{-1}) = 1$, 故 $\mathrm{Nrd}(q) \in F^\times$ 而 $q^{-1} = \mathrm{Nrd}(q)^{-1} q$. 反过来说, 若 $\mathrm{Nrd}(q) \in F^\times$ 则 $\mathrm{Nrd}(q)^{-1} q$ 显然给出 $q$ 的逆.
+	从 $qq^{-1} = 1$ 可得 $\mathrm{Nrd}(q) \mathrm{Nrd}(q^{-1}) = 1$, 故 $\mathrm{Nrd}(q) \in F^\times$ 而 $q^{-1} = \mathrm{Nrd}(q)^{-1} \overline{q}$. 反过来说, 若 $\mathrm{Nrd}(q) \in F^\times$ 则 $\mathrm{Nrd}(q)^{-1} \overline{q}$ 显然给出 $q$ 的逆.
 \end{proof}
 
 定义乘法群 $B^1 := \{q \in B: \text{Nrd}(q)=1 \} \subset B^\times$. 分裂情形下 $B^\times \simeq \GL(2,F)$, 而 $\Tr$ 和 $\text{Nrd}$ 分别对应到方阵的 $\Tr$ 和 $\det$, 从而 $B^1 \simeq \SL(2,F)$.
@@ -934,12 +934,12 @@ Riemann 曲面无非是一维复流形, 按代数几何的观点也无妨称为`
 	
 	当 $v \to \infty$ 时 $Q_x \to e^{2\pi ix^{-1} t}$, 故 $P(|Q_x|)$ 有极限. 为了得出 $\sum_{n \geq 0} n^M |Q_x|^n$ 对 $v = \Im(\tau)$ 至多按多项式增长, 只要证明存在 $N > 0$ 使得
 	\[ \lim_{v \to \infty} \dfrac{1}{v^N \left( 1 - |Q_x| \right) } = 0, \]
-	而且该极限对 $u \in [0, x]$ 是一致的. 当 $v \to +\infty$ 时,
+	而且该极限对 $u \in [0, y]$ 是一致的. 当 $v \to +\infty$ 时,
 	\begin{align*}
 		1 - |Q_x| & =  1 - \exp\left( -2\pi x^{-1} |c\tau + d|^{-2} v \right) \\
 		& = 2\pi x^{-1} |c\tau + d|^{-2} v \left( 1 + o(1) \right).
 	\end{align*}
-	因为 $u \in [0,x]$, 故 $v \to +\infty$ 时 $|c\tau + d|^2 = (cu+d)^2 + (cv)^2 \sim c^2 v^2$. 于是取 $N \geq 2$ 即有
+	因为 $u \in [0, y]$, 故 $v \to +\infty$ 时 $|c\tau + d|^2 = (cu+d)^2 + (cv)^2 \sim c^2 v^2$. 于是取 $N \geq 2$ 即有
 	\[ v^N \left( 1 - |Q_x| \right) \approx 2\pi x^{-1}c^{-2} v^{N-1} (1 + o(1)) \xrightarrow{v \to +\infty} \infty. \]
 	相关估计对 $u$ 显然是一致的. 证毕.
 \end{proof}
@@ -1366,5 +1366,5 @@ Riemann 曲面无非是一维复流形, 按代数几何的观点也无妨称为`
 \end{exercise}
 
 \begin{remark}
-	对于全实域 $F$ 上仅对一个嵌入 $F \hookrightarrow \R$ 分裂的四元数代数 $B$, 及其极大序模 $\mathcal{O}$ (见 \S\ref{sec:quaternion}), 相应的志村曲线 $(\mathcal{O} \cap B^1) \backslash \mathcal{H}$ 也有类似的模诠释: 单纯在 $\CC$ 上看, 它分类带有 $\mathcal{O}$ 的``四元数乘法''的一类二维复环面 $A$, 然而从一维到二维涉及更多几何: 这里须要求 $A$ 是所谓的 Abel 曲面, 而四元数乘法来自具有合适性质的环同态 $\mathcal{O} \hookrightarrow \End(A)$. 有兴致的读者可参阅 \cite[\S 43]{Voi}.
+	对于 $\Q$ 上对嵌入 $\Q \hookrightarrow \R$ 分裂, 但在 $\Q$ 上非分裂的四元数代数 $B$, 及其极大序模 $\mathcal{O}$ (见 \S\ref{sec:quaternion}), 相应的志村曲线 $(\mathcal{O} \cap B^1) \backslash \mathcal{H}$ 也有类似的模诠释: 单纯在 $\CC$ 上看, 它分类带有 $\mathcal{O}$ 的``四元数乘法''的一类二维复环面 $A$, 然而从一维到二维涉及更多几何: 这里须要求 $A$ 是所谓的 Abel 曲面, 而四元数乘法来自具有合适性质的环同态 $\mathcal{O} \hookrightarrow \End(A)$. 有兴致的读者可参阅 \cite[\S 43]{Voi}.
 \end{remark}

@@ -81,7 +81,7 @@
 		\left| g_k(s) := \log\left( 1 + \frac{s}{k} \right) - \frac{s}{k} \right| = \left| \sum_{m \geq 1} (-1)^m \frac{(s/k)^{m+1}}{m+1} \right| \leq \sum_{m \geq 2} \left| \frac{s}{k} \right|^m \\
 		= \frac{|s|^2}{k^2} \cdot \sum_{m \geq 0} \left|\frac{s}{k} \right|^m \leq \frac{r^2}{k^2} \cdot \left( 1 + \frac{1}{2} + \frac{1}{2^2} + \cdots \right) = \frac{2r^2}{k^2}.
 	\end{multline*}
-	因为 $\sum_k \frac{1}{k^2}$ 收敛, 这就说明了在紧子集 $\left\{ s \in \CC : |s| \leq r \right\}$ 上 $\sum_{k \geq 2r} g_k(s)$ 正规收敛. 此外 $\exp(g_k) = \left( 1 + \frac{s}{k} \right) e^{-s/k}$. 根据一般理论 (见命题 \ref{prop:infinite-product-holomorphy}), 收敛无穷乘积 $\prod_{k \geq 1} \left(1 + \frac{s}{k} \right) e^{-s/k}$ 遂给出 $\CC$ 上处处非零的全纯函数.
+	因为 $\sum_k \frac{1}{k^2}$ 收敛, 这就说明了在紧子集 $\left\{ s \in \CC : |s| \leq r \right\}$ 上 $\sum_{k \geq 2r} g_k(s)$ 正规收敛. 此外 $\exp(g_k) = \left( 1 + \frac{s}{k} \right) e^{-s/k}$. 根据一般理论 (见命题 \ref{prop:infinite-product-holomorphy}), 收敛无穷乘积 $\prod_{k \geq 1} \left(1 + \frac{s}{k} \right) e^{-s/k}$ 遂给出 $\CC$ 上的全纯函数, 在负整数处有一阶零点.
 	
 	以下设 $\Re(s) > 0$. 改写引理 \ref{prop:Gamma-approx} 中的 $P_n(s)$ 为
 	\begin{align*}
@@ -685,7 +685,7 @@ John McKay 在 1978 年觉察 $J(\tau) := j(\tau) - 744$ 的 Fourier 系数与�
 下面反其道而行, 改从 \eqref{eqn:G-Gamma0N} 分离出 $(c,d) \in \Z^2_{\text{prim}}$ 的部分, 即 $\epsilon_N^{-1} E^{\bar{v}}_k(\tau)$. 为此, 我们先对每个素数 $n=p$ 扣除 $n \mid \gcd(c,d)$ 的贡献, 再补回相异素数积 $n=pq \mid \gcd(c,d)$ 的贡献, 依此类推. 仍按 $a := n \bmod N$ 来分组, 结论是
 \[ E^{\bar{v}}_k(\tau) = \epsilon_N \sum_{a \in (\Z/N\Z)^\times} \underline{\zeta}(k,a) G^{a^{-1}\bar{v}}_k(\tau). \]
 
-此外, 换 $\bar{v}$ 为 $-\bar{v}$ 等价于将 $E^{\bar{v}}_k(\tau)$ 定义中的 $v$ 换为 $-v$; 从定义 \ref{def:Eisenstein-GammaN} 和 $J(-x, \tau) = J(x, \tau)$ 立见
+此外, 换 $\bar{v}$ 为 $-\bar{v}$ 等价于将 $E^{\bar{v}}_k(\tau)$ 定义中的 $v$ 换为 $-v$; 从定义 \ref{def:Eisenstein-GammaN} 和 $J(-x, \tau) = -J(x, \tau)$ 立见
 \begin{equation}\label{eqn:Eisenstein-Gamma-flip}
 	E^{-\bar{v}}_k(\tau) = (-1)^k E^{\bar{v}}_k(\tau).
 \end{equation}
@@ -705,7 +705,7 @@ John McKay 在 1978 年觉察 $J(\tau) := j(\tau) - 744$ 的 Fourier 系数与�
 		其中 $\delta_{p,q} := \begin{cases} 1, & p=q \\ 0, & p \neq q \end{cases}$ 是 Kronecker 的 $\delta$ 符号, $q_N := e^{2\pi i\tau/N}$, 而
 		\begin{align*}
 			\zeta^a(k) & := \sumprime_{\substack{n \in \Z \\ n \equiv a \bmod N}} n^{-k} \qquad (a \in \Z/N\Z), \\
-			\sigma^{\bar{v}}_r(n) & := \sum_{\substack{d \in \Z, \; d \mid n \\ n/d \equiv \bar{x} \bmod N }} \sgn(d) d^{k-1} e^{2\pi i \bar{y} d /N}.
+			\sigma^{\bar{v}}_{k-1}(n) & := \sum_{\substack{d \in \Z, \; d \mid n \\ n/d \equiv \bar{x} \bmod N }} \sgn(d) d^{k-1} e^{2\pi i \bar{y} d /N}.
 		\end{align*}
 	\end{enumerate}
 \end{theorem}

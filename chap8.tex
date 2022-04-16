@@ -863,7 +863,7 @@ $\begin{tikzcd}
 所谓\emph{二次数域}是 $\Q$ 的形如 $\Q(\sqrt{D})$ 的 $2$ 次域扩张, 其中 $D \in \Z$ 无平方因子, 根据 $D > 0$ 或 $< 0$ 分别称为实或虚二次数域. 二次数域 $\Q(\sqrt{D})$ 有自同构 $a + b\sqrt{D} \mapsto a - b\sqrt{D}$, 当 $D < 0$ 时这无非是复共轭; $\Q(\sqrt{D})$ 中的代数整数构成子环
 \[ \mathfrak{o}_{\Q(\sqrt{D})} = \begin{cases}
 	\Z \oplus \Z\sqrt{D}, & D \not\equiv 1 \pmod{4}, \\
-	\Z \oplus \frac{1 + \sqrt{D}}{2}, & D \equiv 1 \pmod{4}.
+	\Z \oplus \Z\frac{1 + \sqrt{D}}{2}, & D \equiv 1 \pmod{4}.
 \end{cases}\]
 
 回忆 $\Q(\sqrt{D})$ 中的序模是指具备以下性质的子环 $\mathcal{O}$:
@@ -895,7 +895,7 @@ $\begin{tikzcd}
 满足引理 \ref{prop:CM-prep2} 条件的 $\tau \in \mathcal{H}$ 也称为复乘点. 
 
 \begin{definition}[复乘]
-	设 $E$ 为复椭圆曲线, 若 $\mathcal{O}$ 是某个虚二次数域 $K$ 的序模, 而且存在环同构 $[\cdot]: \End(E) \rightiso \mathcal{O}$, 则我们说 $E$ 带有 $\mathcal{O}$ 的复乘\footnote{经常按英文 complex multiplication 简写为 CM.}. 选定域嵌入 $\iota: K \hookrightarrow \CC$, 若进一步要求对所有 $\omega \in \Gamma(E, \Omega_E)$ 都有 $[\alpha]^* \omega = \iota(\alpha) \omega$, 则称 $(\mathcal{O}, [\cdot])$ 使 $E$ 具有 $\mathcal{O}$ 的正规化复乘.
+	设 $E$ 为复椭圆曲线, 若 $\mathcal{O}$ 是某个虚二次数域 $K$ 的序模, 而且存在环同构 $[\cdot]: \mathcal{O} \rightiso \End(E)$, 则我们说 $E$ 带有 $\mathcal{O}$ 的复乘\footnote{经常按英文 complex multiplication 简写为 CM.}. 选定域嵌入 $\iota: K \hookrightarrow \CC$, 若进一步要求对所有 $\omega \in \Gamma(E, \Omega_E)$ 和 $\alpha \in \mathcal{O}$ 都有 $[\alpha]^* \omega = \iota(\alpha) \omega$, 则称 $(\mathcal{O}, [\cdot])$ 使 $E$ 具有 $\mathcal{O}$ 的正规化复乘.
 \end{definition}
 
 \begin{exercise}
