@@ -246,7 +246,7 @@
 \end{proposition}
 
 关于对称幂的代数理论可见 \cite[\S 7.6]{Li1}. 因为 $Y(\Gamma)$ 复一维, 复几何中称为全纯 Poincaré 引理的常识给出层的短正合列
-\[ 0 \to \CC \to \mathcal{O}_{Y(\Gamma)} \xrightarrow{\dd} \mathcal{O}_{Y(\Gamma)} \to 0, \]
+\[ 0 \to \CC \to \mathcal{O}_{Y(\Gamma)} \xrightarrow{\dd} \Omega_{Y(\Gamma)} \to 0, \]
 由此又导出短正合列
 \begin{equation}\label{eqn:dR-Y}
 	0 \to {}^k V_\Gamma \to {}^k V_\Gamma \dotimes{\CC} \mathcal{O}_{Y(\Gamma)} \xrightarrow{\identity \otimes \dd} {}^k V_\Gamma \dotimes{\CC} \Omega_{Y(\Gamma)} \to 0;
@@ -383,7 +383,7 @@
 	\[ \Image(\nabla) = \left( \bomega_\Gamma^{\otimes k} \dotimes{\mathcal{O}} \Omega_{X(\Gamma)} \right) \oplus \bigoplus_{j=0}^{k-1} \mathcal{O} u^j v^{k-j} \otimes \Omega_{X(\Gamma)}(\Sigma). \]
 \end{lemma}
 \begin{proof}
-	在任一点 $x \in X(\Gamma)$ 的开邻域上, 考虑 $\mathcal{O}$ 的局部截面 $f_0, \ldots, f_k$, 定义--命题 \ref{def:Sym-extension} 中关于 $\nabla$ 的公式给出
+	在任一点 $x \in X(\Gamma)$ 的开邻域上, 考虑 $\mathcal{O}$ 的局部截面 $f_0, \ldots, f_k$, 定义 \ref{def:Sym-filtration} 中关于 $\nabla$ 的公式给出
 	\begin{equation}\label{eqn:Shimura-grading-computation-aux}
 		\nabla\left( \sum_{j=0}^k f_j u^j v^{k-j} \right) = u^k \otimes \dd f_k + \sum_{j=0}^{k-1} u^j v^{k-j} \otimes \left( \dd f_j - (j+1) f_{j+1} \dd\tau \cdot \alpha^{-1}\right).
 	\end{equation}
@@ -392,7 +392,7 @@
 	其中 $\xi_k$ 和 $\xi_0, \ldots, \xi_{k-1}$ 分别是 $\Omega_{X(\Gamma)}$ 和 $\Omega_{X(\Gamma)}(\Sigma)$ 的局部截面. 今将在 $x$ 的充分小的开邻域上构造 $\mathcal{O}$ 的局部截面 $f_k, \ldots, f_0$ 使得 $\nabla \left( \sum_{j=0}^k f_j u^j v^{k-j}\right) = s$.
 
 	全纯 Poincaré 引理说明 $\dd \mathcal{O} = \Omega_{X(\Gamma)}$. 在 $x \in Y(\Gamma)$ 情形可取 $\alpha = 1$, 适当缩小 $x$ 的邻域, 逐步反解出 $\mathcal{O}$ 的局部截面 $f_k, \ldots, f_0$, 使得
-	\[ \dd \xi_k = f_k, \quad \xi_j = \dd f_j - (j+1) f_{j+1} \dd\tau, \quad j = k-1, \ldots, 0. \]
+	\[ \xi_k = \dd f_k, \quad \xi_j = \dd f_j - (j+1) f_{j+1} \dd\tau, \quad j = k-1, \ldots, 0. \]
 	如此给出所求等式. 接着考虑 $x \in \Sigma$ 的情形. 不失一般性可设坐标开集中含唯一尖点 $x = \pi(\infty)$, 取 $\alpha = 1$. 在以上反解过程中, 对 $j = k-1, \ldots, 0$ 之每一步, 求出的 $f_{j+1}$ 都可以适当地平移 (不改变 $\dd f_{j+1}$) 以确保 $\Res_x \left( \xi_j + (j+1) f_{j+1} \dd\tau \right) = 0$, 从而仍可用全纯 Poincaré 引理反解 $\mathcal{O}$ 的截面 $f_j$.
 \end{proof}
 
