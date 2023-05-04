@@ -74,7 +74,8 @@ $L$-函数是模形式理论最核心也最深刻的不变量之一. 选定 $N, 
 	设 $\Gamma$ 为同余子群, $f \in M_k(\Gamma)$, 则 $|a_n(f)| \ll n^k$.
 \end{theorem}
 \begin{proof}
-	无妨设 $k \geq 1$. 命题 \ref{prop:Eisenstein-complement} 给出 $M_k(\Gamma) = \mathcal{E}_k(\Gamma) \oplus S_k(\Gamma)$. 按照 \eqref{eqn:Eisenstein-general}, 如取 $N > 2$ 使得 $\Gamma \supset \Gamma(N)$, 则 $\mathcal{E}_k(\Gamma)$ 由 \S\ref{sec:Eisenstein-congruence-subgroup} 所定义的 Eisenstein 级数 $E_k^{\bar{v}} \in M_k(\Gamma(N))$ 的若干线性组合张成. 尖点形式部分可由定理 \ref{prop:Hecke-bound} 料理, 故处理 $f \in \mathcal{E}_k(\Gamma)$ 的情形足矣. 我们首先断言 $g := E_k^{\bar{v}}$ 对 $q_N := e^{2\pi i\tau/N}$ 作 Fourier 展开后的系数具有估计
+	无妨设 $k \geq 1$. 命题 \ref{prop:Eisenstein-complement} \footnote{该节构造的 Eisenstein 级数, 其 Fourier 展开和对应的直和分解可以通过解析延拓推及 $k = 1, 2$ 的情形, 细节比较复杂, 详阅 \cite[\S 7.2]{Mi89}.}
+	给出 $M_k(\Gamma) = \mathcal{E}_k(\Gamma) \oplus S_k(\Gamma)$. 按照 \eqref{eqn:Eisenstein-general}, 如取 $N > 2$ 使得 $\Gamma \supset \Gamma(N)$, 则 $\mathcal{E}_k(\Gamma)$ 由 \S\ref{sec:Eisenstein-congruence-subgroup} 所定义的 Eisenstein 级数 $E_k^{\bar{v}} \in M_k(\Gamma(N))$ 的若干线性组合张成. 尖点形式部分可由定理 \ref{prop:Hecke-bound} 料理, 故处理 $f \in \mathcal{E}_k(\Gamma)$ 的情形足矣. 我们首先断言 $g := E_k^{\bar{v}}$ 对 $q_N := e^{2\pi i\tau/N}$ 作 Fourier 展开后的系数具有估计
 	\[ |a_n(g)| \ll \begin{cases}
 		n^{k-1}, & k \geq 3 \\
 		n^{k-1+\epsilon}, & k =1,2

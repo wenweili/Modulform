@@ -35,6 +35,7 @@
 
 	\begin{scope}[shift=(CIRCLE)]
 		\def\x{10}
+		\def\y{2}
 		\def\a{180}
 		\tkzDefPoint(0,0){O}
 		\tkzDefPoint(-0.6*\x,0){L}
@@ -50,24 +51,48 @@
 		\tkzDrawCircle[geod](O,A)
 		\tkzClipCircle(O,A)
 		
-		\tkzDefPoint(\a:\x){p1}
-		\tkzDefPoint(\a+30:\x){p2}
-		\tkzDefPoint(\a+75:\x){p4}
+		\tkzDefPoint(\a:\x+\y){p1}
+		\tkzDefPoint(\a+30:\x+\y){p2}
+		\tkzDefPoint(\a+75:\x+\y){p4}
 		
-		\tkzDefPoint(\a+45:\x){q1}
-		\tkzDefPoint(\a+90:\x){q2}
-		\tkzDefPoint(\a+120:\x){q3}
+		\tkzDefPoint(\a+45:\x+\y){q1}
+		\tkzDefPoint(\a+90:\x+\y){q2}
+		\tkzDefPoint(\a+120:\x+\y){q3}
 		
-		\tkzDefPoint(\a+300:\x){r5}
+		\tkzDefPoint(\a+300:\x+\y){r5}
 
-	
-		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=p1 and p2](O,A)
-		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=p1 and p4](O,A)
-		\tkzDrawCircle[geod, opacity=0.3, orthogonal through=q1 and p1](O,A)
-		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=q1 and q2](O,A)
-		\tkzDrawCircle[geod, opacity=0.2, orthogonal through=q1 and q3](O,A)
-		\tkzDrawCircle[geod, opacity=0.2, orthogonal through=q2 and q3](O,A)
-		\tkzDrawCircle[geod, opacity=0.3, orthogonal through=p1 and r5](O,A)
+
+%		以下适用于新版 tkz-euclide
+		\tkzDefCircle[orthogonal through=p1 and p2](O,A)
+			\tkzGetPoint{c}
+			\tkzDrawCircle[geod, opacity=0.5](c,p1)
+		\tkzDefCircle[orthogonal through=p1 and p4](O,A)
+			\tkzGetPoint{c}
+			\tkzDrawCircle[geod, opacity=0.5](c,p1)
+		\tkzDefCircle[orthogonal through=q1 and p1](O,A)
+			\tkzGetPoint{c}
+			\tkzDrawCircle[geod, opacity=0.3](c,q1)
+		\tkzDefCircle[orthogonal through=q1 and q2](O,A)
+			\tkzGetPoint{c}
+			\tkzDrawCircle[geod, opacity=0.5](c,q1)
+		\tkzDefCircle[orthogonal through=q1 and q3](O,A)
+			\tkzGetPoint{c}
+			\tkzDrawCircle[geod, opacity=0.2](c,q1)
+		\tkzDefCircle[orthogonal through=q2 and q3](O,A)
+			\tkzGetPoint{c}
+			\tkzDrawCircle[geod, opacity=0.2](c,q2)
+		\tkzDefCircle[orthogonal through=p1 and r5](O,A)
+			\tkzGetPoint{c}
+			\tkzDrawCircle[geod, opacity=0.3](c,p1)
+
+%		以下仅适用于旧版 tkz-euclide	
+%		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=p1 and p2](O,A)
+%		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=p1 and p4](O,A)
+%		\tkzDrawCircle[geod, opacity=0.3, orthogonal through=q1 and p1](O,A)
+%		\tkzDrawCircle[geod, opacity=0.5, orthogonal through=q1 and q2](O,A)
+%		\tkzDrawCircle[geod, opacity=0.2, orthogonal through=q1 and q3](O,A)
+%		\tkzDrawCircle[geod, opacity=0.2, orthogonal through=q2 and q3](O,A)
+%		\tkzDrawCircle[geod, opacity=0.3, orthogonal through=p1 and r5](O,A)
 	\end{scope}
 	
 	\begin{scope}[shift=(CIRCLE)]
