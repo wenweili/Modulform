@@ -271,7 +271,7 @@ Lie 群以大写拉丁字母表示, 对应的 Lie 代数以小写 $\mathfrak{fra
 设 $F$ 为域, $n$ 维射影空间 $\PP^n(F)$ 按定义由 $F^{n+1}$ 的所有一维子空间构成, 其中由非零向量 $(x_0, \ldots, x_n) \in F^{n+1}$ 张出的直线记为 $(x_0 : \ldots : x_n) \in \PP^n(F)$, 这种表示法称为 $\PP^n(F)$ 的齐次坐标. 不致混淆时简记 $\PP^n := \PP^n(F)$. 我们也称 $\PP^1$ 为射影直线, $\PP^2$ 为射影平面. 关于射影几何的基本概念可以参看 \cite[\S 5.3]{Xi18}. \index{qicizuobiao@齐次坐标 (homogeneous coordinate)} \index[sym1]{$(x_0 : \cdots : x_n)$}
 
 \subsection*{拓扑空间}
-对于拓扑空间 $X$ 的子集 $D$, 记其内点集为 $D^\circ$, 边界为 $\partial D := D \smallsetminus D^\circ$. 度量空间上的距离函数一般记为 $d(\cdot, \cdot)$. 测度空间 $E$ 的体积记为 $\mathrm{vol}(E)$. 设 $f: X \to Y$ 为连续映射, 若对所有紧子集 $C \subset Y$, 逆像 $f^{-1}C$ 仍然紧, 则称 $f$ 为逆紧映射.
+对于拓扑空间 $X$ 的子集 $D$, 记其内点集为 $D^\circ$, 边界为 $\partial D := \overline{D} \smallsetminus D^\circ$. 度量空间上的距离函数一般记为 $d(\cdot, \cdot)$. 测度空间 $E$ 的体积记为 $\mathrm{vol}(E)$. 设 $f: X \to Y$ 为连续映射, 若对所有紧子集 $C \subset Y$, 逆像 $f^{-1}C$ 仍然紧, 则称 $f$ 为逆紧映射.
 
 \subsection*{矩阵}
 按惯例, $n \times m$ 矩阵皆以横行竖列表示:
@@ -296,7 +296,7 @@ Lie 群以大写拉丁字母表示, 对应的 Lie 代数以小写 $\mathfrak{fra
 \begin{align*}
 	\PGL(n,R) & := \GL(n,R)/R^\times, \\
 	\PSL(n,R) & := \SL(n,R) \big/ \left( R^\times \cap \SL(n,R) \right) = \SL(n,R) \big/ \mu_n(R) \\
-	& \simeq \Image\left[ \SL(n,R) \to \PGL(n,\R) \right].
+	& \simeq \Image\left[ \SL(n,R) \to \PGL(n,R) \right].
 \end{align*}
 本书惯用以下记法: 若 $\Gamma$ 是 $\SL(n,R)$ 的子群, 则它在 $\PSL(n,R)$ 中的像记为 $\overline{\Gamma}$. \index[sym1]{Gammabar@$\overline{\Gamma}$}
 
