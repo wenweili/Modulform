@@ -94,7 +94,7 @@
 \end{tikzcd}\end{equation}
 来实现, 而按表示论的术语, $\gamma$ 在 $\bomega^{-1}$ 上的作用是它的``逆步''.
 
-对任意 $k \in \Z$, 因为 $\mathrm{triv}: \mathcal{O}_{\mathcal{H}} \rightiso \bomega$ 的两边都是带 $\GL(2,\R)^+$ 作用的线丛, 对之可作 $k$ 次张量幂. 若 $f \in \Gamma(\mathcal{H}, \mathcal{O}_{\mathcal{H}})$, 回忆上古定义 \ref{def:bar-action}, 则 $f(\tau) (\dd z)^{\otimes k} \in \Gamma(\mathcal{H}, \bomega)$ 在 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2,\R)^+$ 右作用下的像 $(f \dd z^{\otimes k}) \cdot \gamma$ 在 $\tau$ 的取值不外乎
+对任意 $k \in \Z$, 因为 $\mathrm{triv}: \mathcal{O}_{\mathcal{H}} \rightiso \bomega$ 的两边都是带 $\GL(2,\R)^+$ 作用的线丛, 对之可作 $k$ 次张量幂. 若 $f \in \Gamma(\mathcal{H}, \mathcal{O}_{\mathcal{H}})$, 回忆上古定义 \ref{def:bar-action}, 则 $f(\tau) (\dd z)^{\otimes k} \in \Gamma(\mathcal{H}, \bomega^{\otimes k})$ 在 $\gamma = \twomatrix{a}{b}{c}{d} \in \GL(2,\R)^+$ 右作用下的像 $(f \dd z^{\otimes k}) \cdot \gamma$ 在 $\tau$ 的取值不外乎
 \begin{multline}\label{eqn:dz-equivariance}
 	f(\gamma\tau) \cdot \left( \dd z \in \bomega_{\CC/\Lambda_{\gamma\tau}} \;\text{对 \eqref{eqn:omega-transport} 的逆像}\right)^{\otimes k} \\
 	= (\det\gamma)^k (c\tau + d)^{-k} f(\gamma\tau) (\dd z)^{\otimes k} = (\det\gamma)^{k/2} \left( f \modact{k} \gamma \right)(\tau) \; (\dd z)^{\otimes k}.
