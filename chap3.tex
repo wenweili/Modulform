@@ -880,15 +880,15 @@ Riemann 曲面无非是一维复流形, 按代数几何的观点也无妨称为`
 	\item 基于条件 (i), 将 $\alpha$ 左乘以 $\Gamma$ 的元素不改变 $f \modact{k} \alpha$.
 	\item 设 $\beta \in \Stab_{\SL(2,\R)}(\infty)$. 按引理 \ref{prop:stab-cusp} 表之为
 	\[ \beta = \twobigmatrix{a}{b}{}{a^{-1}}, \quad \beta: \tau \mapsto a^2 \tau + ab. \]
-	变 $\alpha$ 为 $\alpha\beta$ 相当于变 $g := f \modact{k} \alpha$ 为 $g^* := g \modact{k} \beta: \tau \mapsto a^{-k} g(a^2 \tau + ab)$. 又由于
+	变 $\alpha$ 为 $\alpha\beta$ 相当于变 $g := f \modact{k} \alpha$ 为 $g^* := g \modact{k} \beta: \tau \mapsto a^k g(a^2 \tau + ab)$. 又由于
 	\[ \beta^{-1} \twobigmatrix{1}{x}{}{1} \beta = \twobigmatrix{a^{-1}}{-b}{}{a} \twobigmatrix{1}{x}{}{1} \twobigmatrix{a}{b}{}{a^{-1}} = \twobigmatrix{1}{a^{-2} x}{}{1}, \]
 	所论的周期 $x$ 相应地变为 $a^{-2} x$. 综之,
 	\begin{align*}
-		g^*(\tau) & = a^{-k} \sum_n a_n \exp\left( 2\pi i n \cdot \frac{a^2 \tau + ab}{x} \right) \\
-		& = a^{-k} \sum_n a_n \exp\left( 2\pi i n \cdot \frac{\tau}{a^{-2}x} \right) \exp\left( 2\pi i n x^{-1} ab \right) \\
-		& = a^{-k} \sum_n a_n \exp\left( 2\pi i n x^{-1} ab \right) q_{a^{-2}x}^n.
+		g^*(\tau) & = a^k \sum_n a_n \exp\left( 2\pi i n \cdot \frac{a^2 \tau + ab}{x} \right) \\
+		& = a^k \sum_n a_n \exp\left( 2\pi i n \cdot \frac{\tau}{a^{-2}x} \right) \exp\left( 2\pi i n x^{-1} ab \right) \\
+		& = a^k \sum_n a_n \exp\left( 2\pi i n x^{-1} ab \right) q_{a^{-2}x}^n.
 	\end{align*}
-	故条件 (ii) 中相应的全纯和消没性质亦不变. 进一步, Fourier 展开的常数项只差一个因子 $a^{-k}$.
+	故条件 (ii) 中相应的全纯和消没性质亦不变. 进一步, Fourier 展开的常数项只差一个因子 $a^k$.
 \end{compactitem}
 
 \begin{remark}\label{rem:common-cusps}

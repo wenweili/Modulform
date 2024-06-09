@@ -65,7 +65,7 @@
 	置 $\sigma := \Re(s) > 0$. 从常识 $1 - \frac{t}{n} \leq e^{-t/n}$ 可得
 	\[ \left| \left( 1 - \frac{t}{n} \right)^n t^{s-1} \right| \leq \left(1 - \frac{t}{n} \right)^n t^{\sigma-1} \leq e^{-t} t^{\sigma-1}, \quad 0 < t \leq n . \]
 	右式在 $t \in \R_{> 0}$ 上可积, 于是 Lebesgue 控制收敛定理给出 $\lim_{n \to \infty} P_n(s) = \Gamma(s)$. 接着改写 $P_n(s)$ 为 $n^s \int_0^1 (1-x)^n x^{s-1} \dd x$, 连续分部积分 $n$ 次以消去 $1-x$ 的幂次, 过程中边界项恒为 $0$, 得到
-	\[ P_n(s) = n^s n^! \cdot (s(s+1) \cdots (s+n))^{-1} = \frac{n^s}{s} \cdot \prod_{k=1}^n \frac{1}{1 + \frac{s}{k}}. \]
+	\[ P_n(s) = n^s n! \cdot (s(s+1) \cdots (s+n))^{-1} = \frac{n^s}{s} \cdot \prod_{k=1}^n \frac{1}{1 + \frac{s}{k}}. \]
 	此即第二式.
 \end{proof}
 
