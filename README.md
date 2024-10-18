@@ -1,4 +1,4 @@
-This is the LaTeX source for the textbook **Introduction to modular forms** (in Chinese: 模形式初步), revised version (June 2022).
+This is the LaTeX source for the textbook **Introduction to modular forms** (in Chinese: 模形式初步), revised version (August 2024).
 
 The book has been published by Science Publishing (Beijing), June 2020. ISBN: 978-7-03-064531-9; the revised version will be published soon. The PDF version and the errata are also available on the author's web page.
 
