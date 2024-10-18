@@ -22,6 +22,6 @@ clean:
 
 tarball:
 	@rm -f ../Modulform.tar.gz
-	@tar cvfz ../Modulform.tar.gz .
+	@tar --exclude .git -zcvf ../Modulform.tar.gz .
 
 .PHONY: clean
