@@ -23,7 +23,7 @@ Riemann 曲面是一维连通复流形的别名, 详阅专著如 \cite{Mei13} �
 	\[ \forall i, j \in I, \quad \rho^{W_i}_{W_i \cap W_j}(f_i) = \rho^{W_j}_{W_i \cap W_j}(f_j) \]
 	则存在唯一的 $f \in \mathcal{F}(V)$ 使得 $\forall i \in I, \; f_i = \rho^V_{W_i}(f)$. 换言之, 下图使 $\mathcal{F}(V)$ 成为 \cite[\S 2.7]{Li1} 介绍的等化子
 	\[\begin{tikzcd}
-		\mathcal{F}(V) \arrow[r, "{\left(\rho^W_{V_i}\right)_{i \in I}}" inner sep=0.5em] & \prod_{i \in I} \mathcal{F}(W_i) \arrow[r, yshift=0.5em, "{\left( \rho^{W_i}_{W_i \cap W_j} \right)_{i,j}}"] \arrow[r, yshift=-0.5em, "{ \left(\rho^{W_j}_{W_i \cap W_j} \right)_{i,j}}"'] & \prod_{(i, j) \in I^2} \mathcal{F}(W_i \cap W_j) .
+		\mathcal{F}(V) \arrow[r, "{\left(\rho^V_{W_i}\right)_{i \in I}}" inner sep=0.5em] & \prod_{i \in I} \mathcal{F}(W_i) \arrow[r, yshift=0.5em, "{\left( \rho^{W_i}_{W_i \cap W_j} \right)_{i,j}}"] \arrow[r, yshift=-0.5em, "{ \left(\rho^{W_j}_{W_i \cap W_j} \right)_{i,j}}"'] & \prod_{(i, j) \in I^2} \mathcal{F}(W_i \cap W_j) .
 	\end{tikzcd}\]
 \end{definition}
 
