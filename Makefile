@@ -21,7 +21,7 @@ clean:
 	@rm -f .metadonnees*
 
 tarball:
-	@rm -f ../Modulform.tar.gz
-	@tar --exclude .git -zcvf ../Modulform.tar.gz .
+	@rm -f ../Modulform.tar.zst
+	@tar --exclude .git -cf ../Modulform.tar.zst .
 
 .PHONY: clean
