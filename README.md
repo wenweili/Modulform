@@ -29,7 +29,7 @@ All the source files are encoded in UTF-8, the de facto standard for storing mul
 
 ## Compile the TeX source
 
-Make sure that the necessary pacakges and fonts are installed and move to the directory we just cloned
+Make sure that the necessary packages and fonts are installed and move to the directory we just cloned
 ```
 cd ~/Modulform
 ```
